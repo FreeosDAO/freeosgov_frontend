@@ -14,7 +14,7 @@
     "@protonprotocol/proton-web-sdk": "^2.7.0",
     "@quasar/extras": "^1.0.0",
     "@quasar/quasar-app-extension-dotenv": "^1.0.5",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "eos-transit": "^3.0.1",

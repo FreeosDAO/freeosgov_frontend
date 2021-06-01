@@ -8,7 +8,6 @@
         label="Unvest"
         color="primary"
         no-caps
-        
       />
     </div>
   </div>
@@ -18,12 +17,12 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   computed: {
-    ...mapState('freeos', ['vestedOptions']),
+    ...mapState('freeos', ['vestedOptions'])
 
   },
   methods: {
     ...mapActions({
-      //unvest: 'vest/unVest',
+      // unvest: 'vest/unVest',
     })
   },
   mounted () {

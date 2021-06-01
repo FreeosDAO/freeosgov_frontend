@@ -1,12 +1,12 @@
 <template>
   <q-layout view="hHh Lpr fFf">
 
-    <q-header reveal elevated class="bg-primary" height-hint="98">
+    <q-header reveal elevated  height-hint="98" style="background-color: #00a1ed">
       <q-toolbar style="justify-content: space-between;">
         <q-btn :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')" dense flat round icon="menu" @click="drawer = !drawer" />
         <div style="display: flex; align-items: center;">
           <div v-if="isAuthenticated" style="margin-right: 1rem;">{{accountName}}</div>
-          <q-btn color="primary" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
+          <q-btn class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
           </q-btn>
           <q-btn v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
         </div>
@@ -38,16 +38,13 @@
     </q-drawer>
 
     <q-page-container>
-      <div class="text-center q-ma-md row">
-        <div class="col-md-5"></div>
-        <div class="col-xs-12 col-md-2 q-mb-md">
-          <img width="110" src="~assets/freeos_icon.png">
+      <div class="flex justify-center text-center" style="width: 80px; height: 80px; margin: 80px auto 0px auto">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84" class="freeos-logo-icon inline-block fill-current text-primary header-logoicon"><path fill="#00a1ed" d="M41.7 0C18.7 0 0 18.7 0 41.7c0 23 18.7 41.7 41.7 41.7 23 0 41.7-18.7 41.7-41.7C83.4 18.7 64.8 0 41.7 0zM26.9 68.6c-2.7 0-5.3-1-7.3-2.8-13.3-12.2-14.2-32.9-2-46.3C23.8 12.8 32.6 9 41.7 9c1.7 0 3.4.1 5.1.4h.2c-5.6 2.3-9.7 7.5-10.6 13.5-.1.6-.2 1.3-.2 1.9V26c-.1 4.1.1 8.2.6 12.3l-10.6 3.9c-.7.3-1.1 1.1-.8 1.8l.5 1.2c1.4 4 5.8 6 9.8 4.6.4-.2.9-.4 1.3-.6l1-.6.3-.2v.4c.2 3 .1 6-.2 9H38c0 .3 0 .6-.1 1-.1.6-.2 1.2-.4 1.8-1.4 4.8-5.7 8-10.6 8zm14.8 5.9c-1.8 0-3.7-.2-5.5-.5 6-2.5 10.1-8 10.8-14.5.7-5.4.7-10.9-.1-16.3l10.8-6.4c1.2-.7 1.7-2.2 1.2-3.5l-.1-.3c-.5-1.4-2-2.1-3.4-1.6L45.9 35l-.2.1V35c-.4-2.8-.5-5.7-.4-8.5.4-8.3 5.3-11.7 11.3-11.6 2.5.1 4.8.9 6.8 2.4.5.4.9.8 1.4 1.3 12.8 12.6 12.9 33.3.2 46.2-6.2 6.2-14.5 9.7-23.3 9.7z"></path></svg>
         </div>
-      </div>
       <router-view />
     </q-page-container>
 
-    <q-footer bordered class="bg-dark text-white" >
+    <!-- <q-footer bordered class="bg-dark text-white" >
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar >
@@ -55,7 +52,7 @@
           </q-avatar>
         </q-toolbar-title>
       </q-toolbar>
-    </q-footer>
+    </q-footer> -->
   </q-layout>
 </template>
 <script>
@@ -80,6 +77,12 @@ const menuList = [
     label: 'Stake',
     separator: true,
     route: '/stake'
+  },
+  {
+    icon: 'proton',
+    label: 'proton Swap',
+    separator: true,
+    route: '/proton'
   }
 ]
 export default {
@@ -99,7 +102,7 @@ export default {
     ...mapGetters('account', ['isAuthenticated', 'connecting'])
   },
   components: {
-    //Balance
+    // Balance
   },
   methods: {
     onSigninFinish (event) {
@@ -121,8 +124,8 @@ export default {
       immediate: true,
       handler: function (val) {
         if (val && this.accountName) {
-          //this.getAccountInfo()
-          //this.getClaimDetailInfo(this.iterationNumber)
+          // this.getAccountInfo()
+          // this.getClaimDetailInfo(this.iterationNumber)
         }
         if (val && this.$route.query.returnUrl) {
           this.$router.push({ path: this.$route.query.returnUrl })
@@ -131,11 +134,14 @@ export default {
     }
   },
   created () {
-    //this.getClaimCalendar()
+    // this.getClaimCalendar()
     this.checkIfLoggedIn()
   }
 }
 </script>
 
 <style lang="scss">
+  .q-btn__wrapper::before {
+    display: none;
+  }
 </style>
