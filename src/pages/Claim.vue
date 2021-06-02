@@ -1,27 +1,30 @@
 <template>
   <div class="text-center relative">
-    <div v-if="!isFreeosEnabled">
-      <b>Freeos system is not currently operational. Please check back later.</b>
-    </div>
-    <div v-if="isFreeosEnabled">
-      <!-- <div class="q-ma-md q-mt-lg">
-        {{totalFreeos}} FREEOS
-      </div> -->
-      <div class="q-ma-md" style="margin-bottom: 60px;">
-          <span class="text-bold text-h2">150.00</span> <br/>
-          <span class="text-h4">FREEOS</span>
-      </div>
-    </div>
+
 
     <div class="add-bg">
-      <div class="add-blue-bg-clip">
+          <div v-if="!isFreeosEnabled">
+            <b>Freeos system is not currently operational. Please check back later.</b>
+          </div>
+          <div v-if="isFreeosEnabled">
+            <!-- <div class="q-ma-md q-mt-lg">
+              {{totalFreeos}} FREEOS
+            </div> -->
+            <div class="q-ma-md" style="margin-bottom: 60px;">
+                <span class="text-bold text-h2">150.00</span> <br/>
+                <span class="text-h4">FREEOS</span>
+            </div>
+          </div>
+
+
+<!--      <div class="add-blue-bg-clip">
       <div class="add-blue-bg">
         <svg fill="#00a1ed" viewBox="0 0 140 27" overflow="hidden" >
         <path d="M 0 0 L 0 30 L 70 30 L 70 10 M 140 0 L 140 30 L 70 30 L 70 10" />
         Sorry, your browser does not support inline SVG.
       </svg>
       </div>
-      </div>
+      </div>-->
       <div class="add-bg-white">
         <div class="flex justify-between">
           <span class="text-caption">Note: </span>
@@ -110,7 +113,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scl>
   .add-bg {
     
     /* background: #00a1ed; */
@@ -121,8 +124,8 @@ export default {
      /* background-image: url('../assets/bg.svg'); */
      /* width: 500px; */
      /* height: 500px; */
-    padding: 10px;
-    top: 80px;
+
+
     position: relative;
     .add-blue-bg {
       position: absolute;
@@ -198,7 +201,6 @@ width: 100%;
   } */
     /* z-index: -1; */
     .add-bg-white {
-      top: -120px;
       position: relative;
       z-index: 2000;
       margin: 0px auto;
