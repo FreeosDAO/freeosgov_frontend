@@ -14,11 +14,13 @@
     </div>
 
     <div class="add-bg">
+      <div class="add-blue-bg-clip">
       <div class="add-blue-bg">
-        <svg fill="#00a1ed" viewBox="0 0 140 30">
+        <svg fill="#00a1ed" viewBox="0 0 140 27" overflow="hidden" >
         <path d="M 0 0 L 0 30 L 70 30 L 70 10 M 140 0 L 140 30 L 70 30 L 70 10" />
         Sorry, your browser does not support inline SVG.
       </svg>
+      </div>
       </div>
       <div class="add-bg-white">
         <div class="flex justify-between">
@@ -110,6 +112,7 @@ export default {
 
 <style lang="scss">
   .add-bg {
+    
     /* background: #00a1ed; */
     /* background-repeat: no-repeat; */
     /* background-position: right bottom; */
@@ -119,16 +122,41 @@ export default {
      /* width: 500px; */
      /* height: 500px; */
     padding: 10px;
+    top: 80px;
     position: relative;
     .add-blue-bg {
       position: absolute;
       top: 0;
       left:0;
       right: 0;
-      bottom: 0;
+      width: 100%;
+      /*clip-path: rect(10px, 20px, 30px, 40px);*/
       /* top: 0; */
       /* z-index: 0; */
     }
+
+    .add-blue-bg-clip {
+      position: relative;
+
+      /*
+      
+    ;*/
+      
+      
+        
+    }
+
+    .add-blue-bg > svg {
+      left: 50%;
+      top: 50%;
+      position:relative;
+      transform:translate(-50%,-50%);
+
+      width: 5000px;
+    }
+
+      
+
     /* &:before {
           position: absolute;
     height: 62%;
@@ -165,6 +193,7 @@ export default {
   } */
     /* z-index: -1; */
     .add-bg-white {
+      top: -120px;
       position: relative;
       z-index: 2000;
       margin: 0px auto;
@@ -173,6 +202,8 @@ export default {
       background: #fff;
       border-radius: 8px;
       padding: 10px 20px;
+        border: 2px solid #e5e5e5;
+
       .avatar {
         position: absolute;
         top: -30px;
