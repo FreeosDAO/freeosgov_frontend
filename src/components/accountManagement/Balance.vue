@@ -26,10 +26,11 @@
         <div class="flex items-center text-subtitle1 text-weight-bold">
           <span class="small-icon"></span>
           Vested FREEOS: </div>
-        <div class="text-left">{{totalFreeos || '0'}}</div>
+        <div class="text-left">{{vestedOptions || '0'}}</div>
         <q-btn
         class="add-hover q-mt-lg"
         style="width: 300px; height: 40px; border: 2px solid #00a1ed; border-radius: 8px; color: #00a1ed"
+        v-if="canUnvest"
         >Unvest</q-btn>
       </div>
 
@@ -38,15 +39,21 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import BalanceVest from './BalanceVest'
 export default {
   computed: {
-    ...mapGetters('freeos', ['liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos'])
+    ...mapGetters('freeos', ['liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos','canUnvest','vestedOptions'])
+  },
+  methods: {
+    ...mapActions({
+      unvest: 'freeos/unVest',
+    })
   },
   components: {
     BalanceVest
   }
+  
 }
 </script>
 
