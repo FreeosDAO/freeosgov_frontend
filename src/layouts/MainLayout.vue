@@ -4,13 +4,12 @@
       <q-toolbar style="justify-content: space-between;">
         <q-btn class="burger-menu" :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')" @click="drawer = !drawer">
           <div></div>
-          <div></div>
+          <div style="margin-left: -10px;"></div>
           <div></div>
         </q-btn>
         <div style="display: flex; align-items: center;">
           <div v-if="isAuthenticated" style="margin-right: 1rem;">{{accountName}} ></div>
           <q-btn class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
-
           </q-btn>
           <q-btn v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
         </div>
@@ -23,7 +22,6 @@
       :breakpoint="800"
       bordered
       content-class="bg-grey-0"
-
     >
       <q-scroll-area class="fit"
         style="box-shadow: 5px 5px #000;"
