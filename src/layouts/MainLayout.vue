@@ -1,12 +1,16 @@
 <template>
   <q-layout view="hHh Lpr fFf">
-
     <q-header reveal elevated  height-hint="98" style="background-color: #00a1ed">
       <q-toolbar style="justify-content: space-between;">
-        <q-btn :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')" dense flat round icon="menu" @click="drawer = !drawer" />
+        <q-btn class="burger-menu" :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')" @click="drawer = !drawer">
+          <div></div>
+          <div></div>
+          <div></div>
+        </q-btn>
         <div style="display: flex; align-items: center;">
-          <div v-if="isAuthenticated" style="margin-right: 1rem;">{{accountName}}</div>
+          <div v-if="isAuthenticated" style="margin-right: 1rem;">{{accountName}} ></div>
           <q-btn class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
+
           </q-btn>
           <q-btn v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
         </div>
@@ -19,8 +23,14 @@
       :breakpoint="800"
       bordered
       content-class="bg-grey-0"
+
     >
-      <q-scroll-area class="fit">
+      <q-scroll-area class="fit"
+        style="box-shadow: 5px 5px #000;"
+      >
+      <div class="flex justify-end q-pr-lg q-pt-lg q-mb-sm">
+        <q-icon class="cursor-pointer text-h5" name="close" @click="drawer = !drawer"/>
+      </div>
         <q-list>
           <template v-for="(menuItem, index) in menuList">
             <q-item :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
@@ -44,7 +54,7 @@
       <router-view />
     </q-page-container>
 
-    <!-- <q-footer bordered class="bg-dark text-white" >
+    <!-- <q-footer bordered class="bg-dark text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar >
@@ -79,10 +89,22 @@ const menuList = [
     route: '/stake'
   },
   {
+    icon: '',
+    label: 'Re-register',
+    separator: true,
+    route: '/register'
+  },
+  {
     icon: 'proton',
     label: 'proton Swap',
     separator: true,
     route: '/proton'
+  },
+  {
+    icon: 'info',
+    label: 'Info',
+    separator: true,
+    route: '/info'
   }
 ]
 export default {
@@ -140,8 +162,24 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
   .q-btn__wrapper::before {
     display: none;
+  }
+  .burger-menu {
+    background: none !important;
+    div {
+      width: 35px;
+      height: 2px;
+      background-color: #fff;
+      margin: 3px 0;
+    }
+    div:nth-child(2) {
+      width: 25px;
+    }
+  }
+  .q-btn__content {
+    flex-direction: column;
+    /* align-items: baseline; */
   }
 </style>

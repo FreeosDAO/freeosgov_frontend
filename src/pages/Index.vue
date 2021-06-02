@@ -12,8 +12,8 @@
         style="width: 300px; height: 40px; border: 2px solid #00a1ed; border-radius: 8px; color: #00a1ed"
         >Connect Wallet</q-btn>
       </div>
-      <div class="q-mt-xl">
-        <img src="https://via.placeholder.com/450x180/0000FF/808080C/O https://placeholder.com/" alt="">
+      <div class="q-mt-xl" style="">
+        <img src="../assets/freeostry.png" alt="">
       </div>
     </div>
   </div>
