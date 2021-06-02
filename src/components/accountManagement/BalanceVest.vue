@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-5 text-grey">Vested FREEOS: </div>
     <div class="col-5 text-grey text-weight-bold">{{vestedOptions}}</div>
-    <div class="col-2">
+    <div class="col-2" v-if="canUnvest">
       <q-btn
         size="sm"
         label="Unvest"
@@ -17,7 +17,7 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   computed: {
-    ...mapState('freeos', ['vestedOptions'])
+    ...mapState('freeos', ['vestedOptions','canUnvest'])
 
   },
   methods: {

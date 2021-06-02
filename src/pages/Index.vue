@@ -8,12 +8,12 @@
       <div class="q-mt-sm q-mb-sm">
         <q-btn
         class="add-hover"
-        v-if="!username" @click="connectWallet('anchor')"
+        v-if="!isAuthenticated" @click="connectWallet('anchor')"
         style="width: 300px; height: 40px; border: 2px solid #00a1ed; border-radius: 8px; color: #00a1ed"
-        >Connect Wallet</q-btn>
+        >Connect Wallet {{username}}</q-btn>
       </div>
       <div class="q-mt-xl" style="">
-        <img src="../assets/freeostry.png" alt="">
+        <img src="../assets/join-screen-image.svg" alt="">
       </div>
     </div>
   </div>
@@ -23,8 +23,20 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'PageIndex',
+  computed: {
+    ...mapState({
+      accountName: state => state.account.accountName,
+      iterationNumber: state => state.calendar.currentIteration.iteration_number
+    }),
+    ...mapGetters('account', ['isAuthenticated', 'connecting'])
+  },
   methods: {
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo'])
+  },
+  mounted() {
+    if (this.isAuthenticated) {
+      this.$router.push({ path: '/claim' })
+    }
   }
 }
 </script>

@@ -52,14 +52,14 @@
         <!-- <balance class="col-xs-12 col-md-5 row text-left" /> -->
         <balance  />
     </div>
-    <div style="width: 300px; margin: 0 auto;">
+    <div style="width: 300px; margin: 0 auto;" v-if="false">
       <q-btn
         class="add-hover q-mt-sm q-mb-md"
         style="width: 300px; height: 40px; border: 2px solid #00a1ed; border-radius: 8px; color: #00a1ed; width: 100%;"
         >Invite friends and family</q-btn>
     </div>
 
-    <div class="box">
+    <div class="box" v-if="false">
       <div class="flex justify-end q-pr-md q-mt-lg">
         <q-icon class="cursor-pointer text-h5" name="close" />
       </div>
@@ -111,6 +111,9 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+    overflow-x: hidden;
+}
   .add-bg {
     
     /* background: #00a1ed; */
@@ -136,7 +139,7 @@ export default {
     }
 
     .add-blue-bg-clip {
-      position: absolute;
+      position: relative;
 width: 100%;
 
       /*
@@ -151,7 +154,7 @@ width: 100%;
 
 
   position: absolute;
-  top: 50%;
+  top: 0%;
   left: 50%;
   transform: translate(-50%,-50%);
   
