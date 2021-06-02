@@ -48,7 +48,7 @@
         <button @click="claim()">CLAIM</button>
       </div>
     </div>
-    <div v-if="isFreeosEnabled" style="margin-top: 130px">
+    <div v-if="isFreeosEnabled" style="">
         <!-- <balance class="col-xs-12 col-md-5 row text-left" /> -->
         <balance  />
     </div>
@@ -130,13 +130,14 @@ export default {
       left:0;
       right: 0;
       width: 100%;
-      /*clip-path: rect(10px, 20px, 30px, 40px);*/
+      /*;*/
       /* top: 0; */
       /* z-index: 0; */
     }
 
     .add-blue-bg-clip {
-      position: relative;
+      position: absolute;
+width: 100%;
 
       /*
       
@@ -147,12 +148,16 @@ export default {
     }
 
     .add-blue-bg > svg {
-      left: 50%;
-      top: 50%;
-      position:relative;
-      transform:translate(-50%,-50%);
 
-      width: 5000px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  
+  width: 5000px;
+  /* rect(<top>, <right>, <bottom>, <left>) */
+    clip: rect(0px, 5000px, 520px, 0px);
     }
 
       
