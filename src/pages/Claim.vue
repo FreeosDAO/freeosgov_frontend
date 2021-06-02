@@ -14,15 +14,21 @@
     </div>
 
     <div class="add-bg">
+      <div class="add-blue-bg">
+        <svg fill="#00a1ed" viewBox="0 0 140 30">
+        <path d="M 0 0 L 0 30 L 70 30 L 70 10 M 140 0 L 140 30 L 70 30 L 70 10" />
+        Sorry, your browser does not support inline SVG.
+      </svg>
+      </div>
       <div class="add-bg-white">
         <div class="flex justify-between">
           <span class="text-caption">Note: </span>
           <div class="avatar">
-            CLAIM
+            <q-btn>CLAIM</q-btn>
           </div>
           <span class="text-caption flex column">
             <span>Next Claim:</span>
-            <span style="color: #00a1ed; margin-top: -5px">Claim Now</span>
+            <q-btn style="color: #00a1ed; margin-top: -5px;" class="text-caption text-capitalize">Claim Now</q-btn>
           </span>
         </div>
 
@@ -40,7 +46,7 @@
         <button @click="claim()">CLAIM</button>
       </div>
     </div>
-    <div v-if="isFreeosEnabled">
+    <div v-if="isFreeosEnabled" style="margin-top: 130px">
         <!-- <balance class="col-xs-12 col-md-5 row text-left" /> -->
         <balance  />
     </div>
@@ -102,14 +108,65 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .add-bg {
-    background: #00a1ed;
+    /* background: #00a1ed; */
+    /* background-repeat: no-repeat; */
+    /* background-position: right bottom; */
+    /* background-image: url("../assets/bg.svg");
+     */
+     /* background-image: url('../assets/bg.svg'); */
+     /* width: 500px; */
+     /* height: 500px; */
     padding: 10px;
     position: relative;
+    .add-blue-bg {
+      position: absolute;
+      top: 0;
+      left:0;
+      right: 0;
+      bottom: 0;
+      /* top: 0; */
+      /* z-index: 0; */
+    }
+    /* &:before {
+          position: absolute;
+    height: 62%;
+    top: -77px;
+    bottom: 0;
+    left: 0;
+    right: 50%;
+    content: "";
+    display: inline-block;
+    z-index: -1;
+    transform: skewY(
+4deg
+);
+    transform-origin: 100%;
+    background: #fff;
+    z-index: 100;
+    } */
+     /* &:after {
+      position: absolute;
+      height: 62%;
+      bottom: 0;
+      top: -77px;
+      left: 50%;
+      right: 0;
+      content: "";
+      display: inline-block;
+      z-index: -1;
+      transform: skewY(
+      -4deg
+      );
+      transform-origin: 0;
+      background: #fff;
+      z-index: 100;
+  } */
     /* z-index: -1; */
     .add-bg-white {
-
+      position: relative;
+      z-index: 2000;
       margin: 0px auto;
       width: 300px;
       height: 150px;
@@ -119,7 +176,7 @@ export default {
       .avatar {
         position: absolute;
         top: -30px;
-        left: 46.5%;
+        left: 35%;
         width: 80px;
         height: 80px;
         border-radius: 100%;
@@ -129,6 +186,15 @@ export default {
         align-items: center;
         font-size: 20px;
         color: #fff;
+        &:hover {
+          background: #f7931e;
+          color: #fff;
+        }
+        button {
+          font-size: 20px;
+          font-weight: bold;
+        }
+
       }
     }
   }
@@ -139,12 +205,14 @@ export default {
   background-color: #f7931e;
   transition: .3s all ease-in-out;
 }
-
+.wrapper-box {
+  position: relative;
+}
 .box {
   position: absolute;
   right: 20px;
   top: 60px;
-  z-index: 1000;
+  z-index: 2000;
   box-shadow:
   0 2.8px 2.2px rgba(0, 0, 0, 0.034),
   0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -181,5 +249,10 @@ export default {
     width: 20px;
     height: 20px;
   }
+}
+
+// remove the bg on hover
+.q-focus-helper {
+  display: none;
 }
 </style>
