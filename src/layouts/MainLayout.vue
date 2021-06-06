@@ -8,7 +8,13 @@
           <div></div>
         </q-btn>
         <div style="display: flex; align-items: center;">
-          <div v-if="isAuthenticated" style="margin-right: 1rem;">{{accountName}} ></div>
+          <div v-if="isAuthenticated" class="flex items-center" style="margin-right: 1rem;">{{accountName}}
+            <q-icon style="width: 25px; height: 25px;">
+              <svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </q-icon>
+          </div>
           <q-btn class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
           </q-btn>
           <q-btn v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
