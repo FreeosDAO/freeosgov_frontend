@@ -33,7 +33,8 @@
           <template v-for="(menuItem, index) in menuList">
             <q-item :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
                 <q-item-section avatar>
-                  <q-icon :name="menuItem.icon" />
+                  <!-- <q-icon :name="menuItem.icon" /> -->
+                  <img :src="menuItem.icon" alt="menu-icon">
                 </q-item-section>
                 <q-item-section>
                   {{ menuItem.label }}
@@ -66,40 +67,40 @@
 <script>
 // import WalletLoginDialog from 'components/accountManagement/WalletLoginDialog'
 import { mapState, mapActions, mapGetters } from 'vuex'
-
+// import dollar from '../assets/dollar-icon.svg'
 const menuList = [
   {
-    icon: 'monetization_on',
+    icon: require('@/assets/dollar-icon.svg'),
     label: 'Claim',
     separator: true,
     route: '/claim'
   },
   {
-    icon: 'swap_horiz',
+    icon: require('@/assets/transfericon.svg'),
     label: 'Transfer',
     separator: true,
     route: '/transfer'
   },
   {
-    icon: 'get_app',
+    icon: require('@/assets/stack.svg'),
     label: 'Stake',
     separator: true,
     route: '/stake'
   },
   {
-    icon: '',
+    icon: require('@/assets/register.svg'),
     label: 'Re-register',
     separator: true,
     route: '/register'
   },
   {
-    icon: 'proton',
+    icon: require('@/assets/proton.svg'),
     label: 'proton Swap',
     separator: true,
     route: '/proton'
   },
   {
-    icon: 'info',
+    icon: require('@/assets/info.svg'),
     label: 'Info',
     separator: true,
     route: '/info'

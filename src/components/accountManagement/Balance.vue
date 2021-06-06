@@ -63,9 +63,10 @@ export default {
 
   .small-icon {
     display: block;
-    width: 10px;
-    height: 10px;
-    background-color: red;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/exclamation-small-icon.svg);
+    background-repeat: no-repeat;
     margin-right: 5px;
   }
 
