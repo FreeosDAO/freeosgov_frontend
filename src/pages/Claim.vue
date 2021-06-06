@@ -1,25 +1,27 @@
 <template>
   <div class="text-center relative">
-    <div v-if="!isFreeosEnabled">
-      <b>Freeos system is not currently operational. Please check back later.</b>
-    </div>
-    <div v-if="isFreeosEnabled">
-      <!-- <div class="q-ma-md q-mt-lg">
-        {{totalFreeos}} FREEOS
-      </div> -->
-      <div class="q-ma-md" style="margin-bottom: 90px;">
-          <span class="text-bold text-h2">150.00</span> <br/>
-          <span class="text-h4">FREEOS</span>
-      </div>
-    </div>
-
     <div class="add-bg">
+          <div v-if="!isFreeosEnabled">
+            <b>Freeos system is not currently operational. Please check back later.</b>
+          </div>
+          <div v-if="isFreeosEnabled">
+            <!-- <div class="q-ma-md q-mt-lg">
+              {{totalFreeos}} FREEOS
+            </div> -->
+            <div class="q-ma-md" style="margin-bottom: 60px;">
+                <span class="text-bold text-h2">150.00</span> <br/>
+                <span class="text-h4">FREEOS</span>
+            </div>
+          </div>
+
+<!--      <div class="add-blue-bg-clip">
       <div class="add-blue-bg">
-        <svg fill="#00a1ed" viewBox="0 0 140 27">
+        <svg fill="#00a1ed" viewBox="0 0 140 27" overflow="hidden" >
         <path d="M 0 0 L 0 30 L 70 30 L 70 10 M 140 0 L 140 30 L 70 30 L 70 10" />
         Sorry, your browser does not support inline SVG.
       </svg>
       </div>
+      </div>-->
       <div class="add-bg-white">
         <div class="flex justify-between">
           <span class="text-caption">Note: </span>
@@ -50,14 +52,14 @@
         <!-- <balance class="col-xs-12 col-md-5 row text-left" /> -->
         <balance  />
     </div>
-    <div style="width: 300px; margin: 0 auto;">
+    <div style="width: 300px; margin: 0 auto;" v-if="false">
       <q-btn
         class="add-hover q-mt-sm q-mb-md"
         style="width: 300px; height: 40px; border: 2px solid #00a1ed; border-radius: 8px; color: #00a1ed; width: 100%;"
         >Invite friends and family</q-btn>
     </div>
 
-    <div class="box">
+    <div class="box" v-if="false">
       <div class="flex justify-end q-pr-md q-mt-lg">
         <q-icon class="cursor-pointer text-h5" name="close" />
       </div>
@@ -128,50 +130,63 @@ export default {
 
 <style lang="scss">
   .add-bg {
-    width: 100%;
-    padding: 10px;
     position: relative;
     .add-blue-bg {
       position: absolute;
       top: -40px;
       left:0;
       right: 0;
-      bottom: 0;
-    }
-    .add-bg-white {
-      position: relative;
-      z-index: 2000;
-      margin: 30px auto;
-      width: 300px;
-      height: 150px;
-      background: #fff;
-      border-radius: 8px;
-      padding: 10px 20px;
+      width: 100%;
 
-      .avatar {
-        position: absolute;
-        top: -30px;
-        left: 35%;
-        width: 80px;
-        height: 80px;
-        border-radius: 100%;
-        background-color: #00a1ed;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 20px;
+    }
+  .add-blue-bg-clip {
+    position: relative;
+    width: 100%;
+  }
+.add-blue-bg > svg {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 5000px;
+  clip: rect(0px, 5000px, 520px, 0px);
+  }
+
+  .add-bg-white {
+    position: relative;
+    z-index: 2000;
+    margin: 30px auto;
+    width: 300px;
+    height: 150px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 20px;
+      border: 2px solid #e5e5e5;
+
+    .avatar {
+      position: absolute;
+      top: -30px;
+      left: 35%;
+      width: 80px;
+      height: 80px;
+      border-radius: 100%;
+      background-color: #00a1ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      color: #fff;
+      &:hover {
+        background: #f7931e;
         color: #fff;
-        &:hover {
-          background: #f7931e;
-          color: #fff;
-        }
-        button {
-          font-size: 20px;
-          font-weight: bold;
-        }
-
       }
+      button {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
     }
+  }
   }
 
 .add-hover:hover {
@@ -218,7 +233,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
   border-radius: 50%;
   cursor: pointer;
   img {
