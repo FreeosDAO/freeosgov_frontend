@@ -15,7 +15,8 @@
               </svg>
             </q-icon>
           </div>
-          
+          <q-btn class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
+          </q-btn>
           <q-btn v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
         </div>
       </q-toolbar>
