@@ -1,53 +1,44 @@
 <template>
   <div class="text-center relative">
+    <claim-complete-dialog :isOpen="isShowClaimCompleteDialog"></claim-complete-dialog>
     <div class="add-bg">
           <div v-if="!isFreeosEnabled">
             <b>Freeos system is not currently operational. Please check back later.</b>
           </div>
           <div v-if="isFreeosEnabled">
-            <!-- <div class="q-ma-md q-mt-lg">
-              {{totalFreeos}} FREEOS
-            </div> -->
             <div class="q-ma-md" style="margin-bottom: 60px;">
-                <span class="text-bold text-h2">150.00</span> <br/>
+                <span class="text-bold text-h2">{{totalFreeos}}</span> <br/>
                 <span class="text-h4">FREEOS</span>
             </div>
           </div>
 
-<!--      <div class="add-blue-bg-clip">
-      <div class="add-blue-bg">
-        <svg fill="#00a1ed" viewBox="0 0 140 27" overflow="hidden" >
-        <path d="M 0 0 L 0 30 L 70 30 L 70 10 M 140 0 L 140 30 L 70 30 L 70 10" />
-        Sorry, your browser does not support inline SVG.
-      </svg>
-      </div>
-      </div>-->
-      <div class="add-bg-white">
+
+
+      <div class="add-bg-white" v-if="isFreeosEnabled">
         <div class="flex justify-between">
-          <span class="text-caption">Note: </span>
-          <div class="avatar">
-            <q-btn>CLAIM</q-btn>
+          <span class="text-caption">
+            <span>Note: </span>
+            {{notes}}
+            </span>
+          <div class="avatar"  v-bind:class="{'disabled': !canClaim}">
+            <q-btn @click="startClaim()">CLAIM</q-btn>
           </div>
           <span class="text-caption flex column">
             <span>Next Claim:</span>
-            <q-btn style="color: #00a1ed; margin-top: -5px;" class="text-caption text-capitalize">Claim Now</q-btn>
+            <q-btn style="color: #00a1ed; margin-top: -5px;" class="text-caption text-capitalize"  @click="startClaim()">{{nextClaimDescription}}</q-btn>
           </span>
         </div>
-
-        <div class="q-mt-md">
+        
+        <div class="q-mt-md" v-if="canClaim">
           Claim now to claim your weekly<br/>
           FREEOS.
         </div>
+        <div class="q-mt-md" v-if="!canClaim" v-html="reasonCannotClaimHtml">
+        </div>
 
       </div>
     </div>
-    <div v-if="isFreeosEnabled">
-      <div class="q-ma-md q-mt-lg" v-if="canClaim">
-        Claim now to claim your weekly FREEOS.
-        <div>Next Claim: {{daysToNextClaim > 0 ? daysToNextClaim : "NOW!"}}</div>
-        <button @click="claim()">CLAIM</button>
-      </div>
-    </div>
+
     <div v-if="isFreeosEnabled">
         <!-- <balance class="col-xs-12 col-md-5 row text-left" /> -->
         <balance  />
@@ -74,7 +65,7 @@
         </svg>
         </div>
         <div class="q-mb-lg q-mt-lg">
-          Hi Jerome, we’ve noticed you <br/> haven’t signed up for <br/> notifcations. Signup to <br/> get notified of claims.
+          Hi xxxx, we’ve noticed you <br/> haven’t signed up for <br/> notifcations. Signup to <br/> get notified of claims.
         </div>
         <div class="flex justify-between items-basline q-pb-md">
           <div class="add-input flex justify-between" style="width: 200px; margin-right: 20px; height: 35px;">
@@ -105,22 +96,47 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { FreeosBlockChainState } from '../services/FreeosBlockChainState'
 import Balance from 'components/accountManagement/Balance'
+import ClaimCompleteDialog from 'components/stake/ClaimCompleteDialog'
+
 
 export default {
   name: 'Claim',
   data () {
     return {
-
+      isShowClaimCompleteDialog: false
     }
   },
   components: {
-    Balance
+    Balance,
+    ClaimCompleteDialog
   },
   computed: {
-    ...mapGetters('freeos', ['isFreeosEnabled', 'totalFreeos', 'canClaim'])
+    ...mapGetters('freeos', ['isFreeosEnabled', 'totalFreeos', 'canClaim','reasonCannotClaim', 'currentIteration']),
+    nextClaimDescription: function() {
+      var daysToNextClaim = 1;
+      if (daysToNextClaim == 1) {
+        return "tomorrow";
+      }
+      else if (daysToNextClaim>1) {
+        return daysToNextClaim + " day time";
+      }
+      else {
+        return "NOW!";
+      }
+    },
+    notes: function() {
+      return this.currentIteration ? ("Week " + this.currentIteration.iteration_number) : "";
+    },
+    reasonCannotClaimHtml: function() {
+      return this.$sanitize(this.reasonCannotClaim);
+    }
   },
   methods: {
-    ...mapActions('freeos', ['monitorBlockChain'])
+    ...mapActions('freeos', ['monitorBlockChain','claim']),
+    async startClaim() {
+      //await this.claim();
+      this.isShowClaimCompleteDialog = true;
+    }
   },
   async mounted () {
     this.monitorBlockChain()
@@ -184,8 +200,13 @@ export default {
         font-size: 20px;
         font-weight: bold;
       }
-
     }
+
+    .avatar.disabled {
+      background-color: grey;
+      opacity: 1 !important;      
+    }
+
   }
   }
 
