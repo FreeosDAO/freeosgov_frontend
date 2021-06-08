@@ -96,7 +96,7 @@ export default {
   margin: 15px auto;
   background-color: white;
   border-radius: 8px;
-  width: 300px;
+  width: 350px;
   border: 2px solid #e5e5e5;
 
   .small-icon {

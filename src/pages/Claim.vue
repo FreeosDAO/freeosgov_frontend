@@ -12,8 +12,8 @@
       </div>
     </div>
       <div class="add-bg-white" v-if="isFreeosEnabled">
-        <div class="flex justify-between">
-          <span>Note: {{notes}}</span>
+        <div class="flex justify-between add-custome-width">
+          <div class="text-left">Note: {{notes}}</div>
           <div class="wrap-avatar">
             <div class="avatar" v-bind:class="{'disabled': !canClaim}">
               <q-btn class="btn-claim" @click="startClaim()">
@@ -67,14 +67,12 @@
             <span class="behind-bg"></span>
           </div>
           <div class="text-caption flex column text-right">
-
             <span>Next Claim:</span>
-            <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0;" class="text-caption text-capitalize">
+            <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0; text-align: right;" class="text-caption text-capitalize">
               Claim Now
             </button>
-            <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0;" class="text-caption text-capitalize"  @click="startClaim()">{{nextClaimDescription}}</button>
+            <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0; text-align: right;" class="text-caption text-capitalize"  @click="startClaim()">{{nextClaimDescription}}</button>
           </div>
-
         </div>
 
         <div class="q-mt-md" v-if="canClaim">
@@ -218,26 +216,36 @@ export default {
     position: relative;
     z-index: 2000;
     margin: 30px auto;
-    width: 300px;
+    width: 350px;
     height: 150px;
     background: #fff;
     border-radius: 8px;
     padding: 10px 20px;
     /* border: 2px solid #e5e5e5; */
-
+    .add-custome-width {
+      & > div {
+        width: 30%;
+        &:nth-child(2) {
+          width: 31%
+        }
+        &:nth-child(3) {
+          width: 28%
+        }
+      }
+    }
     .wrap-avatar {
       position: relative;
       background-color: #cccccc;
       margin-top: -45px;
-      margin-left:  35px;
+      /* margin-left:  35px; */
       opacity: .9;
-      width: 100px;
-      height: 100px;
+      /* width: inherit; */
+      /* height: inherit; */
       border-radius: 100%;
       .behind-bg {
         position: absolute;
         top: 20px;
-        left: 15px;
+        left: 13px;
         bottom: 0;
         right: 0;
         background-image: url("../assets/freeos.svg");
