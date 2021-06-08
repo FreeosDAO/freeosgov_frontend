@@ -25,13 +25,64 @@
       <div class="add-bg-white">
         <div class="flex justify-between">
           <span class="text-caption">Note: </span>
-          <div class="avatar">
-            <q-btn>CLAIM</q-btn>
+          <div class="wrap-avatar">
+            <div class="avatar">
+              <q-btn class="btn-claim">
+              <q-icon style="margin-top: -10px;">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                  viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                <g>
+                  <g>
+                    <path fill="#ffffff" d="M501.362,383.95L320.497,51.474c-29.059-48.921-99.896-48.986-128.994,0L10.647,383.95
+                      c-29.706,49.989,6.259,113.291,64.482,113.291h361.736C495.039,497.241,531.068,433.99,501.362,383.95z M256,437.241
+                      c-16.538,0-30-13.462-30-30c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30C286,423.779,272.538,437.241,256,437.241z
+                      M286,317.241c0,16.538-13.462,30-30,30c-16.538,0-30-13.462-30-30v-150c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30
+                      V317.241z"/>
+                  </g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                <g>
+                </g>
+                </svg>
+              </q-icon>
+              <span class="text-h6">CLAIM</span>
+            </q-btn>
+            </div>
+            <span class="behind-bg"></span>
           </div>
-          <span class="text-caption flex column">
+          <div class="text-caption flex column text-right">
             <span>Next Claim:</span>
-            <q-btn style="color: #00a1ed; margin-top: -5px;" class="text-caption text-capitalize">Claim Now</q-btn>
-          </span>
+            <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0;" class="text-caption text-capitalize">
+              Claim Now
+            </button>
+          </div>
         </div>
 
         <div class="q-mt-md">
@@ -129,16 +180,16 @@ export default {
 </script>
 
 <style lang="scss">
-  .add-bg {
-    position: relative;
-    .add-blue-bg {
-      position: absolute;
-      top: -40px;
-      left:0;
-      right: 0;
-      width: 100%;
+.add-bg {
+  position: relative;
+  .add-blue-bg {
+    position: absolute;
+    top: -40px;
+    left:0;
+    right: 0;
+    width: 100%;
 
-    }
+  }
   .add-blue-bg-clip {
     position: relative;
     width: 100%;
@@ -150,7 +201,8 @@ export default {
   transform: translate(-50%,-50%);
   width: 5000px;
   clip: rect(0px, 5000px, 520px, 0px);
-  }
+
+}
 
   .add-bg-white {
     position: relative;
@@ -161,31 +213,51 @@ export default {
     background: #fff;
     border-radius: 8px;
     padding: 10px 20px;
-      border: 2px solid #e5e5e5;
+    /* border: 2px solid #e5e5e5; */
 
-    .avatar {
-      position: absolute;
-      top: -30px;
-      left: 35%;
-      width: 80px;
-      height: 80px;
+    .wrap-avatar {
+      position: relative;
+      background-color: #cccccc;
+      margin-top: -45px;
+      margin-left:  35px;
+      opacity: .9;
+      width: 100px;
+      height: 100px;
       border-radius: 100%;
-      background-color: #00a1ed;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      color: #fff;
-      &:hover {
-        background: #f7931e;
+      .behind-bg {
+        position: absolute;
+        top: 20px;
+        left: 15px;
+        bottom: 0;
+        right: 0;
+        background-image: url("../assets/freeos.svg");
+        width: 70px;
+        height: 70px;
+        z-index: -1;
+      }
+      .avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
         color: #fff;
-      }
-      button {
-        font-size: 20px;
-        font-weight: bold;
-      }
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom:0;
+          right: 0;
+          background-color: #cccccc;
+          opacity: .8;
+          border-radius: 100%;
+        }
 
     }
+    }
+
   }
   }
 
@@ -243,6 +315,15 @@ export default {
 
 // remove the bg on hover
 .q-focus-helper {
+  display: none;
+}
+
+/* remove padding-right */
+/* .q-btn__wrapper {
+  padding-right: 0;
+} */
+
+.q-ripple {
   display: none;
 }
 </style>
