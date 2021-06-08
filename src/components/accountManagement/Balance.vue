@@ -11,7 +11,7 @@
               </q-tooltip>
             </q-btn>
           Liquid XPR: </div>
-        <div class="text-weight-bold">{{liquidOptions || '0'}}</div>
+        <div class="text-weight-bold">{{XPRBalance || '0'}}</div>
       </div>
 
       <div class="flex justify-between q-mb-md">
@@ -38,6 +38,13 @@
             </q-btn>
           Liquid FREEOS: </div>
         <div class="col-5 text-primary text-weight-bold">{{liquidFreeos || '0'}}</div>
+      </div>
+
+      <div class="flex justify-between q-mb-md">
+        <div class="flex items-center text-subtitle1 text-weight-bold" style="color: #00a1ed">
+          <span class="small-icon"></span>
+          Liquid Options: </div>
+        <div class="col-5 text-primary text-weight-bold">{{liquidOptions || '0'}}</div>
       </div>
 
       <div class="flex justify-between text-weight-bold q-mb-md">
@@ -67,7 +74,7 @@ import { mapGetters, mapState, mapActions } from 'vuex'
 import BalanceVest from './BalanceVest'
 export default {
   computed: {
-    ...mapGetters('freeos', ['liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions'])
+    ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions'])
   },
   methods: {
     ...mapActions({

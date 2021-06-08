@@ -28,9 +28,8 @@ export class FreeosBlockChainState extends EventEmitter {
         return sInstance 
     }
 
-    constructor(walletUser) {
+    constructor() {
         super();
-      this.walletUser = walletUser
       this.start();
     }
 
@@ -51,10 +50,14 @@ export class FreeosBlockChainState extends EventEmitter {
         console.log("Fetching data....")
 
         ProtonSDK.restoreSession().then((auth) => {
+            console.log('Wallet session restored', auth );
+
             this.setWalletUser({
-                accountName: (auth ? auth.actor : null),
+                accountName: (auth ? auth.auth.actor : null),
                 walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null
             });
+
+            console.log('NOW WALLET USER IS: ' , this.walletUser );
 
             this.actionFetch().then((data) => {
                 this.emit("change", data);
@@ -80,22 +83,30 @@ export class FreeosBlockChainState extends EventEmitter {
   }
 
   async register() {
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'reguser');
+  }
+
+  async sendTransaction(contractAccountName, contractName) {
+    console.log('sendTransaction', this.walletUser);
+
     var accountName = this.walletUser ? this.walletUser.accountName : null;
     if (!accountName) {
+        console.log('No account.....');
         return;
     }
     try {
         const actions = [{
-        account: process.env.AIRCLAIM_CONTRACT,
-        name: 'reguser',
-        authorization: [{
+          account: contractAccountName,
+          name: contractName,
+          authorization: [{
             actor: accountName,
             permission: 'active'
-        }],
-        data: {
-            user: accountName
-        }
+          }],
+          data: {
+              user: accountName
+          }
         }]
+        console.log('Sending transaction with', actions);
         const result = await ProtonSDK.sendTransaction(actions)
 
         setTimeout(() => {
@@ -104,10 +115,14 @@ export class FreeosBlockChainState extends EventEmitter {
         
         return result;
     } catch (e) {
-        console.log('Problem registering', e)
+        console.log('Problem sendingTransaction ' + contractName, e)
     }
   }
 
+
+  async claim() {
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'claim');
+  }
   
   async fetch () {
       try {
@@ -125,7 +140,7 @@ export class FreeosBlockChainState extends EventEmitter {
  
       var masterswitch = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'parameters', null, { lower_bound: "masterswitch", limit: 1 })
     console.log('masterswitch', masterswitch);
-    var isFreeosEnabled = masterswitch || masterswitch.value == "1";
+    var isFreeosEnabled = masterswitch ? masterswitch.value == "1" : false;
 
     // Row data
     //{"iteration_number":1,"start":"2021-04-27T22:59:59.000","end":"2021-04-28T04:00:00.000","claim_amount":100,"tokens_required":0}
@@ -155,11 +170,10 @@ export class FreeosBlockChainState extends EventEmitter {
     if (this.walletUser) {
         bcUserPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT, 'users')
         //{"rows":[{"balance":"24920.0000 XPR"}],"more":false,"next_key":""}
-        bcXPRBalancePromise = this.getUserRecordAsNumber(process.env.CURRENCY_CONTRACT, 'accounts', { upper_bound: "XPR", limit: 1 }, "balance")
-        console.log('state.state.accountName', bcXPRBalancePromise);
+        var stakingCurrency = process.env.STAKING_CURRENCY || "XPR";
+        bcXPRBalancePromise = this.getUserRecordAsNumber(process.env.CURRENCY_CONTRACT, 'accounts', { upper_bound: stakingCurrency, limit: 1 }, "balance")
         bcUnstakingPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT,'unstakereqs', {  limit: 1 })
-        optionsPromise = this.getUserRecordAsNumber(process.env.CURRENCY_CONTRACT,'accounts', {  upper_bound:"OPTION", limit: 1 }, "balance")
-
+        optionsPromise = this.getUserRecordAsNumber(process.env.AIRCLAIM_CONTRACT,'accounts', {  upper_bound:"OPTION", limit: 1 }, "balance")
         bcVestaccountsPromise = this.getUserRecordAsNumber(process.env.AIRCLAIM_CONTRACT,'vestaccounts', {  upper_bound:"OPTION", limit: 1 }, "balance")
         bcFreeosBalancePromise = this.getUserRecordAsNumber(process.env.FREEOSTOKENS_CONTRACT,'accounts', {  upper_bound:"FREEOS", limit: 1 }, "balance")
         bcAirkeyBalancePromise = this.getUserRecordAsNumber(process.env.AIRCLAIM_CONTRACT,'accounts', {  upper_bound:"AIRKEY", limit: 1 }, "balance")
@@ -179,6 +193,8 @@ export class FreeosBlockChainState extends EventEmitter {
     
     var currentIterationIdx = (iterations != null && iterations.currentIteration ?  iterations.currentIteration.iteration_number : -1);
 
+    console.log('currentIterationIdx', currentIterationIdx );
+
     var unvestedAlready = bcUnvests!=null && bcUnvests.iteration_number == currentIterationNumber;
 
     var canUnvest = bcUnvests != null && bcUnvests.unvestPercent > 0 && !unvestedAlready;
@@ -192,8 +208,9 @@ export class FreeosBlockChainState extends EventEmitter {
     var userMeetsHoldingRequirement = false;
     var userMeetsStakeRequirement = false;
     var userStake = 0;
-
     var totalHolding = 0;
+    var reasonCannotClaim = '';
+
     if (bcUser) { // Registered
         var userAccountType = bcUser.account_type; // (will be a 'd', 'e' or 'v')
         for (var stakeReq of bcStateRequirements) {
@@ -203,7 +220,7 @@ export class FreeosBlockChainState extends EventEmitter {
         }
 
         totalHolding = liquidOptions + vestedOptions + freeosBalance;
-        userStake = bcUser.stake;
+        userStake = parseFloat(bcUser.stake);
         userHasStaked = bcUser.staked_iteration > 0;
         userClaimedAlready = bcUser.last_issuance = currentIterationIdx;
 
@@ -212,12 +229,25 @@ export class FreeosBlockChainState extends EventEmitter {
 
         userEligibleToClaim = currentIterationIdx > 0 && userMeetsHoldingRequirement && userMeetsStakeRequirement && !userClaimedAlready;
 
+        
+        if (!userEligibleToClaim) {
+          if (currentIterationIdx <=0) {
+            reasonCannotClaim  = 'Airclaim Not Started'
+          }
+          else if (!userMeetsHoldingRequirement) {
+            reasonCannotClaim = 'You must have ' + iterations.currentIteration.tokens_required + " FREEOS in your wallet.  <a href=='ff'>Buy some</a>";
+          }
+          else if (userClaimedAlready) {
+            reasonCannotClaim = 'You have already claimed';
+          }
+          
+        }
 
     }
 
 
 
-      return {
+      var output = {
         liquidOptions : liquidOptions,
             currentIteration: iterations.currentIteration,
             nextIteration: iterations.nextIteration,
@@ -244,9 +274,12 @@ export class FreeosBlockChainState extends EventEmitter {
         canClaim : userEligibleToClaim,
 
         isFreeosEnabled : isFreeosEnabled,
+        reasonCannotClaim : reasonCannotClaim
     }
 
+      console.log('output',output);
 
+    return output;
     // alert(process.env.AIRCLAIM_CONTRACT)
     /*
     const result = await connect({
@@ -316,7 +349,9 @@ export class FreeosBlockChainState extends EventEmitter {
 
 
     getCurrentAndNextIteration(rows) {
-        const currentTimeStamp = Math.floor((new Date()).getTime() / 1000)
+      console.log('getCurrentAndNextIteration', rows);
+
+        const currentTimeStamp = new Date(); // Math.floor((new Date()).getTime() / 1000)
         var nextIteration = {
           iteration_number: 0
         };
@@ -324,9 +359,11 @@ export class FreeosBlockChainState extends EventEmitter {
 
         if (rows && rows.length) {
           rows.map((row, index) => {
-            const startTimeStamp = row.start
-            const endTimeStamp = row.end
-      
+            const startTimeStamp = new Date(row.start)
+            const endTimeStamp = new Date(row.end)
+            
+            console.log('startTimeStamp', startTimeStamp);
+
             if (currentTimeStamp > startTimeStamp && currentTimeStamp < endTimeStamp) {
               currentIteration = rows[index];
               if (rows.length === (index + 1)) {

@@ -20,3 +20,5 @@ export const totalFreeos = ({ totalFreeos }) => totalFreeos;
 export const canClaim = ({ canClaim }) => canClaim;
 export const isFreeosEnabled = ({ isFreeosEnabled }) => isFreeosEnabled;
 export const userStake = ({ userStake }) => userStake;
+export const reasonCannotClaim = ({ reasonCannotClaim }) => reasonCannotClaim;
+

@@ -13,13 +13,15 @@ var definition =  {
   vestedOptions : null,
   freeosBalance : null,
   bcAirkeyBalance : null,
-
+  liquidFreeos : null,
+  totalFreeos: null,
   stakeRequirement : null,
   userHasStaked: null,
   userClaimedAlready : null,
   userMeetsStakeRequirement : null,
   totalHolding : null,
   canClaim : null,
-  isFreeosEnabled : null
+  isFreeosEnabled : null,
+  reasonCannotClaim : null
 };
 export default definition;

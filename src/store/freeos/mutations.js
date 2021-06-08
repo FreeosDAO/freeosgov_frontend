@@ -63,6 +63,10 @@ export const setisFreeosEnabled = (state, isFreeosEnabled) => {
             state.isFreeosEnabled = isFreeosEnabled
           }
 
-          export const setuserStake = (state, userStake) => {
-            state.userStake = userStake
-          }
+export const setuserStake = (state, userStake) => {
+  state.userStake = userStake
+}
+
+export const setreasonCannotClaim = (state, reasonCannotClaim) => {
+  state.reasonCannotClaim = reasonCannotClaim
+}

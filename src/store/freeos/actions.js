@@ -33,6 +33,12 @@ export async function monitorBlockChain (state) {
         this.userClaimedAlready = data.userClaimedAlready;
         */
     }
-  })  
-  
+  })   
+}
+
+export async function claim () {
+  var result = await FreeosBlockChainState.getInstance().claim();
+   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
+
+  console.log('Result of claim', result);
 }

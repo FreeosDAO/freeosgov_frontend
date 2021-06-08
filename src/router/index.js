@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import VueSanitize from "vue-sanitize";
 
+Vue.use(VueSanitize)
 Vue.use(VueRouter)
 
 /*
