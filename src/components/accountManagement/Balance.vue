@@ -2,7 +2,7 @@
   <div>
     <div class="balance q-pl-md q-pr-md q-pt-lg q-pb-sm">
       <div class="flex justify-between q-mb-md" style="width: 100%">
-        <div class="flex items-center text-subtitle1 text-weight-bold">
+        <div class="flex items-center text-h6 text-weight-bold">
           <q-btn class="small-icon">
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
                 <strong>
@@ -11,11 +11,11 @@
               </q-tooltip>
             </q-btn>
           Liquid XPR: </div>
-        <div class="text-weight-bold">{{XPRBalance || '0'}}</div>
+        <div class=" text-h6">{{XPRBalance || '0'}}</div>
       </div>
 
       <div class="flex justify-between q-mb-md">
-       <div class="flex items-center text-subtitle1 text-weight-bold">
+       <div class="flex items-center text-h6 text-weight-bold">
             <q-btn class="small-icon">
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
                 <strong>
@@ -24,11 +24,11 @@
               </q-tooltip>
             </q-btn>
           Staked XPR: </div>
-        <div class="text-weight-bold">{{userStake || '0'}}</div>
+        <div class="text-weight-bold  text-h6">{{userStake || '0'}}</div>
       </div>
 
       <div class="flex justify-between q-mb-md">
-        <div class="flex items-center text-subtitle1 text-weight-bold" style="color: #00a1ed">
+        <div class="flex items-center text-h6 text-weight-bold" style="color: #00a1ed">
           <q-btn class="small-icon">
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
                 <strong>
@@ -37,18 +37,18 @@
               </q-tooltip>
             </q-btn>
           Liquid FREEOS: </div>
-        <div class="col-5 text-primary text-weight-bold">{{liquidFreeos || '0'}}</div>
+        <div class="col-5 text-primary text-h6">{{liquidFreeos || '0'}}</div>
       </div>
 
-      <div class="flex justify-between q-mb-md">
+      <!--<div class="flex justify-between q-mb-md">
         <div class="flex items-center text-subtitle1 text-weight-bold" style="color: #00a1ed">
           <span class="small-icon"></span>
           Liquid Options: </div>
         <div class="col-5 text-primary text-weight-bold">{{liquidOptions || '0'}}</div>
-      </div>
+      </div>-->
 
       <div class="flex justify-between text-weight-bold q-mb-md">
-        <div class="flex items-center text-subtitle1 text-weight-bold">
+        <div class="flex items-center  text-h6">
           <q-btn class="small-icon">
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
                 <strong>
@@ -57,10 +57,13 @@
               </q-tooltip>
             </q-btn>
           Vested FREEOS: </div>
-        <div class="text-left">{{vestedOptions || '0'}}</div>
+        <div class="text-left  text-h6">{{vestedOptions || '0'}}</div>
         <q-btn
-        class="add-hover q-mt-lg"
-        style="width: 300px; height: 40px; border: 2px solid #00a1ed; border-radius: 8px; color: #00a1ed"
+        unelevated 
+        no-caps
+        size="lg"
+        outline
+         color="primary"
         v-if="canUnvest"
         >Unvest</q-btn>
       </div>
