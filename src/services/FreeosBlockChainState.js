@@ -62,11 +62,11 @@ export class FreeosBlockChainState extends EventEmitter {
             this.actionFetch().then((data) => {
                 this.emit("change", data);
                 if (this.timer) clearTimeout(this.timer);
-                this.timer = setTimeout(fetchTimer, 5000);
+                this.timer = setTimeout(fetchTimer, 775000);
             }).catch(err => {
                 console.log("Problem fetching data", err);
                 if (this.timer) clearTimeout(this.timer);
-                this.timer = setTimeout(fetchTimer, 5000);
+                this.timer = setTimeout(fetchTimer, 775000);
             })
 
         });

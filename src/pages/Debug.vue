@@ -90,7 +90,7 @@ export default {
           }
       }
   },
-  async mounted() {
+  async created() {
     const { auth } = await ProtonSDK.restoreSession()
    // if (auth && auth.actor && auth.permission) {
 
