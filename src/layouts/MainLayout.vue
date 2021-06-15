@@ -24,7 +24,7 @@
 
     <q-drawer
       v-model="drawer"
-      :width="200"
+      :width="220"
       :breakpoint="800"
       bordered
       overlay
@@ -34,17 +34,18 @@
         style="box-shadow: 5px 5px #000;"
       >
       <div class="flex justify-end q-pr-lg q-pt-lg q-mb-sm">
-        <q-icon class="cursor-pointer text-h5" name="close" @click="drawer = !drawer"/>
+        <q-icon class="cursor-pointer" style="font-size:2rem" name="close" @click="drawer = !drawer"/>
       </div>
         <q-list>
+         <q-separator />
           <template v-for="(menuItem, index) in menuList">
             <q-item :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
                 <q-item-section avatar>
                   <!-- <q-icon :name="menuItem.icon" /> -->
                   <img :src="menuItem.icon" alt="menu-icon">
                 </q-item-section>
-                <q-item-section>
-                  {{ menuItem.label }}
+                <q-item-section class="text-subtitle1">
+                   <strong>{{ menuItem.label }}</strong>
                 </q-item-section>
             </q-item>
             <q-separator :key="'sep' + index" v-if="menuItem.separator" />
@@ -54,7 +55,7 @@
     </q-drawer>
 
     <q-page-container class="page-container page-container-main">
-      <div class="flex justify-center text-center" style="width: 80px; height: 80px; margin: 80px auto 0px auto">
+      <div class="flex justify-center text-center" style="width: 80px; height: 80px; margin: 20px auto 0px auto">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84" class="freeos-logo-icon inline-block fill-current text-primary header-logoicon"><path fill="#00a1ed" d="M41.7 0C18.7 0 0 18.7 0 41.7c0 23 18.7 41.7 41.7 41.7 23 0 41.7-18.7 41.7-41.7C83.4 18.7 64.8 0 41.7 0zM26.9 68.6c-2.7 0-5.3-1-7.3-2.8-13.3-12.2-14.2-32.9-2-46.3C23.8 12.8 32.6 9 41.7 9c1.7 0 3.4.1 5.1.4h.2c-5.6 2.3-9.7 7.5-10.6 13.5-.1.6-.2 1.3-.2 1.9V26c-.1 4.1.1 8.2.6 12.3l-10.6 3.9c-.7.3-1.1 1.1-.8 1.8l.5 1.2c1.4 4 5.8 6 9.8 4.6.4-.2.9-.4 1.3-.6l1-.6.3-.2v.4c.2 3 .1 6-.2 9H38c0 .3 0 .6-.1 1-.1.6-.2 1.2-.4 1.8-1.4 4.8-5.7 8-10.6 8zm14.8 5.9c-1.8 0-3.7-.2-5.5-.5 6-2.5 10.1-8 10.8-14.5.7-5.4.7-10.9-.1-16.3l10.8-6.4c1.2-.7 1.7-2.2 1.2-3.5l-.1-.3c-.5-1.4-2-2.1-3.4-1.6L45.9 35l-.2.1V35c-.4-2.8-.5-5.7-.4-8.5.4-8.3 5.3-11.7 11.3-11.6 2.5.1 4.8.9 6.8 2.4.5.4.9.8 1.4 1.3 12.8 12.6 12.9 33.3.2 46.2-6.2 6.2-14.5 9.7-23.3 9.7z"></path></svg>
         </div>
       <router-view />
@@ -89,6 +90,12 @@ const menuList = [
     route: '/transfer'
   },
   {
+    icon: require('@/assets/transfericon.svg'),
+    label: 'Convert Options',
+    separator: true,
+    route: '/convert-options'
+  },
+  {
     icon: require('@/assets/stack.svg'),
     label: 'Stake',
     separator: true,
@@ -102,9 +109,9 @@ const menuList = [
   },
   {
     icon: require('@/assets/proton.svg'),
-    label: 'proton Swap',
+    label: 'Proton Swap',
     separator: true,
-    route: '/proton'
+    route: 'https://www.protonswap.com/swap'
   },
   {
     icon: require('@/assets/info.svg'),
@@ -171,8 +178,7 @@ export default {
 <style lang="scss">
 
   .page-container-main{
-      background: url('../assets/bluebg.svg') top center no-repeat;
-      background-size:4056px;
+
   }
 
   .q-btn__wrapper::before {
@@ -193,5 +199,9 @@ export default {
   .q-btn__content {
     flex-direction: column;
     /* align-items: baseline; */
+  }  
+  .q-separator {
+      border: 0;
+      background: rgba(0, 0, 0, 0.05);
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="balance q-pl-md q-pr-md q-pt-lg q-pb-sm">
+    <div class="balance q-pt-lg q-pl-lg q-pr-lg q-pb-xs">
       <div class="flex justify-between q-mb-md" style="width: 100%">
         <div class="flex items-center text-h6 text-weight-bold">
           <q-btn class="small-icon">
@@ -99,7 +99,7 @@ export default {
   margin: 15px auto;
   background-color: white;
   border-radius: 8px;
-  width: 350px;
+  width:360px;
   border: 2px solid #e5e5e5;
 
   .small-icon {

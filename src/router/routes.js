@@ -12,7 +12,8 @@ const routes = [
     children: [
       { path: '/claim', component: () => import('pages/Claim.vue') },
       { path: '/stake', component: () => import('pages/StakeAndUnstake.vue') },
-      { path: '/transfer', component: () => import('pages/Transfer.vue') },
+      { path: '/transfer', component: () => import('pages/Transfer.vue') },      {
+        path: '/convert-options', component: () => import('pages/ConvertOptions.vue')},
       { path: '/debug', component: () => import('pages/Debug.vue') }
     ]
   },

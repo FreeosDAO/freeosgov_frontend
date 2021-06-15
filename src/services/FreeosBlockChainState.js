@@ -235,8 +235,9 @@ export class FreeosBlockChainState extends EventEmitter {
             reasonCannotClaim  = 'Airclaim Not Started'
           }
           else if (!userMeetsHoldingRequirement) {
-            reasonCannotClaim = 'You must have ' + iterations.currentIteration.tokens_required + " FREEOS in your wallet.  <a href=='ff'>Buy some</a>";
+            reasonCannotClaim = "Opps! In order to Claim you need a minimum " + iterations.currentIteration.tokens_required + " OPTIONS in your Wallet. Please <a href='/#/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + " FREEOS in order to Claim";
           }
+
           else if (userClaimedAlready) {
             reasonCannotClaim = 'You have already claimed';
           }

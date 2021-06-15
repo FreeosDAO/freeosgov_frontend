@@ -1,97 +1,72 @@
 <template>
-  <div class="q-pa-md">
+<div class="q-pa-md">
     <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
-      <q-card>
-        <q-tabs
-          v-model="tab"
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-          align="justify"
-          narrow-indicator
-        >
-          <q-tab name="send" label="Send" />
-          <!-- <q-tab name="scanQRCode" label="Scan QR code" /> -->
-        </q-tabs>
 
-        <q-separator />
+        <div class="panel-wrap">
+            <q-card class="panel">
 
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="send">
-            <div class="text-h6 text-center q-ma-lg">Send Tokens</div>
-            <div style="max-width: 500px; margin: 0 auto;">
-              <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                <div class="col-xs-5 col-sm-4 text-right">
-                  To account
-                </div>
-                <div class="col-xs-1 col-sm-2"></div>
-                <div class="col-xs-6 col-sm-6">
-                  <q-input
-                    v-model="submitData.toAccountName"
-                    type="text"
-                    outlined
-                    dense
-                  />
-                </div>
-              </div>
-              <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                <div class="col-xs-5 col-sm-4 text-right">
-                  Tokens
-                </div>
-                <div class="col-xs-1 col-sm-2"></div>
-                <div class="col-xs-6 col-sm-6">
-                  <q-select dense outlined v-model="submitData.tokenType" :options="tokensSelectOptions" label="" />
-                </div>
-              </div>
-              <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                <div class="col-xs-5 col-sm-4 text-right">
-                  Amount
-                </div>
-                <div class="col-xs-1 col-sm-2"></div>
-                <div class="col-xs-6 col-sm-6">
-                  <q-input
-                    v-model="submitData.sendAmount"
-                    type="number"
-                    outlined
-                    dense
-                  />
-                </div>
-              </div>
-              <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                <div class="col-xs-5 col-sm-4 text-right">
-                  Memo
-                </div>
-                <div class="col-xs-1 col-sm-2"></div>
-                <div class="col-xs-6 col-sm-6">
-                  <q-input
-                    v-model="submitData.memo"
-                    type="text"
-                    outlined
-                    dense
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="flex justify-center">
-              <q-btn class="q-ma-lg" color="positive" no-caps @click="submit()" label="Send" :disable="!isFormFilled"/>
-            </div>
-            <!-- <div class="flex justify-center">
-              <q-btn class="q-ma-lg" color="primary" no-caps @click="isShowFailedDialog=true" label="Continue (test for failing)" />
-            </div> -->
-          </q-tab-panel>
+                <div class="text-h4 text-center q-ma-lg">Send Tokens</div>
 
-          <!-- <q-tab-panel name="scanQRCode">
-            <div>
-              <div class="text-h6 text-center q-ma-lg">Please scan or upload a QR code</div>
-              <div class="flex justify-center">
-                <q-btn class="q-ma-lg" color="primary" no-caps label="Upload" />
-                <q-btn class="q-ma-lg" color="primary" no-caps label="Continue" />
-              </div>
-            </div>
-          </q-tab-panel> -->
-        </q-tab-panels>
-      </q-card>
-      <!-- <q-dialog v-model="isShowApprovedDialog">
+                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                    <div class="col-xs-5 col-sm-4">
+                        To account:
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-6 col-sm-7">
+                        <q-input v-model="submitData.toAccountName" type="text" outlined dense />
+                    </div>
+                </div>
+                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                    <div class="col-xs-5 col-sm-4">
+                        Tokens
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-6 col-sm-7">
+                        <q-select dense outlined v-model="submitData.tokenType" :options="tokensSelectOptions" />
+                    </div>
+                </div>
+                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                    <div class="col-xs-5 col-sm-4">
+                        Amount
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-6 col-sm-7">
+                        <q-input v-model="submitData.sendAmount" type="number" outlined dense />
+                    </div>
+                </div>
+                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                    <div class="col-xs-5 col-sm-4">
+                        Comment
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-6 col-sm-7">
+                        <q-input v-model="submitData.memo" type="text" outlined dense />
+                    </div>
+                </div>
+                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                    <div class="col-xs-5 col-sm-4">
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-6 col-sm-7">
+                        <q-btn unelevated no-caps outline :disable="!isFormFilled" color="primary" v-if="!isAuthenticated" @click="submit()">Send</q-btn>
+
+                    </div>
+
+                </div>
+
+            </q-card>
+
+            <q-card class="panel q-mt-lg q-pa-lg">
+
+                <div class="text-h4 text-center">Receive Tokens</div>
+                <div class="q-mt-md text-center text-subtitle1">@{{accountName}}</div>
+
+                <q-btn href="https://www.protonswap.com/swap" class="q-mt-xl" unelevated no-caps outline :disable="!isFormFilled" color="primary" v-if="!isAuthenticated">Need Tokens? try Proton Swap</q-btn>
+
+            </q-card>
+
+        </div>
+        <!-- <q-dialog v-model="isShowApprovedDialog">
         <q-card>
           <q-card-section>
             <div class="text-center">
@@ -159,65 +134,70 @@
         </q-card>
       </q-dialog> -->
     </div>
-  </div>
+</div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { getAbsoluteAmount } from '@/utils/currency'
+import {
+    mapState,
+    mapActions
+} from 'vuex'
+import {
+    getAbsoluteAmount
+} from '@/utils/currency'
 
 export default {
-  name: 'Transfer',
-  data () {
-    return {
-      tab: 'send',
-      submitData: {
-        toAccountName: null,
-        tokenType: null,
-        sendAmount: null,
-        memo: null
-      },
-      isShowApprovedDialog: false,
-      isShowFailedDialog: false
-    }
-  },
-  computed: {
-    ...mapState({
-      accountName: state => state.account.accountName,
-      liquidBalance: state => state.account.claimInfo.liquidInAccount ? state.account.claimInfo.liquidInAccount.balance : null
-    }),
-    tokensSelectOptions () {
-      const types = ['FREEOS']
-      if (getAbsoluteAmount(this.liquidBalance) > 0) {
-        types.push('XPR')
-      }
-      return types
+    name: 'Transfer',
+    data() {
+        return {
+            tab: 'send',
+            submitData: {
+                toAccountName: null,
+                tokenType: null,
+                sendAmount: null,
+                memo: null
+            },
+            isShowApprovedDialog: false,
+            isShowFailedDialog: false
+        }
     },
-    isFormFilled () {
-      return !Object.values(this.submitData).some(x => (x === null || x === ''))
-    }
-  },
-  methods: {
-    ...mapActions('transfer', ['transferTokens']),
-    ...mapActions('account', ['getAccountInfo']),
-    submit () {
-      const self = this
-      this.submitData.fromAccountName = this.accountName
-      this.transferTokens(this.submitData)
-        .then(response => {
-          self.getAccountInfo()
-          self.resetForm()
-        })
+    computed: {
+        ...mapState({
+            accountName: state => state.account.accountName,
+            liquidBalance: state => state.account.claimInfo.liquidInAccount ? state.account.claimInfo.liquidInAccount.balance : null
+        }),
+        tokensSelectOptions() {
+            const types = ['FREEOS']
+            if (getAbsoluteAmount(this.liquidBalance) > 0) {
+                types.push('XPR')
+            }
+            return types
+        },
+        isFormFilled() {
+            return !Object.values(this.submitData).some(x => (x === null || x === ''))
+        }
     },
-    resetForm () {
-      this.submitData = {
-        toAccountName: null,
-        tokenType: null,
-        sendAmount: null,
-        memo: null
-      }
+    methods: {
+        ...mapActions('transfer', ['transferTokens']),
+        ...mapActions('account', ['getAccountInfo']),
+        submit() {
+            const self = this
+            this.submitData.fromAccountName = this.accountName
+            this.transferTokens(this.submitData)
+                .then(response => {
+                    self.getAccountInfo()
+                    self.resetForm()
+                })
+        },
+        resetForm() {
+            this.submitData = {
+                toAccountName: null,
+                tokenType: null,
+                sendAmount: null,
+                memo: null
+            }
+        }
     }
-  }
 }
 </script>
 

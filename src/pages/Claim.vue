@@ -27,16 +27,27 @@
         </q-card>
     </q-dialog>
 
-
     <ClaimCompleteDialog :isOpen="isShowClaimCompleteDialog" />
     <div class="add-bg">
         <div v-if="!isFreeosEnabled">
             <b>Freeos system is not currently operational. Please check back later.</b>
         </div>
         <div v-if="isFreeosEnabled">
-            <div class="q-ma-md" style="margin-bottom: 60px;">
-                <small class="text-subtitle1" style="line-height:.8;">COMBINED TOTAL</small>
+            <div class="q-ma-md">
+                <p class="q-ma-none"><strong>COMBINED TOTAL</strong></p>
                 <p class="text-bold text-h1" style="line-height:.8;">{{totalFreeos}}</p>
+            </div>
+            <div class="panel-wrap panel-top-total q-pa-lg">
+                <div class="row">
+                    <div class="col">
+                        <p class="" style="line-height:.8;"><strong>FREEOS TOKENS</strong></p>
+                        <p class="text-bold text-h4" style="line-height:.8;">{{liquidFreeos}}</p>
+                    </div>
+                    <div class="col">
+                        <p class="" style="line-height:.8;"><strong>FREEOS OPTIONS</strong></p>
+                        <p class="text-bold text-h4" style="line-height:.8;">{{liquidOptions}}</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="add-bg-white" v-if="isFreeosEnabled">
@@ -44,108 +55,126 @@
                 <div class="text-left">Note: {{notes}}</div>
                 <div class="wrap-avatar" style="margin-left:-10px;">
 
-
                     <div class="avatar q-hidden" v-bind:class="{'disable-btn': !canClaim}">
-                            <q-icon size="md" style="margin-top: -50px; margin-bottom: 15px;" v-bind:class="{'hide': canClaim}">
-                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                        <q-icon size="md" style="margin-top: -50px; margin-bottom: 15px;" v-bind:class="{'hide': canClaim}">
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                <g>
                                     <g>
-                                        <g>
-                                            <path fill="#ffffff" d="M501.362,383.95L320.497,51.474c-29.059-48.921-99.896-48.986-128.994,0L10.647,383.95
+                                        <path fill="#ffffff" d="M501.362,383.95L320.497,51.474c-29.059-48.921-99.896-48.986-128.994,0L10.647,383.95
                       c-29.706,49.989,6.259,113.291,64.482,113.291h361.736C495.039,497.241,531.068,433.99,501.362,383.95z M256,437.241
                       c-16.538,0-30-13.462-30-30c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30C286,423.779,272.538,437.241,256,437.241z
                       M286,317.241c0,16.538-13.462,30-30,30c-16.538,0-30-13.462-30-30v-150c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30
                       V317.241z" />
-                                        </g>
                                     </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                    <g>
-                                    </g>
-                                </svg>
-                            </q-icon>
-<svg style="position: absolute;width: 130px;height: 130px;top:50%;left:50%;transform:translate(-50%,-50%)" version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 x="0px" y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
-<path style="opacity:.1" fill="#FFFFFF" d="M50.5,15.6c-19.2,0-34.8,15.6-34.8,34.8s15.6,34.8,34.8,34.8s34.8-15.6,34.8-34.8S69.8,15.6,50.5,15.6z
-	 M38.2,72.9c-2.4,0-4.5-0.9-6.1-2.3l0,0c-4.3-4-7.4-9.4-8.5-15.4c-0.3-1.5-0.4-3.1-0.4-4.7c0-15.1,12.2-27.3,27.3-27.3
-	c1.5,0,2.9,0.1,4.3,0.3c0,0,0.1,0,0.1,0c-4.7,2.1-8,6-8.8,11.3l0,0c0,0,0,0,0,0C46,35.3,46,35.8,46,36.3l0,0c0,0,0,0.1,0,0.3
-	c0,0.1,0,0.1,0,0.2c0,0.2,0,0.3,0,0.5l0,0c-0.1,2.3-0.1,5.9,0.5,10.3l-8.8,3.2c-0.6,0.2-0.9,0.9-0.7,1.5l0.4,1
-	c1.4,3.8,5.8,5.3,9.3,3.3l0.8-0.5l0.2-0.1l0,0.3c0.2,3.3,0,5.9-0.2,7.5l-0.1,0c0,0.3,0,0.5-0.1,0.8c-0.1,0.9-0.3,1.4-0.3,1.5
-	C45.9,70.1,42.4,72.9,38.2,72.9z M50.5,77.8c-1.6,0-3.1-0.1-4.6-0.4c0,0,0,0,0,0h0c4.9-2.2,8.4-6.4,9-12.1c0.3-2.1,0.8-7.4-0.1-13.6
-	l9-5.4c1-0.6,1.4-1.8,1-2.9l-0.1-0.2c-0.4-1.2-1.7-1.7-2.9-1.3l-8,2.9l-0.1,0l0-0.1c-0.4-3.7-0.4-6.1-0.3-7.1l0,0
-	c0.3-6.9,4.4-9.8,9.4-9.7c2.1,0,4.1,0.8,5.7,2c0.4,0.3,0.8,0.7,1.1,1.1c4.1,4,6.9,9.4,7.8,15.3c0.2,1.3,0.3,2.7,0.3,4.1
-	C77.9,65.5,65.6,77.8,50.5,77.8z"/>
-<g>
-	<path fill="#FFFFFF" d="M14.9,51.4c0-4.7,3.5-7.8,8-7.8c3.5,0,5.4,1.8,6.5,3.7l-2.8,1.4c-0.6-1.2-2-2.2-3.7-2.2
-		c-2.6,0-4.6,2.1-4.6,5s2,5,4.6,5c1.7,0,3-1,3.7-2.2l2.8,1.3c-1.1,1.9-3,3.7-6.5,3.7C18.5,59.2,14.9,56,14.9,51.4z"/>
-	<path fill="#FFFFFF" d="M31.3,43.8h3.2v12.3h6.4v2.8h-9.6V43.8z"/>
-	<path fill="#FFFFFF" d="M52.8,56.3h-6.8l-1,2.6h-3.5l5.9-15.2h4l5.8,15.2h-3.5L52.8,56.3z M46.9,53.5h5l-2.5-7L46.9,53.5z"/>
-	<path fill="#FFFFFF" d="M58.7,43.8h3.2v15.2h-3.2V43.8z"/>
-	<path fill="#FFFFFF" d="M78.1,48l-4.3,10.9h-1.4L68.2,48v10.9h-3.2V43.8h4.5l3.7,9.5l3.7-9.5h4.5v15.2h-3.3V48z"/>
-</g>
-<g>
-	<path fill="#FFFFFF" d="M23.8,68.6l-2.6-3.9h1.3l1.8,2.9l1.8-2.9h1.3L25,68.6v2.8h-1.2V68.6z"/>
-	<path fill="#FFFFFF" d="M26.7,68.9c0-1.4,0.9-2.5,2.5-2.5c1.5,0,2.5,1.1,2.5,2.5c0,1.4-0.9,2.5-2.5,2.5
-		C27.7,71.4,26.7,70.3,26.7,68.9z M30.6,68.9c0-0.8-0.5-1.6-1.4-1.6c-0.9,0-1.4,0.7-1.4,1.6c0,0.9,0.5,1.6,1.4,1.6
-		C30.1,70.5,30.6,69.8,30.6,68.9z"/>
-	<path fill="#FFFFFF" d="M36,70.7c-0.4,0.4-0.9,0.8-1.7,0.8c-1,0-1.5-0.5-1.5-1.5v-3.4h1v3c0,0.7,0.4,1,1,1c0.5,0,1-0.3,1.2-0.6
-		v-3.4h1v4.8h-1V70.7z"/>
-	<path fill="#FFFFFF" d="M38.4,66.5h1v0.7c0.4-0.5,0.9-0.8,1.6-0.8v1c-0.1,0-0.2,0-0.3,0c-0.4,0-1,0.3-1.2,0.6v3.3h-1V66.5z"/>
-	<path fill="#FFFFFF" d="M44.5,64.7h4.6v1h-3.4v1.7H49v1h-3.3v2.9h-1.2V64.7z"/>
-	<path fill="#FFFFFF" d="M52.5,68.8h-1.2v2.5h-1.2v-6.7h2.9c1.3,0,2.2,0.9,2.2,2.1c0,1.2-0.8,1.8-1.6,2l1.6,2.6h-1.3L52.5,68.8z
-		 M52.9,65.7h-1.6v2.1h1.6c0.7,0,1.1-0.4,1.1-1.1S53.6,65.7,52.9,65.7z"/>
-	<path fill="#FFFFFF" d="M56.4,64.7H61v1h-3.4v1.7h3.3v1h-3.3v1.8H61v1h-4.6V64.7z"/>
-	<path fill="#FFFFFF" d="M62.2,64.7h4.6v1h-3.4v1.7h3.3v1h-3.3v1.8h3.4v1h-4.6V64.7z"/>
-	<path fill="#FFFFFF" d="M71.1,64.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S67.6,70,67.6,68S69.1,64.5,71.1,64.5z M71.1,65.6
-		c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C73.3,66.6,72.4,65.6,71.1,65.6z"/>
-	<path fill="#FFFFFF" d="M75.8,69.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
-		c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8c0,0.5,0.7,0.7,1.5,0.9
-		c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L75.8,69.5z"/>
-	<path fill="#FFFFFF" d="M33.4,76.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S30,82,30,80S31.4,76.5,33.4,76.5z M33.4,77.6
-		c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C35.6,78.6,34.7,77.6,33.4,77.6z"/>
-	<path fill="#FFFFFF" d="M37.9,76.7h2.9c1.4,0,2.2,1,2.2,2.1c0,1.1-0.8,2.1-2.2,2.1h-1.8v2.5h-1.2V76.7z M40.7,77.7h-1.6v2.1h1.6
-		c0.7,0,1.1-0.4,1.1-1.1S41.4,77.7,40.7,77.7z"/>
-	<path fill="#FFFFFF" d="M45.6,77.7h-2v-1h5.2v1h-2v5.6h-1.2V77.7z"/>
-	<path fill="#FFFFFF" d="M49.8,76.7H51v6.7h-1.2V76.7z"/>
-	<path fill="#FFFFFF" d="M55.5,76.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S52.1,82,52.1,80S53.5,76.5,55.5,76.5z M55.5,77.6
-		c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C57.7,78.6,56.8,77.6,55.5,77.6z"/>
-	<path fill="#FFFFFF" d="M61.2,78.5v4.9H60v-6.7h1.2l3.4,4.7v-4.7h1.2v6.7h-1.1L61.2,78.5z"/>
-	<path fill="#FFFFFF" d="M67.5,81.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
-		c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8c0,0.5,0.7,0.7,1.5,0.9
-		c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L67.5,81.5z"/>
-</g>
-</svg>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                            </svg>
+                        </q-icon>
+                        <svg style="position: absolute;width: 130px;height: 130px;top:50%;left:50%;transform:translate(-50%,-50%)" version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
+                            <path style="opacity:.1" fill="#FFFFFF" d="M50.5,15.6c-19.2,0-34.8,15.6-34.8,34.8s15.6,34.8,34.8,34.8s34.8-15.6,34.8-34.8S69.8,15.6,50.5,15.6z
 
-    
+ M38.2,72.9c-2.4,0-4.5-0.9-6.1-2.3l0,0c-4.3-4-7.4-9.4-8.5-15.4c-0.3-1.5-0.4-3.1-0.4-4.7c0-15.1,12.2-27.3,27.3-27.3
+
+c1.5,0,2.9,0.1,4.3,0.3c0,0,0.1,0,0.1,0c-4.7,2.1-8,6-8.8,11.3l0,0c0,0,0,0,0,0C46,35.3,46,35.8,46,36.3l0,0c0,0,0,0.1,0,0.3
+
+c0,0.1,0,0.1,0,0.2c0,0.2,0,0.3,0,0.5l0,0c-0.1,2.3-0.1,5.9,0.5,10.3l-8.8,3.2c-0.6,0.2-0.9,0.9-0.7,1.5l0.4,1
+
+c1.4,3.8,5.8,5.3,9.3,3.3l0.8-0.5l0.2-0.1l0,0.3c0.2,3.3,0,5.9-0.2,7.5l-0.1,0c0,0.3,0,0.5-0.1,0.8c-0.1,0.9-0.3,1.4-0.3,1.5
+
+C45.9,70.1,42.4,72.9,38.2,72.9z M50.5,77.8c-1.6,0-3.1-0.1-4.6-0.4c0,0,0,0,0,0h0c4.9-2.2,8.4-6.4,9-12.1c0.3-2.1,0.8-7.4-0.1-13.6
+
+l9-5.4c1-0.6,1.4-1.8,1-2.9l-0.1-0.2c-0.4-1.2-1.7-1.7-2.9-1.3l-8,2.9l-0.1,0l0-0.1c-0.4-3.7-0.4-6.1-0.3-7.1l0,0
+
+c0.3-6.9,4.4-9.8,9.4-9.7c2.1,0,4.1,0.8,5.7,2c0.4,0.3,0.8,0.7,1.1,1.1c4.1,4,6.9,9.4,7.8,15.3c0.2,1.3,0.3,2.7,0.3,4.1
+
+C77.9,65.5,65.6,77.8,50.5,77.8z" />
+                            <g>
+                                <path fill="#FFFFFF" d="M14.9,51.4c0-4.7,3.5-7.8,8-7.8c3.5,0,5.4,1.8,6.5,3.7l-2.8,1.4c-0.6-1.2-2-2.2-3.7-2.2
+
+c-2.6,0-4.6,2.1-4.6,5s2,5,4.6,5c1.7,0,3-1,3.7-2.2l2.8,1.3c-1.1,1.9-3,3.7-6.5,3.7C18.5,59.2,14.9,56,14.9,51.4z" />
+                                <path fill="#FFFFFF" d="M31.3,43.8h3.2v12.3h6.4v2.8h-9.6V43.8z" />
+                                <path fill="#FFFFFF" d="M52.8,56.3h-6.8l-1,2.6h-3.5l5.9-15.2h4l5.8,15.2h-3.5L52.8,56.3z M46.9,53.5h5l-2.5-7L46.9,53.5z" />
+                                <path fill="#FFFFFF" d="M58.7,43.8h3.2v15.2h-3.2V43.8z" />
+                                <path fill="#FFFFFF" d="M78.1,48l-4.3,10.9h-1.4L68.2,48v10.9h-3.2V43.8h4.5l3.7,9.5l3.7-9.5h4.5v15.2h-3.3V48z" />
+                            </g>
+                            <g>
+                                <path fill="#FFFFFF" d="M23.8,68.6l-2.6-3.9h1.3l1.8,2.9l1.8-2.9h1.3L25,68.6v2.8h-1.2V68.6z" />
+                                <path fill="#FFFFFF" d="M26.7,68.9c0-1.4,0.9-2.5,2.5-2.5c1.5,0,2.5,1.1,2.5,2.5c0,1.4-0.9,2.5-2.5,2.5
+
+C27.7,71.4,26.7,70.3,26.7,68.9z M30.6,68.9c0-0.8-0.5-1.6-1.4-1.6c-0.9,0-1.4,0.7-1.4,1.6c0,0.9,0.5,1.6,1.4,1.6
+
+C30.1,70.5,30.6,69.8,30.6,68.9z" />
+                                <path fill="#FFFFFF" d="M36,70.7c-0.4,0.4-0.9,0.8-1.7,0.8c-1,0-1.5-0.5-1.5-1.5v-3.4h1v3c0,0.7,0.4,1,1,1c0.5,0,1-0.3,1.2-0.6
+
+v-3.4h1v4.8h-1V70.7z" />
+                                <path fill="#FFFFFF" d="M38.4,66.5h1v0.7c0.4-0.5,0.9-0.8,1.6-0.8v1c-0.1,0-0.2,0-0.3,0c-0.4,0-1,0.3-1.2,0.6v3.3h-1V66.5z" />
+                                <path fill="#FFFFFF" d="M44.5,64.7h4.6v1h-3.4v1.7H49v1h-3.3v2.9h-1.2V64.7z" />
+                                <path fill="#FFFFFF" d="M52.5,68.8h-1.2v2.5h-1.2v-6.7h2.9c1.3,0,2.2,0.9,2.2,2.1c0,1.2-0.8,1.8-1.6,2l1.6,2.6h-1.3L52.5,68.8z
+
+ M52.9,65.7h-1.6v2.1h1.6c0.7,0,1.1-0.4,1.1-1.1S53.6,65.7,52.9,65.7z" />
+                                <path fill="#FFFFFF" d="M56.4,64.7H61v1h-3.4v1.7h3.3v1h-3.3v1.8H61v1h-4.6V64.7z" />
+                                <path fill="#FFFFFF" d="M62.2,64.7h4.6v1h-3.4v1.7h3.3v1h-3.3v1.8h3.4v1h-4.6V64.7z" />
+                                <path fill="#FFFFFF" d="M71.1,64.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S67.6,70,67.6,68S69.1,64.5,71.1,64.5z M71.1,65.6
+
+c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C73.3,66.6,72.4,65.6,71.1,65.6z" />
+                                <path fill="#FFFFFF" d="M75.8,69.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
+
+c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8c0,0.5,0.7,0.7,1.5,0.9
+
+c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L75.8,69.5z" />
+                                <path fill="#FFFFFF" d="M33.4,76.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S30,82,30,80S31.4,76.5,33.4,76.5z M33.4,77.6
+
+c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C35.6,78.6,34.7,77.6,33.4,77.6z" />
+                                <path fill="#FFFFFF" d="M37.9,76.7h2.9c1.4,0,2.2,1,2.2,2.1c0,1.1-0.8,2.1-2.2,2.1h-1.8v2.5h-1.2V76.7z M40.7,77.7h-1.6v2.1h1.6
+
+c0.7,0,1.1-0.4,1.1-1.1S41.4,77.7,40.7,77.7z" />
+                                <path fill="#FFFFFF" d="M45.6,77.7h-2v-1h5.2v1h-2v5.6h-1.2V77.7z" />
+                                <path fill="#FFFFFF" d="M49.8,76.7H51v6.7h-1.2V76.7z" />
+                                <path fill="#FFFFFF" d="M55.5,76.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S52.1,82,52.1,80S53.5,76.5,55.5,76.5z M55.5,77.6
+
+c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C57.7,78.6,56.8,77.6,55.5,77.6z" />
+                                <path fill="#FFFFFF" d="M61.2,78.5v4.9H60v-6.7h1.2l3.4,4.7v-4.7h1.2v6.7h-1.1L61.2,78.5z" />
+                                <path fill="#FFFFFF" d="M67.5,81.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
+
+c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8c0,0.5,0.7,0.7,1.5,0.9
+
+c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L67.5,81.5z" />
+                            </g>
+                        </svg>
+
                     </div>
-                   
+
                 </div>
-                
+
                 <div class="text-caption flex column text-right">
                     <span>Next Claim:</span>
                     <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0; text-align: right;" class="text-caption text-capitalize">
@@ -155,11 +184,13 @@
                 </div>
             </div>
 
+            <div class="flex align-items-center">
             <div class="q-mt-md" v-if="canClaim">
                 Claim now to claim your weekly<br />
                 FREEOS.
             </div>
-            <div class="q-mt-md" v-if="!canClaim" v-html="reasonCannotClaimHtml">
+            <div class="" v-if="!canClaim" v-html="reasonCannotClaimHtml">
+            </div>
             </div>
 
         </div>
@@ -239,13 +270,13 @@ export default {
         ClaimCompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
+        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
         ...mapState({
-          stakedInfo: state => state.account.claimInfo.stakedInfo,
-          liquidInAccount: state => state.account.claimInfo.liquidInAccount,
-          accountName: state => state.account.accountName
+            stakedInfo: state => state.account.claimInfo.stakedInfo,
+            liquidInAccount: state => state.account.claimInfo.liquidInAccount,
+            accountName: state => state.account.accountName
         }),
-       nextClaimDescription: function () {
+        nextClaimDescription: function () {
             var daysToNextClaim = 1
             if (daysToNextClaim == 1) {
                 return 'tomorrow'
@@ -269,15 +300,18 @@ export default {
         ...mapActions('freeos', ['monitorBlockChain', 'claim']),
         ...mapActions('stake', ['onRegisterUser']),
         ...mapActions('account', ['getAccountInfo']),
-        async registerUser () {
-          await this.onRegisterUser(this.accountName)
-          this.getAccountInfo()
+        async registerUser() {
+            await this.onRegisterUser(this.accountName)
+            this.getAccountInfo()
         },
         async startClaim() {
             // await this.claim();
             this.isShowClaimCompleteDialog = true
         }
 
+    },
+    async created() {
+        await this.getAccountInfo();
     },
     async mounted() {
         this.monitorBlockChain()
@@ -286,11 +320,50 @@ export default {
 </script>
 
 <style lang="scss">
-.hide{
-  display: none !important;
+$panel-border-radius: 8px;
+$panel-width: 360px;
+
+.hide {
+    display: none !important;
 }
+
+.panel-wrap {
+    max-width: $panel-width;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.panel {
+    border: 1px solid #eee !important;
+    border-radius: $panel-border-radius !important;
+    box-shadow: none;
+}
+.panel-strong{
+     border: 2px solid #555 !important;
+}
+
+
+.panel-top-total {
+    border: 1px solid #ccc;
+    border-radius: $panel-border-radius;
+    padding-bottom:30px;
+    margin-bottom: -20px;
+}
+
 .add-bg {
     position: relative;
+    padding:10px 0;
+    &:after{
+      content:"";
+      width:100%;
+      position: absolute;
+      left:0;
+      top:0;
+      height:100%;
+      background: url('../assets/bluebg.svg') bottom center no-repeat;
+      background-size:4096px;
+    }
 
     .add-blue-bg {
         position: absolute;
@@ -319,24 +392,26 @@ export default {
     .add-bg-white {
         position: relative;
         z-index: 2000;
-        margin: 30px auto;
-        width: 350px;
+        margin: 20px auto 0;
+        width: $panel-width;
         height: 150px;
         background: #fff;
         border-radius: 8px;
         padding: 10px 20px;
-        .custome-width{
-              flex-direction: row;
+
+        .custome-width {
+            flex-direction: row;
         }
+
         .wrap-avatar {
-            border:5px solid #fff;
+            border: 5px solid #fff;
             position: relative;
             background-color: #cccccc;
             margin-top: -4rem;
             /* margin-left:  35px; */
             opacity: .9;
-            width:8rem;
-            height:8rem;
+            width: 8rem;
+            height: 8rem;
             /* width: inherit; */
             /* height: inherit; */
             border-radius: 100%;
