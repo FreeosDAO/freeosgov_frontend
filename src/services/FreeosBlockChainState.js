@@ -86,10 +86,26 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'reguser');
   }
 
-  async sendTransaction(contractAccountName, contractName) {
-    console.log('sendTransaction', this.walletUser);
+  async sendTransaction(contractAccountName, contractName, extraData) {
+
+    console.log('extraData', extraData);
 
     var accountName = this.walletUser ? this.walletUser.accountName : null;
+    var actionData = {}
+
+    if (extraData){
+      (extraData.to) 
+          actionData.to = extraData.to;
+      (extraData.from)
+          actionData.from = extraData.from;
+      (extraData.to) 
+          actionData.quantity = extraData.quantity;
+      (extraData.from)
+          actionData.memo = extraData.memo;
+    }else{
+      actionData.user = accountName;
+    }
+
     if (!accountName) {
         console.log('No account.....');
         return;
@@ -102,9 +118,7 @@ export class FreeosBlockChainState extends EventEmitter {
             actor: accountName,
             permission: 'active'
           }],
-          data: {
-              user: accountName
-          }
+          data: actionData
         }]
         console.log('Sending transaction with', actions);
         const result = await ProtonSDK.sendTransaction(actions)
@@ -122,6 +136,16 @@ export class FreeosBlockChainState extends EventEmitter {
 
   async claim() {
     return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'claim');
+  }
+
+  async transfer(sendData) {
+    console.log('sendData', sendData);
+      var contract = process.env.AIRCLAIM_CONTRACT;
+      if(sendData.token === 'XPR'){
+          contract = process.env.CURRENCY_CONTRACT;
+      }
+      sendData.quantity = `${parseFloat(sendData.quantity).toFixed(process.env.TOKEN_PRECISION)} ${sendData.token}`;
+      return this.sendTransaction(contract, 'transfer', sendData);
   }
   
   async fetch () {
@@ -253,6 +277,8 @@ export class FreeosBlockChainState extends EventEmitter {
             currentIteration: iterations.currentIteration,
             nextIteration: iterations.nextIteration,
             user : bcUser,
+            accountName: this.walletUser.accountName,
+            isAuthenticated: this.walletUser.accountName != null,
             isRegistered : bcUser != null,
             statistics: bcStatistics,
             unvests : bcUnvests,
@@ -314,7 +340,7 @@ export class FreeosBlockChainState extends EventEmitter {
   }
 
   async getRecord(codeName, tableName, scopeName, additionalParams) {
-    console.log('getRecord...',codeName, tableName)
+    //console.log('getRecord...',codeName, tableName)
 
     if (!scopeName) scopeName = codeName
 
@@ -332,7 +358,7 @@ export class FreeosBlockChainState extends EventEmitter {
     }
 
     const result = await connect(query)
-    console.log('result',codeName, tableName,result)
+    //console.log('result',codeName, tableName,result)
 
     if (result && result.rows) {
         if (result.rows.length === 1) {
@@ -363,7 +389,7 @@ export class FreeosBlockChainState extends EventEmitter {
             const startTimeStamp = new Date(row.start)
             const endTimeStamp = new Date(row.end)
             
-            console.log('startTimeStamp', startTimeStamp);
+            //console.log('startTimeStamp', startTimeStamp);
 
             if (currentTimeStamp > startTimeStamp && currentTimeStamp < endTimeStamp) {
               currentIteration = rows[index];

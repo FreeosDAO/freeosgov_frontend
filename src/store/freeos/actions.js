@@ -42,6 +42,14 @@ export async function fetch() {
   console.log('Result of claim', result);
 }
 
+export async function transfer({state}, submitData) {
+  console.log('transfer', submitData)
+  var result = await FreeosBlockChainState.getInstance().transfer(submitData);
+  // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
+
+  console.log('Result of claim', result);
+}
+
 export async function register() {
   var result = await FreeosBlockChainState.getInstance().register();
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration

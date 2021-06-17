@@ -70,3 +70,13 @@ export const setuserStake = (state, userStake) => {
 export const setreasonCannotClaim = (state, reasonCannotClaim) => {
   state.reasonCannotClaim = reasonCannotClaim
 }
+
+
+
+export const setaccountName = (state, accountName) => {
+            state.accountName = accountName
+          }
+
+export const setisAuthenticated = (state, isAuthenticated) => {
+  state.isAuthenticated = isAuthenticated
+}

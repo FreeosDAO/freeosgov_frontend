@@ -22,6 +22,12 @@ var definition =  {
   totalHolding : null,
   canClaim : null,
   isFreeosEnabled : null,
-  reasonCannotClaim : null
+  reasonCannotClaim : null,
+
+  accountName: null,
+  isAuthenticated: null,
+
+
+
 };
 export default definition;

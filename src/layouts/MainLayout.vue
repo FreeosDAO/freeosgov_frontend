@@ -131,10 +131,10 @@ export default {
   },
   computed: {
     ...mapState({
-      accountName: state => state.account.accountName,
       iterationNumber: state => state.calendar.currentIteration.iteration_number
     }),
-    ...mapGetters('account', ['isAuthenticated', 'connecting'])
+    ...mapGetters('account', ['connecting']),
+    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName']),
   },
   components: {
     // Balance

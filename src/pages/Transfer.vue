@@ -6,49 +6,46 @@
             <q-card class="panel">
 
                 <div class="text-h4 text-center q-ma-lg">Send Tokens</div>
-
-                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+{{submitData}}
+                <div v-if="tokensSelectOptions.length > 0" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
                     <div class="col-xs-5 col-sm-4">
-                        To account:
+                        <p class="q-mt-sm q-mb-none">To account:</p>
                     </div>
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-6 col-sm-7">
-                        <q-input v-model="submitData.toAccountName" type="text" outlined dense />
+                    <div class="col-xs-6 col-sm-8">
+                        <q-input v-model="submitData.to" type="text" outlined dense />
                     </div>
                 </div>
-                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
                     <div class="col-xs-5 col-sm-4">
-                        Tokens
+                        <p class="q-mt-sm q-mb-none">Tokens:</p>
                     </div>
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-6 col-sm-7">
-                        <q-select dense outlined v-model="submitData.tokenType" :options="tokensSelectOptions" />
+                    <div class="col-xs-6 col-sm-8">
+                        <q-select dense outlined v-model="submitData.token" :options="tokensSelectOptions" />
                     </div>
                 </div>
-                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
                     <div class="col-xs-5 col-sm-4">
-                        Amount
+                        <p class="q-mt-sm q-mb-none">Amount:</p>
                     </div>
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-6 col-sm-7">
-                        <q-input v-model="submitData.sendAmount" type="number" outlined dense />
+                    <div class="col-xs-6 col-sm-8">
+                        <q-input required v-model="submitData.quantity" type="number" outlined dense />
+                        <p class="q-mb-none text-grey" v-if="submitData.token === 'XPR'"><small>{{XPRBalance}}XPR available to transfer</small></p>
+                        <p class="q-mb-none text-grey" v-if="submitData.token === 'FREEOS'"><small>{{liquidFreeos}}FREEOS available to transfer</small></p>
                     </div>
                 </div>
-                <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
                     <div class="col-xs-5 col-sm-4">
-                        Comment
+                        <p class="q-mt-sm q-mb-none">Comment:</p>
                     </div>
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-6 col-sm-7">
+                    <div class="col-xs-6 col-sm-8">
                         <q-input v-model="submitData.memo" type="text" outlined dense />
                     </div>
                 </div>
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
                     <div class="col-xs-5 col-sm-4">
                     </div>
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-6 col-sm-7">
-                        <q-btn unelevated no-caps outline :disable="!isFormFilled" color="primary" v-if="!isAuthenticated" @click="submit()">Send</q-btn>
+                    <div class="col-xs-6 col-sm-8">
+                        <q-btn unelevated no-caps outline color="primary" v-if="isAuthenticated" @click="submit()">Send</q-btn>
 
                     </div>
 
@@ -61,7 +58,7 @@
                 <div class="text-h4 text-center">Receive Tokens</div>
                 <div class="q-mt-md text-center text-subtitle1">@{{accountName}}</div>
 
-                <q-btn href="https://www.protonswap.com/swap" class="q-mt-xl" unelevated no-caps outline :disable="!isFormFilled" color="primary" v-if="!isAuthenticated">Need Tokens? try Proton Swap</q-btn>
+                <q-btn href="https://www.protonswap.com/swap" class="q-mt-xl" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens? try Proton Swap</q-btn>
 
             </q-card>
 
@@ -138,10 +135,7 @@
 </template>
 
 <script>
-import {
-    mapState,
-    mapActions
-} from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import {
     getAbsoluteAmount
 } from '@/utils/currency'
@@ -152,24 +146,26 @@ export default {
         return {
             tab: 'send',
             submitData: {
-                toAccountName: null,
-                tokenType: null,
-                sendAmount: null,
-                memo: null
+                to: null,
+                token: null,
+                quantity: null,
+                memo: '',
+                from: null,
             },
             isShowApprovedDialog: false,
             isShowFailedDialog: false
         }
     },
     computed: {
-        ...mapState({
-            accountName: state => state.account.accountName,
-            liquidBalance: state => state.account.claimInfo.liquidInAccount ? state.account.claimInfo.liquidInAccount.balance : null
-        }),
+        ...mapGetters('freeos', ['accountName', 'XPRBalance', 'liquidFreeos','isAuthenticated']),
         tokensSelectOptions() {
-            const types = ['FREEOS']
-            if (getAbsoluteAmount(this.liquidBalance) > 0) {
+            const types = [];
+            if(this.XPRBalance > 0) {
                 types.push('XPR')
+            }
+            if(this.liquidFreeos > 0) {
+                types.push('FREEOS');
+                this.submitData.token = 'FREEOS';
             }
             return types
         },
@@ -178,23 +174,21 @@ export default {
         }
     },
     methods: {
-        ...mapActions('transfer', ['transferTokens']),
-        ...mapActions('account', ['getAccountInfo']),
-        submit() {
-            const self = this
-            this.submitData.fromAccountName = this.accountName
-            this.transferTokens(this.submitData)
-                .then(response => {
-                    self.getAccountInfo()
-                    self.resetForm()
-                })
+        ...mapActions('freeos', ['fetch', 'transfer']),
+        async submit() {
+            this.submitData.from = this.accountName;
+            await this.transfer(this.submitData);
+            this.fetch();
+            this.resetForm();
+
         },
         resetForm() {
             this.submitData = {
-                toAccountName: null,
-                tokenType: null,
-                sendAmount: null,
-                memo: null
+                to: null,
+                token: null,
+                quantity: null,
+                memo: '',
+                from: null
             }
         }
     }
