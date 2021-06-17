@@ -13,7 +13,7 @@
         outline
          color="primary"
         v-if="!isAuthenticated" @click="connectWallet('anchor')"
-        >Connect Wallet {{username}}</q-btn>
+        >Connect Wallet</q-btn>
       </div>
       <div class="q-mt-xl" style="">
         <img src="../assets/join-screen-image.svg" alt="">

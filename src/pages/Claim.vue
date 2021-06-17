@@ -297,12 +297,10 @@ export default {
         }
     },
     methods: {
-        ...mapActions('freeos', ['monitorBlockChain', 'claim']),
-        ...mapActions('stake', ['onRegisterUser']),
-        ...mapActions('account', ['getAccountInfo']),
+        ...mapActions('freeos', ['monitorBlockChain', 'fetch', 'register', 'claim']),
         async registerUser() {
-            await this.onRegisterUser(this.accountName)
-            this.getAccountInfo()
+            await this.register()
+            await this.fetch()
         },
         async startClaim() {
             // await this.claim();
@@ -311,7 +309,7 @@ export default {
 
     },
     async created() {
-        await this.getAccountInfo();
+        await this.fetch()
     },
     async mounted() {
         this.monitorBlockChain()
