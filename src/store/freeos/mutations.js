@@ -80,3 +80,8 @@ export const setaccountName = (state, accountName) => {
 export const setisAuthenticated = (state, isAuthenticated) => {
   state.isAuthenticated = isAuthenticated
 }
+
+
+export const setallIterations = (state, allIterations) => {
+  state.allIterations = allIterations
+}

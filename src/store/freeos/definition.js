@@ -26,7 +26,7 @@ var definition =  {
 
   accountName: null,
   isAuthenticated: null,
-
+   allIterations: null
 
 
 };

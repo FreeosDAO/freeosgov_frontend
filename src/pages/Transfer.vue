@@ -6,7 +6,6 @@
             <q-card class="panel">
 
                 <div class="text-h4 text-center q-ma-lg">Send Tokens</div>
-{{submitData}}
                 <div v-if="tokensSelectOptions.length > 0" class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
                     <div class="col-xs-5 col-sm-4">
                         <p class="q-mt-sm q-mb-none">To account:</p>
@@ -177,10 +176,9 @@ export default {
         ...mapActions('freeos', ['fetch', 'transfer']),
         async submit() {
             this.submitData.from = this.accountName;
-            await this.transfer(this.submitData);
-            this.fetch();
+            var result = await this.transfer(this.submitData);
+            console.log('resultR', result)
             this.resetForm();
-
         },
         resetForm() {
             this.submitData = {

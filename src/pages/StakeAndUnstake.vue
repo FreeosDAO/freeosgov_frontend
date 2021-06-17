@@ -1,66 +1,77 @@
 <template>
-  <div class="text-center q-mx-auto" style="max-width: 1000px;">
-    <div class="row full-width justify-around">
-      <div class="col-xs-10 col-sm-5 q-mb-lg" v-if="!stakedInfo">
-        <q-btn
-          color="primary"
-          label="register"
-        @click="registerUser()" />
-        <p><small>(you are not register yet)</small></p>
-      </div>
-      <div class="col-xs-10 col-sm-5 q-mb-lg" v-else-if="!stakedValue">
-        <stake-card v-if="userCanStake"/>
-      </div>
-      <div class="col-xs-10 col-sm-5 q-mb-lg" v-else-if="stakedValue">
-        <unstake-card />
-      </div>
+<div class="q-pa-md">
+    <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
+
+        <div class="panel-wrap">
+            <q-card class="panel  q-pa-lg">
+
+                <div class="text-h4 text-center q-ma-lg">Staking Requirement</div>
+                <p class="text-center">With FREEOS you need a minimum
+amount in your account to Claim. For
+more info, click here.</p>
+
+                <p class="text-center">In order to Claim your weekly FREEOS tokens, you need to stake </p>
+                    <h4 class="text-center text-h5 q-ma-xs q-mb-lg" style="line-height:1;">{{stakeRequirement}}XPR</h4>
+
+
+
+                <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance >= stakeRequirement">
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>Your current FREEOS OPTIONS balance is:</strong></p>
+                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{XPRBalance}}</h4>
+                    <p class="q-ma-xs" style="line-height:1;"><strong><small>FREEOS OPTIONS</small></strong></p>
+                </div>
+
+                <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance < stakeRequirement">
+                    <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>We see your balance is short on XPR You need to transfer the following to</strong></p>
+                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{stakeRequirement - XPRBalance}} XPR</h4>
+                    <q-btn href="https://www.protonswap.com/swap" class="q-mt-md" unelevated no-caps outline color="primary">Get XPR via ProtonSwap</q-btn>
+                </div>
+
+
+
+                <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs">
+                        <q-btn unelevated no-caps outline size="lg" :disable="!userMeetsStakeRequirement" color="primary" v-if="isAuthenticated" @click="submit()">Stake</q-btn>
+                 </div>
+
+            </q-card>
+
+        </div>
+
     </div>
-    <unstake-status v-if="stakeStatus === 'unStaking' "/>
-  </div>
+</div>
 </template>
 
 <script>
-import StakeCard from 'components/stake/Stake'
-import UnstakeCard from 'components/stake/Unstake'
-import UnstakeStatus from 'components/stake/UnstakeStatus'
-import { mapState, mapActions } from 'vuex'
-import { getAbsoluteAmount } from '@/utils/currency'
+import {
+    mapState,
+    mapActions,
+    mapGetters
+} from 'vuex'
+import {
+    getAbsoluteAmount
+} from '@/utils/currency'
+
 export default {
-  name: 'StakeAndUnstake',
-  data () {
-    return {
-      stakeStatus: null
-    }
-  },
-  components: {
-    StakeCard,
-    UnstakeCard,
-    UnstakeStatus
-  },
-  computed: {
-    ...mapState({
-      stakedInfo: state => state.account.claimInfo.stakedInfo,
-      liquidInAccount: state => state.account.claimInfo.liquidInAccount,
-      accountName: state => state.account.accountName
-    }),
-    stakedValue () {
-      return getAbsoluteAmount(this.stakedInfo.stake) > 0
-    }
-  },
-  methods: {
-    ...mapActions('stake', ['onRegisterUser']),
-    ...mapActions('account', ['getAccountInfo']),
-    userCanStake () {
-      if (getAbsoluteAmount(this.liquidInAccount.balance) > 0) {
-        return true
-      } else {
-        return false
-      }
+    name: 'Stake',
+    data() {
+        return {
+
+        }
     },
-    async registerUser () {
-      await this.onRegisterUser(this.accountName)
-      this.getAccountInfo()
+    computed: {
+        ...mapGetters('freeos', ['accountName', 'XPRBalance', 'liquidFreeos', 'isAuthenticated', 'stakeRequirement', 'userHasStaked', 'userStake', 'userMeetsStakeRequirement']),
+    },
+    methods: {
+        ...mapActions('freeos', ['fetch', 'transfer']),
+        async submit() {
+            var result = await this.stake();
+            console.log('resultR', result)
+        },
     }
-  }
 }
 </script>
+
+<style scoped>
+
+</style>

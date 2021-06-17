@@ -24,3 +24,4 @@ export const reasonCannotClaim = ({ reasonCannotClaim }) => reasonCannotClaim;
 
 export const isAuthenticated = ({ isAuthenticated }) => isAuthenticated;
 export const accountName = ({ accountName }) => accountName;
+export const allIterations = ({ allIterations }) => allIterations;

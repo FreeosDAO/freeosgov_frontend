@@ -54,8 +54,7 @@
             <div class="flex justify-between add-custome-width">
                 <div class="text-left">Note: {{notes}}</div>
                 <div class="wrap-avatar" style="margin-left:-10px;">
-
-                    <div class="avatar q-hidden" v-bind:class="{'disable-btn': !canClaim}">
+                    <div class="avatar q-hidden" @click="startClaim()" v-bind:class="{'disable-btn': !canClaim}">
                         <q-icon size="md" style="margin-top: -50px; margin-bottom: 15px;" v-bind:class="{'hide': canClaim}">
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                 <g>
@@ -184,13 +183,13 @@ c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L67.5,81.5z
                 </div>
             </div>
 
-            <div class="flex align-items-center">
-            <div class="q-mt-md" v-if="canClaim">
-                Claim now to claim your weekly<br />
-                FREEOS.
-            </div>
-            <div class="" v-if="!canClaim" v-html="reasonCannotClaimHtml">
-            </div>
+            <div class="flex justify-center text-center" style="align-items:center;height:80px;margin-top:-5px;">
+                    <div class="" v-if="canClaim">
+                        Claim now to claim your weekly<br />
+                        FREEOS.
+                    </div>
+                    <div class="text-subtitle1" v-if="!canClaim" v-html="reasonCannotClaimHtml">
+                    </div>
             </div>
 
         </div>
@@ -303,7 +302,8 @@ export default {
             await this.fetch()
         },
         async startClaim() {
-            // await this.claim();
+            var result = await this.claim();
+            console.log('claim', result);
             this.isShowClaimCompleteDialog = true
         }
 
@@ -340,7 +340,12 @@ $panel-width: 360px;
 .panel-strong{
      border: 2px solid #555 !important;
 }
-
+.panel-info{
+     border: 2px solid var(--q-color-primary) !important;
+}
+.panel-warning{
+     border: 2px solid var(--q-color-warning) !important;
+}
 
 .panel-top-total {
     border: 1px solid #ccc;
@@ -425,7 +430,10 @@ $panel-width: 360px;
                 height: 70px;
                 z-index: -1;
             }
-
+            .disable-btn.avatar:before{
+                background-color: #cccccc;
+                opacity: .8;
+            }
             .avatar {
                 display: flex;
                 justify-content: center;
@@ -442,8 +450,7 @@ $panel-width: 360px;
                     left: 0;
                     bottom: 0;
                     right: 0;
-                    background-color: #cccccc;
-                    opacity: .8;
+                    background-color: var(--q-color-primary);
                     border-radius: 100%;
                 }
 

@@ -222,8 +222,8 @@ export class FreeosBlockChainState extends EventEmitter {
     var unvestedAlready = bcUnvests!=null && bcUnvests.iteration_number == currentIterationNumber;
 
     var canUnvest = bcUnvests != null && bcUnvests.unvestPercent > 0 && !unvestedAlready;
-
-    var registeredUserCount = bcStatistics.numusers;
+    console.log('bcStatistics', bcStatistics);
+    var registeredUserCount = bcStatistics.usercount;
     var stakeRequirement = null;
     var userHasStaked = false;
     var userClaimedAlready = false;
@@ -236,9 +236,9 @@ export class FreeosBlockChainState extends EventEmitter {
     var reasonCannotClaim = '';
 
     if (bcUser) { // Registered
-        var userAccountType = bcUser.account_type; // (will be a 'd', 'e' or 'v')
+        var userAccountType = bcUser.account_type === 101 ? "d" : bcUser.account_type; // (will be a 'd', 'e' or 'v')
         for (var stakeReq of bcStateRequirements) {
-            if (stakeReq.numusers < stakeReq.threshold) {
+            if (registeredUserCount < stakeReq.threshold) {
                 stakeRequirement = stakeReq['requirement_' + userAccountType];
             }
         }
@@ -246,7 +246,7 @@ export class FreeosBlockChainState extends EventEmitter {
         totalHolding = liquidOptions + vestedOptions + freeosBalance;
         userStake = parseFloat(bcUser.stake);
         userHasStaked = bcUser.staked_iteration > 0;
-        userClaimedAlready = bcUser.last_issuance = currentIterationIdx;
+        userClaimedAlready = bcUser.last_issuance == currentIterationIdx;
 
         userMeetsHoldingRequirement = bcAirkeyBalance > 0 || totalHolding >= holdingRequirement;
         userMeetsStakeRequirement = bcAirkeyBalance > 0 || userHasStaked;
@@ -255,15 +255,17 @@ export class FreeosBlockChainState extends EventEmitter {
 
         
         if (!userEligibleToClaim) {
-          if (currentIterationIdx <=0) {
+          if (currentIterationIdx <= 0) {
             reasonCannotClaim  = 'Airclaim Not Started'
           }
           else if (!userMeetsHoldingRequirement) {
             reasonCannotClaim = "Opps! In order to Claim you need a minimum " + iterations.currentIteration.tokens_required + " OPTIONS in your Wallet. Please <a href='/#/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + " FREEOS in order to Claim";
           }
-
           else if (userClaimedAlready) {
             reasonCannotClaim = 'You have already claimed';
+          }
+          else if (!userMeetsStakeRequirement) {
+            reasonCannotClaim = "You must stake to claim";
           }
           
         }
@@ -290,7 +292,7 @@ export class FreeosBlockChainState extends EventEmitter {
         vestedOptions,
         liquidFreeos : freeosBalance,
         airkeyBalance : bcAirkeyBalance,
-        
+        allIterations: currentIteration,
 
         stakeRequirement : stakeRequirement,
         userHasStaked: userHasStaked,
@@ -393,7 +395,7 @@ export class FreeosBlockChainState extends EventEmitter {
 
             if (currentTimeStamp > startTimeStamp && currentTimeStamp < endTimeStamp) {
               currentIteration = rows[index];
-              if (rows.length === (index + 1)) {
+              if (rows.length !== (index + 1)) {
                 nextIteration = rows[index + 1]
               } else {
                 nextIteration = null
