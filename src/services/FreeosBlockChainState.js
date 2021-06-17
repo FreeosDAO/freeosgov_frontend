@@ -140,7 +140,7 @@ export class FreeosBlockChainState extends EventEmitter {
 
   async transfer(sendData) {
     console.log('sendData', sendData);
-      var contract = process.env.AIRCLAIM_CONTRACT;
+      var contract = process.env.FREEOSTOKENS_CONTRACT;
       if(sendData.token === 'XPR'){
           contract = process.env.CURRENCY_CONTRACT;
       }
