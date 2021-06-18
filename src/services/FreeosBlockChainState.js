@@ -275,10 +275,11 @@ async cancelUnstake () {
     var reasonCannotClaim = ''
 
     if (bcUser) { // Registered
-      for (var stakeReq of bcStateRequirements) {
-        if (registeredUserCount < stakeReq.threshold) {
+      for (var i = bcStateRequirements.length - 1; i > 0; --i) {
+        var stakeReq = bcStateRequirements[i]
+        if (registeredUserCount > stakeReq.threshold) {
           stakeRequirement = stakeReq['requirement_' + String.fromCharCode(bcUser.account_type)] // ascii to char conversion (will be a 'd', 'e' or 'v')
-          break 
+          break
         }
       }
 
