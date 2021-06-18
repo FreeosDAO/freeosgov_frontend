@@ -247,73 +247,73 @@ c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L67.5,81.5z
 
 <script>
 import {
-    mapState,
-    mapActions,
-    mapGetters
+  mapState,
+  mapActions,
+  mapGetters
 } from 'vuex'
 import {
-    FreeosBlockChainState
+  FreeosBlockChainState
 } from '../services/FreeosBlockChainState'
 import Balance from 'components/accountManagement/Balance'
 import ClaimCompleteDialog from 'src/components/stake/ClaimCompleteDialog.vue'
 
 export default {
-    name: 'Claim',
-    data() {
-        return {
-            isShowClaimCompleteDialog: false
-        }
-    },
-    components: {
-        Balance,
-        ClaimCompleteDialog
-    },
-    computed: {
-        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
-        ...mapState({
-            stakedInfo: state => state.account.claimInfo.stakedInfo,
-            liquidInAccount: state => state.account.claimInfo.liquidInAccount,
-            accountName: state => state.account.accountName
-        }),
-        nextClaimDescription: function () {
-            var daysToNextClaim = 1
-            if (daysToNextClaim == 1) {
-                return 'tomorrow'
-            } else if (daysToNextClaim > 1) {
-                return daysToNextClaim + ' day time'
-            } else {
-                return 'NOW!'
-            }
-        },
-        notes: function () {
-            return this.currentIteration ? ('Week ' + this.currentIteration.iteration_number) : ''
-        },
-        reasonCannotClaimHtml: function () {
-            return this.$sanitize(this.reasonCannotClaim)
-        },
-        registerModalTrigger: function () {
-            return (this.isRegistered === false) ? true : false;
-        }
-    },
-    methods: {
-        ...mapActions('freeos', ['monitorBlockChain', 'fetch', 'register', 'claim']),
-        async registerUser() {
-            await this.register()
-            await this.fetch()
-        },
-        async startClaim() {
-            var result = await this.claim();
-            console.log('claim', result);
-            this.isShowClaimCompleteDialog = true
-        }
-
-    },
-    async created() {
-        await this.fetch()
-    },
-    async mounted() {
-        this.monitorBlockChain()
+  name: 'Claim',
+  data () {
+    return {
+      isShowClaimCompleteDialog: false
     }
+  },
+  components: {
+    Balance,
+    ClaimCompleteDialog
+  },
+  computed: {
+    ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
+    ...mapState({
+      stakedInfo: state => state.account.claimInfo.stakedInfo,
+      liquidInAccount: state => state.account.claimInfo.liquidInAccount,
+      accountName: state => state.account.accountName
+    }),
+    nextClaimDescription: function () {
+      var daysToNextClaim = 1
+      if (daysToNextClaim == 1) {
+        return 'tomorrow'
+      } else if (daysToNextClaim > 1) {
+        return daysToNextClaim + ' day time'
+      } else {
+        return 'NOW!'
+      }
+    },
+    notes: function () {
+      return this.currentIteration ? ('Week ' + this.currentIteration.iteration_number) : ''
+    },
+    reasonCannotClaimHtml: function () {
+      return this.$sanitize(this.reasonCannotClaim)
+    },
+    registerModalTrigger: function () {
+      return (this.isRegistered === false)
+    }
+  },
+  methods: {
+    ...mapActions('freeos', ['monitorBlockChain', 'fetch', 'register', 'claim']),
+    async registerUser () {
+      await this.register()
+      await this.fetch()
+    },
+    async startClaim () {
+      var result = await this.claim()
+      console.log('claim', result)
+      this.isShowClaimCompleteDialog = true
+    }
+
+  },
+  async created () {
+    await this.fetch()
+  },
+  async mounted () {
+    this.monitorBlockChain()
+  }
 }
 </script>
 

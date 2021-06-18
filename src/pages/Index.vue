@@ -7,7 +7,7 @@
       </div>
       <div class="q-mt-sm q-mb-sm">
         <q-btn
-        unelevated 
+        unelevated
         no-caps
         size="lg"
         outline
@@ -36,7 +36,7 @@ export default {
   methods: {
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo'])
   },
-  mounted() {
+  mounted () {
     if (this.isAuthenticated) {
       this.$router.push({ path: '/claim' })
     }

@@ -134,7 +134,7 @@ export default {
       iterationNumber: state => state.calendar.currentIteration.iteration_number
     }),
     ...mapGetters('account', ['connecting']),
-    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName']),
+    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName'])
   },
   components: {
     // Balance
@@ -199,7 +199,7 @@ export default {
   .q-btn__content {
     flex-direction: column;
     /* align-items: baseline; */
-  }  
+  }
   .q-separator {
       border: 0;
       background: rgba(0, 0, 0, 0.05);

@@ -17,7 +17,7 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   computed: {
-    ...mapState('freeos', ['vestedOptions','canUnvest'])
+    ...mapState('freeos', ['vestedOptions', 'canUnvest'])
 
   },
   methods: {

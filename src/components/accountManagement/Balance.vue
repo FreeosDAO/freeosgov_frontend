@@ -59,7 +59,7 @@
           Vested FREEOS: </div>
         <div class="text-left  text-h6">{{vestedOptions || '0'}}</div>
         <q-btn
-        unelevated 
+        unelevated
         no-caps
         size="lg"
         outline

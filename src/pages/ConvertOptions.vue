@@ -35,7 +35,6 @@
 
             </q-card>
 
-
         </div>
 
     </div>
@@ -44,43 +43,43 @@
 
 <script>
 import {
-    mapState,
-    mapActions,
-    mapGetters
+  mapState,
+  mapActions,
+  mapGetters
 } from 'vuex'
 import {
-    getAbsoluteAmount
+  getAbsoluteAmount
 } from '@/utils/currency'
 
 export default {
-    name: 'Convert Options',
-    data() {
-        return {
-            submitData: {
-                sendAmount: null,
-            },
+  name: 'Convert Options',
+  data () {
+    return {
+      submitData: {
+        sendAmount: null
+      }
 
-        }
-    },
-    computed: {
-        ...mapGetters('freeos', ['liquidOptions']),
-        ...mapState({
-            accountName: state => state.account.accountName,
-            liquidBalance: state => state.account.claimInfo.liquidInAccount ? state.account.claimInfo.liquidInAccount.balance : null
-        }),
-    },
-    methods: {
-        ...mapActions('transfer', ['transferTokens']),
-        ...mapActions('account', ['getAccountInfo']),
-        submit() {
-            const self = this
-        },
-        resetForm() {
-            this.submitData = {
-                sendAmount: null,
-            }
-        }
     }
+  },
+  computed: {
+    ...mapGetters('freeos', ['liquidOptions']),
+    ...mapState({
+      accountName: state => state.account.accountName,
+      liquidBalance: state => state.account.claimInfo.liquidInAccount ? state.account.claimInfo.liquidInAccount.balance : null
+    })
+  },
+  methods: {
+    ...mapActions('transfer', ['transferTokens']),
+    ...mapActions('account', ['getAccountInfo']),
+    submit () {
+      const self = this
+    },
+    resetForm () {
+      this.submitData = {
+        sendAmount: null
+      }
+    }
+  }
 }
 </script>
 

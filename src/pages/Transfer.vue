@@ -136,60 +136,60 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import {
-    getAbsoluteAmount
+  getAbsoluteAmount
 } from '@/utils/currency'
 
 export default {
-    name: 'Transfer',
-    data() {
-        return {
-            tab: 'send',
-            submitData: {
-                to: null,
-                token: null,
-                quantity: null,
-                memo: '',
-                from: null,
-            },
-            isShowApprovedDialog: false,
-            isShowFailedDialog: false
-        }
-    },
-    computed: {
-        ...mapGetters('freeos', ['accountName', 'XPRBalance', 'liquidFreeos','isAuthenticated']),
-        tokensSelectOptions() {
-            const types = [];
-            if(this.XPRBalance > 0) {
-                types.push('XPR')
-            }
-            if(this.liquidFreeos > 0) {
-                types.push('FREEOS');
-                this.submitData.token = 'FREEOS';
-            }
-            return types
-        },
-        isFormFilled() {
-            return !Object.values(this.submitData).some(x => (x === null || x === ''))
-        }
-    },
-    methods: {
-        ...mapActions('freeos', ['fetch', 'transfer']),
-        async submit() {
-            this.submitData.from = this.accountName;
-            var result = await this.transfer(this.submitData);
-            console.log('resultR', result)
-            this.resetForm();
-        },
-        resetForm() {
-            this.submitData = {
-                to: null,
-                token: null,
-                quantity: null,
-                memo: '',
-                from: null
-            }
-        }
+  name: 'Transfer',
+  data () {
+    return {
+      tab: 'send',
+      submitData: {
+        to: null,
+        token: null,
+        quantity: null,
+        memo: '',
+        from: null
+      },
+      isShowApprovedDialog: false,
+      isShowFailedDialog: false
     }
+  },
+  computed: {
+    ...mapGetters('freeos', ['accountName', 'XPRBalance', 'liquidFreeos', 'isAuthenticated']),
+    tokensSelectOptions () {
+      const types = []
+      if (this.XPRBalance > 0) {
+        types.push('XPR')
+      }
+      if (this.liquidFreeos > 0) {
+        types.push('FREEOS')
+        this.submitData.token = 'FREEOS'
+      }
+      return types
+    },
+    isFormFilled () {
+      return !Object.values(this.submitData).some(x => (x === null || x === ''))
+    }
+  },
+  methods: {
+    ...mapActions('freeos', ['fetch', 'transfer']),
+    async submit () {
+      this.submitData.from = this.accountName
+      var result = await this.transfer(this.submitData)
+      console.log('resultR', result)
+      this.resetForm()
+    },
+    resetForm () {
+      this.submitData = {
+        to: null,
+        token: null,
+        quantity: null,
+        memo: '',
+        from: null
+      }
+    }
+  }
 }
 </script>
 
