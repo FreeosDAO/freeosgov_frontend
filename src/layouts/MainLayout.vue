@@ -105,7 +105,7 @@ const menuList = [
     icon: require('@/assets/register.svg'),
     label: 'Re-register',
     separator: true,
-    route: '/register'
+    route: '/re-register'
   },
   {
     icon: require('@/assets/proton.svg'),
@@ -148,7 +148,11 @@ export default {
       }
     },
     onSelectMenu (menuItem) {
-      (this.$route.path !== menuItem.route) && this.$router.push(menuItem.route)
+      if(!menuItem.route.startsWith("http")){
+        (this.$route.path !== menuItem.route) && this.$router.push(menuItem.route)
+      }else{
+        window.open(menuItem.route, '_blank');
+      }
       this.selectedItemLabel = menuItem.label
     },
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),

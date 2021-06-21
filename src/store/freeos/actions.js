@@ -47,14 +47,13 @@ export async function transfer ({ state }, submitData) {
   var result = await FreeosBlockChainState.getInstance().transfer(submitData)
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
-  console.log('Result of claim', result)
+  console.log('Result of transfer', result)
 }
 
 export async function register () {
   var result = await FreeosBlockChainState.getInstance().register()
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
-
-  console.log('Result of claim', result)
+  return result;
 }
 
 export async function claim () {
@@ -78,10 +77,26 @@ export async function unstake () {
   console.log('Result of unstake', result)
 }
 
-export async function cancelUnstake() {
+export async function cancelUnstake () {
   var result = await FreeosBlockChainState.getInstance().cancelUnstake()
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
   console.log('Result of cancelUnstake', result)
 }
 
+export async function convertOptions({ state }, submitData) {
+  var result = await FreeosBlockChainState.getInstance().convertOptions(submitData)
+  // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
+
+  console.log('Result of convertOptions', result)
+}
+
+
+
+
+export async function unvest() {
+  var result = await FreeosBlockChainState.getInstance().unvest()
+  // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
+
+  console.log('Result of unvest', result)
+}

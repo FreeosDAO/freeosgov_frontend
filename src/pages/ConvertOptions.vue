@@ -19,15 +19,15 @@
                     </div>
                     <div class="col-xs-1"></div>
                     <div class="col-xs-6 col-sm-7">
-                        <q-input v-model="submitData.sendAmount" type="number" outlined dense />
+                        <q-input v-model="sendAmount" type="number" outlined dense />
                     </div>
                 </div>
-                <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs">
+                <div style="align-items: center;" class="row justify-center q-mb-md q-pb-none">
                     <div class="col-xs-5 col-sm-4">
                     </div>
                     <div class="col-xs-1"></div>
                     <div class="col-xs-6 col-sm-7">
-                        <q-btn unelevated no-caps outline :disable="!isFormFilled" color="primary" v-if="!isAuthenticated" @click="submit()">Convert to Tokens</q-btn>
+                        <q-btn unelevated no-caps outline :disable="!sendAmount && sendAmount > 0 && sendAmount <= liquidOptions" color="primary" v-if="isAuthenticated" @click="submit()">Convert to Tokens</q-btn>
 
                     </div>
 
@@ -52,32 +52,24 @@ import {
 } from '@/utils/currency'
 
 export default {
-  name: 'Convert Options',
+  name: 'ConvertOptions',
   data () {
     return {
-      submitData: {
-        sendAmount: null
-      }
-
+      sendAmount: null
     }
   },
   computed: {
-    ...mapGetters('freeos', ['liquidOptions']),
-    ...mapState({
-      accountName: state => state.account.accountName,
-      liquidBalance: state => state.account.claimInfo.liquidInAccount ? state.account.claimInfo.liquidInAccount.balance : null
-    })
+    ...mapGetters('freeos', ['liquidOptions', 'isAuthenticated', 'accountName']),
   },
   methods: {
-    ...mapActions('transfer', ['transferTokens']),
-    ...mapActions('account', ['getAccountInfo']),
-    submit () {
-      const self = this
+    ...mapActions('freeos', ['convertOptions']),
+    async submit () {
+      var result = await this.convertOptions({owner: this.accountName, quantity: `${parseFloat(this.sendAmount).toFixed(process.env.TOKEN_PRECISION)} OPTION`})
+      console.log('resultR', result)
+      this.resetForm()
     },
     resetForm () {
-      this.submitData = {
-        sendAmount: null
-      }
+        this.sendAmount = null
     }
   }
 }

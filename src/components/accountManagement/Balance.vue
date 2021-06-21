@@ -27,18 +27,6 @@
         <div class="text-weight-bold  text-h6">{{userStake || '0'}}</div>
       </div>
 
-      <div class="flex justify-between q-mb-md">
-        <div class="flex items-center text-h6 text-weight-bold" style="color: #00a1ed">
-          <q-btn class="small-icon">
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-                <strong>
-                  This is tool tip,,
-                </strong>
-              </q-tooltip>
-            </q-btn>
-          Liquid FREEOS: </div>
-        <div class="col-5 text-primary text-h6">{{liquidFreeos || '0'}}</div>
-      </div>
 
       <!--<div class="flex justify-between q-mb-md">
         <div class="flex items-center text-subtitle1 text-weight-bold" style="color: #00a1ed">
@@ -56,15 +44,17 @@
                 </strong>
               </q-tooltip>
             </q-btn>
-          Vested FREEOS: </div>
-        <div class="text-left  text-h6">{{vestedOptions || '0'}}</div>
+          Vested Options: </div>
+        <div class="col-5   text-h6">{{vestedOptions || '0'}}</div>
         <q-btn
+        :disable="!canUnvest || !vestedOptions"
+        class="q-mt-lg"
         unelevated
         no-caps
         size="lg"
         outline
+        @click="submit()"
          color="primary"
-        v-if="canUnvest"
         >Unvest</q-btn>
       </div>
 
@@ -80,9 +70,10 @@ export default {
     ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions'])
   },
   methods: {
-    ...mapActions({
-      unvest: 'freeos/unVest'
-    })
+        ...mapActions('freeos', ['monitorBlockChain', 'unvest']),
+        async submit() {
+           var result = await this.unvest();
+        },
   },
   components: {
     BalanceVest

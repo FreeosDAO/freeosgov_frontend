@@ -82,3 +82,6 @@ export const setisAuthenticated = (state, isAuthenticated) => {
 export const setallIterations = (state, allIterations) => {
   state.allIterations = allIterations
 }
+export const setunstakingIteration = (state, unstakingIteration) => {
+  state.unstakingIteration = unstakingIteration
+}

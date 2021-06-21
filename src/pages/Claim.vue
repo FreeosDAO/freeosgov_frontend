@@ -33,28 +33,28 @@
             <b>Freeos system is not currently operational. Please check back later.</b>
         </div>
         <div v-if="isFreeosEnabled">
-            <div class="q-ma-md">
+            <!--<div class="q-ma-md">
                 <p class="q-ma-none"><strong>COMBINED TOTAL</strong></p>
                 <p class="text-bold text-h1" style="line-height:.8;">{{totalFreeos}}</p>
-            </div>
+            </div>-->
             <div class="panel-wrap panel-top-total q-pa-lg">
                 <div class="row">
                     <div class="col">
-                        <p class="" style="line-height:.8;"><strong>FREEOS TOKENS</strong></p>
-                        <p class="text-bold text-h4" style="line-height:.8;">{{liquidFreeos}}</p>
+                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>OPTIONS</strong></p>
+                        <p class="text-bold text-h3" style="line-height:1;">{{liquidOptions}}</p>
                     </div>
                     <div class="col">
-                        <p class="" style="line-height:.8;"><strong>FREEOS OPTIONS</strong></p>
-                        <p class="text-bold text-h4" style="line-height:.8;">{{liquidOptions}}</p>
+                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>FREEOS</strong></p>
+                        <p class="text-bold text-h3" style="line-height:1;">{{liquidFreeos}}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="add-bg-white" v-if="isFreeosEnabled">
             <div class="flex justify-between add-custome-width">
-                <div class="text-left">Note: {{notes}}</div>
-                <div class="wrap-avatar" style="margin-left:-10px;">
-                    <div class="avatar q-hidden" @click="startClaim()" v-bind:class="{'disable-btn': !canClaim}">
+                <div class="text-left" style="flex:1">Note: {{notes}}</div>
+                <div class="wrap-avatar">
+                    <div class="avatar claim-btn" @click="startClaim()" v-bind:class="{'disable-btn': !canClaim}">
                         <q-icon size="md" style="margin-top: -50px; margin-bottom: 15px;" v-bind:class="{'hide': canClaim}">
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                 <g>
@@ -66,130 +66,81 @@
                       V317.241z" />
                                     </g>
                                 </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
-                                <g>
-                                </g>
                             </svg>
                         </q-icon>
                         <svg style="position: absolute;width: 130px;height: 130px;top:50%;left:50%;transform:translate(-50%,-50%)" version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
-                            <path style="opacity:.1" fill="#FFFFFF" d="M50.5,15.6c-19.2,0-34.8,15.6-34.8,34.8s15.6,34.8,34.8,34.8s34.8-15.6,34.8-34.8S69.8,15.6,50.5,15.6z
-
- M38.2,72.9c-2.4,0-4.5-0.9-6.1-2.3l0,0c-4.3-4-7.4-9.4-8.5-15.4c-0.3-1.5-0.4-3.1-0.4-4.7c0-15.1,12.2-27.3,27.3-27.3
-
-c1.5,0,2.9,0.1,4.3,0.3c0,0,0.1,0,0.1,0c-4.7,2.1-8,6-8.8,11.3l0,0c0,0,0,0,0,0C46,35.3,46,35.8,46,36.3l0,0c0,0,0,0.1,0,0.3
-
-c0,0.1,0,0.1,0,0.2c0,0.2,0,0.3,0,0.5l0,0c-0.1,2.3-0.1,5.9,0.5,10.3l-8.8,3.2c-0.6,0.2-0.9,0.9-0.7,1.5l0.4,1
-
-c1.4,3.8,5.8,5.3,9.3,3.3l0.8-0.5l0.2-0.1l0,0.3c0.2,3.3,0,5.9-0.2,7.5l-0.1,0c0,0.3,0,0.5-0.1,0.8c-0.1,0.9-0.3,1.4-0.3,1.5
-
-C45.9,70.1,42.4,72.9,38.2,72.9z M50.5,77.8c-1.6,0-3.1-0.1-4.6-0.4c0,0,0,0,0,0h0c4.9-2.2,8.4-6.4,9-12.1c0.3-2.1,0.8-7.4-0.1-13.6
-
-l9-5.4c1-0.6,1.4-1.8,1-2.9l-0.1-0.2c-0.4-1.2-1.7-1.7-2.9-1.3l-8,2.9l-0.1,0l0-0.1c-0.4-3.7-0.4-6.1-0.3-7.1l0,0
-
-c0.3-6.9,4.4-9.8,9.4-9.7c2.1,0,4.1,0.8,5.7,2c0.4,0.3,0.8,0.7,1.1,1.1c4.1,4,6.9,9.4,7.8,15.3c0.2,1.3,0.3,2.7,0.3,4.1
-
-C77.9,65.5,65.6,77.8,50.5,77.8z" />
-                            <g>
-                                <path fill="#FFFFFF" d="M14.9,51.4c0-4.7,3.5-7.8,8-7.8c3.5,0,5.4,1.8,6.5,3.7l-2.8,1.4c-0.6-1.2-2-2.2-3.7-2.2
-
-c-2.6,0-4.6,2.1-4.6,5s2,5,4.6,5c1.7,0,3-1,3.7-2.2l2.8,1.3c-1.1,1.9-3,3.7-6.5,3.7C18.5,59.2,14.9,56,14.9,51.4z" />
-                                <path fill="#FFFFFF" d="M31.3,43.8h3.2v12.3h6.4v2.8h-9.6V43.8z" />
-                                <path fill="#FFFFFF" d="M52.8,56.3h-6.8l-1,2.6h-3.5l5.9-15.2h4l5.8,15.2h-3.5L52.8,56.3z M46.9,53.5h5l-2.5-7L46.9,53.5z" />
-                                <path fill="#FFFFFF" d="M58.7,43.8h3.2v15.2h-3.2V43.8z" />
-                                <path fill="#FFFFFF" d="M78.1,48l-4.3,10.9h-1.4L68.2,48v10.9h-3.2V43.8h4.5l3.7,9.5l3.7-9.5h4.5v15.2h-3.3V48z" />
-                            </g>
-                            <g>
-                                <path fill="#FFFFFF" d="M23.8,68.6l-2.6-3.9h1.3l1.8,2.9l1.8-2.9h1.3L25,68.6v2.8h-1.2V68.6z" />
-                                <path fill="#FFFFFF" d="M26.7,68.9c0-1.4,0.9-2.5,2.5-2.5c1.5,0,2.5,1.1,2.5,2.5c0,1.4-0.9,2.5-2.5,2.5
-
-C27.7,71.4,26.7,70.3,26.7,68.9z M30.6,68.9c0-0.8-0.5-1.6-1.4-1.6c-0.9,0-1.4,0.7-1.4,1.6c0,0.9,0.5,1.6,1.4,1.6
-
-C30.1,70.5,30.6,69.8,30.6,68.9z" />
-                                <path fill="#FFFFFF" d="M36,70.7c-0.4,0.4-0.9,0.8-1.7,0.8c-1,0-1.5-0.5-1.5-1.5v-3.4h1v3c0,0.7,0.4,1,1,1c0.5,0,1-0.3,1.2-0.6
-
-v-3.4h1v4.8h-1V70.7z" />
-                                <path fill="#FFFFFF" d="M38.4,66.5h1v0.7c0.4-0.5,0.9-0.8,1.6-0.8v1c-0.1,0-0.2,0-0.3,0c-0.4,0-1,0.3-1.2,0.6v3.3h-1V66.5z" />
-                                <path fill="#FFFFFF" d="M44.5,64.7h4.6v1h-3.4v1.7H49v1h-3.3v2.9h-1.2V64.7z" />
-                                <path fill="#FFFFFF" d="M52.5,68.8h-1.2v2.5h-1.2v-6.7h2.9c1.3,0,2.2,0.9,2.2,2.1c0,1.2-0.8,1.8-1.6,2l1.6,2.6h-1.3L52.5,68.8z
-
- M52.9,65.7h-1.6v2.1h1.6c0.7,0,1.1-0.4,1.1-1.1S53.6,65.7,52.9,65.7z" />
-                                <path fill="#FFFFFF" d="M56.4,64.7H61v1h-3.4v1.7h3.3v1h-3.3v1.8H61v1h-4.6V64.7z" />
-                                <path fill="#FFFFFF" d="M62.2,64.7h4.6v1h-3.4v1.7h3.3v1h-3.3v1.8h3.4v1h-4.6V64.7z" />
-                                <path fill="#FFFFFF" d="M71.1,64.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S67.6,70,67.6,68S69.1,64.5,71.1,64.5z M71.1,65.6
-
-c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C73.3,66.6,72.4,65.6,71.1,65.6z" />
-                                <path fill="#FFFFFF" d="M75.8,69.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
-
-c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8c0,0.5,0.7,0.7,1.5,0.9
-
-c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L75.8,69.5z" />
-                                <path fill="#FFFFFF" d="M33.4,76.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S30,82,30,80S31.4,76.5,33.4,76.5z M33.4,77.6
-
-c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C35.6,78.6,34.7,77.6,33.4,77.6z" />
-                                <path fill="#FFFFFF" d="M37.9,76.7h2.9c1.4,0,2.2,1,2.2,2.1c0,1.1-0.8,2.1-2.2,2.1h-1.8v2.5h-1.2V76.7z M40.7,77.7h-1.6v2.1h1.6
-
-c0.7,0,1.1-0.4,1.1-1.1S41.4,77.7,40.7,77.7z" />
-                                <path fill="#FFFFFF" d="M45.6,77.7h-2v-1h5.2v1h-2v5.6h-1.2V77.7z" />
-                                <path fill="#FFFFFF" d="M49.8,76.7H51v6.7h-1.2V76.7z" />
-                                <path fill="#FFFFFF" d="M55.5,76.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S52.1,82,52.1,80S53.5,76.5,55.5,76.5z M55.5,77.6
-
-c-1.3,0-2.2,1-2.2,2.4c0,1.4,0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C57.7,78.6,56.8,77.6,55.5,77.6z" />
-                                <path fill="#FFFFFF" d="M61.2,78.5v4.9H60v-6.7h1.2l3.4,4.7v-4.7h1.2v6.7h-1.1L61.2,78.5z" />
-                                <path fill="#FFFFFF" d="M67.5,81.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
-
-c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8c0,0.5,0.7,0.7,1.5,0.9
-
-c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L67.5,81.5z" />
-                            </g>
+  <path style="opacity:.1" class="st0" d="M50.5,15.6c-19.2,0-34.8,15.6-34.8,34.8s15.6,34.8,34.8,34.8s34.8-15.6,34.8-34.8S69.8,15.6,50.5,15.6z
+	 M38.2,72.9c-2.4,0-4.5-0.9-6.1-2.3l0,0c-4.3-4-7.4-9.4-8.5-15.4c-0.3-1.5-0.4-3.1-0.4-4.7c0-15.1,12.2-27.3,27.3-27.3
+	c1.5,0,2.9,0.1,4.3,0.3h0.1c-4.7,2.1-8,6-8.8,11.3l0,0l0,0c-0.1,0.5-0.1,1-0.1,1.5l0,0c0,0,0,0.1,0,0.3c0,0.1,0,0.1,0,0.2
+	c0,0.2,0,0.3,0,0.5l0,0c-0.1,2.3-0.1,5.9,0.5,10.3l-8.8,3.2c-0.6,0.2-0.9,0.9-0.7,1.5l0.4,1c1.4,3.8,5.8,5.3,9.3,3.3l0.8-0.5
+	l0.2-0.1v0.3c0.2,3.3,0,5.9-0.2,7.5h-0.1c0,0.3,0,0.5-0.1,0.8C47.2,65.5,47,66,47,66.1C45.9,70.1,42.4,72.9,38.2,72.9z M50.5,77.8
+	c-1.6,0-3.1-0.1-4.6-0.4l0,0l0,0c4.9-2.2,8.4-6.4,9-12.1c0.3-2.1,0.8-7.4-0.1-13.6l9-5.4c1-0.6,1.4-1.8,1-2.9l-0.1-0.2
+	c-0.4-1.2-1.7-1.7-2.9-1.3l-8,2.9h-0.1v-0.1c-0.4-3.7-0.4-6.1-0.3-7.1l0,0c0.3-6.9,4.4-9.8,9.4-9.7c2.1,0,4.1,0.8,5.7,2
+	c0.4,0.3,0.8,0.7,1.1,1.1c4.1,4,6.9,9.4,7.8,15.3c0.2,1.3,0.3,2.7,0.3,4.1C77.9,65.5,65.6,77.8,50.5,77.8z"/>
+<g>
+	<path class="st0" d="M12.9,49.6c0-5.2,3.9-8.6,8.8-8.6c3.9,0,5.9,2,7.2,4.1l-3.1,1.5c-0.7-1.3-2.2-2.4-4.1-2.4
+		c-2.9,0-5.1,2.3-5.1,5.5s2.2,5.5,5.1,5.5c1.9,0,3.3-1.1,4.1-2.4l3.1,1.4c-1.2,2.1-3.3,4.1-7.2,4.1C16.9,58.2,12.9,54.7,12.9,49.6z"
+		/>
+	<path class="st0" d="M31,41.2h3.5v13.5h7v3.1H31C31,57.9,31,41.2,31,41.2z"/>
+	<path class="st0" d="M54.6,55h-7.5l-1.1,2.9h-3.9l6.5-16.7h4.4l6.4,16.7h-3.9L54.6,55z M48.1,51.9h5.5l-2.8-7.7L48.1,51.9z"/>
+	<path class="st0" d="M61.1,41.2h3.5V58h-3.5V41.2z"/>
+	<path class="st0" d="M82.5,45.9l-4.7,12h-1.5l-4.6-12v12h-3.5V41.2h5l4.1,10.5l4.1-10.5h5V58h-3.6C82.5,58,82.5,45.9,82.5,45.9z"/>
+</g>
+<g>
+	<path class="st0" d="M23.8,67.6l-2.6-3.9h1.3l1.8,2.9l1.8-2.9h1.3L25,67.6v2.8h-1.2V67.6z"/>
+	<path class="st0" d="M26.7,67.9c0-1.4,0.9-2.5,2.5-2.5c1.5,0,2.5,1.1,2.5,2.5s-0.9,2.5-2.5,2.5C27.7,70.4,26.7,69.3,26.7,67.9z
+		 M30.6,67.9c0-0.8-0.5-1.6-1.4-1.6s-1.4,0.7-1.4,1.6s0.5,1.6,1.4,1.6S30.6,68.8,30.6,67.9z"/>
+	<path class="st0" d="M36,69.7c-0.4,0.4-0.9,0.8-1.7,0.8c-1,0-1.5-0.5-1.5-1.5v-3.4h1v3c0,0.7,0.4,1,1,1c0.5,0,1-0.3,1.2-0.6v-3.4h1
+		v4.8h-1V69.7z"/>
+	<path class="st0" d="M38.4,65.5h1v0.7c0.4-0.5,0.9-0.8,1.6-0.8v1c-0.1,0-0.2,0-0.3,0c-0.4,0-1,0.3-1.2,0.6v3.3h-1L38.4,65.5
+		L38.4,65.5z"/>
+	<path class="st0" d="M44.5,63.7h4.6v1h-3.4v1.7H49v1h-3.3v2.9h-1.2V63.7z"/>
+	<path class="st0" d="M52.5,67.8h-1.2v2.5h-1.2v-6.7H53c1.3,0,2.2,0.9,2.2,2.1s-0.8,1.8-1.6,2l1.6,2.6h-1.3L52.5,67.8z M52.9,64.7
+		h-1.6v2.1h1.6c0.7,0,1.1-0.4,1.1-1.1S53.6,64.7,52.9,64.7z"/>
+	<path class="st0" d="M56.4,63.7H61v1h-3.4v1.7h3.3v1h-3.3v1.8H61v1h-4.6V63.7z"/>
+	<path class="st0" d="M62.2,63.7h4.6v1h-3.4v1.7h3.3v1h-3.3v1.8h3.4v1h-4.6C62.2,70.2,62.2,63.7,62.2,63.7z"/>
+	<path class="st0" d="M71.1,63.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S67.6,69,67.6,67S69.1,63.5,71.1,63.5z M71.1,64.6
+		c-1.3,0-2.2,1-2.2,2.4s0.9,2.4,2.2,2.4c1.3,0,2.2-1,2.2-2.4C73.3,65.6,72.4,64.6,71.1,64.6z"/>
+	<path class="st0" d="M75.8,68.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
+		c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8s0.7,0.7,1.5,0.9
+		c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L75.8,68.5z"/>
+	<path class="st0" d="M33.4,75.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S30,81,30,79S31.4,75.5,33.4,75.5z M33.4,76.6
+		c-1.3,0-2.2,1-2.2,2.4s0.9,2.4,2.2,2.4s2.2-1,2.2-2.4C35.6,77.6,34.7,76.6,33.4,76.6z"/>
+	<path class="st0" d="M37.9,75.7h2.9c1.4,0,2.2,1,2.2,2.1s-0.8,2.1-2.2,2.1H39v2.5h-1.2L37.9,75.7L37.9,75.7z M40.7,76.7h-1.6v2.1
+		h1.6c0.7,0,1.1-0.4,1.1-1.1S41.4,76.7,40.7,76.7z"/>
+	<path class="st0" d="M45.6,76.7h-2v-1h5.2v1h-2v5.6h-1.2V76.7z"/>
+	<path class="st0" d="M49.8,75.7H51v6.7h-1.2V75.7z"/>
+	<path class="st0" d="M55.5,75.5c2,0,3.4,1.5,3.4,3.4s-1.4,3.4-3.4,3.4S52.1,81,52.1,79S53.5,75.5,55.5,75.5z M55.5,76.6
+		c-1.3,0-2.2,1-2.2,2.4s0.9,2.4,2.2,2.4s2.2-1,2.2-2.4S56.8,76.6,55.5,76.6z"/>
+	<path class="st0" d="M61.2,77.5v4.9H60v-6.7h1.2l3.4,4.7v-4.7h1.2v6.7h-1.1L61.2,77.5z"/>
+	<path class="st0" d="M67.5,80.5c0.5,0.5,1.2,0.9,2.1,0.9c1,0,1.3-0.5,1.3-0.9c0-0.6-0.7-0.8-1.5-1c-1.1-0.3-2.4-0.6-2.4-2
+		c0-1.1,1-1.9,2.4-1.9c1,0,1.9,0.3,2.5,0.9l-0.7,0.9c-0.5-0.5-1.2-0.8-1.9-0.8c-0.7,0-1.1,0.3-1.1,0.8s0.7,0.7,1.5,0.9
+		c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L67.5,80.5z"/>
+</g>
                         </svg>
 
                     </div>
 
                 </div>
 
-                <div class="text-caption flex column text-right">
-                    <span>Next Claim:</span>
-                    <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0; text-align: right;" class="text-caption text-capitalize">
-                        Claim Now
-                    </button>
-                    <button style="color: #00a1ed; margin-top: -5px; background: none; border: none; outline: none; cursor: pointer; padding-right: 0; text-align: right;" class="text-caption text-capitalize" @click="startClaim()">{{nextClaimDescription}}</button>
+                <div class="flex column text-right"  style="flex:1">
+                    <div>Next Claim:</div>
+                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: right;line-height:1.2;" class="text-capitalize">
+                            {{nextClaimDescription}}
+                            <a class="color: #00a1ed;text-caption text-capitalize;cursor: pointer;" @click="startClaim()" v-if="canClaim">
+                                Claim
+                            </a>
+                    </div>
                 </div>
             </div>
 
             <div class="flex justify-center text-center" style="align-items:center;height:80px;margin-top:-5px;">
-                    <div class="" v-if="canClaim">
-                        Claim now to claim your weekly<br />
-                        FREEOS.
-                    </div>
-                    <div class="text-subtitle1" v-if="!canClaim" v-html="reasonCannotClaimHtml">
-                    </div>
+                <div class="" v-if="canClaim">
+                    Claim now to claim your weekly<br />
+                    FREEOS.
+                </div>
+                <div class="text-subtitle1" v-if="!canClaim" v-html="reasonCannotClaimHtml">
+                </div>
             </div>
 
         </div>
@@ -247,73 +198,87 @@ c1.1,0.3,2.4,0.6,2.4,2.1c0,1.1-0.8,2.1-2.6,2.1c-1.2,0-2.1-0.4-2.7-1.1L67.5,81.5z
 
 <script>
 import {
-  mapState,
-  mapActions,
-  mapGetters
+    mapState,
+    mapActions,
+    mapGetters
 } from 'vuex'
 import {
-  FreeosBlockChainState
+    FreeosBlockChainState
 } from '../services/FreeosBlockChainState'
 import Balance from 'components/accountManagement/Balance'
 import ClaimCompleteDialog from 'src/components/stake/ClaimCompleteDialog.vue'
 
 export default {
-  name: 'Claim',
-  data () {
-    return {
-      isShowClaimCompleteDialog: false
-    }
-  },
-  components: {
-    Balance,
-    ClaimCompleteDialog
-  },
-  computed: {
-    ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
-    ...mapState({
-      stakedInfo: state => state.account.claimInfo.stakedInfo,
-      liquidInAccount: state => state.account.claimInfo.liquidInAccount,
-      accountName: state => state.account.accountName
-    }),
-    nextClaimDescription: function () {
-      var daysToNextClaim = 1
-      if (daysToNextClaim == 1) {
-        return 'tomorrow'
-      } else if (daysToNextClaim > 1) {
-        return daysToNextClaim + ' day time'
-      } else {
-        return 'NOW!'
-      }
+    name: 'Claim',
+    data() {
+        return {
+            isShowClaimCompleteDialog: false
+        }
     },
-    notes: function () {
-      return this.currentIteration ? ('Week ' + this.currentIteration.iteration_number) : ''
+    components: {
+        Balance,
+        ClaimCompleteDialog
     },
-    reasonCannotClaimHtml: function () {
-      return this.$sanitize(this.reasonCannotClaim)
-    },
-    registerModalTrigger: function () {
-      return (this.isRegistered === false)
-    }
-  },
-  methods: {
-    ...mapActions('freeos', ['monitorBlockChain', 'fetch', 'register', 'claim']),
-    async registerUser () {
-      await this.register()
-      await this.fetch()
-    },
-    async startClaim () {
-      var result = await this.claim()
-      console.log('claim', result)
-      this.isShowClaimCompleteDialog = true
-    }
+    computed: {
+        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
+        ...mapState({
+            stakedInfo: state => state.account.claimInfo.stakedInfo,
+            liquidInAccount: state => state.account.claimInfo.liquidInAccount,
+            accountName: state => state.account.accountName
+        }),
+        nextClaimDescription: function () {
+            const dateEnd =  Math.floor(Date.parse(this.currentIteration.end + "Z") / 1000);
+            const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000);
+            var daysToNextClaim = this.secondsToDhms(dateEnd - currentTimeStamp);
 
-  },
-  async created () {
-    await this.fetch()
-  },
-  async mounted () {
-    this.monitorBlockChain()
-  }
+            return daysToNextClaim
+        },
+        notes: function () {
+            return this.currentIteration ? ('Week ' + this.currentIteration.iteration_number) : ''
+        },
+        reasonCannotClaimHtml: function () {
+            return this.$sanitize(this.reasonCannotClaim)
+        },
+        registerModalTrigger: function () {
+            return (this.isRegistered === false)
+        },
+    },
+    methods: {
+        ...mapActions('freeos', ['monitorBlockChain', 'fetch', 'register', 'claim']),
+        async registerUser() {
+            await this.register()
+            //await this.fetch()
+        },
+        async startClaim() {
+            var result = await this.claim()
+            console.log('claim', result)
+            //this.isShowClaimCompleteDialog = true
+        },
+        secondsToDhms(seconds) {
+            seconds = Number(seconds);
+            var d = Math.floor(seconds / (3600 * 24));
+            var h = Math.floor(seconds % (3600 * 24) / 3600);
+            var m = Math.floor(seconds % 3600 / 60);
+            var s = Math.floor(seconds % 60);
+
+            var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days") : "";
+            var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours") : "";
+
+            if(dDisplay){
+                return dDisplay
+            }else{
+               return  hDisplay
+            }
+        }
+
+
+    },
+    async created() {
+        await this.fetch()
+    },
+    async mounted() {
+        this.monitorBlockChain()
+    }
 }
 </script>
 
@@ -337,35 +302,44 @@ $panel-width: 360px;
     border-radius: $panel-border-radius !important;
     box-shadow: none;
 }
-.panel-strong{
-     border: 2px solid #555 !important;
+
+.panel-strong {
+    border: 2px solid #555 !important;
 }
-.panel-info{
-     border: 2px solid var(--q-color-primary) !important;
+
+.panel-info {
+    border: 2px solid var(--q-color-primary) !important;
 }
-.panel-warning{
-     border: 2px solid var(--q-color-warning) !important;
+
+.panel-warning {
+    border: 2px solid var(--q-color-warning) !important;
 }
 
 .panel-top-total {
     border: 1px solid #ccc;
     border-radius: $panel-border-radius;
-    padding-bottom:30px;
+    padding-bottom: 30px;
     margin-bottom: -20px;
+}
+
+.claim-btn{
+    cursor:pointer;
+    .st0{fill:#FFFFFF;}
 }
 
 .add-bg {
     position: relative;
-    padding:10px 0;
-    &:after{
-      content:"";
-      width:100%;
-      position: absolute;
-      left:0;
-      top:0;
-      height:100%;
-      background: url('../assets/bluebg.svg') bottom center no-repeat;
-      background-size:4096px;
+    padding: 10px 0;
+
+    &:after {
+        content: "";
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background: url('../assets/bluebg.svg') bottom center no-repeat;
+        background-size: 4096px;
     }
 
     .add-blue-bg {
@@ -410,7 +384,7 @@ $panel-width: 360px;
             border: 5px solid #fff;
             position: relative;
             background-color: #cccccc;
-            margin-top: -4rem;
+            margin: -4.5rem -10px 0;
             /* margin-left:  35px; */
             opacity: .9;
             width: 8rem;
@@ -430,10 +404,12 @@ $panel-width: 360px;
                 height: 70px;
                 z-index: -1;
             }
-            .disable-btn.avatar:before{
+
+            .disable-btn.avatar:before {
                 background-color: #cccccc;
                 opacity: .8;
             }
+
             .avatar {
                 display: flex;
                 justify-content: center;

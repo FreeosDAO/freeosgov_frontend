@@ -92,6 +92,12 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'reguser')
   }
 
+  async convertOptions(sendData) {
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'convert', sendData)
+  }
+
+
+
   async sendTransaction (contractAccountName, contractName, extraData) {
     console.log('extraData', extraData)
 
@@ -123,7 +129,7 @@ export class FreeosBlockChainState extends EventEmitter {
 
       setTimeout(() => {
         this.fetch() // Do a manual fetch of current state
-      }, 500)
+      }, process.env.FETCH_DELAY)
 
       return result
     } catch (e) {
@@ -160,6 +166,12 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'unstake')
   }
 
+  async unvest() {
+    console.log('unstake')
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'unvest')
+  }
+
+
 async cancelUnstake () {
   console.log('cancelUnstake')
   return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'unstakecncl')
@@ -180,6 +192,7 @@ async cancelUnstake () {
 
     var masterswitch = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'parameters', null, {
       lower_bound: 'masterswitch',
+      upper_bound: 'masterswitch',
       limit: 1
     })
     console.log('masterswitch', masterswitch)
@@ -189,12 +202,20 @@ async cancelUnstake () {
     // {"iteration_number":1,"start":"2021-04-27T22:59:59.000","end":"2021-04-28T04:00:00.000","claim_amount":100,"tokens_required":0}
     var currentIterationPromise = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'iterations')
 
+
+
+    if (currentIterationPromise && !Array.isArray(currentIterationPromise)){
+      var newcurrentIterationPromise = [];
+      newcurrentIterationPromise.push(currentIterationPromise);
+      currentIterationPromise = newcurrentIterationPromise;
+    }
+
     // {"stake":"0.0000 XPR","account_type":101,"registered_time":"2021-03-01T07:10:04","staked_iteration":0,"votes":0,"issuances":0,"last_issuance":0}
 
     // {"usercount":36,"claimevents":58,"unvestpercent":0,"unvestpercentiteration":1,"iteration":1,"failsafecounter":1}
     var bcStatisticsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'statistics')
     // Currently empty
-    var bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests')
+    var bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests', )
 
     var bcStateRequirementsPromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'stakereqs')
 
@@ -208,9 +229,12 @@ async cancelUnstake () {
 
     console.log('state.state.accountName', this.walletUser)
 
-    var dataRequests = [currentIterationPromise, bcStatisticsPromise, bcUnvestsPromise, bcStateRequirementsPromise]
+    var dataRequests = [currentIterationPromise, bcStatisticsPromise, bcStateRequirementsPromise]
 
     if (this.walletUser) {
+      bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests', this.walletUser.accountName)
+
+
       bcUserPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT, 'users')
       // {"rows":[{"balance":"24920.0000 XPR"}],"more":false,"next_key":""}
       var stakingCurrency = process.env.STAKING_CURRENCY || 'XPR'
@@ -226,31 +250,39 @@ async cancelUnstake () {
       })
       optionsPromise = this.getUserRecordAsNumber(process.env.AIRCLAIM_CONTRACT, 'accounts', {
         upper_bound: 'OPTION',
+        lower_bound: 'OPTION',
         limit: 1
       }, 'balance')
       bcVestaccountsPromise = this.getUserRecordAsNumber(process.env.AIRCLAIM_CONTRACT, 'vestaccounts', {
         upper_bound: 'OPTION',
+        lower_bound: 'OPTION',
         limit: 1
       }, 'balance')
       bcFreeosBalancePromise = this.getUserRecordAsNumber(process.env.FREEOSTOKENS_CONTRACT, 'accounts', {
         upper_bound: 'FREEOS',
+        lower_bound: 'FREEOS',
         limit: 1
       }, 'balance')
       bcAirkeyBalancePromise = this.getUserRecordAsNumber(process.env.AIRCLAIM_CONTRACT, 'accounts', {
+        lower_bound: 'AIRKEY',
         upper_bound: 'AIRKEY',
         limit: 1
       }, 'balance')
-      dataRequests = dataRequests.concat([bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise])
+      dataRequests = dataRequests.concat([bcUnvestsPromise, bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise])
     }
 
     var outputValues = await Promise.all(dataRequests) // .then((values) => {
-    let [currentIteration, bcStatistics, bcUnvests, bcStateRequirements, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance] = outputValues
+    let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance] = outputValues
     console.log('WE HAVE DATA', outputValues)
     if (!bcAirkeyBalance) bcAirkeyBalance = 0
     if (!liquidOptions) liquidOptions = 0
     if (!vestedOptions) vestedOptions = 0
     if (!freeosBalance) freeosBalance = 0
+
+    console.log('bcUnstaking', bcUnstaking);
+    var unstakingIteration = bcUnstaking && bcUnstaking.iteration ? bcUnstaking.iteration : 0;
     bcUnstaking = !!bcUnstaking;
+
 
     var iterations = this.getCurrentAndNextIteration(currentIteration)
 
@@ -258,11 +290,14 @@ async cancelUnstake () {
 
     console.log('currentIterationIdx', currentIterationIdx)
 
-    var unvestedAlready = bcUnvests != null && bcUnvests.iteration_number == currentIterationNumber
+    var unvestedAlready = bcUnvests != null && bcUnvests.iteration_number == currentIterationIdx
+    console.log('unvestedAlready', unvestedAlready)
+ console.log('bcUnvests', bcUnvests)
 
-    var canUnvest = bcUnvests != null && bcUnvests.unvestPercent > 0 && !unvestedAlready
-    console.log('bcStatistics', bcStatistics)
-    var registeredUserCount = bcStatistics.usercount
+    var canUnvest = bcStatistics && bcStatistics.unvestpercent > 0 && !unvestedAlready
+
+    var registeredUserCount = bcStatistics && bcStatistics.usercount ? bcStatistics.usercount : 0
+
     var stakeRequirement = null
     var userHasStaked = false
     var userClaimedAlready = false
@@ -275,9 +310,9 @@ async cancelUnstake () {
     var reasonCannotClaim = ''
 
     if (bcUser) { // Registered
-      for (var i = bcStateRequirements.length - 1; i > 0; --i) {
+      for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
         var stakeReq = bcStateRequirements[i]
-        if (registeredUserCount > stakeReq.threshold) {
+        if (registeredUserCount >= stakeReq.threshold) {
           stakeRequirement = stakeReq['requirement_' + String.fromCharCode(bcUser.account_type)] // ascii to char conversion (will be a 'd', 'e' or 'v')
           break
         }
@@ -318,9 +353,10 @@ async cancelUnstake () {
       unvests: bcUnvests,
       canUnvest: canUnvest,
       bcStateRequirements,
-
+      isFreeosEnabled: isFreeosEnabled,
       XPRBalance: bcXPRBalance,
       bcUnstaking,
+      unstakingIteration: unstakingIteration,
       vestedOptions,
       liquidFreeos: freeosBalance,
       airkeyBalance: bcAirkeyBalance,
@@ -334,7 +370,6 @@ async cancelUnstake () {
       totalFreeos: totalHolding,
       canClaim: userEligibleToClaim,
 
-      isFreeosEnabled: isFreeosEnabled,
       reasonCannotClaim: reasonCannotClaim
     }
 
@@ -409,7 +444,7 @@ async cancelUnstake () {
   getCurrentAndNextIteration (rows) {
     console.log('getCurrentAndNextIteration', rows)
 
-    const currentTimeStamp = new Date() // Math.floor((new Date()).getTime() / 1000)
+    const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000); // Math.floor((new Date()).getTime() / 1000)
     var nextIteration = {
       iteration_number: 0
     }
@@ -417,8 +452,8 @@ async cancelUnstake () {
 
     if (rows && rows.length) {
       rows.map((row, index) => {
-        const startTimeStamp = new Date(row.start)
-        const endTimeStamp = new Date(row.end)
+        const startTimeStamp = Math.floor(Date.parse(row.start + "Z") / 1000);
+        const endTimeStamp = Math.floor(Date.parse(row.end + "Z") / 1000);
 
         // console.log('startTimeStamp', startTimeStamp);
 
