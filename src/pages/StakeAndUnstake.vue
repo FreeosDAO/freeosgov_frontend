@@ -131,12 +131,38 @@ export default {
             }
         },
         async unstakeSubmit() {
-            var result = await this.unstake()
-            console.log('resultR', result)
+            try {  
+              var result = await this.unstake()
+              let responseMessage = result.processed.action_traces[0].console
+              console.log('resultR', result)
+              if (!responseMessage) {
+                responseMessage = 'Transfer successfully'
+              }
+              Notify.create({
+                message: responseMessage,
+                color: 'positive'
+              })
+              return result
+            } catch (e) {
+              return e
+            }
         },
         async cancelSubmit() {
-            var result = await this.cancelUnstake()
-            console.log('cancelUnstake', result)
+            try {  
+              var result = await this.cancelUnstake()
+              let responseMessage = result.processed.action_traces[0].console
+              console.log('resultR', result)
+              if (!responseMessage) {
+                responseMessage = 'Cancel Unstake successfully'
+              }
+              Notify.create({
+                message: responseMessage,
+                color: 'positive'
+              })
+              return result
+            } catch (e) {
+              return e
+            }
         },
         setCountdown(){
             const t = this;
