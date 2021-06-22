@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-xs-6 col-sm-8">
                         <q-input required v-model="submitData.quantity" type="number" outlined dense />
-                        <p class="q-mb-none text-grey" v-if="submitData.token === 'XPR'"><small>{{XPRBalance}}XPR available to transfer</small></p>
+                        <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{XPRBalance}}{{stakeCurrency}} available to transfer</small></p>
                         <p class="q-mb-none text-grey" v-if="submitData.token === 'FREEOS'"><small>{{liquidFreeos}}FREEOS available to transfer</small></p>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="text-h4 text-center">Receive Tokens</div>
                 <div class="q-mt-md text-center text-subtitle1">@{{accountName}}</div>
 
-                <q-btn href="https://www.protonswap.com/swap" class="q-mt-xl" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens? try Proton Swap</q-btn>
+                <q-btn @click="protonSwap()" href="https://www.protonswap.com/swap" class="q-mt-xl" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens? try Proton Swap</q-btn>
 
             </q-card>
 
@@ -143,7 +143,7 @@ export default {
   name: 'Transfer',
   data () {
     return {
-      tab: 'send',
+      stakeCurrency: process.env.STAKING_CURRENCY,
       submitData: {
         to: null,
         token: null,
@@ -160,7 +160,7 @@ export default {
     tokensSelectOptions () {
       const types = []
       if (this.XPRBalance > 0) {
-        types.push('XPR')
+        types.push(this.stakeCurrency)
       }
       if (this.liquidFreeos > 0) {
         types.push('FREEOS')
@@ -179,6 +179,9 @@ export default {
       var result = await this.transfer(this.submitData)
       console.log('resultR', result)
       this.resetForm()
+    },
+    protonSwap(){
+       window.open("https://www.protonswap.com/swap", '_blank');
     },
     resetForm () {
       this.submitData = {

@@ -90,7 +90,7 @@ const menuList = [
     route: '/transfer'
   },
   {
-    icon: require('@/assets/transfericon.svg'),
+    icon: require('@/assets/convert.svg'),
     label: 'Convert Options',
     separator: true,
     route: '/convert-options'

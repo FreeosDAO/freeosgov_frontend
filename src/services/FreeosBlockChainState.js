@@ -144,7 +144,7 @@ export class FreeosBlockChainState extends EventEmitter {
   async transfer (sendData) {
     console.log('sendData', sendData)
     var contract = process.env.FREEOSTOKENS_CONTRACT
-    if (sendData.token === 'XPR') {
+    if (sendData.token === process.env.STAKING_CURRENCY) {
       contract = process.env.CURRENCY_CONTRACT
     }
     sendData.quantity = `${parseFloat(sendData.quantity).toFixed(process.env.TOKEN_PRECISION)} ${sendData.token}`
@@ -183,7 +183,7 @@ async cancelUnstake () {
     sendData.from = this.walletUser ? this.walletUser.accountName : null
     sendData.to = process.env.AIRCLAIM_CONTRACT
     sendData.memo = 'freeos stake'
-    sendData.quantity = `${parseFloat(stakeRequirement).toFixed(process.env.TOKEN_PRECISION)} XPR`
+    sendData.quantity = `${parseFloat(stakeRequirement).toFixed(process.env.TOKEN_PRECISION)} stakeCurrency`
     return this.sendTransaction(process.env.CURRENCY_CONTRACT, 'transfer', sendData)
   }
 
@@ -237,9 +237,10 @@ async cancelUnstake () {
 
       bcUserPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT, 'users')
       // {"rows":[{"balance":"24920.0000 XPR"}],"more":false,"next_key":""}
-      var stakingCurrency = process.env.STAKING_CURRENCY || 'XPR'
+      var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
       bcXPRBalancePromise = this.getUserRecordAsNumber(process.env.CURRENCY_CONTRACT, 'accounts', {
-        upper_bound: stakingCurrency,
+        upper_bound: stakeCurrency,
+        lower_bound: stakeCurrency,
         limit: 1
       }, 'balance')
 

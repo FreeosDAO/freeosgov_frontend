@@ -13,15 +13,15 @@
                         more info, click here.</p>
 
                     <p class="text-center">In order to Claim your weekly FREEOS tokens, you need to stake </p>
-                    <h4 class="text-center text-h5 q-ma-xs q-mb-lg" style="line-height:1;">{{stakeRequirement}} XPR</h4>
+                    <h4 class="text-center text-h5 q-ma-xs q-mb-lg" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
                 </div>
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="bcUnstaking">
                     <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>You have unstaked</strong></p>
-                    <h4 class="text-h5 q-mt-xs q-mb-mb" style="line-height:1;">{{stakeRequirement}} XPR</h4>
-                    <p class="q-mb-md text-subtitle1" style="line-height:1.2;">Your are currently NOT eligiable to Claim your weekly FREEOS. You need a minimum {{stakeRequirement}} XPR to Claim. This can be rectified by vancelling the process if you wish</p>
-                    <p class="q-mb-lg text-subtitle1" style="line-height:1.2;">You are currently unstaking {{stakeRequirement}} XPR. The unstaking will complete <strong class="text-primary"> {{stakeIterationMsg}}</strong></p>
+                    <h4 class="text-h5 q-mt-xs q-mb-mb" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
+                    <p class="q-mb-md text-subtitle1" style="line-height:1.2;">Your are currently NOT eligiable to Claim your weekly FREEOS. You need a minimum {{stakeRequirement}} {{stakeCurrency}} to Claim. This can be rectified by vancelling the process if you wish</p>
+                    <p class="q-mb-lg text-subtitle1" style="line-height:1.2;">You are currently unstaking {{stakeRequirement}} {{stakeCurrency}}. The unstaking will complete <strong class="text-primary"> {{stakeIterationMsg}}</strong></p>
 
                     <q-btn unelevated outline :disable="XPRBalance < stakeRequirement" color="primary" v-if="isAuthenticated" @click="cancelSubmit()">Cancel Unstaking</q-btn>
 
@@ -29,9 +29,9 @@
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance < stakeRequirement && !userHasStaked">
                     <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>We see your balance is short on XPR You need to transfer the following to</strong></p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{stakeRequirement - XPRBalance}} XPR</h4>
-                    <q-btn href="https://www.protonswap.com/swap" class="q-mt-md" unelevated no-caps outline color="primary">Get XPR via ProtonSwap</q-btn>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>We see your balance is short on {{stakeCurrency}} You need to transfer the following to</strong></p>
+                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{stakeRequirement - XPRBalance}} {{stakeCurrency}}</h4>
+                    <q-btn href="https://www.protonswap.com/swap" class="q-mt-md" unelevated no-caps outline color="primary">Get {{stakeCurrency}} via ProtonSwap</q-btn>
                 </div>
 
                 <div class="panel panel-info q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking">
@@ -39,7 +39,7 @@
                     <p class="q-mb-md text-h4" style="line-height:1.2;">U've Staked</p>
 
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.2;">You've Staked so you can Claim, you've currently staked:</p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{userStake}} XPR</h4>
+                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{userStake}} {{stakeCurrency}}</h4>
                 </div>
 
                 <div class="panel panel-info q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance >= stakeRequirement && !userHasStaked">
@@ -47,14 +47,14 @@
                     <p class="q-mb-md text-h4" style="line-height:1.2;">Threshold Filling</p>
 
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.2;">You currently have more than enough staked in your account to Claim your weekly FREEOS. Current balance:</p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{XPRBalance}} XPR</h4>
+                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{XPRBalance}} {{stakeCurrency}}</h4>
                 </div>
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance < stakeRequirement">
                     <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>We see your balance is short on XPR You need to transfer the following to</strong></p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{stakeRequirement - XPRBalance}} XPR</h4>
-                    <q-btn href="https://www.protonswap.com/swap" class="q-mt-md" unelevated no-caps outline color="primary">Get XPR via ProtonSwap</q-btn>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>We see your balance is short on {{stakeCurrency}} You need to transfer the following to</strong></p>
+                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{stakeRequirement - XPRBalance}} {{stakeCurrency}}</h4>
+                    <q-btn href="https://www.protonswap.com/swap" class="q-mt-md" unelevated no-caps outline color="primary">Get {{stakeCurrency}} via ProtonSwap</q-btn>
                 </div>
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking">
@@ -88,7 +88,8 @@ export default {
     name: 'Stake',
     data() {
         return {
-            countdown: 1
+            countdown: 1,
+            stakeCurrency: process.env.STAKING_CURRENCY,
         }
     },
     computed: {
@@ -110,8 +111,23 @@ export default {
     methods: {
         ...mapActions('freeos', ['fetch', 'stake', 'unstake', 'cancelUnstake']),
         async stakeSubmit() {
-            var result = await this.stake(this.stakeRequirement)
-            console.log('resultR', result)
+
+            try {
+  
+              var result = await this.stake(this.stakeRequirement)
+              let responseMessage = result.processed.action_traces[0].console
+              console.log('resultR', result)
+              if (!responseMessage) {
+                responseMessage = 'Transfer successfully'
+              }
+              Notify.create({
+                message: responseMessage,
+                color: 'positive'
+              })
+              return result
+            } catch (e) {
+              return e
+            }
         },
         async unstakeSubmit() {
             var result = await this.unstake()
