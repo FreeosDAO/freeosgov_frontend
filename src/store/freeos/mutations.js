@@ -85,3 +85,11 @@ export const setallIterations = (state, allIterations) => {
 export const setunstakingIteration = (state, unstakingIteration) => {
   state.unstakingIteration = unstakingIteration
 }
+
+export const setcurrencyName = (state, currencyName) => {
+  state.currencyName = currencyName
+}
+
+export const setstakeCurrency = (state, stakeCurrency) => {
+  state.currencyName = stakeCurrency
+}

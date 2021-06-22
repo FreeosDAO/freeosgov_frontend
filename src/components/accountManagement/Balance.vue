@@ -66,7 +66,8 @@ import BalanceVest from './BalanceVest'
 export default {
     data() {
         return {
-            stakeCurrency: process.env.STAKING_CURRENCY
+            stakeCurrency: process.env.STAKING_CURRENCY,
+            currencyName: process.env.CURRENCY_NAME
         }
     },
     computed: {

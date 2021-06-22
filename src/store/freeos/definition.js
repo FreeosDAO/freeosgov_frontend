@@ -14,6 +14,7 @@ var definition = {
   freeosBalance: null,
   bcAirkeyBalance: null,
   liquidFreeos: null,
+  liquidOptions: null, 
   totalFreeos: null,
   stakeRequirement: null,
   userHasStaked: null,
@@ -27,6 +28,9 @@ var definition = {
   accountName: null,
   isAuthenticated: null,
   allIterations: null,
-  unstakingIteration: null
+  unstakingIteration: null,
+
+  currencyName: null,
+  stakeCurrency: null,
 }
 export default definition

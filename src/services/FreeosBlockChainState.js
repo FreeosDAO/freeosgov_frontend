@@ -226,7 +226,8 @@ async cancelUnstake () {
     var bcFreeosBalancePromise = null
     var bcAirkeyBalancePromise = null
     var bcUserPromise = null
-
+    var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
+    var currencyName = process.env.CURRENCY_NAME || 'FREEOS'
     console.log('state.state.accountName', this.walletUser)
 
     var dataRequests = [currentIterationPromise, bcStatisticsPromise, bcStateRequirementsPromise]
@@ -237,7 +238,6 @@ async cancelUnstake () {
 
       bcUserPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT, 'users')
       // {"rows":[{"balance":"24920.0000 XPR"}],"more":false,"next_key":""}
-      var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
       bcXPRBalancePromise = this.getUserRecordAsNumber(process.env.CURRENCY_CONTRACT, 'accounts', {
         upper_bound: stakeCurrency,
         lower_bound: stakeCurrency,
@@ -260,8 +260,8 @@ async cancelUnstake () {
         limit: 1
       }, 'balance')
       bcFreeosBalancePromise = this.getUserRecordAsNumber(process.env.FREEOSTOKENS_CONTRACT, 'accounts', {
-        upper_bound: 'FREEOS',
-        lower_bound: 'FREEOS',
+        upper_bound: currencyName,
+        lower_bound: currencyName,
         limit: 1
       }, 'balance')
       bcAirkeyBalancePromise = this.getUserRecordAsNumber(process.env.AIRCLAIM_CONTRACT, 'accounts', {
@@ -274,16 +274,13 @@ async cancelUnstake () {
 
     var outputValues = await Promise.all(dataRequests) // .then((values) => {
     let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance] = outputValues
-    console.log('WE HAVE DATA', outputValues)
     if (!bcAirkeyBalance) bcAirkeyBalance = 0
     if (!liquidOptions) liquidOptions = 0
     if (!vestedOptions) vestedOptions = 0
     if (!freeosBalance) freeosBalance = 0
 
-    console.log('bcUnstaking', bcUnstaking);
     var unstakingIteration = bcUnstaking && bcUnstaking.iteration ? bcUnstaking.iteration : 0;
     bcUnstaking = !!bcUnstaking;
-
 
     var iterations = this.getCurrentAndNextIteration(currentIteration)
 
@@ -292,8 +289,6 @@ async cancelUnstake () {
     console.log('currentIterationIdx', currentIterationIdx)
 
     var unvestedAlready = bcUnvests != null && bcUnvests.iteration_number == currentIterationIdx
-    console.log('unvestedAlready', unvestedAlready)
- console.log('bcUnvests', bcUnvests)
 
     var canUnvest = bcStatistics && bcStatistics.unvestpercent > 0 && !unvestedAlready
 
@@ -333,7 +328,7 @@ async cancelUnstake () {
         if (currentIterationIdx <= 0) {
           reasonCannotClaim = 'Airclaim Not Started'
         } else if (!userMeetsHoldingRequirement) {
-          reasonCannotClaim = 'Opps! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " OPTIONS in your Wallet. Please <a href='/#/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' FREEOS in order to Claim'
+          reasonCannotClaim = 'Opps! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " OPTIONS in your Wallet. Please <a href='/#/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim '
         } else if (userClaimedAlready) {
           reasonCannotClaim = 'You have already claimed'
         } else if (!userMeetsStakeRequirement) {
@@ -343,6 +338,7 @@ async cancelUnstake () {
     }
 
     var output = {
+      currencyName: currencyName,
       liquidOptions: liquidOptions,
       currentIteration: iterations.currentIteration,
       nextIteration: iterations.nextIteration,

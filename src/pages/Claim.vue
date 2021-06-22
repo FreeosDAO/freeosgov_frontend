@@ -14,7 +14,7 @@
 
             <q-card-section class="q-pt-none text-center">
                 <p class="text-body1">Before you start, we need to register your
-                    interest in the FREEOS AirClaim.
+                    interest in the {{currencyName}} AirClaim.
                     It’s just a press of a button.</p>
 
                 <p class="text-body2">By connecting you accept Freeos’s <a href>Terms of Service</a></p>
@@ -44,7 +44,7 @@
                         <p class="text-bold text-h3" style="line-height:1;">{{liquidOptions}}</p>
                     </div>
                     <div class="col">
-                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>FREEOS</strong></p>
+                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>{{currencyName}}</strong></p>
                         <p class="text-bold text-h3" style="line-height:1;">{{liquidFreeos}}</p>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
             <div class="flex justify-center text-center" style="align-items:center;height:80px;margin-top:-5px;">
                 <div class="" v-if="canClaim">
                     Claim now to claim your weekly<br />
-                    FREEOS.
+                    {{currencyName}}.
                 </div>
                 <div class="text-subtitle1" v-if="!canClaim" v-html="reasonCannotClaimHtml">
                 </div>
@@ -212,7 +212,9 @@ export default {
     name: 'Claim',
     data() {
         return {
-            isShowClaimCompleteDialog: false
+            isShowClaimCompleteDialog: false,
+            stakeCurrency: process.env.STAKING_CURRENCY,
+            currencyName: process.env.CURRENCY_NAME
         }
     },
     components: {
@@ -277,50 +279,19 @@ export default {
         await this.fetch()
     },
     async mounted() {
+        document.body.classList.add('claim-page');
         this.monitorBlockChain()
+    },
+    destroyed () {
+        document.body.classList.remove('claim-page')
     }
 }
 </script>
 
 <style lang="scss">
+
 $panel-border-radius: 8px;
 $panel-width: 360px;
-
-.hide {
-    display: none !important;
-}
-
-.panel-wrap {
-    max-width: $panel-width;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.panel {
-    border: 1px solid #eee !important;
-    border-radius: $panel-border-radius !important;
-    box-shadow: none;
-}
-
-.panel-strong {
-    border: 2px solid #555 !important;
-}
-
-.panel-info {
-    border: 2px solid var(--q-color-primary) !important;
-}
-
-.panel-warning {
-    border: 2px solid var(--q-color-warning) !important;
-}
-
-.panel-top-total {
-    border: 1px solid #ccc;
-    border-radius: $panel-border-radius;
-    padding-bottom: 30px;
-    margin-bottom: -20px;
-}
 
 .claim-btn{
     cursor:pointer;

@@ -29,7 +29,7 @@
                     <div class="col-xs-6 col-sm-8">
                         <q-input required v-model="submitData.quantity" type="number" outlined dense />
                         <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{XPRBalance}}{{stakeCurrency}} available to transfer</small></p>
-                        <p class="q-mb-none text-grey" v-if="submitData.token === 'FREEOS'"><small>{{liquidFreeos}}FREEOS available to transfer</small></p>
+                        <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{liquidFreeos}}{{currencyName}} available to transfer</small></p>
                     </div>
                 </div>
                 <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
@@ -144,6 +144,7 @@ export default {
   data () {
     return {
       stakeCurrency: process.env.STAKING_CURRENCY,
+      currencyName: process.env.CURRENCY_NAME,
       submitData: {
         to: null,
         token: null,
@@ -163,8 +164,8 @@ export default {
         types.push(this.stakeCurrency)
       }
       if (this.liquidFreeos > 0) {
-        types.push('FREEOS')
-        this.submitData.token = 'FREEOS'
+        types.push(this.currencyName)
+        this.submitData.token = this.currencyName
       }
       return types
     },

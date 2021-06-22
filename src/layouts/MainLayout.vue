@@ -182,7 +182,12 @@ export default {
 <style lang="scss">
 
   .page-container-main{
-
+      background: url('../assets/bluebg.svg') center -50px no-repeat;
+      background-size:4056px;
+      padding-bottom:100px;
+  }
+  .claim-page   .page-container-main{
+    background:none;
   }
 
   .q-btn__wrapper::before {
@@ -208,4 +213,45 @@ export default {
       border: 0;
       background: rgba(0, 0, 0, 0.05);
   }
+
+$panel-border-radius: 8px;
+$panel-width: 360px;
+
+.hide {
+    display: none !important;
+}
+
+.panel-wrap {
+    max-width: $panel-width;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.panel {
+    border: 1px solid #eee !important;
+    border-radius: $panel-border-radius !important;
+    box-shadow: none;
+}
+
+.panel-strong {
+    border: 2px solid #555 !important;
+}
+
+.panel-info {
+    border: 2px solid var(--q-color-primary) !important;
+}
+
+.panel-warning {
+    border: 2px solid var(--q-color-warning) !important;
+}
+
+.panel-top-total {
+    border: 1px solid #ccc;
+    border-radius: $panel-border-radius;
+    padding-bottom: 30px;
+    margin-bottom: -20px;
+}
+
+
 </style>

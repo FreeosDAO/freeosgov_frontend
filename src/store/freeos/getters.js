@@ -26,3 +26,6 @@ export const isAuthenticated = ({ isAuthenticated }) => isAuthenticated
 export const accountName = ({ accountName }) => accountName
 export const allIterations = ({ allIterations }) => allIterations
 export const unstakingIteration = ({ unstakingIteration }) => unstakingIteration
+
+export const stakeCurrency = ({ stakeCurrency }) => stakeCurrency
+export const currencyName = ({ currencyName }) => currencyName

@@ -6,11 +6,11 @@
             <q-card class="panel  q-pa-lg">
 
                 <div class="text-h4 text-center q-ma-lg">Convert Your Options</div>
-                <p class="text-center">Convert your FREEOS OPTONS into FREEOS Tokens. For more info, click here.</p>
+                <p class="text-center">Convert your {{currencyName}} OPTIONS into {{currencyName}} Tokens. For more info, click here.</p>
                  <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>Your current FREEOS OPTIONS balance is:</strong></p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>Your current {{currencyName}} OPTIONS balance is:</strong></p>
                     <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{liquidOptions}}</h4>
-                    <p class="q-ma-xs" style="line-height:1;"><strong><small>FREEOS OPTIONS</small></strong></p>
+                    <p class="q-ma-xs" style="line-height:1;"><strong><small>{{currencyName}} OPTIONS</small></strong></p>
                  </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs">
@@ -55,7 +55,9 @@ export default {
   name: 'ConvertOptions',
   data () {
     return {
-      sendAmount: null
+      sendAmount: null,
+      stakeCurrency: process.env.STAKING_CURRENCY,
+      currencyName: process.env.CURRENCY_NAME,
     }
   },
   computed: {
