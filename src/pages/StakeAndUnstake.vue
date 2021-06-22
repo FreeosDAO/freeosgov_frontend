@@ -59,7 +59,7 @@
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking">
                     <p class="q-mb-md text-h4" style="line-height:1.2;">Unstake</p>
-                    <p class="q-mb-md text-subtitle1" style="line-height:1.2;"><strong>This process takes {{stakeIterationMsg}} days</strong> also if you unstake you will NOT be eligiable to Claim your weekly {{currencyName}}. </p>
+                    <p class="q-mb-md text-subtitle1" style="line-height:1.2;"><strong>This process will complete at the start of the next Claim</strong> also if you unstake you will NOT be eligiable to Claim your weekly {{currencyName}}. </p>
                     <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs" v-if="userHasStaked">
                         <q-btn unelevated outline color="primary" v-if="isAuthenticated" @click="unstakeSubmit()">Unstake</q-btn>
                     </div>
