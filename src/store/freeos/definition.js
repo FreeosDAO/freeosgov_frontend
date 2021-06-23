@@ -18,6 +18,7 @@ var definition = {
   totalFreeos: null,
   stakeRequirement: null,
   userHasStaked: null,
+  userStake: null,
   userClaimedAlready: null,
   userMeetsStakeRequirement: null,
   totalHolding: null,

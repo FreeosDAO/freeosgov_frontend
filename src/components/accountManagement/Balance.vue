@@ -2,31 +2,32 @@
 <div>
     <div class="balance q-pt-lg q-pl-lg q-pr-lg q-pb-xs">
         <div class="flex justify-between q-mb-md" style="width: 100%">
-            <div class="flex items-center text-h6 text-weight-bold">
-                <q-btn class="small-icon">
+            <div class="flex items-center text-h6">
+                Liquid {{stakeCurrency}}:
+                <q-btn class="small-icon  q-ml-sm">
                     <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
                         <strong>
-                            This is tool tip,,
+                            This is your freely transferable {{stakeCurrency}}
                         </strong>
                     </q-tooltip>
                 </q-btn>
-                Liquid {{stakeCurrency}}:
+
             </div>
             <div class=" text-h6">{{XPRBalance || '0'}}</div>
         </div>
 
-        <div class="flex justify-between q-mb-md">
-            <div class="flex items-center text-h6 text-weight-bold">
-                <q-btn class="small-icon">
+        <div v-if="stakeRequirement > 0" class="flex justify-between q-mb-md">
+            <div class="flex items-center text-h6">
+                Staked {{stakeCurrency}}:                 
+                <q-btn class="small-icon q-ml-sm">
                     <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
                         <strong>
-                            This is tool tip,,
+                            This {{stakeCurrency}} is held for collateral to allow for claiming
                         </strong>
                     </q-tooltip>
                 </q-btn>
-                Staked {{stakeCurrency}}:
             </div>
-            <div class="text-weight-bold  text-h6">{{userStake || '0'}}</div>
+            <div class="text-h6">{{userStake || '0'}}</div>
         </div>
 
         <!--<div class="flex justify-between q-mb-md">
@@ -36,18 +37,17 @@
         <div class="col-5 text-primary text-weight-bold">{{liquidOptions || '0'}}</div>
       </div>-->
 
-        <div class="flex justify-between text-weight-bold q-mb-md">
+        <div class="flex justify-between q-mb-md">
             <div class="flex items-center  text-h6">
-                <q-btn class="small-icon">
-                    <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-                        <strong>
-                            This is tool tip,,
-                        </strong>
-                    </q-tooltip>
-                </q-btn>
-                Vested Options:
+
+               Vested OPTIONS:
+
+
             </div>
-            <div class="col-5   text-h6">{{vestedOptions || '0'}}</div>
+            <div class="col-5 text-h6">{{vestedOptions || '0'}}</div>
+
+            <div class="flex"><small class="q-mr-auto">For more info on Vested OPTIONS <router-link to="info" @click.native="scrollFix('#claiming')">click here</router-link></small></div>
+
             <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">Unvest</q-btn>
         </div>
 
@@ -71,7 +71,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions'])
+        ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions', 'stakeRequirement'])
     },
     methods: {
         ...mapActions('freeos', ['monitorBlockChain', 'unvest']),

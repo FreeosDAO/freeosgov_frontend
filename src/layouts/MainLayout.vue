@@ -8,13 +8,7 @@
           <div></div>
         </q-btn>
         <div style="display: flex; align-items: center;">
-          <div v-if="isAuthenticated" class="flex items-center cursor-pointer" style="margin-right: 1rem;">{{accountName}}
-            <q-icon style="width: 25px; height: 25px;">
-              <svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </q-icon>
-          </div>
+          <div @click="accountURL()"  v-if="isAuthenticated" class="flex items-center cursor-pointer" style="margin-right: 1rem;">{{accountName}}</div> |
           <q-btn class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
           </q-btn>
           <q-btn v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
@@ -39,7 +33,7 @@
         <q-list>
          <q-separator />
           <template v-for="(menuItem, index) in menuList">
-            <q-item :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
+            <q-item v-if="!menuItem.displayCondition || !menuItem.displayCondition()" :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
                 <q-item-section avatar>
                   <!-- <q-icon :name="menuItem.icon" /> -->
                   <img :src="menuItem.icon" alt="menu-icon">
@@ -73,6 +67,7 @@
   </q-layout>
 </template>
 <script>
+import { stakeRequirement } from 'src/store/freeos/getters'
 // import WalletLoginDialog from 'components/accountManagement/WalletLoginDialog'
 import { mapState, mapActions, mapGetters } from 'vuex'
 // import dollar from '../assets/dollar-icon.svg'
@@ -99,6 +94,7 @@ const menuList = [
     icon: require('@/assets/stack.svg'),
     label: 'Stake',
     separator: true,
+    displayCondition: function(){return stakeRequirement === 0},
     route: '/stake'
   },
   {
@@ -130,11 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      iterationNumber: state => state.calendar.currentIteration.iteration_number
-    }),
-    ...mapGetters('account', ['connecting']),
-    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName'])
+    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement'])
   },
   components: {
     // Balance

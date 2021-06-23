@@ -9,12 +9,12 @@
                 </svg>
             </div>
             <q-card-section class="q-mt-xs text-center">
-                <div class="text-h6">Register Your Interest</div>
+                <div class="text-h4">Register Your Interest</div>
             </q-card-section>
 
             <q-card-section class="q-pt-none text-center">
                 <p class="text-body1">Before you start, we need to register your
-                    interest in the {{currencyName}} AirClaim.
+                    interest in the Freeos AirClaim.
                     It’s just a press of a button.</p>
 
                 <p class="text-body2">By connecting you accept Freeos’s <a href>Terms of Service</a></p>
@@ -41,18 +41,27 @@
                 <div class="row">
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>OPTIONS</strong></p>
-                        <p class="text-bold text-h3" style="line-height:1;">{{liquidOptions}}</p>
+                        <p class="text-bold text-h2" style="line-height:1;">{{liquidOptions}}</p>
                     </div>
+                    <div class="col" style="max-width:40px;"><small v-if="liquidOptions > 0"><a class="text-primary" href="/#/convert">Convert</a></small></div>
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>{{currencyName}}</strong></p>
-                        <p class="text-bold text-h3" style="line-height:1;">{{liquidFreeos}}</p>
+                        <p class="text-bold text-h2" style="line-height:1;">{{liquidFreeos}}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="add-bg-white" v-if="isFreeosEnabled">
             <div class="flex justify-between add-custome-width">
-                <div class="text-left" style="flex:1">Note: {{notes}}</div>
+
+                <div class="flex column text-left"  style="flex:1">
+                    <div class="text-subtitle1">Iteration</div>
+                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: left;line-height:1;" class="text-subtitle1 text-capitalize">
+                            <strong>{{notes}}</strong>
+                    </div>
+                </div>
+
+
                 <div class="wrap-avatar">
                     <div class="avatar claim-btn" @click="startClaim()" v-bind:class="{'disable-btn': !canClaim}">
                         <q-icon size="md" style="margin-top: -50px; margin-bottom: 15px;" v-bind:class="{'hide': canClaim}">
@@ -124,23 +133,20 @@
                 </div>
 
                 <div class="flex column text-right"  style="flex:1">
-                    <div>Next Claim:</div>
-                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: right;line-height:1.2;" class="text-capitalize">
-                            {{nextClaimDescription}}
-                            <a class="color: #00a1ed;text-caption text-capitalize;cursor: pointer;" @click="startClaim()" v-if="canClaim">
-                                Claim
-                            </a>
+                    <div class="text-subtitle1">Next Claim</div>
+                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: right;line-height:1;" class="text-subtitle1">
+                            <strong>{{nextClaimDescription}}</strong>
                     </div>
                 </div>
             </div>
 
             <div class="flex justify-center text-center" style="align-items:center;height:80px;margin-top:-5px;">
-                <div class="" v-if="canClaim">
-                    Claim now to claim your weekly<br />
-                    {{currencyName}}.
+                <div class="text-h6" style="line-height:1.3" v-if="canClaim">
+                    <a class="text-primary" style="cursor:pointer;text-decoration:underline" @click="startClaim()" v-if="canClaim">Claim now</a> to claim your weekly OPTIONS
                 </div>
-                <div class="text-subtitle1" v-if="!canClaim" v-html="reasonCannotClaimHtml">
+                <div v-if="!canClaim" v-html="reasonCannotClaimHtml">
                 </div>
+                            <div class="flex"><small class="q-mr-auto">For more info on Claiming <router-link to="info" @click.native="scrollFix('#claiming')">click here</router-link></small></div>
             </div>
 
         </div>
@@ -239,7 +245,7 @@ export default {
             return this.currentIteration ? ('Week ' + this.currentIteration.iteration_number) : ''
         },
         reasonCannotClaimHtml: function () {
-            return this.$sanitize(this.reasonCannotClaim)
+            return this.reasonCannotClaim
         },
         registerModalTrigger: function () {
             return (this.isRegistered === false)
@@ -263,13 +269,13 @@ export default {
             var m = Math.floor(seconds % 3600 / 60);
             var s = Math.floor(seconds % 60);
 
-            var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days") : "";
-            var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours") : "";
+            var dDisplay = d > 0 ? d + (d == 1 ? " d, " : " d") : "";
+            var hDisplay = h > 0 ? h + (h == 1 ? " h, " : " h") : "";
 
-            if(dDisplay){
-                return dDisplay
+            if(hDisplay){
+                return dDisplay + ", " + hDisplay
             }else{
-               return  hDisplay
+               return  dDisplay
             }
         }
 
@@ -341,7 +347,8 @@ $panel-width: 360px;
         position: relative;
         z-index: 2000;
         margin: 20px auto 0;
-        width: $panel-width;
+        max-width: $panel-width;
+        width:100%;
         height: 150px;
         background: #fff;
         border-radius: 8px;

@@ -1,11 +1,13 @@
 <template>
   <div class="text-center q-pa-lg">
-    <div class="text-h3 text-weight-medium q-mb-md">Welcome to <br/>freeos AirClaim</div>
+    <div class="text-h3 text-weight-medium q-mb-none">Welcome to the</div>
+    <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos AirClaim</div>
+
     <div class="text-weight-regular">
-      <div class="text-subtitle1 q-mb-xl q-mt-xl">
-        It's easy to access the Freeos economic system here
+      <div class="text-h5 q-mb-xl q-mt-xl">
+        Access the Freeos Economic System here:
       </div>
-      <div class="q-mt-sm q-mb-sm">
+      <div class="q-mt-xs q-mb-sm">
         <q-btn
         unelevated
         no-caps

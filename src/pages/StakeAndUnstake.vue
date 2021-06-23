@@ -7,70 +7,62 @@
 
                 <div class="text-h4 text-center q-ma-lg">Staking Requirement</div>
 
-                <div v-if="!bcUnstaking">
-                    <p class="text-center">With {{currencyName}} you need a minimum
-                        amount in your account to Claim. For
-                        more info, click here.</p>
-
-                    <p class="text-center">In order to Claim your weekly {{currencyName}} tokens, you need to stake </p>
-                    <h4 class="text-center text-h5 q-ma-xs q-mb-lg" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
+                <div v-if="!bcUnstaking && !userHasStaked">
+                    <p class="text-center q-mb-xs">With Freeos unverified users will need a minimum amount in their account to Claim. For more info, <router-link to="info" @click.native="scrollFix('#staking')">click here</router-link>.</p>
+                    <p class="text-center q-mb-xs">In order to Claim your weekly OPTIONS, you need to stake </p>
+                    <h4 class="text-center text-h4 q-ma-none q-mb-lg" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
                 </div>
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="bcUnstaking">
                     <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>You have unstaked</strong></p>
-                    <h4 class="text-h5 q-mt-xs q-mb-mb" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
-                    <p class="q-mb-md text-subtitle1" style="line-height:1.2;">Your are currently NOT eligiable to Claim your weekly {{currencyName}}. You need a minimum {{stakeRequirement}} {{stakeCurrency}} to Claim. This can be rectified by vancelling the process if you wish</p>
-                    <p class="q-mb-lg text-subtitle1" style="line-height:1.2;">You are currently unstaking {{stakeRequirement}} {{stakeCurrency}}. The unstaking will complete <strong class="text-primary"> {{stakeIterationMsg}}</strong></p>
-
+                    <p class="q-mb-xs text-subtitle1" style="line-height:1.2;"><strong>You have unstaked</strong></p>
+                    <h4 class="text-h4 q-mt-none q-mb-sm" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
+                    <p class="q-mb-md text-subtitle1" style="line-height:1.4;">Your will NOT be eligible to Claim your weekly OPTIONS in the next iteration. You need a minimum {{stakeRequirement}} {{stakeCurrency}} to Claim. This can be rectified by cancelling the process if you wish</p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You are currently unstaking {{stakeRequirement}} {{stakeCurrency}}. The unstaking will complete <strong class="text-primary"> {{stakeIterationMsg}}</strong></p>
+                 <p class="q-mb-md" style="line-height:1.4;">For more info, <router-link to="info" @click.native="scrollFix('#unstaking')">click here</router-link></p>
                     <q-btn unelevated outline :disable="XPRBalance < stakeRequirement" color="primary" v-if="isAuthenticated" @click="cancelSubmit()">Cancel Unstaking</q-btn>
 
                 </div>
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance < stakeRequirement && !userHasStaked">
                     <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>We see your balance is short on {{stakeCurrency}} You need to transfer the following to</strong></p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;"><strong>We see your balance is short on {{stakeCurrency}} You need to transfer the following to</strong></p>
                     <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{stakeRequirement - XPRBalance}} {{stakeCurrency}}</h4>
-                    <q-btn href="https://www.protonswap.com/swap" class="q-mt-md" unelevated no-caps outline color="primary">Get {{stakeCurrency}} via ProtonSwap</q-btn>
+                    <q-btn @click="protonSwap()" class="q-mt-md" unelevated no-caps outline color="primary">Get {{stakeCurrency}} via ProtonSwap</q-btn>
                 </div>
 
                 <div class="panel panel-info q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking">
-
-                    <p class="q-mb-md text-h4" style="line-height:1.2;">U've Staked</p>
-
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;">You've Staked so you can Claim, you've currently staked:</p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{userStake}} {{stakeCurrency}}</h4>
+                    <p class="q-mb-md text-h4" style="line-height:1.2;">You're Staked!</p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You've Staked so you can Claim, you've currently staked:</p>
+                    <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{userStake}} {{stakeCurrency}}</h4>
+                    <p class="q-mt-md q-mb-sm" style="line-height:1.4;">For more info, <router-link to="info" @click.native="scrollFix('#staking')">click here</router-link></p>
                 </div>
 
                 <div class="panel panel-info q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance >= stakeRequirement && !userHasStaked">
-
-                    <p class="q-mb-md text-h4" style="line-height:1.2;">Threshold Filling</p>
-
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;">You currently have more than enough staked in your account to Claim your weekly {{currencyName}}. Current balance:</p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{XPRBalance}} {{stakeCurrency}}</h4>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You currently have more than enough staked in your account to Claim your weekly OPTIONS.</p><p class="q-mb-xs"><strong>Current balance:</strong></p>
+                    <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{XPRBalance}} {{stakeCurrency}}</h4>
                 </div>
 
-                <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance < stakeRequirement">
-                    <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>We see your balance is short on {{stakeCurrency}} You need to transfer the following to</strong></p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{stakeRequirement - XPRBalance}} {{stakeCurrency}}</h4>
-                    <q-btn href="https://www.protonswap.com/swap" class="q-mt-md" unelevated no-caps outline color="primary">Get {{stakeCurrency}} via ProtonSwap</q-btn>
-                </div>
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking">
                     <p class="q-mb-md text-h4" style="line-height:1.2;">Unstake</p>
-                    <p class="q-mb-md text-subtitle1" style="line-height:1.2;"><strong>This process will complete at the start of the next Claim</strong> also if you unstake you will NOT be eligiable to Claim your weekly {{currencyName}}. </p>
-                    <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs" v-if="userHasStaked">
+                    <p class="text-subtitle1 q-mb-xs" style="line-height:1.4;"><strong>This process will complete at the start of the next Claim</strong> also if you unstake you will NOT be eligible to Claim your weekly OPTIONS. </p>
+                     <p class="q-mb-md" style="line-height:1.4;">For more info, <router-link to="info" @click.native="scrollFix('#unstaking')">click here</router-link></p>
+                    
+                    <div style="align-items: center;" class="row justify-center q-mb-xs q-pb-xs" v-if="userHasStaked">
                         <q-btn unelevated outline color="primary" v-if="isAuthenticated" @click="unstakeSubmit()">Unstake</q-btn>
                     </div>
 
                 </div>
+
 
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs" v-if="!userHasStaked">
                     <q-btn unelevated outline size="lg" :disable="XPRBalance < stakeRequirement" color="primary" v-if="isAuthenticated" @click="stakeSubmit()">Stake</q-btn>
                 </div>
 
             </q-card>
+
+
 
         </div>
 
@@ -99,9 +91,12 @@ export default {
 
         //Handle
         if(this.unstakingIteration && this.currentIteration && this.unstakingIteration === this.currentIteration.iteration_number){
-              return new Date(this.currentIteration.end).toString().split(new Date(this.currentIteration.end).getFullYear())[0];
+              const dateEnd =  Math.floor(Date.parse(this.currentIteration.end + "Z") / 1000);
+              const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000);
+              var daysToNextClaim = this.secondsToDhms(dateEnd - currentTimeStamp);
+              return "in " + daysToNextClaim;
         }else{
-            return "soon"
+            return " very soon"
         }
 
       }
@@ -111,6 +106,9 @@ export default {
     },
     methods: {
         ...mapActions('freeos', ['fetch', 'stake', 'unstake', 'cancelUnstake']),
+        protonSwap() {
+            window.open("https://www.protonswap.com/swap", '_blank');
+        },
         async stakeSubmit() {
 
             try {
@@ -121,12 +119,10 @@ export default {
               if (!responseMessage) {
                 responseMessage = 'Transfer successfully'
               }
-              Notify.create({
-                message: responseMessage,
-                color: 'positive'
-              })
+
               return result
-            } catch (e) {
+            } catch (e) { 
+              console.log(e);             
               return e
             }
         },
@@ -181,12 +177,16 @@ export default {
             var m = Math.floor(seconds % 3600 / 60);
             var s = Math.floor(seconds % 60);
 
-            var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
-            var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-            var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-            var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-            return dDisplay + hDisplay + mDisplay + sDisplay;
+            var dDisplay = d > 0 ? d + (d == 1 ? " day" : " days") : "";
+            var hDisplay = h > 0 ? h + (h == 1 ? " hour" : " hours") : "";
+
+            if(hDisplay){
+                return dDisplay + ", " + hDisplay
+            }else{
+               return  dDisplay
+            }
         }
+
     }
 }
 </script>

@@ -183,7 +183,7 @@ async cancelUnstake () {
     sendData.from = this.walletUser ? this.walletUser.accountName : null
     sendData.to = process.env.AIRCLAIM_CONTRACT
     sendData.memo = 'freeos stake'
-    sendData.quantity = `${parseFloat(stakeRequirement).toFixed(process.env.TOKEN_PRECISION)} stakeCurrency`
+    sendData.quantity = `${parseFloat(stakeRequirement).toFixed(process.env.TOKEN_PRECISION)} ` + process.env.STAKING_CURRENCY || 'XPR'
     return this.sendTransaction(process.env.CURRENCY_CONTRACT, 'transfer', sendData)
   }
 
@@ -326,13 +326,13 @@ async cancelUnstake () {
 
       if (!userEligibleToClaim) {
         if (currentIterationIdx <= 0) {
-          reasonCannotClaim = 'Airclaim Not Started'
+          reasonCannotClaim = "<div class='text-h5 text-negative'>Airclaim Not Started</div>"
         } else if (!userMeetsHoldingRequirement) {
-          reasonCannotClaim = 'Opps! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " OPTIONS in your Wallet. Please <a href='/#/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim '
+          reasonCannotClaim = 'Opps! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " OPTIONS in your Wallet. Please <a href='/#/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
         } else if (userClaimedAlready) {
-          reasonCannotClaim = 'You have already claimed'
+          reasonCannotClaim = '<div class="text-h5 text-primary">You have already claimed</div>'
         } else if (!userMeetsStakeRequirement) {
-          reasonCannotClaim = 'You must stake to claim'
+          reasonCannotClaim = "<div class='text-h5 text-negative'>You must <a href='/#/stake' class='text-negative'>stake</a> to claim!</div>"
         }
       }
     }

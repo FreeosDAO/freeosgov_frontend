@@ -6,30 +6,29 @@
             <q-card class="panel  q-pa-lg">
 
                 <div class="text-h4 text-center q-ma-lg">Convert Your Options</div>
-                <p class="text-center">Convert your {{currencyName}} OPTIONS into {{currencyName}} Tokens. For more info, click here.</p>
+                <p class="text-center text-subtitle1 q-mb-xs">Convert your OPTIONS into {{currencyName}}.</p>
+               <p class="text-center text-negative q-mb-sm">This could be a Taxable event in your jurisdiction</p>
+                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="info" @click.native="scrollFix('#unstaking')">click here</router-link></p>
                  <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>Your current {{currencyName}} OPTIONS balance is:</strong></p>
-                    <h4 class="text-h5 q-ma-xs" style="line-height:1;">{{liquidOptions}}</h4>
-                    <p class="q-ma-xs" style="line-height:1;"><strong><small>{{currencyName}} OPTIONS</small></strong></p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>You currently have</strong></p>
+                    <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{liquidOptions}}</h4>
+                    <p class="q-ma-xs" style="line-height:1;"><strong>OPTIONS</strong></p>
                  </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs">
-                    <div class="col-xs-5 col-sm-4">
-                        OPT’s amount:
+                    <div class="col-xs-6 col-sm-5">
+                        Amount to convert:
                     </div>
                     <div class="col-xs-1"></div>
-                    <div class="col-xs-6 col-sm-7">
+                    <div class="col-xs-5 col-sm-6">
                         <q-input v-model="sendAmount" type="number" outlined dense />
                     </div>
                 </div>
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-none">
-                    <div class="col-xs-5 col-sm-4">
-                    </div>
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-6 col-sm-7">
-                        <q-btn unelevated no-caps outline :disable="!sendAmount && sendAmount > 0 && sendAmount <= liquidOptions" color="primary" v-if="isAuthenticated" @click="submit()">Convert to Tokens</q-btn>
 
-                    </div>
+                        <q-btn size="lg" unelevated no-caps outline :disable="!sendAmount && sendAmount > 0 && sendAmount <= liquidOptions" color="primary" v-if="isAuthenticated" @click="submit()">Convert to {{currencyName}}</q-btn>
+
+
 
                 </div>
 

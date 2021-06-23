@@ -3,8 +3,8 @@
     <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
         <div class="panel-wrap">
             <q-card class="panel  q-pa-lg">
-                <div class="text-h4 text-center q-ma-lg">Re-register</div>
-                <p class="text-subtitle1 q-mt-xl">Some info about what re-registering is</p>
+                <div class="text-h4 text-center q-ma-lg">Registration</div>
+                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="info" @click.native="scrollFix('#registration')">click here</router-link></p>
                 <q-btn class="q-mt-md" size="lg" unelevated no-caps outline color="primary" @click="submit()">Re-Register</q-btn>
 
             </q-card>

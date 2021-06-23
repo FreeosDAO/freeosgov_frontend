@@ -28,7 +28,7 @@ h5,
     border:2px solid var(--q-color-primary)
     font-weight: bold
     
-.q-btn--outline:hover
+.q-btn--outline:not(.disabled):hover
     background-color: var(--q-color-primary) !important
     color:#fff !important
     border:2px solid #fff
@@ -38,3 +38,7 @@ h5,
 
 .q-btn__wrapper
     padding: 4px 20px 5px
+
+.q-btn.disabled
+  opacity:0.4 !important
+
