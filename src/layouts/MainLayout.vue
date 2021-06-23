@@ -7,11 +7,11 @@
           <div style="margin-left: -10px;"></div>
           <div></div>
         </q-btn>
-        <div style="display: flex; align-items: center;">
+        <div style="display: flex; align-items: center;margin-top:-3px;">
           <div @click="accountURL()"  v-if="isAuthenticated" class="flex items-center cursor-pointer" style="margin-right: 1rem;">{{accountName}}</div> |
-          <q-btn class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
+          <q-btn no-caps class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
           </q-btn>
-          <q-btn v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
+          <q-btn no-caps v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -34,7 +34,7 @@
          <q-separator />
           <template v-for="(menuItem, index) in menuList">
             <q-item v-if="!menuItem.displayCondition || !menuItem.displayCondition()" :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
-                <q-item-section avatar>
+                <q-item-section avatar style="    align-items: center;">
                   <!-- <q-icon :name="menuItem.icon" /> -->
                   <img :src="menuItem.icon" alt="menu-icon">
                 </q-item-section>
