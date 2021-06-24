@@ -41,25 +41,32 @@
         <div v-if="!isFreeosEnabled">
             <b>Freeos system is not currently operational. Please check back later.</b>
         </div>
-        <div v-if="isFreeosEnabled">
-            <!--<div class="q-ma-md">
-                <p class="q-ma-none"><strong>COMBINED TOTAL</strong></p>
-                <p class="text-bold text-h1" style="line-height:.8;">{{totalFreeos}}</p>
-            </div>-->
-             <div class="col" style="max-width:40px;"><small v-if="liquidOptions > 0"><a class="text-primary" href="/#/convert">Convert</a></small></div>
-            <div class="panel-wrap panel-top-total q-pa-lg">
+
+            <div class="panel-wrap panel-top-total q-pa-lg" v-if="isFreeosEnabled">
                 <div class="row">
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>OPTIONS</strong></p>
                         <p class="text-bold text-h2" style="line-height:1;">{{liquidOptions}}</p>
                     </div>
+                    <div class="col" style="max-width:40px;">
+                        <a class="convert-btn" v-if="liquidOptions > 0" href="/#/convert-options">
+                            <small>Convert</small>
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                                    <path d="M14,12.6H1.5c-0.4,0-0.7-0.3-0.7-0.7c0-0.4,0.3-0.7,0.7-0.7H14c0.4,0,0.7,0.3,0.7,0.7C14.7,12.3,14.4,12.6,14,12.6z" />
+                                    <path d="M10.6,16c-0.2,0-0.3-0.1-0.5-0.2c-0.3-0.3-0.3-0.7,0-0.9l3-3l-3-3c-0.3-0.3-0.3-0.7,0-0.9c0.3-0.3,0.7-0.3,0.9,0l3.5,3.5
+                                    c0.3,0.3,0.3,0.7,0,0.9L11,15.9C10.9,16,10.7,16,10.6,16z" />
+                                    <path d="M13.2,21.5c-4,0-7.4-2.4-8.9-6.1c-0.1-0.3,0-0.7,0.4-0.8c0.3-0.1,0.7,0,0.8,0.4c1.3,3.2,4.3,5.2,7.7,5.2
+                                    c4.5,0,8.3-3.7,8.3-8.3s-3.7-8.3-8.3-8.3c-3.4,0-6.4,2.1-7.7,5.2C5.4,9.2,5,9.4,4.7,9.3C4.3,9.1,4.2,8.8,4.3,8.4
+                                    c1.4-3.7,4.9-6.1,8.9-6.1c5.3,0,9.6,4.3,9.6,9.6S18.5,21.5,13.2,21.5z" />
+                                </svg>                        
+                        </a></div>
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>{{currencyName}}</strong></p>
                         <p class="text-bold text-h2" style="line-height:1;">{{liquidFreeos}}</p>
                     </div>
                 </div>
             </div>
-        </div>
+
         <div class="add-bg-white" v-if="isFreeosEnabled">
             <div class="flex justify-between add-custome-width">
 
@@ -316,6 +323,20 @@ export default {
 $panel-border-radius: 8px;
 $panel-width: 360px;
 
+.convert-btn{
+    text-decoration: none;
+    color:#000;
+    opacity: .7;
+    line-height:1;
+    small{
+        margin-bottom:0;
+        display: block;
+    }
+    &:hover{
+        opacity:1;
+    }
+}
+
 .claim-btn{
     cursor:pointer;
     .st0{fill:#FFFFFF;}
@@ -332,6 +353,7 @@ $panel-width: 360px;
         left: 0;
         top: 0;
         height: 100%;
+        pointer-events: none;
         background: url('../assets/bluebg.svg') bottom center no-repeat;
         background-size: 4096px;
     }
