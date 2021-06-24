@@ -106,22 +106,7 @@ export default {
     ...mapActions('calendar', ['getClaimCalendar'])
   },
   watch: {
-    isAuthenticated: {
-      immediate: true,
-      handler: function (val) {
-        if (val && this.accountName) {
-          // this.getAccountInfo()
-          // this.getClaimDetailInfo(this.iterationNumber)
-        }
-        if (val && this.$route.query.returnUrl) {
-          this.$router.push({ path: this.$route.query.returnUrl })
-        }
-      }
-    }
-  },
-  created () {
-    // this.getClaimCalendar()
-    this.checkIfLoggedIn()
+
   }
 }
 </script>

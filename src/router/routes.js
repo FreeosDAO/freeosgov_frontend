@@ -8,6 +8,9 @@ const routes = [
   },
   {
     path: '/',
+    meta: {
+      requiresAuth: true
+    },
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '/claim', component: () => import('pages/Claim.vue') },
@@ -26,5 +29,6 @@ const routes = [
     component: () => import('pages/Error404.vue')
   }
 ]
+
 
 export default routes

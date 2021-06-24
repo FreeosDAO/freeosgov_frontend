@@ -3,15 +3,15 @@
 
     <q-dialog v-model="registerModalTrigger">
         <q-card style="max-width: 440px;" class="q-pa-lg">
-           <!-- <q-card-actions align="right">
-                <q-icon class="cursor-pointer" style="font-size:2rem" name="close" v-close-popup/>
-           </q-card-actions>-->
-            <div class="flex justify-center text-center q-mt-md" style="width: 80px; height: 80px; margin: 0 auto;">
+            <q-card-actions class="q-pa-none" align="right">
+                <q-icon  class="q-ma-none cursor-pointer" style="font-size:2rem" name="close" v-close-popup />
+           </q-card-actions>
+            <div class="flex justify-center text-center q-mt-md" style="width: 80px; height: 80px; margin: -25px auto 0;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84" class="freeos-logo-icon inline-block fill-current text-primary header-logoicon">
                     <path fill="#00a1ed" d="M41.7 0C18.7 0 0 18.7 0 41.7c0 23 18.7 41.7 41.7 41.7 23 0 41.7-18.7 41.7-41.7C83.4 18.7 64.8 0 41.7 0zM26.9 68.6c-2.7 0-5.3-1-7.3-2.8-13.3-12.2-14.2-32.9-2-46.3C23.8 12.8 32.6 9 41.7 9c1.7 0 3.4.1 5.1.4h.2c-5.6 2.3-9.7 7.5-10.6 13.5-.1.6-.2 1.3-.2 1.9V26c-.1 4.1.1 8.2.6 12.3l-10.6 3.9c-.7.3-1.1 1.1-.8 1.8l.5 1.2c1.4 4 5.8 6 9.8 4.6.4-.2.9-.4 1.3-.6l1-.6.3-.2v.4c.2 3 .1 6-.2 9H38c0 .3 0 .6-.1 1-.1.6-.2 1.2-.4 1.8-1.4 4.8-5.7 8-10.6 8zm14.8 5.9c-1.8 0-3.7-.2-5.5-.5 6-2.5 10.1-8 10.8-14.5.7-5.4.7-10.9-.1-16.3l10.8-6.4c1.2-.7 1.7-2.2 1.2-3.5l-.1-.3c-.5-1.4-2-2.1-3.4-1.6L45.9 35l-.2.1V35c-.4-2.8-.5-5.7-.4-8.5.4-8.3 5.3-11.7 11.3-11.6 2.5.1 4.8.9 6.8 2.4.5.4.9.8 1.4 1.3 12.8 12.6 12.9 33.3.2 46.2-6.2 6.2-14.5 9.7-23.3 9.7z"></path>
                 </svg>
             </div>
-            <q-card-section class="q-mt-xs text-center">
+            <q-card-section class="q-mt-none text-center">
                 <div class="text-h4">Register Your Interest</div>
             </q-card-section>
 
@@ -20,8 +20,14 @@
                     interest in the Freeos AirClaim.
                     It’s just a press of a button.</p>
 
-                <p class="text-body2">By connecting you accept Freeos’s <a href>Terms of Service</a></p>
-
+                <p class="text-body2">By connecting you accept Freeos’s <a class="cursor-pointer" style="text-decoration:underline" @click="toggleTerms()">Terms of Service</a></p>
+                <div v-show="showTerms" class="" style="width:100%;max-height:120px;overflow-y: auto;" class="text-left">
+                    <p class="text-body1"><strong>Freeos Terms of Service</strong></p>
+                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                </div>
             </q-card-section>
 
             <q-card-actions align="center">
@@ -40,13 +46,13 @@
                 <p class="q-ma-none"><strong>COMBINED TOTAL</strong></p>
                 <p class="text-bold text-h1" style="line-height:.8;">{{totalFreeos}}</p>
             </div>-->
+             <div class="col" style="max-width:40px;"><small v-if="liquidOptions > 0"><a class="text-primary" href="/#/convert">Convert</a></small></div>
             <div class="panel-wrap panel-top-total q-pa-lg">
                 <div class="row">
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>OPTIONS</strong></p>
                         <p class="text-bold text-h2" style="line-height:1;">{{liquidOptions}}</p>
                     </div>
-                    <div class="col" style="max-width:40px;"><small v-if="liquidOptions > 0"><a class="text-primary" href="/#/convert">Convert</a></small></div>
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>{{currencyName}}</strong></p>
                         <p class="text-bold text-h2" style="line-height:1;">{{liquidFreeos}}</p>
@@ -147,9 +153,9 @@
                 <div class="text-h6" style="line-height:1.3" v-if="canClaim">
                     <a class="text-primary" style="cursor:pointer;text-decoration:underline" @click="startClaim()" v-if="canClaim">Claim now</a> to claim your weekly OPTIONS
                 </div>
-                <div v-if="!canClaim" v-html="reasonCannotClaimHtml">
+                <div v-if="!canClaim" v-html="reasonCannotClaim">
                 </div>
-                            <div class="flex"><small class="q-mr-auto">For more info on Claiming <router-link to="info" @click.native="scrollFix('#claiming')">click here</router-link></small></div>
+                <div class="flex"><small class="q-mr-auto">For more info on Claiming <router-link to="info" @click.native="scrollFix('#claiming')">click here</router-link></small></div>
             </div>
 
         </div>
@@ -224,7 +230,8 @@ export default {
             isShowClaimCompleteDialog: false,
             stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
-            registerModalOverride: false,
+            registerModalOverride: true,
+            showTerms: false, 
         }
     },
     components: {
@@ -233,11 +240,6 @@ export default {
     },
     computed: {
         ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
-        ...mapState({
-            stakedInfo: state => state.account.claimInfo.stakedInfo,
-            liquidInAccount: state => state.account.claimInfo.liquidInAccount,
-            accountName: state => state.account.accountName
-        }),
         nextClaimDescription: function () {
             const dateEnd =  Math.floor(Date.parse(this.currentIteration.end + "Z") / 1000);
             const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000);
@@ -248,27 +250,30 @@ export default {
         notes: function () {
             return this.currentIteration ? ('Week ' + this.currentIteration.iteration_number) : ''
         },
-        reasonCannotClaimHtml: function () {
-            return this.reasonCannotClaim
-        },
         registerModalTrigger: {
             get () {
-                    return (this.isRegistered === false && this.registerModalOverride !== true)
+                return (this.isRegistered === false && this.registerModalOverride === true)
             },
             set (value) {
-                this.registerModalOverride = value
+                console.log(value);
+                this.registerModalOverride = value;
+                if(!this.isRegistered){
+                    console.log("LOGOUT");
+                    this.logout();
+                }
             }
         },
     },
     methods: {
         ...mapActions('freeos', ['monitorBlockChain', 'fetch', 'register', 'claim']),
+        ...mapActions('account', ['logout']),
+        toggleTerms(){
+            this.showTerms = !this.showTerms;
+        },
         async registerUser() {
             await this.register()
             //await this.fetch()
         },
-        closeRegister(){
-            console.log('sdf');
-        },  
         async startClaim() {
             var result = await this.claim()
             console.log('claim', result)

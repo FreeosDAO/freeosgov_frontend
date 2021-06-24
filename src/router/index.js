@@ -28,11 +28,14 @@ export default function ({ store }) {
   })
 
   Router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.auth)) {
-      if (store.getters['account/isAuthenticated']) {
+    console.log('to', to);
+    console.log('store', store);
+
+    if (to.matched.some(record => record.meta.RrequiresAuth)) {
+      if (store.getters['freeos/isAuthenticated']) {
         next()
       } else {
-        next({ path: `/login?returnUrl=${to.path}` })
+        next({ path: `/?returnUrl=${to.path}` })
       }
     } else {
       next()

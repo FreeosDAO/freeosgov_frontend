@@ -8,10 +8,9 @@
           <div></div>
         </q-btn>
         <div style="display: flex; align-items: center;margin-top:-3px;">
-          <div @click="accountURL()"  v-if="isAuthenticated" class="flex items-center cursor-pointer" style="margin-right: 1rem;">{{accountName}}</div> |
-          <q-btn no-caps class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')">
-          </q-btn>
-          <q-btn no-caps v-if="isAuthenticated" style="justify-self: flex-end;" @click="() => logout()">Logout</q-btn>
+          <q-btn no-caps @click="accountURL()"  v-if="isAuthenticated">{{accountName}}</q-btn> |
+          <q-btn no-caps class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')"></q-btn>
+          <q-btn no-caps v-if="isAuthenticated" style="justify-self: flex-end;" @click="logout()">Logout</q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -132,6 +131,9 @@ export default {
     // Balance
   },
   methods: {
+    accountURL (){
+      window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
+    },
     onSigninFinish (event) {
       if (event.isFinished) {
         this.isShowDrawerButton = true
@@ -149,20 +151,6 @@ export default {
     },
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
     ...mapActions('calendar', ['getClaimCalendar'])
-  },
-  watch: {
-    isAuthenticated: {
-      immediate: true,
-      handler: function (val) {
-        if (val && this.accountName) {
-          // this.getAccountInfo()
-          // this.getClaimDetailInfo(this.iterationNumber)
-        }
-        if (val && this.$route.query.returnUrl) {
-          this.$router.push({ path: this.$route.query.returnUrl })
-        }
-      }
-    }
   },
   created () {
     // this.getClaimCalendar()

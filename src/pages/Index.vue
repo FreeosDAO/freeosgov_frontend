@@ -29,18 +29,23 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'PageIndex',
   computed: {
-    ...mapState({
-      accountName: state => state.account.accountName,
-      iterationNumber: state => state.calendar.currentIteration.iteration_number
-    }),
-    ...mapGetters('account', ['isAuthenticated', 'connecting'])
+    ...mapGetters('account', ['isAuthenticated'])
   },
   methods: {
-    ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo'])
+    ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
+    ...mapActions('freeos', ['fetch'])
   },
-  mounted () {
+  async created () {
+    var result = await this.fetch();
+  },
+  async mounted () {
     if (this.isAuthenticated) {
-      this.$router.push({ path: '/claim' })
+      console.log('this.$route.query', this.$route.query.returnUrl)
+      if( this.$route.query.returnUrl){
+        this.$router.push({ path: this.$route.query.returnUrl })
+      }else{
+        this.$router.push({ path: '/claim' })
+      }
     }
   }
 }

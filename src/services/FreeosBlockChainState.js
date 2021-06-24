@@ -98,6 +98,8 @@ export class FreeosBlockChainState extends EventEmitter {
 
 
 
+
+
   async sendTransaction (contractAccountName, contractName, extraData) {
     console.log('extraData', extraData)
 
@@ -187,6 +189,15 @@ async cancelUnstake () {
     return this.sendTransaction(process.env.CURRENCY_CONTRACT, 'transfer', sendData)
   }
 
+
+async logout() {
+    this.setWalletUser({})
+    await ProtonSDK.logout();
+    await this.fetch();
+}
+
+
+
   async actionFetch () {
     console.log('state.state.accountName', this.walletUser ? this.walletUser.accountName : 'N/A')
 
@@ -228,7 +239,7 @@ async cancelUnstake () {
     var bcUserPromise = null
     var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
     var currencyName = process.env.CURRENCY_NAME || 'FREEOS'
-    console.log('state.state.accountName', this.walletUser)
+
 
     var dataRequests = [currentIterationPromise, bcStatisticsPromise, bcStateRequirementsPromise]
 
@@ -348,6 +359,7 @@ async cancelUnstake () {
       isRegistered: bcUser != null,
       statistics: bcStatistics,
       unvests: bcUnvests,
+      unvestPercentage: bcStatistics.unvestpercent,
       canUnvest: canUnvest,
       bcStateRequirements,
       isFreeosEnabled: isFreeosEnabled,

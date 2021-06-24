@@ -96,7 +96,14 @@ export async function convertOptions({ state }, submitData) {
 
 export async function unvest() {
   var result = await FreeosBlockChainState.getInstance().unvest()
-  // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
-
   console.log('Result of unvest', result)
+}
+
+
+export async function logout() {
+  var result = await FreeosBlockChainState.getInstance().logout()
+      console.log(this.$router)
+  this.$router.push({path: '/' })
+
+  console.log('Result of logout', result)
 }

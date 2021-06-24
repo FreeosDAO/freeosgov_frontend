@@ -93,3 +93,7 @@ export const setcurrencyName = (state, currencyName) => {
 export const setstakeCurrency = (state, stakeCurrency) => {
   state.currencyName = stakeCurrency
 }
+
+export const setunvestPercentage = (state, unvestPercentage) => {
+  state.unvestPercentage = unvestPercentage
+}

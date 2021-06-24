@@ -48,7 +48,7 @@
 
             <div class="flex"><small class="q-mr-auto">For more info on Vested OPTIONS <router-link to="info" @click.native="scrollFix('#claiming')">click here</router-link></small></div>
 
-            <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">Unvest</q-btn>
+            <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary"><span>Unvest<span v-if="unvestPercentage && canUnvest && vestedOptions"> {{unvestPercentage}}%</span></span></q-btn>
         </div>
 
     </div>
@@ -71,7 +71,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions', 'stakeRequirement'])
+        ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions', 'stakeRequirement', 'unvestPercentage'])
     },
     methods: {
         ...mapActions('freeos', ['monitorBlockChain', 'unvest']),

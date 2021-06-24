@@ -33,5 +33,6 @@ var definition = {
 
   currencyName: null,
   stakeCurrency: null,
+  unvestPercentage: null, 
 }
 export default definition

@@ -29,3 +29,4 @@ export const unstakingIteration = ({ unstakingIteration }) => unstakingIteration
 
 export const stakeCurrency = ({ stakeCurrency }) => stakeCurrency
 export const currencyName = ({ currencyName }) => currencyName
+export const unvestPercentage = ({ unvestPercentage }) => unvestPercentage
