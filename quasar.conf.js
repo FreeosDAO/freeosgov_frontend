@@ -10,7 +10,7 @@ const path = require('path')
 
 const envparser = require('./envparser.js')
 
-module.exports = function (/* ctx */) {
+module.exports = function (ctx) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: false,
@@ -50,7 +50,12 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-      env: envparser(),
+      env: envparser(ctx),
+        /*env: {
+          AIRCLAIM_CONTRACT: process.env.DEV ? "freeosa" : "freeos4",
+          AIRCLAIM_CONFIGURATION_CONTRACT: process.env.DEV ? "freeoscfga" : "freeoscfg4",
+          FREEOSTOKENS_CONTRACT: process.env.DEV ? "freeostokena" : "freeostoken4"
+        },*/
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
