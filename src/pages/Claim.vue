@@ -295,11 +295,14 @@ export default {
 
             var dDisplay = d > 0 ? d + (d == 1 ? " d, " : " d") : "";
             var hDisplay = h > 0 ? h + (h == 1 ? " h, " : " h") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " min, " : " mins") : "";
 
             if(hDisplay){
                 return dDisplay + ", " + hDisplay
+            }else if(dDisplay){
+               return dDisplay
             }else{
-               return  dDisplay
+               return mDisplay
             }
         }
 

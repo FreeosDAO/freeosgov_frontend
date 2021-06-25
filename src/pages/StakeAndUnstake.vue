@@ -18,9 +18,9 @@
                     <p class="q-mb-xs text-subtitle1" style="line-height:1.2;"><strong>You have unstaked</strong></p>
                     <h4 class="text-h4 q-mt-none q-mb-sm" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
                     <p class="q-mb-md text-subtitle1" style="line-height:1.4;">Your will NOT be eligible to Claim your weekly OPTIONS in the next iteration. You need a minimum {{stakeRequirement}} {{stakeCurrency}} to Claim. This can be rectified by cancelling the process if you wish</p>
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You are currently unstaking {{stakeRequirement}} {{stakeCurrency}}. The unstaking will complete <strong class="text-primary"> {{stakeIterationMsg}}</strong></p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You are currently unstaking {{stakeRequirement}} {{stakeCurrency}}. The unstaking will complete in <strong class="text-primary">{{stakeIterationMsg}}</strong></p>
                  <p class="q-mb-md" style="line-height:1.4;">For more info, <router-link to="info" @click.native="scrollFix('#unstaking')">click here</router-link></p>
-                    <q-btn unelevated outline :disable="XPRBalance < stakeRequirement" color="primary" v-if="isAuthenticated" @click="cancelSubmit()">Cancel Unstaking</q-btn>
+                    <q-btn unelevated outline color="primary" v-if="isAuthenticated" @click="cancelSubmit()">Cancel Unstaking</q-btn>
 
                 </div>
 
@@ -94,9 +94,9 @@ export default {
               const dateEnd =  Math.floor(Date.parse(this.currentIteration.end + "Z") / 1000);
               const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000);
               var daysToNextClaim = this.secondsToDhms(dateEnd - currentTimeStamp);
-              return "in " + daysToNextClaim;
+              return daysToNextClaim;
         }else{
-            return " very soon"
+            return "a minute"
         }
 
       }
@@ -179,11 +179,14 @@ export default {
 
             var dDisplay = d > 0 ? d + (d == 1 ? " day" : " days") : "";
             var hDisplay = h > 0 ? h + (h == 1 ? " hour" : " hours") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " min, " : " mins") : "";
 
             if(hDisplay){
                 return dDisplay + ", " + hDisplay
+            }else if(dDisplay){
+               return dDisplay
             }else{
-               return  dDisplay
+               return mDisplay
             }
         }
 
