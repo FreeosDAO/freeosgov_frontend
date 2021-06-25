@@ -8,9 +8,7 @@
           <div></div>
         </q-btn>
         <div style="display: flex; align-items: center;margin-top:-3px;">
-          <q-btn no-caps @click="accountURL()"  v-if="isAuthenticated">{{accountName}}</q-btn> |
-          <q-btn no-caps class="nav-connect-wallet" label="Connect Wallet" v-if="!isAuthenticated" @click="() => connectWallet('anchor')"></q-btn>
-          <q-btn no-caps v-if="isAuthenticated" style="justify-self: flex-end;" @click="logout()">Logout</q-btn>
+          <span class="q-mr-sm">v{{appVersion}}</span> <q-btn style="margin-right:-6px;" no-caps @click="accountURL()"  v-if="isAuthenticated">{{accountName}}</q-btn><span style="height:10px;border-right:1px solid #eee;"></span><q-btn  style="margin-left:-6px;" no-caps v-if="isAuthenticated" @click="logout()">Logout</q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -125,7 +123,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement'])
+    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement']),
+    appVersion: function () {
+      return process.env.APP_VERSION
+    }
   },
   components: {
     // Balance
