@@ -297,8 +297,10 @@ export default {
             var hDisplay = h > 0 ? h + (h == 1 ? " h, " : " h") : "";
             var mDisplay = m > 0 ? m + (m == 1 ? " min, " : " mins") : "";
 
-            if(hDisplay){
+            if(dDisplay && hDisplay){
                 return dDisplay + ", " + hDisplay
+            }else if(hDisplay){
+                return hDisplay
             }else if(dDisplay){
                return dDisplay
             }else{
@@ -329,7 +331,6 @@ $panel-width: 360px;
 
 .convert-btn{
     text-decoration: none;
-    color:#000;
     opacity: .5;
     line-height:1;
     small{

@@ -40,7 +40,6 @@ export async function fetch(state) {
   var result = await FreeosBlockChainState.getInstance().fetch()
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
   console.log('setisFreeosEnabled', result)
-   state.commit('setisFreeosEnabled', result['isFreeosEnabled'])
    return result;
 }
 
