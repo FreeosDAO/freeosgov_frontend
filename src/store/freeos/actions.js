@@ -3,6 +3,7 @@ import notifyAlert from 'src/services/notify-alert'
 import { connect } from 'src/utils/smartContractRequest'
 import ProtonSDK from '../../utils/proton'
 import { FreeosBlockChainState } from '../../services/FreeosBlockChainState'
+import { isFreeosEnabled } from './getters'
 
 /**
  * Monitors the blockchain for changes related to the current user
@@ -35,11 +36,12 @@ export async function monitorBlockChain (state) {
     }
   })
 }
-export async function fetch () {
+export async function fetch(state) {
   var result = await FreeosBlockChainState.getInstance().fetch()
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
-
-  console.log('Result of claim', result)
+  console.log('setisFreeosEnabled', result)
+   state.commit('setisFreeosEnabled', result['isFreeosEnabled'])
+   return result;
 }
 
 export async function transfer ({ state }, submitData) {
@@ -48,6 +50,7 @@ export async function transfer ({ state }, submitData) {
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
   console.log('Result of transfer', result)
+  return result;
 }
 
 export async function register () {
@@ -61,13 +64,14 @@ export async function claim () {
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
   console.log('Result of claim', result)
+  return result;
 }
 
 export async function stake ({ state }, submitData) {
   var result = await FreeosBlockChainState.getInstance().stake(submitData)
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
-
   console.log('Result of stake', result)
+  return result;
 }
 
 export async function unstake () {
@@ -75,6 +79,7 @@ export async function unstake () {
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
   console.log('Result of unstake', result)
+  return result;
 }
 
 export async function cancelUnstake () {
@@ -82,6 +87,7 @@ export async function cancelUnstake () {
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
   console.log('Result of cancelUnstake', result)
+  return result;
 }
 
 export async function convertOptions({ state }, submitData) {
@@ -89,6 +95,7 @@ export async function convertOptions({ state }, submitData) {
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
   console.log('Result of convertOptions', result)
+  return result;
 }
 
 

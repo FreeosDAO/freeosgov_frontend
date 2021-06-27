@@ -163,6 +163,8 @@ export class FreeosBlockChainState extends EventEmitter {
     }
   }
 
+  
+
   async unstake () {
     console.log('unstake')
     return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'unstake')
@@ -207,7 +209,7 @@ async logout() {
       limit: 1
     })
     console.log('masterswitch', masterswitch)
-    var isFreeosEnabled = masterswitch ? masterswitch.value == '1' : false
+    var isFreeosEnabled = masterswitch && masterswitch.value && masterswitch.value === '1' ? true : false
 
     // Row data
     // {"iteration_number":1,"start":"2021-04-27T22:59:59.000","end":"2021-04-28T04:00:00.000","claim_amount":100,"tokens_required":0}
@@ -298,6 +300,10 @@ async logout() {
     var currentIterationIdx = (iterations != null && iterations.currentIteration ? iterations.currentIteration.iteration_number : -1)
 
     console.log('currentIterationIdx', currentIterationIdx)
+
+    if (currentIterationIdx === 0 || currentIterationIdx === -1) {
+      isFreeosEnabled = false;
+    }
 
     var unvestedAlready = bcUnvests != null && bcUnvests.iteration_number == currentIterationIdx
 

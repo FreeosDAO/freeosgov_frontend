@@ -308,12 +308,13 @@ export default {
 
 
     },
-    async created() {
-        await this.fetch()
+    async created () {
+
     },
     async mounted() {
         document.body.classList.add('claim-page');
-        this.monitorBlockChain()
+        var result = await this.fetch();
+        console.log('awaitresult', result);
     },
     destroyed () {
         document.body.classList.remove('claim-page')
@@ -329,7 +330,7 @@ $panel-width: 360px;
 .convert-btn{
     text-decoration: none;
     color:#000;
-    opacity: .7;
+    opacity: .5;
     line-height:1;
     small{
         margin-bottom:0;

@@ -89,7 +89,12 @@ export default {
   components: {
     // Balance
   },
+  created () {
+    // this.getClaimCalendar()
+    this.monitorBlockChain()
+  },
   methods: {
+    ...mapActions('freeos', ['monitorBlockChain']),
     onSigninFinish (event) {
       if (event.isFinished) {
         this.isShowDrawerButton = true

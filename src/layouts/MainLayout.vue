@@ -131,7 +131,8 @@ export default {
   components: {
     // Balance
   },
-  methods: {
+   methods: {
+    ...mapActions('freeos', ['monitorBlockChain']),
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
     },
@@ -155,7 +156,7 @@ export default {
   },
   created () {
     // this.getClaimCalendar()
-    this.checkIfLoggedIn()
+    this.monitorBlockChain()
   }
 }
 </script>
