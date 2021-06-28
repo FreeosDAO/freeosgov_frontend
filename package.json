@@ -1,8 +1,8 @@
 {
   "name": "freeos",
   "version": "0.0.1",
-  "description": "Application to claim your FreeOS tokens",
-  "productName": "FreeOS App",
+  "description": "Application to claim your Freeos tokens",
+  "productName": "Freeos App",
   "author": "FreeDAO",
   "private": true,
   "scripts": {
