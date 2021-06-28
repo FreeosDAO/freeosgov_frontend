@@ -136,9 +136,9 @@ module.exports = function (ctx) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'FreeOS App',
-        short_name: 'FreeOS App',
-        description: 'Application to claim your FreeOS tokens',
+        name: 'Freeos App',
+        short_name: 'Freeos App',
+        description: 'Application to claim your Freeos tokens',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
