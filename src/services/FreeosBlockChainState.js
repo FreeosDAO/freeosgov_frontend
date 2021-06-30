@@ -365,7 +365,7 @@ async logout() {
       isRegistered: bcUser != null,
       statistics: bcStatistics,
       unvests: bcUnvests,
-      unvestPercentage: bcStatistics.unvestpercent,
+      unvestPercentage: bcStatistics && bcStatistics.unvestpercent ? bcStatistics.unvestpercent : 0,
       canUnvest: canUnvest,
       bcStateRequirements,
       isFreeosEnabled: isFreeosEnabled,
