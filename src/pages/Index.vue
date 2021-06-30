@@ -47,7 +47,7 @@ export default {
     console.log('resultLLL', result)
   },
   async mounted () {
-    if (this.isAuthenticated) {
+    if (this.isAuthenticated && isFreeosEnabled !==false) {
       console.log('this.$route.query', this.$route.query.returnUrl)
       if( this.$route.query.returnUrl){
         this.$router.push({ path: this.$route.query.returnUrl })

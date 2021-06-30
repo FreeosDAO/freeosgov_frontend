@@ -123,7 +123,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement']),
+    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement', 'isFreeosEnabled']),
     appVersion: function () {
       return process.env.APP_VERSION
     }
@@ -157,6 +157,16 @@ export default {
   created () {
     // this.getClaimCalendar()
     this.monitorBlockChain()
+  },
+  watch: {
+    isFreeosEnabled: {
+      immediate: true,
+      handler: function(val, oldVal) {
+          if(val===false){
+            this.$router.push({path:'/'})
+          }
+      },
+    },
   }
 }
 </script>
