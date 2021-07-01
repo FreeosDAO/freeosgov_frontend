@@ -241,7 +241,7 @@ $panel-width: 360px;
 .panel-top-total {
     border: 1px solid #ccc;
     border-radius: $panel-border-radius;
-    padding-bottom: 30px;
+    padding-bottom: 45px;
     margin-bottom: -20px;
 }
 

@@ -42,11 +42,11 @@
             <b>Freeos system is not currently operational. Please check back later.</b>
         </div>
 
-            <div class="panel-wrap panel-top-total q-pa-lg" v-if="isFreeosEnabled">
+            <div class="panel-wrap panel-top-total q-pt-lg" v-if="isFreeosEnabled">
                 <div class="row">
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>OPTIONS</strong></p>
-                        <p class="text-bold text-h2" style="line-height:1;">{{liquidOptions}}</p>
+                        <p class="text-bold text-h4" style="line-height:1;letter-spacing:-2px;">{{liquidOptions}}</p>
                     </div>
                     <div class="col" style="max-width:40px;">
                         <a class="convert-btn" v-if="liquidOptions > 0" href="/#/convert-options">
@@ -62,7 +62,7 @@
                         </a></div>
                     <div class="col">
                         <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>{{currencyName}}</strong></p>
-                        <p class="text-bold text-h2" style="line-height:1;">{{liquidFreeos}}</p>
+                        <p class="text-bold text-h4" style="line-height:1;letter-spacing:-2px;">{{liquidFreeos}}</p>
                     </div>
                 </div>
             </div>
