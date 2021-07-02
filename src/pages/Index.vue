@@ -42,10 +42,6 @@ export default {
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
     ...mapActions('freeos', ['fetch', 'monitorBlockChain'])
   },
-  async created () {
-    var result = await this.fetch();
-    console.log('resultLLL', result)
-  },
   async mounted () {
     if (this.isAuthenticated && isFreeosEnabled !==false) {
       console.log('this.$route.query', this.$route.query.returnUrl)

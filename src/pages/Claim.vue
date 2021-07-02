@@ -162,7 +162,7 @@
                 </div>
                 <div v-if="!canClaim" v-html="reasonCannotClaim">
                 </div>
-                <div class="flex"><small class="q-mr-auto">For more info on Claiming <router-link to="info" @click.native="scrollFix('#claiming')">click here</router-link></small></div>
+                <div class="flex"><small class="q-mr-auto">For more info on Claiming <router-link to="/info#claiming">click here</router-link></small></div>
             </div>
 
         </div>

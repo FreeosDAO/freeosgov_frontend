@@ -17,13 +17,24 @@ Vue.use(VueRouter)
 
 export default function ({ store }) {
   const Router = new VueRouter({
-    scrollBehavior: () => ({ x: 0, y: 0 }),
+  scrollBehavior: function (to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        selector: to.hash
+      }
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  },
     routes,
 
     // Leave these as they are and change in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    mode: process.env.VUE_ROUTER_MODE,
+    mode: 'history',
     base: process.env.VUE_ROUTER_BASE
   })
 

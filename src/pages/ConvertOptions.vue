@@ -8,7 +8,7 @@
                 <div class="text-h4 text-center q-ma-lg">Convert Your Options</div>
                 <p class="text-center text-subtitle1 q-mb-xs">Convert your OPTIONS into {{currencyName}}.</p>
                <p class="text-center text-negative q-mb-sm">This could be a Taxable event in your jurisdiction</p>
-                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="info" @click.native="scrollFix('#unstaking')">click here</router-link></p>
+                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#convert-options">click here</router-link></p>
                  <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>You currently have</strong></p>
                     <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{liquidOptions}}</h4>
