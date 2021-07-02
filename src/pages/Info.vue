@@ -36,8 +36,8 @@
                             <p class="text-subtitle1 q-mt-xs">Some info</p>
                         </div>
 
-                        <div id="vesting">
-                            <p class="text-h4 q-mt-xl">Vesting</p>
+                        <div id="vested-options">
+                            <p class="text-h4 q-mt-xl">Vested Options</p>
                             <img src="../assets/freeostry.png" />
                             <p class="text-subtitle1 q-mt-xs">Some info</p>
                         </div>

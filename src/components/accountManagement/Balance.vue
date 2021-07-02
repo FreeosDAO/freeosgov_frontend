@@ -4,11 +4,9 @@
         <div class="flex justify-between q-mb-md" style="width: 100%">
             <div class="flex items-center text-h6">
                 Liquid {{stakeCurrency}}:
-                <q-btn class="small-icon  q-ml-sm">
+                <q-btn class="small-icon q-mt-sm q-ml-sm">
                     <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-                        <strong>
-                            This is your freely transferable {{stakeCurrency}}
-                        </strong>
+                        This is your freely transferable {{stakeCurrency}}
                     </q-tooltip>
                 </q-btn>
 
@@ -19,11 +17,9 @@
         <div v-if="stakeRequirement > 0" class="flex justify-between q-mb-md">
             <div class="flex items-center text-h6">
                 Staked {{stakeCurrency}}:                 
-                <q-btn class="small-icon q-ml-sm">
+                <q-btn class="small-icon q-mt-sm q-ml-sm">
                     <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-                        <strong>
-                            This {{stakeCurrency}} is held for collateral to allow for claiming
-                        </strong>
+                         This {{stakeCurrency}} is held for collateral to allow for claiming
                     </q-tooltip>
                 </q-btn>
             </div>
@@ -39,15 +35,10 @@
 
         <div class="flex justify-between q-mb-md">
             <div class="flex items-center  text-h6">
-
                Vested OPTIONS:
-
-
             </div>
             <div class="col-5 text-h6">{{vestedOptions || '0'}}</div>
-
             <div class="flex"><small class="q-mr-auto">For more info on Vested OPTIONS <router-link to="/info#vested-options">click here</router-link></small></div>
-
             <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary"><span>Unvest<span v-if="unvestPercentage && canUnvest && vestedOptions"> {{unvestPercentage}}%</span></span></q-btn>
         </div>
 
@@ -99,8 +90,8 @@ export default {
 
     .small-icon {
         display: block;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         background-image: url(../../assets/exclamation-small-icon.svg);
         background-repeat: no-repeat;
         margin-right: 5px;

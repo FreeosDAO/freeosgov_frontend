@@ -35,22 +35,30 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'PageIndex',
   computed: {
-    ...mapGetters('account', ['isAuthenticated']),
-    ...mapGetters('freeos', ['isFreeosEnabled'])
+   // ...mapGetters('account', ['isAuthenticated']),
+    ...mapGetters('freeos', ['isFreeosEnabled','isAuthenticated'])
   },
   methods: {
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
     ...mapActions('freeos', ['fetch', 'monitorBlockChain'])
   },
+  watch: {
+    isAuthenticated: {
+      immediate: true,
+      handler: function(val, oldVal) {
+        console.log(val, oldVal)
+          if(val===true && this.isFreeosEnabled !==false){
+                console.log('this.$route.query', this.$route.query.returnUrl)
+                if( this.$route.query.returnUrl){
+                  this.$router.push({ path: this.$route.query.returnUrl })
+                }else{
+                  //this.$router.push({ path: '/claim' })
+                }
+          }
+      },
+    },
+  },
   async mounted () {
-    if (this.isAuthenticated && isFreeosEnabled !==false) {
-      console.log('this.$route.query', this.$route.query.returnUrl)
-      if( this.$route.query.returnUrl){
-        this.$router.push({ path: this.$route.query.returnUrl })
-      }else{
-        //this.$router.push({ path: '/claim' })
-      }
-    }
   }
 }
 </script>

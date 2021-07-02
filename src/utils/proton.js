@@ -1,4 +1,7 @@
 import { ConnectWallet } from '@protonprotocol/proton-web-sdk'
+import {
+  FreeosBlockChainState
+} from '../services/FreeosBlockChainState'
 
 class ProtonSDK {
   constructor () {
@@ -60,7 +63,9 @@ class ProtonSDK {
   };
 
   logout = async () => {
-    await this.link.removeSession(this.requestAccount, this.session.auth)
+    console.log('this.requestAccount',this.requestAccount);
+    if (this.session && this.session.auth) await this.link.removeSession(this.requestAccount, this.session.auth)
+    await FreeosBlockChainState.getInstance().fetch();
   }
 
   restoreSession = async () => {

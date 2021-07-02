@@ -1,5 +1,8 @@
 <template>
 <div class="q-pa-md">
+
+  <CompleteDialog  ref="complete"  />
+
     <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
 
         <div class="panel-wrap">
@@ -75,6 +78,9 @@ import {
     mapActions,
     mapGetters
 } from 'vuex'
+import CompleteDialog from 'src/components/CompleteDialog.vue'
+import { Notify } from 'quasar'
+
 
 export default {
     name: 'Stake',
@@ -84,6 +90,9 @@ export default {
             stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
         }
+    },
+    components: {
+        CompleteDialog
     },
     computed: {
         ...mapGetters('freeos', ['accountName', 'bcUnstaking', 'XPRBalance', 'liquidFreeos', 'isAuthenticated', 'stakeRequirement', 'userHasStaked', 'userStake', 'userMeetsStakeRequirement', 'currentIteration','unstakingIteration']),
@@ -102,7 +111,7 @@ export default {
       }
    },
     created(){
-      this.setCountdown();
+      //this.setCountdown();
     },
     methods: {
         ...mapActions('freeos', ['fetch', 'stake', 'unstake', 'cancelUnstake']),
@@ -110,18 +119,32 @@ export default {
             window.open("https://www.protonswap.com/swap", '_blank');
         },
         async stakeSubmit() {
-
+            const _ = this;
             try {
   
-              var result = await this.stake(this.stakeRequirement)
+              var result = await _.stake(_.stakeRequirement)
               let responseMessage = result.processed.action_traces[0].console
               console.log('resultR', result)
               if (!responseMessage) {
                 responseMessage = 'Transfer successfully'
               }
 
+                _.dialogTitle = "Great Stake";
+                _.dialogSubtitle = "You staked";
+                _.dialogValue = _.stakeRequirement;
+                _.showCompleteDialog = true;
+                //_.claimWatch();
+
+                console.log('claim', result)
+
+
+
               return result
             } catch (e) { 
+              Notify.create({
+                message: e,
+                color: 'negative'
+              })
               console.log(e);             
               return e
             }
@@ -134,12 +157,13 @@ export default {
               if (!responseMessage) {
                 responseMessage = 'Transfer successfully'
               }
-              Notify.create({
-                message: responseMessage,
-                color: 'positive'
-              })
+
+                this.$refs.complete.openDialog({
+                  title: "Unstaked", subtitle: "You've unstaked", value: this.stakeRequirement, currency: process.env.STAKING_CURRENCY
+                });
               return result
             } catch (e) {
+              console.log(e);    
               return e
             }
         },
@@ -151,12 +175,17 @@ export default {
               if (!responseMessage) {
                 responseMessage = 'Cancel Unstake successfully'
               }
-              Notify.create({
-                message: responseMessage,
-                color: 'positive'
-              })
+
+                this.$refs.complete.openDialog({
+                  title: "Cancel Unstaking", 
+                  subtitle: "You've cancelled Unstaking", 
+                  value: this.stakeRequirement,
+                  currency: process.env.STAKING_CURRENCY
+                });
+
               return result
             } catch (e) {
+              console.log(e);    
               return e
             }
         },
