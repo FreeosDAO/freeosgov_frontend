@@ -294,7 +294,7 @@ export default {
             //if(newValue > oldValue){
             //_.claimWatch();
             this.$refs.complete.openDialog({
-                  title: "Wahoo!", subtitle: "You earned", value: _.currentIteration.claim_amount
+                  title: "Wahoo!", subtitle: "You earned", value: this.currentIteration.claim_amount
             });
             console.log('claim', result)
         },
