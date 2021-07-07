@@ -11,7 +11,6 @@ import { isFreeosEnabled } from './getters'
  */
 export async function monitorBlockChain (state) {
   FreeosBlockChainState.getInstance().on('change', (data) => {
-    console.log('data is now', data)
     if (data) {
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
