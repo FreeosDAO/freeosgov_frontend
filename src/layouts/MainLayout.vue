@@ -8,7 +8,7 @@
           <div></div>
         </q-btn>
         <div style="display: flex; align-items: center;margin-top:-3px;">
-          <span class="q-mr-sm">v{{appVersion}}</span> <q-btn style="margin-right:-6px;" no-caps @click="accountURL()"  v-if="isAuthenticated">{{accountName}}</q-btn><span style="height:10px;border-right:1px solid #eee;"></span><q-btn  style="margin-left:-6px;" no-caps v-if="isAuthenticated" @click="logout()">Logout</q-btn>
+          <span class="q-mr-sm">v{{appVersion}}</span> <q-btn style="margin-right:-6px;" no-caps @click="accountURL()"  v-if="isAuthenticated">{{accountName}}</q-btn><span style="height:10px;border-right:1px solid #eee;"></span><q-btn  style="margin-left:-6px;" no-caps v-if="isAuthenticated" @click="logoutSubmit()">Logout</q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -133,6 +133,9 @@ export default {
   },
    methods: {
     ...mapActions('freeos', ['monitorBlockChain']),
+    async logoutSubmit(){
+      await this.logout();
+    },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
     },
@@ -161,6 +164,13 @@ export default {
   watch: {
     isFreeosEnabled: {
       immediate: true,
+      handler: function(val, oldVal) {
+          if(val===false){
+            this.$router.push({path:'/'})
+          }
+      },
+    },
+    isAuthenticated: {
       handler: function(val, oldVal) {
           if(val===false){
             this.$router.push({path:'/'})

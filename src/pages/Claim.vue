@@ -253,31 +253,33 @@ export default {
     computed: {
         ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration']),
         nextClaimDescription: function () {
-            const dateEnd =  Math.floor(Date.parse(this.currentIteration.end + "Z") / 1000);
-            const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000);
-            var daysToNextClaim = this.secondsToDhms(dateEnd - currentTimeStamp);
-
+            var daysToNextClaim = "";
+            if(this.currentIteration && this.currentIteration.end){
+                const dateEnd =  Math.floor(Date.parse(this.currentIteration.end + "Z") / 1000);
+                const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000);
+                daysToNextClaim = this.secondsToDhms(dateEnd - currentTimeStamp);
+            }
             return daysToNextClaim
         },
         notes: function () {
-            return this.currentIteration ? ('Week ' + this.currentIteration.iteration_number) : ''
+            return this.currentIteration && this.currentIteration.iteration_number ? ('Week ' + this.currentIteration.iteration_number) : ''
         },
         registerModalTrigger: {
             get () {
                 return (this.isRegistered === false && this.registerModalOverride === true)
             },
-            set (value) {
+            async set (value) {
                 console.log(value);
                 this.registerModalOverride = value;
-                if(!this.isRegistered){
+                if(this.isRegistered === false){
                     console.log("LOGOUT");
-                    this.logout();
+                    await this.logout();
                 }
             }
         },
     },
     methods: {
-        ...mapActions('freeos', ['monitorBlockChain', 'fetch', 'register', 'claim', 'currentIteration']),
+        ...mapActions('freeos', ['fetch', 'register', 'claim']),
         ...mapActions('account', ['logout']),
         toggleTerms(){
             this.showTerms = !this.showTerms;
@@ -305,9 +307,9 @@ export default {
             var m = Math.floor(seconds % 3600 / 60);
             var s = Math.floor(seconds % 60);
 
-            var dDisplay = d > 0 ? d + (d == 1 ? " d, " : " d") : "";
-            var hDisplay = h > 0 ? h + (h == 1 ? " h, " : " h") : "";
-            var mDisplay = m > 0 ? m + (m == 1 ? " min, " : " mins") : "";
+            var dDisplay = d > 0 ? d + (d == 1 ? " d" : " d") : "";
+            var hDisplay = h > 0 ? h + (h == 1 ? " h" : " h") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
 
             if(dDisplay && hDisplay){
                 return dDisplay + ", " + hDisplay
