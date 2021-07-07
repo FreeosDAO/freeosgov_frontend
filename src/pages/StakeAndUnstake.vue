@@ -47,7 +47,7 @@
                 </div>
 
 
-                <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking">
+                <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking && stakeRequirement > 0">
                     <p class="q-mb-md text-h4" style="line-height:1.2;">Unstake</p>
                     <p class="text-subtitle1 q-mb-xs" style="line-height:1.4;"><strong>This process will complete at the start of the next Claim</strong> also if you unstake you will NOT be eligible to Claim your weekly OPTIONS. </p>
                      <p class="q-mb-md" style="line-height:1.4;">For more info, <router-link to="/info#unstaking">click here</router-link></p>
