@@ -263,6 +263,7 @@ $panel-width: 360px;
     border-radius: $panel-border-radius;
     padding-bottom: 45px;
     margin-bottom: -20px;
+    margin-top: 4px;
 }
 
 
