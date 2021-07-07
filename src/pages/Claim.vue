@@ -309,18 +309,18 @@ export default {
             var m = Math.floor(seconds % 3600 / 60);
             var s = Math.floor(seconds % 60);
 
-            var dDisplay = d > 0 ? d + (d == 1 ? " d" : " d") : "";
-            var hDisplay = h > 0 ? h + (h == 1 ? " h" : " h") : "";
-            var mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
+            var dDisplay = d > 0 ? d + (d == 1 ? "day" : "days") : "";
+            var hDisplay = h > 0 ? h + (h == 1 ? "hr" : "hrs") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? "min" : "mins") : "";
 
             if(dDisplay && hDisplay){
                 return dDisplay + ", " + hDisplay
             }else if(hDisplay){
-                return hDisplay
+                return hDisplay + ", " + mDisplay
             }else if(dDisplay){
                return dDisplay
             }else{
-               return mDisplay
+               return "0hrs, " + mDisplay
             }
         }
 

@@ -208,16 +208,16 @@ export default {
 
             var dDisplay = d > 0 ? d + (d == 1 ? " day" : " days") : "";
             var hDisplay = h > 0 ? h + (h == 1 ? " hour" : " hours") : "";
-            var mDisplay = m > 0 ? m + (m == 1 ? " min, " : " mins") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " min" : " mins") : "";
 
             if(dDisplay && hDisplay){
                 return dDisplay + ", " + hDisplay
             }else if(hDisplay){
-                return hDisplay
+                return hDisplay + ", " + mDisplay
             }else if(dDisplay){
                return dDisplay
             }else{
-               return mDisplay
+               return "0 hours " + mDisplay
             }
         }
 
