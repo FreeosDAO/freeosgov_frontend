@@ -289,16 +289,18 @@ export default {
             //await this.fetch()
         },
         async startClaim() {
-            const _ = this;
-            var result = await _.claim()
-            //this.claimWatch = vm.$watch('liquidFreeos', function(newValue, oldValue) {
-            //alert('The first name was changed from ' + oldValue.firstName + ' to ' + newValue.firstName + '!');
-            //if(newValue > oldValue){
-            //_.claimWatch();
-            this.$refs.complete.openDialog({
-                  title: "Wahoo!", subtitle: "You earned", value: this.currentIteration.claim_amount
-            });
-            console.log('claim', result)
+            if(this.canClaim){
+                const _ = this;
+                var result = await _.claim()
+                //this.claimWatch = vm.$watch('liquidFreeos', function(newValue, oldValue) {
+                //alert('The first name was changed from ' + oldValue.firstName + ' to ' + newValue.firstName + '!');
+                //if(newValue > oldValue){
+                //_.claimWatch();
+                this.$refs.complete.openDialog({
+                    title: "Wahoo!", subtitle: "You earned", value: this.currentIteration.claim_amount
+                });
+                console.log('claim', result)
+            }
         },
         secondsToDhms(seconds) {
             seconds = Number(seconds);
