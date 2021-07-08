@@ -137,7 +137,6 @@ export default {
       await this.logout();
     },
     handleFunctionCall(functionName) {
-        console.log(functionName)
         if(functionName)
           return this[functionName]()
         else
