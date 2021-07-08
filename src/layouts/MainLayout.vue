@@ -123,7 +123,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement', 'isFreeosEnabled']),
+    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement', 'isFreeosEnabled', 'userHasStaked', 'userStake']),
     appVersion: function () {
       return process.env.APP_VERSION
     },
@@ -143,7 +143,7 @@ export default {
           return false
     },
     showStake: function () {
-       return this.stakeRequirement === 0
+       return this.stakeRequirement === 0 || (this.userHasStaked && this.userStake === 0)
     },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
