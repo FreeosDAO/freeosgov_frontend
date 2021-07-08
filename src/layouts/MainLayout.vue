@@ -24,7 +24,7 @@
       <q-scroll-area class="fit"
         style="box-shadow: 5px 5px #000;"
       >
-      <div class="flex justify-end q-pr-lg q-pt-lg q-mb-sm">
+      <div class="flex justify-end q-pr-md q-pt-sm q-pb-sm">
         <q-icon class="cursor-pointer" style="font-size:2rem" name="close" @click="drawer = !drawer"/>
       </div>
         <q-list>
