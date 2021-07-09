@@ -35,11 +35,11 @@
 
         <div class="flex justify-between q-mb-md">
             <div class="flex items-center  text-h6">
-               Vested OPTIONS:
+               Locked OPTIONS:
             </div>
             <div class="col-5 text-h6">{{vestedOptions || '0'}}</div>
-            <div class="flex"><small class="q-mr-auto">For more info on Vested OPTIONS <router-link to="/info#vested-options">click here</router-link></small></div>
-            <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary"><span>Unvest<span v-if="unvestPercentage && canUnvest && vestedOptions"> {{unvestPercentage}}%</span></span></q-btn>
+            <div class="flex"><small class="q-mr-auto">For more info on Locked OPTIONS <router-link to="/info#vested-options">click here</router-link></small></div>
+            <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary"><span>Unlock<span v-if="unvestPercentage && canUnvest && vestedOptions"> {{unvestPercentage}}%</span></span></q-btn>
         </div>
 
     </div>
@@ -75,7 +75,7 @@ export default {
             var result = await this.unvest();
               if(!(result instanceof Error)){
                 this.$refs.complete.openDialog({
-                  title: "Unvested", subtitle: "You Unvested", value: this.unvestedAmount, currency: "OPTIONS"
+                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: "OPTIONS"
                 });
               }
         },
