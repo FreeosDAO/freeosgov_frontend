@@ -14,7 +14,7 @@
             <div class=" text-h6">{{XPRBalance || '0'}}</div>
         </div>
 
-        <div v-if="this.stakeRequirement > 0 || this.userStake > 0" class="flex justify-between q-mb-md">
+        <div v-if="!(this.stakeRequirement === 0 || (this.userHasStaked && this.userStake === 0))" class="flex justify-between q-mb-md">
             <div class="flex items-center text-h6">
                 Staked {{stakeCurrency}}:                 
                 <q-btn class="small-icon q-mt-sm q-ml-sm">
