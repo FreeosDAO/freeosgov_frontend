@@ -83,9 +83,9 @@ const menuList = [
   },
   {
     icon: require('@/assets/convert.svg'),
-    label: 'Convert Options',
+    label: 'Convert',
     separator: true,
-    route: '/convert-options'
+    route: '/convert'
   },
   {
     icon: require('@/assets/stack.svg'),

@@ -136,7 +136,10 @@ export default {
     methods: {
         ...mapActions('freeos', ['fetch', 'transfer']),
         async submit() {
-            this.submitData.from = this.accountName
+            var dataToSubmit = Object.assign({}, this.submitData)
+            dataToSubmit.from = this.accountName;
+            var tokenPrecision = this.submitData.token === this.currencyName ? process.env.TOKEN_PRECISION : process.env.STAKING_CURRENCY_PRECISION;
+            dataToSubmit.quantity = `${parseFloat(this.submitData.quantity).toFixed(tokenPrecision)} ${this.submitData.token}`
             var result = await this.transfer(this.submitData)
             console.log('resultR', result)
             this.resetForm()

@@ -157,9 +157,8 @@ export class FreeosBlockChainState extends EventEmitter {
     console.log('sendData', sendData)
     var contract = process.env.FREEOSTOKENS_CONTRACT
     if (sendData.token === process.env.STAKING_CURRENCY) {
-      contract = process.env.CURRENCY_CONTRACT
+      contract = process.env.STAKING_CURRENCY_CONTRACT
     }
-    sendData.quantity = `${parseFloat(sendData.quantity).toFixed(process.env.TOKEN_PRECISION)} ${sendData.token}`
     delete sendData.token
     return this.sendTransaction(contract, 'transfer', sendData)
   }
@@ -214,8 +213,8 @@ async cancelUnstake () {
     sendData.from = this.walletUser ? this.walletUser.accountName : null
     sendData.to = process.env.AIRCLAIM_CONTRACT
     sendData.memo = 'freeos stake'
-    sendData.quantity = `${parseFloat(stakeRequirement).toFixed(process.env.TOKEN_PRECISION)} ` + process.env.STAKING_CURRENCY || 'XPR'
-    return this.sendTransaction(process.env.CURRENCY_CONTRACT, 'transfer', sendData)
+    sendData.quantity = `${parseFloat(stakeRequirement).toFixed(process.env.STAKING_CURRENCY_PRECISION)} ` + process.env.STAKING_CURRENCY || 'XPR'
+    return this.sendTransaction(process.env.STAKING_CURRENCY_CONTRACT, 'transfer', sendData)
   }
 
 
@@ -277,7 +276,7 @@ async logout() {
 
       bcUserPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT, 'users')
       // {"rows":[{"balance":"24920.0000 XPR"}],"more":false,"next_key":""}
-      bcXPRBalancePromise = this.getUserRecordAsNumber(process.env.CURRENCY_CONTRACT, 'accounts', {
+      bcXPRBalancePromise = this.getUserRecordAsNumber(process.env.STAKING_CURRENCY_CONTRACT, 'accounts', {
         upper_bound: stakeCurrency,
         lower_bound: stakeCurrency,
         limit: 1
@@ -371,7 +370,7 @@ async logout() {
         if (currentIterationIdx <= 0) {
           reasonCannotClaim = "<div class='text-h5 text-negative'>Airclaim Not Started</div>"
         } else if (!userMeetsHoldingRequirement) {
-          reasonCannotClaim = 'Opps! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " OPTIONS in your Wallet. Please <a href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
+          reasonCannotClaim = 'Opps! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + process.env.TOKEN_CURRENCY_NAME + " in your Wallet. Please <a href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
         } else if (userClaimedAlready) {
           reasonCannotClaim = '<div class="text-h5 text-primary">You have already claimed</div>'
         } else if (!userMeetsStakeRequirement) {

@@ -5,14 +5,14 @@
         <div class="panel-wrap">
             <q-card class="panel  q-pa-lg">
 
-                <div class="text-h4 text-center q-ma-lg">Convert Your Options</div>
-                <p class="text-center text-subtitle1 q-mb-xs">Convert your OPTIONS into {{currencyName}}.</p>
+                <div class="text-h4 text-center q-ma-lg">Convert Your {{tokenCurrencyName}}</div>
+                <p class="text-center text-subtitle1 q-mb-xs">Convert your {{tokenCurrencyName}} into {{currencyName}}.</p>
                <p class="text-center text-negative q-mb-sm">This could be a Taxable event in your jurisdiction</p>
-                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#convert-options">click here</router-link></p>
+                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#convert">click here</router-link></p>
                  <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>You currently have</strong></p>
                     <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{liquidOptions}}</h4>
-                    <p class="q-ma-xs" style="line-height:1;"><strong>OPTIONS</strong></p>
+                    <p class="q-ma-xs" style="line-height:1;"><strong>{{tokenCurrencyName}}</strong></p>
                  </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs">
@@ -60,6 +60,7 @@ export default {
   data () {
     return {
       sendAmount: null,
+      tokenCurrencyName: process.env.TOKEN_CURRENCY_NAME,
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
     }
@@ -70,11 +71,11 @@ export default {
   methods: {
     ...mapActions('freeos', ['convertOptions']),
     async submit () {
-      var result = await this.convertOptions({owner: this.accountName, quantity: `${parseFloat(this.sendAmount).toFixed(process.env.TOKEN_PRECISION)} OPTION`})
+      var result = await this.convertOptions({owner: this.accountName, quantity: `${parseFloat(this.sendAmount).toFixed(process.env.TOKEN_PRECISION)} ${process.env.TOKEN_CURRENCY_NAME}`})
       
         if(!(result instanceof Error)){
             this.$refs.complete.openDialog({
-                    title: "Wahoo!", subtitle: "You converted", value: this.sendAmount, currency: "OPTIONS"
+                    title: "Woohoo!", subtitle: "You converted", value: this.sendAmount, currency: rocess.env.TOKEN_CURRENCY_NAME
              });
         } 
       

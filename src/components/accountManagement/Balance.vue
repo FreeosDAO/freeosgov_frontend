@@ -26,19 +26,13 @@
             <div class="text-h6">{{userStake || '0'}}</div>
         </div>
 
-        <!--<div class="flex justify-between q-mb-md">
-        <div class="flex items-center text-subtitle1 text-weight-bold" style="color: #00a1ed">
-          <span class="small-icon"></span>
-          Liquid Options: </div>
-        <div class="col-5 text-primary text-weight-bold">{{liquidOptions || '0'}}</div>
-      </div>-->
 
         <div class="flex justify-between q-mb-md">
             <div class="flex items-center  text-h6">
-               Locked OPTIONS:
+               Locked {{tokenCurrencyName}}:
             </div>
             <div class="col-5 text-h6">{{vestedOptions || '0'}}</div>
-            <div class="flex"><small class="q-mr-auto">For more info on Locked OPTIONS <router-link to="/info#vested-options">click here</router-link></small></div>
+            <div class="flex"><small class="q-mr-auto">For more info on Locked {{tokenCurrencyName}} <router-link to="/info#vested-options">click here</router-link></small></div>
             <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary"><span>Unlock<span v-if="unvestPercentage && canUnvest && vestedOptions"> {{unvestPercentage}}%</span></span></q-btn>
         </div>
 
@@ -60,7 +54,8 @@ export default {
     data() {
         return {
             stakeCurrency: process.env.STAKING_CURRENCY,
-            currencyName: process.env.CURRENCY_NAME
+            currencyName: process.env.CURRENCY_NAME,
+            tokenCurrencyName: process.env.TOKEN_CURRENCY_NAME,
         }
     },
     computed: {
@@ -75,7 +70,7 @@ export default {
             var result = await this.unvest();
               if(!(result instanceof Error)){
                 this.$refs.complete.openDialog({
-                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: "OPTIONS"
+                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: process.env.TOKEN_CURRENCY_NAME
                 });
               }
         },

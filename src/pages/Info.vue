@@ -30,20 +30,20 @@
                             <p class="text-subtitle1 q-mt-xs">Some info</p>
                         </div>
 
-                        <div id="convert-options">
-                            <p class="text-h4 q-mt-xl">Converting Options</p>
+                        <div id="convert">
+                            <p class="text-h4 q-mt-xl">Converting {{tokenCurrencyName}}</p>
                             <img src="../assets/freeostry.png" />
                             <p class="text-subtitle1 q-mt-xs">Some info</p>
                         </div>
 
                         <div id="vested-options">
-                            <p class="text-h4 q-mt-xl">Vested Options</p>
+                            <p class="text-h4 q-mt-xl">Vested {{tokenCurrencyName}}</p>
                             <img src="../assets/freeostry.png" />
                             <p class="text-subtitle1 q-mt-xs">Some info</p>
                         </div>
 
                         <div id="unvesting">
-                            <p class="text-h4 q-mt-xl">Unlocking Options</p>
+                            <p class="text-h4 q-mt-xl">Unlocking {{tokenCurrencyName}}</p>
                             <img src="../assets/freeostry.png" />
                             <p class="text-subtitle1 q-mt-xs">Some info</p>
                         </div>
@@ -64,7 +64,9 @@ export default {
     name: 'Info',
     data() {
         return {
-
+            stakeCurrency: process.env.STAKING_CURRENCY,
+            currencyName: process.env.CURRENCY_NAME,
+            tokenCurrencyName: process.env.TOKEN_CURRENCY_NAME,
         }
     },
     computed: {
