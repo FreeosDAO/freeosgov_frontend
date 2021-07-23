@@ -249,7 +249,7 @@ export default {
                 var result = await _.claim()
                 if(!(result instanceof Error)){
                     this.$refs.complete.openDialog({
-                            title: "Wahoo!", subtitle: "You earned", value: this.currentIteration.claim_amount
+                            title: "Woohoo", subtitle: "You earned", value: this.currentIteration.claim_amount
                      });
                 } 
             }
