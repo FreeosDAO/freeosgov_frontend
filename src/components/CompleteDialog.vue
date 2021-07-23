@@ -35,7 +35,7 @@ export default {
         return {
             isOpen: null,
             dialogObj:{
-                title: "Wahoo!", 
+                title: "Woohoo", 
                 subtitle: null,
                 value: 0, 
                 currency: process.env.CURRENCY_NAME
