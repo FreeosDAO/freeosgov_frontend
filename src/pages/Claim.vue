@@ -224,7 +224,6 @@ export default {
                 return (this.isRegistered === false && this.registerModalOverride === true)
             },
             async set (value) {
-                console.log(value);
                 this.registerModalOverride = value;
                 if(this.isRegistered === false){
                     console.log("LOGOUT");
