@@ -14,7 +14,7 @@
             <div class=" text-h6">{{XPRBalance || '0'}}</div>
         </div>
 
-        <div v-if="!(this.stakeRequirement === 0 || (this.userHasStaked && this.userStake === 0))" class="flex justify-between q-mb-md">
+        <div v-if="(!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0" class="flex justify-between q-mb-md">
             <div class="flex items-center text-h6">
                 Staked {{stakeCurrency}}:                 
                 <q-btn class="small-icon q-mt-sm q-ml-sm">
@@ -59,9 +59,9 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions', 'stakeRequirement', 'unvestPercentage', 'userHasStaked', 'userStake']),
+        ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions', 'stakeRequirement', 'unvestPercentage', 'userHasStaked', 'userStake', 'airkeyBalance']),
         unvestedAmount:function(){
-            var unvestAmount = this.vestedOptions && this.unvestPercentage ? floor((this.unvestPercentage / 100)) * this.vestedOptions : 0;
+            var unvestAmount = this.vestedOptions && this.unvestPercentage ? Math.ceil((this.unvestPercentage / 100)) * this.vestedOptions : 0;
             return unvestAmount;
         }
     },

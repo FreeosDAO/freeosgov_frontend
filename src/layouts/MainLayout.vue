@@ -30,7 +30,7 @@
         <q-list>
          <q-separator />
           <template v-for="(menuItem, index) in menuList">
-            <q-item v-if="!handleFunctionCall(menuItem.displayCondition)" :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
+            <q-item v-if="handleFunctionCall(menuItem.displayCondition)" :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
                 <q-item-section avatar style="    align-items: center;">
                   <!-- <q-icon :name="menuItem.icon" /> -->
                   <img :src="menuItem.icon" alt="menu-icon">
@@ -123,7 +123,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement', 'isFreeosEnabled', 'userHasStaked', 'userStake']),
+    ...mapGetters('freeos', ['user', 'isAuthenticated', 'accountName', 'stakeRequirement', 'isFreeosEnabled', 'userHasStaked', 'userStake','airkeyBalance']),
     appVersion: function () {
       return process.env.APP_VERSION
     },
@@ -140,10 +140,11 @@ export default {
         if(functionName)
           return this[functionName]()
         else
-          return false
+          return true
     },
     showStake: function () {
-       return this.stakeRequirement === 0 || (this.userHasStaked && this.userStake === 0)
+      //(!this.userHasStaked && !this.airkeyBalance)
+       return (!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0
     },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
