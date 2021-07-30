@@ -61,7 +61,7 @@ export default {
     computed: {
         ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions', 'stakeRequirement', 'unvestPercentage', 'userHasStaked', 'userStake', 'airkeyBalance']),
         unvestedAmount:function(){
-            var unvestAmount = this.vestedOptions && this.unvestPercentage ? Math.ceil((this.unvestPercentage / 100)) * this.vestedOptions : 0;
+            var unvestAmount = this.vestedOptions && this.unvestPercentage ? Math.ceil((this.unvestPercentage / 100) * this.vestedOptions) : 0;
             return unvestAmount;
         }
     },
