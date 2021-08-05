@@ -226,7 +226,7 @@ async logout() {
 
     // Row data
     // {"iteration_number":1,"start":"2021-04-27T22:59:59.000","end":"2021-04-28T04:00:00.000","claim_amount":100,"tokens_required":0}
-    var currentIterationPromise = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'iterations')
+    var currentIterationPromise = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'iterations', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, {'limit':100})
 
 
 
@@ -243,7 +243,7 @@ async logout() {
     // Currently empty
     var bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests', )
 
-    var bcStateRequirementsPromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'stakereqs')
+    var bcStateRequirementsPromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'stakereqs', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, {'limit':100})
 
     var bcXPRBalancePromise = null
     var bcUnstakingPromise = null
