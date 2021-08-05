@@ -55,12 +55,12 @@
                             <p class="text-h5 q-mt-lg">Holding Requirements</p>
         <img src="../assets/info-page/holding_reqs.png"  class="info-img" />
 
-                            <p class="text-subtitle1 q-mt-xs">In the later iterations, there is a requirement to hold a certain amount of {{currencyName}} + {{tokenCurrencyName}}s, in total, in your account—this includes Locked {{tokenCurrencyName}}s as well.</p>
+                            <p class="text-subtitle1 q-mt-xs">In the later iterations, there is a requirement to hold a certain amount of FREEOS + {{tokenCurrencyName}}s, in total, in your account—this includes Locked {{tokenCurrencyName}}s as well.</p>
                             <p class="text-subtitle1 q-mt-xs">For those participants who start from the beginning and do not miss any iterations, this will never be a problem.</p>
-                            <p class="text-subtitle1 q-mt-xs">The intention for this feature is to help ensure that the AirClaim delivers the 5000 {{currencyName}} + {{tokenCurrencyName}}s required to enter the next phase of the project—the Governance Phase—where voting over economic parameters begins.</p>
+                            <p class="text-subtitle1 q-mt-xs">The intention for this feature is to help ensure that the AirClaim delivers the 5000 FREEOS + {{tokenCurrencyName}}s required to enter the next phase of the project—the Governance Phase—where voting over economic parameters begins.</p>
                             <p class="text-subtitle1 q-mt-xs">
-Additionally, participants that come in late and are keen to participate, will need to obtain some of the {{currencyName}} tokens from the open market.  The demand for these {{currencyName}} tokens can kickstart the economy and help ensure that {{currencyName}} tokens are hitting the price floor.</p>
-                            <p class="text-subtitle1 q-mt-xs">The chart below shows the number of {{tokenCurrencyName}}s + {{currencyName}} required for the holding requirements each iteration.</p>
+Additionally, participants that come in late and are keen to participate, will need to obtain some of the FREEOS tokens from the open market.  The demand for these FREEOS tokens can kickstart the economy and help ensure that FREEOS tokens are hitting the price floor.</p>
+                            <p class="text-subtitle1 q-mt-xs">The chart below shows the number of {{tokenCurrencyName}}s + FREEOS required for the holding requirements each iteration.</p>
                            
                            
          <img src="../assets/info-page/holding_reqs_chart.png" class="info-img" />
@@ -69,16 +69,16 @@ Additionally, participants that come in late and are keen to participate, will n
                         <div id="convert">
                             <p class="text-h4 q-mt-xl">Converting {{tokenCurrencyName}}</p>
                 
-                            <p class="text-subtitle1 q-mt-xs">Any unlocked {{tokenCurrencyName}}s can be converted for {{currencyName}} at any time.  This requires an action to be signed by the participant in the Proton Wallet.</p>
+                            <p class="text-subtitle1 q-mt-xs">Any unlocked {{tokenCurrencyName}}s can be converted for FREEOS at any time.  This requires an action to be signed by the participant in the Proton Wallet.</p>
                                     <img src="../assets/info-page/convert.png"  class="info-img" />
                            
                            
                             <p class="text-subtitle1 q-mt-xs">{{tokenCurrencyName}}s are not a transferable, exchangeable token.  They are simply a way to track successful participation in the Freeos Economic System.</p>
-                            <p class="text-subtitle1 q-mt-xs">Participants can convert these {{tokenCurrencyName}}s for {{currencyName}} tokens—which may have a monetary value as decided by the open market.  Or the participants may choose not to convert for various reasons. Perhaps they wish to volunteer their time to a project they believe in, without any expectation of compensation.  Perhaps they wish to simply study the system.</p>
-                            <p class="text-subtitle1 q-mt-xs">Others may be expecting to be rewarded for their participation, and can decide to convert {{tokenCurrencyName}}s into {{currencyName}} tokens that represent their efforts and tracked data that is used to improve the system.</p>
+                            <p class="text-subtitle1 q-mt-xs">Participants can convert these {{tokenCurrencyName}}s for FREEOS tokens—which may have a monetary value as decided by the open market.  Or the participants may choose not to convert for various reasons. Perhaps they wish to volunteer their time to a project they believe in, without any expectation of compensation.  Perhaps they wish to simply study the system.</p>
+                            <p class="text-subtitle1 q-mt-xs">Others may be expecting to be rewarded for their participation, and can decide to convert {{tokenCurrencyName}}s into FREEOS tokens that represent their efforts and tracked data that is used to improve the system.</p>
                             <p class="text-subtitle1 q-mt-xs">As some countries/jurisdictions around the world expect taxes to be paid when value is transferred, this event may be considered a taxable event in your country/jurisdiction.  Check with your local tax authorities to determine whether converting is considered a taxable event.</p>
                             <p class="text-h5 q-mt-lg">Locked {{tokenCurrencyName}}s</p>
-                            <p class="text-subtitle1 q-mt-xs">When the price of {{currencyName}} is below the price floor of $0.0167 USDC, a portion of the awarded {{tokenCurrencyName}}s are temporarily locked.</p>
+                            <p class="text-subtitle1 q-mt-xs">When the price of FREEOS is below the price floor of $0.0167 USDC, a portion of the awarded {{tokenCurrencyName}}s are temporarily locked.</p>
                             <p class="text-subtitle1 q-mt-xs">These locked {{tokenCurrencyName}}s can be unlocked when the price is equal, or above, the price floor.  </p>
                             <p class="text-subtitle1 q-mt-xs">Alternatively, every 8 iterations that are consecutively below the price floor, 15% will be available to be unlocked. This is called the Failsafe unlocking condition.</p>
                                             <img src="../assets/info-page/locked_points.png" class="info-img"/>   
