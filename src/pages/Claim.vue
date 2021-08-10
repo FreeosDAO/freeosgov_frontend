@@ -20,7 +20,9 @@
                     interest in the Freeos AirClaim.
                     It’s just a press of a button.</p>
 
-                <p class="text-body2">By connecting you accept Freeos’s <a class="cursor-pointer" style="text-decoration:underline" @click="toggleTerms()">Terms of Service</a></p>
+             <q-checkbox id="termsCheckbox" v-model="termsCheckbox" /><label  for="termsCheckbox">I accept Freeos's <a class="cursor-pointer" style="text-decoration:underline" @click="showTerms = !showTerms">Terms of Service</a></label>
+
+
                 <div v-show="showTerms" class="" style="width:100%;max-height:120px;overflow-y: auto;" class="text-left">
                     <p class="text-body1"><strong>Freeos Terms of Service</strong></p>
                     <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
@@ -31,7 +33,7 @@
             </q-card-section>
 
             <q-card-actions align="center">
-                <q-btn unelevated size="lg" class="q-mb-m" outline color="primary" @click="registerUser()">Register</q-btn>
+                <q-btn :disabled="!termsCheckbox" unelevated size="lg" class="q-mb-m" outline color="primary" @click="registerUser()">Register</q-btn>
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -188,6 +190,7 @@ export default {
     data() {
         return {
             showCompleteDialog: false,
+            termsCheckbox:false,
             dialogTitle: "", 
             dialogSubtitle: null, 
             dialogValue: null,
@@ -235,9 +238,6 @@ export default {
     methods: {
         ...mapActions('freeos', ['fetch', 'register', 'claim']),
         ...mapActions('account', ['logout']),
-        toggleTerms(){
-            this.showTerms = !this.showTerms;
-        },
         async registerUser() {
             await this.register()
             //await this.fetch()
