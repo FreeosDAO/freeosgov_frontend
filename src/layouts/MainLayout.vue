@@ -8,7 +8,7 @@
           <div></div>
         </q-btn>
         <div style="display: flex; align-items: center;margin-top:-3px;">
-          <span class="q-mr-sm">v{{appVersion}}</span> <q-btn style="margin-right:-6px;" no-caps @click="accountURL()"  v-if="isAuthenticated">{{accountName}}</q-btn><span style="height:10px;border-right:1px solid #eee;"></span><q-btn  style="margin-left:-6px;" no-caps v-if="isAuthenticated" @click="logoutSubmit()">Logout</q-btn>
+          <span class="q-mr-sm">v{{appVersion}}</span><q-btn style="margin-right:-6px;margin-left:-6px;" no-caps @click="accountURL()"  v-if="isAuthenticated">{{accountName}}</q-btn><span style="height:10px;border-right:1px solid #eee;"></span><q-btn style="margin-right:-6px;margin-left:-6px;" no-caps v-if="isAuthenticated" @click="logoutSubmit()">Logout</q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -16,7 +16,7 @@
     <q-drawer
       v-model="drawer"
       :width="220"
-      :breakpoint="800"
+      show-if-above
       bordered
       overlay
       content-class="bg-grey-0"

@@ -4,6 +4,12 @@
         <div class="panel-wrap" style="max-width: 800px">
             <q-card class="panel  q-pa-lg">
                 <div class="text-h3 text-center q-ma-lg">Info</div>
+
+                        <div id="feedback">
+                            <p class="text-h4 q-mt-xl">Feedback</p>
+                             <p class="text-subtitle1 q-mt-xs">For feedback and bug reporting on the Freeos AirClaim App please submit details in the following form: <a target="_blank" href="https://forms.clickup.com/f/6k0z3-1577/113THEOTIZG6PK1ZGQ">https://forms.clickup.com/f/6k0z3-1577/113THEOTIZG6PK1ZGQ</a></p>
+                        </div>
+
                         <div id="registering">
                             <p class="text-h4 q-mt-xl">Registering</p>
                             <img class="info-img" src="../assets/info-page/register.jpg" />
@@ -25,12 +31,12 @@
                                 <li class="text-subtitle1 q-mt-xs">To allow unverified users access to the AirClaim, while providing a financial disincentive against duplicate accounts that may wish to claim more than their fair share of tokens.  Freeos is intended to be an equitable system, yet we realise that the Proton wallet does not yet have verification for every country. Staking is a compromise solution.</li>
                                 <li class="text-subtitle1 q-mt-xs">To put a soft limit on the number of users in the AirClaim.  Staking requirements increase as new people join.  This is intentional.  The AirClaim is an early stage of the Freeos Economic System, and has fewer controls over inflationary forces as the system will have in later stages, as it matures.  To protect the early economy, limits to the numbers of participants will be necessary.  Increasing the Staking Requirements as more people join helps to limit the number of participants expected to enter.</li>
                             </ol>
-                            <p class="text-subtitle1 q-mt-xs">USDC was chosen, as it does not fluctuate in value compared to other tokens.  This gives confidence to participants that they will receive the same value after the 25 weeks/iterations of the AirClaim once they release their stake.</p>
+                            <p class="text-subtitle1 q-mt-xs">XUSDC was chosen, as it does not fluctuate in value compared to other tokens.  This gives confidence to participants that they will receive the same value after the 25 weeks/iterations of the AirClaim once they release their stake.</p>
                             <p class="text-h5 q-mt-lg">Getting enough to Stake</p>
                             <img class="info-img" src="../assets/info-page/need_USDC_stake.png" />
-                            <p class="text-h5 q-mt-lg">Staking your USDC</p>
+                            <p class="text-h5 q-mt-lg">Staking your XUSDC</p>
 
-                            <p class="text-subtitle1 q-mt-xs">Once you have the required amount of USDC, you are able to press the “Stake” button.</p>
+                            <p class="text-subtitle1 q-mt-xs">Once you have the required amount of XUSDC, you are able to press the “Stake” button.</p>
                             <img class="info-img" src="../assets/info-page/staked_USDC.png" />
                             <p class="text-subtitle1 q-mt-xs">Sign the transaction in your Proton Wallet and you should get the confirmation and you will see that you are now staked.</p>
                             <img class="info-img" src="../assets/info-page/staked_USDC_2.png" />
@@ -78,7 +84,7 @@ Additionally, participants that come in late and are keen to participate, will n
                             <p class="text-subtitle1 q-mt-xs">Others may be expecting to be rewarded for their participation, and can decide to convert {{tokenCurrencyName}}s into FREEOS tokens that represent their efforts and tracked data that is used to improve the system.</p>
                             <p class="text-subtitle1 q-mt-xs">As some countries/jurisdictions around the world expect taxes to be paid when value is transferred, this event may be considered a taxable event in your country/jurisdiction.  Check with your local tax authorities to determine whether converting is considered a taxable event.</p>
                             <p class="text-h5 q-mt-lg">Locked {{tokenCurrencyName}}s</p>
-                            <p class="text-subtitle1 q-mt-xs">When the price of FREEOS is below the price floor of $0.0167 USDC, a portion of the awarded {{tokenCurrencyName}}s are temporarily locked.</p>
+                            <p class="text-subtitle1 q-mt-xs">When the price of FREEOS is below the price floor of $0.0167 XUSDC, a portion of the awarded {{tokenCurrencyName}}s are temporarily locked.</p>
                             <p class="text-subtitle1 q-mt-xs">These locked {{tokenCurrencyName}}s can be unlocked when the price is equal, or above, the price floor.  </p>
                             <p class="text-subtitle1 q-mt-xs">Alternatively, every 8 iterations that are consecutively below the price floor, 15% will be available to be unlocked. This is called the Failsafe unlocking condition.</p>
                                             <img src="../assets/info-page/locked_points.png" class="info-img"/>   
