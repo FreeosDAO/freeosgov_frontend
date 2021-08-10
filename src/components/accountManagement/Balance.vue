@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="balance q-pt-lg q-pl-lg q-pr-lg q-pb-xs">
+    <div class="balance q-pt-lg q-pl-md q-pr-md q-pb-xs">
         <div class="flex justify-between q-mb-md" style="width: 100%">
             <div class="flex items-center text-h6">
                 Liquid {{stakeCurrency}}:
@@ -85,14 +85,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$panel-border-radius: 8px;
+$panel-width: 360px;
 .balance {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     margin: 15px auto;
     background-color: white;
-    border-radius: 8px;
-    width: 360px;
+    border-radius: $panel-border-radius;
+    max-width: $panel-width;
     border: 2px solid #e5e5e5;
 
     .small-icon {

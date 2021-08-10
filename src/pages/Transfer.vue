@@ -84,7 +84,6 @@
             </q-card>
 
         </div>
-     {{accountName}}
     </div>
 </div>
 </template>

@@ -192,6 +192,8 @@ export default {
 </script>
 
 <style lang="scss">
+$panel-border-radius: 8px;
+$panel-width: 360px;
 
   .page-container-main{
       background: url('../assets/bluebg.svg') center -50px no-repeat;
@@ -226,8 +228,6 @@ export default {
       background: rgba(0, 0, 0, 0.05);
   }
 
-$panel-border-radius: 8px;
-$panel-width: 360px;
 
 .hide {
     display: none !important;
