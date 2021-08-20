@@ -15,6 +15,7 @@
 
     <q-drawer
       v-model="drawer"
+      :persistent="isPersist"
       :width="220"
       show-if-above
       bordered
@@ -119,6 +120,7 @@ export default {
       isShowDrawerButton: false,
       drawer: false,
       selectedItemLabel: null,
+      isPersist: this.$q.screen.width < 1023?false:true,
       menuList
     }
   },
