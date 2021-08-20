@@ -53,8 +53,8 @@
                         <p class="text-bold text-h4" style="line-height:1;letter-spacing:-2px;">{{liquidOptions}}</p>
                     </div>
                     <div class="col" style="max-width:40px;">
-                        <router-link class="convert-btn" v-if="liquidOptions > 0" to="/convert">
-                            <small>Convert</small>
+                        <router-link class="convert-btn" v-if="liquidOptions > 0" to="/mint">
+                            <small>Mint</small>
                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
                                     <path d="M14,12.6H1.5c-0.4,0-0.7-0.3-0.7-0.7c0-0.4,0.3-0.7,0.7-0.7H14c0.4,0,0.7,0.3,0.7,0.7C14.7,12.3,14.4,12.6,14,12.6z" />
                                     <path d="M10.6,16c-0.2,0-0.3-0.1-0.5-0.2c-0.3-0.3-0.3-0.7,0-0.9l3-3l-3-3c-0.3-0.3-0.3-0.7,0-0.9c0.3-0.3,0.7-0.3,0.9,0l3.5,3.5

@@ -5,10 +5,10 @@
         <div class="panel-wrap">
             <q-card class="panel  q-pa-lg">
 
-                <div class="text-h4 text-center q-ma-lg">Convert Your {{tokenCurrencyName}}</div>
-                <p class="text-center text-subtitle1 q-mb-xs">Convert your {{tokenCurrencyName}} into {{currencyName}}.</p>
+                <div class="text-h4 text-center q-ma-lg">Mint Your {{tokenCurrencyName}}</div>
+                <p class="text-center text-subtitle1 q-mb-xs">Mint your {{tokenCurrencyName}} into {{currencyName}}.</p>
                <p class="text-center text-negative q-mb-sm">This could be a Taxable event in your jurisdiction</p>
-                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#convert">click here</router-link></p>
+                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#mint">click here</router-link></p>
                  <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>You currently have</strong></p>
                     <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{liquidOptions}}</h4>
@@ -17,7 +17,7 @@
 
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs">
                     <div class="col-xs-6 col-sm-5">
-                        Amount to convert:
+                        Amount to mint:
                     </div>
                     <div class="col-xs-1"></div>
                     <div class="col-xs-5 col-sm-6">
@@ -26,7 +26,7 @@
                 </div>
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-none">
 
-                        <q-btn size="lg" unelevated no-caps outline :disable="!sendAmount || sendAmount > liquidOptions" color="primary" v-if="isAuthenticated" @click="submit()">Convert to {{currencyName}}</q-btn>
+                        <q-btn size="lg" unelevated no-caps outline :disable="!sendAmount || sendAmount > liquidOptions" color="primary" v-if="isAuthenticated" @click="submit()">Mint to {{currencyName}}</q-btn>
 
 
 
@@ -75,7 +75,7 @@ export default {
       
         if(!(result instanceof Error)){
             this.$refs.complete.openDialog({
-                    title: "Woohoo!", subtitle: "You converted", value: this.sendAmount, currency: rocess.env.TOKEN_CURRENCY_NAME
+                    title: "Woohoo!", subtitle: "You minted", value: this.sendAmount, currency: process.env.TOKEN_CURRENCY_NAME
              });
         } 
       

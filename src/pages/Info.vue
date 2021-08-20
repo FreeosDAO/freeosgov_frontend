@@ -72,23 +72,23 @@ Additionally, participants that come in late and are keen to participate, will n
          <img src="../assets/info-page/holding_reqs_chart.png" class="info-img" />
                         </div>
 
-                        <div id="convert">
-                            <p class="text-h4 q-mt-xl">Converting {{tokenCurrencyName}}</p>
+                        <div id="mint">
+                            <p class="text-h4 q-mt-xl">Minting {{tokenCurrencyName}}</p>
                 
-                            <p class="text-subtitle1 q-mt-xs">Any unlocked {{tokenCurrencyName}}s can be converted for FREEOS at any time.  This requires an action to be signed by the participant in the Proton Wallet.</p>
+                            <p class="text-subtitle1 q-mt-xs">Any unlocked {{tokenCurrencyName}}s can be minted for FREEOS at any time.  This requires an action to be signed by the participant in the Proton Wallet.</p>
                                     <img src="../assets/info-page/convert.png"  class="info-img" />
                            
                            
                             <p class="text-subtitle1 q-mt-xs">{{tokenCurrencyName}}s are not a transferable, exchangeable token.  They are simply a way to track successful participation in the Freeos Economic System.</p>
-                            <p class="text-subtitle1 q-mt-xs">Participants can convert these {{tokenCurrencyName}}s for FREEOS tokens—which may have a monetary value as decided by the open market.  Or the participants may choose not to convert for various reasons. Perhaps they wish to volunteer their time to a project they believe in, without any expectation of compensation.  Perhaps they wish to simply study the system.</p>
-                            <p class="text-subtitle1 q-mt-xs">Others may be expecting to be rewarded for their participation, and can decide to convert {{tokenCurrencyName}}s into FREEOS tokens that represent their efforts and tracked data that is used to improve the system.</p>
-                            <p class="text-subtitle1 q-mt-xs">As some countries/jurisdictions around the world expect taxes to be paid when value is transferred, this event may be considered a taxable event in your country/jurisdiction.  Check with your local tax authorities to determine whether converting is considered a taxable event.</p>
+                            <p class="text-subtitle1 q-mt-xs">Participants can mint these {{tokenCurrencyName}}s for FREEOS tokens—which may have a monetary value as decided by the open market.  Or the participants may choose not to mint for various reasons. Perhaps they wish to volunteer their time to a project they believe in, without any expectation of compensation.  Perhaps they wish to simply study the system.</p>
+                            <p class="text-subtitle1 q-mt-xs">Others may be expecting to be rewarded for their participation, and can decide to mint {{tokenCurrencyName}}s into FREEOS tokens that represent their efforts and tracked data that is used to improve the system.</p>
+                            <p class="text-subtitle1 q-mt-xs">As some countries/jurisdictions around the world expect taxes to be paid when value is transferred, this event may be considered a taxable event in your country/jurisdiction.  Check with your local tax authorities to determine whether minting is considered a taxable event.</p>
                             <p class="text-h5 q-mt-lg">Locked {{tokenCurrencyName}}s</p>
                             <p class="text-subtitle1 q-mt-xs">When the price of FREEOS is below the price floor of $0.0167 XUSDC, a portion of the awarded {{tokenCurrencyName}}s are temporarily locked.</p>
                             <p class="text-subtitle1 q-mt-xs">These locked {{tokenCurrencyName}}s can be unlocked when the price is equal, or above, the price floor.  </p>
                             <p class="text-subtitle1 q-mt-xs">Alternatively, every 8 iterations that are consecutively below the price floor, 15% will be available to be unlocked. This is called the Failsafe unlocking condition.</p>
                                             <img src="../assets/info-page/locked_points.png" class="info-img"/>   
-                            <p class="text-subtitle1 q-mt-xs">When unlocking is available, simply press the “unlock” button and a portion of your points will be free to be converted.</p>
+                            <p class="text-subtitle1 q-mt-xs">When unlocking is available, simply press the “unlock” button and a portion of your points will be free to be minted.</p>
                         </div>
 
                         <div id="vested-options">

@@ -84,9 +84,9 @@ const menuList = [
   },
   {
     icon: require('@/assets/convert.svg'),
-    label: 'Convert',
+    label: 'Mint',
     separator: true,
-    route: '/convert'
+    route: '/mint'
   },
   {
     icon: require('@/assets/stack.svg'),
