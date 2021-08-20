@@ -49,7 +49,7 @@
             <div class="panel-wrap panel-top-total q-pt-lg" v-if="isFreeosEnabled">
                 <div class="row">
                     <div class="col">
-                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>{{tokenCurrencyName}}</strong></p>
+                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;"><strong>{{tokenCurrencyName}}s</strong></p>
                         <p class="text-bold text-h4" style="line-height:1;letter-spacing:-2px;">{{liquidOptions}}</p>
                     </div>
                     <div class="col" style="max-width:40px;">
@@ -113,7 +113,7 @@
 
             <div class="flex justify-center text-center" style="align-items:center;height:80px;margin-top:-4px;">
                 <div class="text-h6" style="line-height:1.25" v-if="canClaim">
-                    <a class="text-primary" style="cursor:pointer;text-decoration:underline" @click="startClaim()" v-if="canClaim">Claim now</a> to get your weekly {{tokenCurrencyName}}
+                    <a class="text-primary" style="cursor:pointer;text-decoration:underline" @click="startClaim()" v-if="canClaim">Claim now</a> to get your weekly {{tokenCurrencyName}}s
                 </div>
                 <div v-if="!canClaim" v-html="reasonCannotClaim">
                 </div>

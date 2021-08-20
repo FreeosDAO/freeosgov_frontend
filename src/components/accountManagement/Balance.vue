@@ -29,10 +29,10 @@
 
         <div class="flex justify-between q-mb-md">
             <div class="flex items-center  text-h6">
-               Locked {{tokenCurrencyName}}:
+               Locked {{tokenCurrencyName}}s:
             </div>
             <div class="col-5 text-h6">{{vestedOptions || '0'}}</div>
-            <div class="flex"><small class="q-mr-auto">For more info on Locked {{tokenCurrencyName}} <router-link to="/info#vested-options">click here</router-link></small></div>
+            <div class="flex"><small class="q-mr-auto">For more info on Locked {{tokenCurrencyName}}s <router-link to="/info#vested-options">click here</router-link></small></div>
             <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary"><span>Unlock<span v-if="unvestPercentage && canUnvest && vestedOptions"> {{unvestPercentage}}%</span></span></q-btn>
         </div>
 
@@ -71,7 +71,7 @@ export default {
             var result = await this.unvest();
               if(!(result instanceof Error)){
                 this.$refs.complete.openDialog({
-                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: process.env.TOKEN_CURRENCY_NAME
+                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: process.env.TOKEN_CURRENCY_NAME + "s"
                 });
               }
         },

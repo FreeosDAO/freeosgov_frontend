@@ -20,7 +20,7 @@
                     <p class="q-mb-md text-h4 text-warning" style="line-height:1.2;">Warning</p>
                     <p class="q-mb-xs text-subtitle1" style="line-height:1.2;"><strong>You have unstaked</strong></p>
                     <h4 class="text-h4 q-mt-none q-mb-sm" style="line-height:1;">{{userStake}} {{stakeCurrency}}</h4>
-                    <p class="q-mb-md text-subtitle1" style="line-height:1.4;">Your will NOT be eligible to Claim your weekly {{tokenCurrencyName}} in the next iteration. You need a minimum {{stakeRequirement}} {{stakeCurrency}} to Claim. This can be rectified by cancelling the process if you wish</p>
+                    <p class="q-mb-md text-subtitle1" style="line-height:1.4;">Your will NOT be eligible to Claim your weekly {{tokenCurrencyName}}s in the next iteration. You need a minimum {{stakeRequirement}} {{stakeCurrency}} to Claim. This can be rectified by cancelling the process if you wish</p>
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You are currently unstaking {{userStake}} {{stakeCurrency}}. The unstaking will complete in <strong class="text-primary">{{stakeIterationMsg}}</strong></p>
                  <p class="q-mb-md" style="line-height:1.4;">For more info, <router-link to="/info#unstaking">click here</router-link></p>
                     <q-btn unelevated outline color="primary" v-if="isAuthenticated" @click="cancelSubmit()">Cancel Unstaking</q-btn>
@@ -42,14 +42,14 @@
                 </div>
 
                 <div class="panel panel-info q-pa-lg text-center q-mb-lg q-pa-lg" v-if="XPRBalance >= stakeRequirement && !userHasStaked">
-                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You currently have more than enough staked in your account to Claim your weekly {{tokenCurrencyName}}.</p><p class="q-mb-xs"><strong>Current balance:</strong></p>
+                    <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You currently have more than enough staked in your account to Claim your weekly {{tokenCurrencyName}}s.</p><p class="q-mb-xs"><strong>Current balance:</strong></p>
                     <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{XPRBalance}} {{stakeCurrency}}</h4>
                 </div>
 
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="userHasStaked && !bcUnstaking && stakeRequirement > 0">
                     <p class="q-mb-md text-h4" style="line-height:1.2;">Unstake</p>
-                    <p class="text-subtitle1 q-mb-xs" style="line-height:1.4;"><strong>This process will complete at the start of the next Claim</strong> also if you unstake you will NOT be eligible to Claim your weekly {{tokenCurrencyName}}. </p>
+                    <p class="text-subtitle1 q-mb-xs" style="line-height:1.4;"><strong>This process will complete at the start of the next Claim</strong> also if you unstake you will NOT be eligible to Claim your weekly {{tokenCurrencyName}}s. </p>
                      <p class="q-mb-md" style="line-height:1.4;">For more info, <router-link to="/info#unstaking">click here</router-link></p>
                     
                     <div style="align-items: center;" class="row justify-center q-mb-xs q-pb-xs" v-if="userHasStaked">

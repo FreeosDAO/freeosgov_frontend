@@ -5,14 +5,14 @@
         <div class="panel-wrap">
             <q-card class="panel  q-pa-lg">
 
-                <div class="text-h4 text-center q-ma-lg">Mint Your {{tokenCurrencyName}}</div>
-                <p class="text-center text-subtitle1 q-mb-xs">Mint your {{tokenCurrencyName}} into {{currencyName}}.</p>
+                <div class="text-h4 text-center q-ma-lg">Mint Your {{tokenCurrencyName}}s</div>
+                <p class="text-center text-subtitle1 q-mb-xs">Mint your {{tokenCurrencyName}}s into {{currencyName}}.</p>
                <p class="text-center text-negative q-mb-sm">This could be a Taxable event in your jurisdiction</p>
                  <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#mint">click here</router-link></p>
                  <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.2;"><strong>You currently have</strong></p>
                     <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{liquidOptions}}</h4>
-                    <p class="q-ma-xs" style="line-height:1;"><strong>{{tokenCurrencyName}}</strong></p>
+                    <p class="q-ma-xs" style="line-height:1;"><strong>{{tokenCurrencyName}}s</strong></p>
                  </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-md q-pb-xs">
