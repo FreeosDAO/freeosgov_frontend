@@ -5,7 +5,7 @@
         <div class="panel-wrap">
             <q-card class="panel  q-pa-lg">
 
-                <div class="text-h4 text-center q-ma-lg">Mint Your {{tokenCurrencyName}}s</div>
+                <div class="text-h4 text-center q-ma-lg">Mint Your {{currencyName}}</div>
                 <p class="text-center text-subtitle1 q-mb-xs">Mint your {{tokenCurrencyName}}s into {{currencyName}}.</p>
                <p class="text-center text-negative q-mb-sm">This could be a Taxable event in your jurisdiction</p>
                  <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#mint">click here</router-link></p>
