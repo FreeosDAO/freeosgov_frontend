@@ -75,7 +75,7 @@ export default {
       
         if(!(result instanceof Error)){
             this.$refs.complete.openDialog({
-                    title: "Woohoo!", subtitle: "You minted", value: this.sendAmount, currency: process.env.TOKEN_CURRENCY_NAME
+                    title: "Woohoo!", subtitle: "You minted", value: this.sendAmount, currency: process.env.CURRENCY_NAME
              });
         } 
       
