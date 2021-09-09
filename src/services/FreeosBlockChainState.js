@@ -470,19 +470,35 @@ async logout() {
   }
 
   getCurrentAndNextIteration (rows) {
-
+    console.log('rows', rows);
     const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000); // Math.floor((new Date()).getTime() / 1000)
     var nextIteration = {
-      iteration_number: 0
+      startStamp: null, 
+      iteration_number: null
     }
-    var currentIteration = null
+    var currentIteration = {}
 
     if (rows && rows.length) {
+
+      //check start
+      const firstStartTimeStamp = Math.floor(Date.parse(rows[0].start + "Z") / 1000);
+      if(currentTimeStamp < firstStartTimeStamp){
+        nextIteration = rows[0]
+        nextIteration.startStamp = firstStartTimeStamp;
+        
+        return {
+          currentIteration,
+          nextIteration
+        }
+      }
+
       rows.map((row, index) => {
         const startTimeStamp = Math.floor(Date.parse(row.start + "Z") / 1000);
         const endTimeStamp = Math.floor(Date.parse(row.end + "Z") / 1000);
 
         // console.log('startTimeStamp', startTimeStamp);
+
+
 
         if (currentTimeStamp > startTimeStamp && currentTimeStamp < endTimeStamp) {
           currentIteration = rows[index]
