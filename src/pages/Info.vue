@@ -120,7 +120,7 @@ export default {
         return {
             stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
-            tokenCurrencyName: process.env.TOKEN_CURRENCY_NAME,
+            tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
         }
     },
     computed: {

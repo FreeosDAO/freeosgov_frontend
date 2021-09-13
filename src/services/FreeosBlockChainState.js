@@ -358,7 +358,7 @@ async logout() {
         if (currentIterationIdx <= 0) {
           reasonCannotClaim = "<div class='text-h5 text-negative'>Airclaim Not Started</div>"
         } else if (!userMeetsHoldingRequirement) {
-          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + process.env.TOKEN_CURRENCY_NAME + " in your Wallet. Please <a href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
+          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + $options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
         } else if (userClaimedAlready) {
           reasonCannotClaim = '<div class="text-h5 text-primary">You have already claimed</div>'
         } else if (!userMeetsStakeRequirement) {
@@ -476,7 +476,9 @@ async logout() {
       startStamp: null, 
       iteration_number: null
     }
-    var currentIteration = {}
+    var currentIteration = {
+      iteration_number: null
+    }
 
     if (rows && rows.length) {
 
@@ -504,8 +506,6 @@ async logout() {
           currentIteration = rows[index]
           if (rows.length !== (index + 1)) {
             nextIteration = rows[index + 1]
-          } else {
-            nextIteration = null
           }
         }
       })

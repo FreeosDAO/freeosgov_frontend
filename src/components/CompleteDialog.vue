@@ -38,7 +38,7 @@ export default {
                 title: "Woohoo", 
                 subtitle: null,
                 value: 0, 
-                currency: process.env.TOKEN_CURRENCY_NAME
+                currency:  this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME)
             }
         }
     },

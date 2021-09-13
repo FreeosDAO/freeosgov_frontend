@@ -55,7 +55,7 @@ export default {
         return {
             stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
-            tokenCurrencyName: process.env.TOKEN_CURRENCY_NAME,
+            tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
         }
     },
     computed: {
@@ -71,7 +71,7 @@ export default {
             var result = await this.unvest();
               if(!(result instanceof Error)){
                 this.$refs.complete.openDialog({
-                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: process.env.TOKEN_CURRENCY_NAME + "s"
+                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: this.tokenCurrencyName + "s"
                 });
               }
         },

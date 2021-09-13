@@ -75,8 +75,8 @@
             <div class="flex justify-between add-custome-width">
 
                 <div class="flex column text-left"  style="flex:1">
-                    <div class="text-subtitle1">Iteration</div>
-                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: left;line-height:1;" class="text-subtitle1 text-capitalize">
+                    <div class="text-subtitle1 q-mt-xs q-mb-xs">Iteration</div>
+                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: left;line-height:1;" class="q-mt-xs q-mb-xs text-subtitle1 text-capitalize">
                             <strong>{{notes}}</strong>
                     </div>
                 </div>
@@ -104,8 +104,10 @@
                 </div>
 
                 <div class="flex column text-right"  style="flex:1">
-                    <div class="text-subtitle1">Next Claim</div>
-                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: right;line-height:1;" class="text-subtitle1">
+                    <div v-if="nextIteration && nextIteration.iteration_number !== null && nextIteration.iteration_number >= 0" class="text-subtitle1  q-mt-xs q-mb-xs">Next Claim</div>
+                    <div v-if="nextIteration && nextIteration.iteration_number === null" class="text-subtitle1">Final Claim<br />ends in</div>
+
+                    <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: right;line-height:1;" class="text-subtitle1  q-mt-xs q-mb-xs">
                             <strong>{{nextClaimDescription}}</strong>
                     </div>
                 </div>
@@ -194,8 +196,8 @@ export default {
             dialogTitle: "", 
             dialogSubtitle: null, 
             dialogValue: null,
-            tokenCurrencyName: process.env.TOKEN_CURRENCY_NAME,
-            dialogCurrency: process.env.CURRENCY_NAME + ' ' + process.env.TOKEN_CURRENCY_NAME, 
+            tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
+            dialogCurrency: process.env.CURRENCY_NAME + ' ' + this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME), 
             stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
             registerModalOverride: true,
@@ -209,7 +211,7 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'airkeyBalance']),
+        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance']),
         nextClaimDescription: function () {
             var daysToNextClaim = "";
             if(this.currentIteration && this.currentIteration.end){
@@ -382,6 +384,7 @@ $panel-width: 360px;
         padding: 10px 16px;
             .text-subtitle1{
                 font-size:.95rem;
+                line-height: 1;
             }
         .custome-width {
             flex-direction: row;

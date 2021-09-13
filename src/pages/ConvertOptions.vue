@@ -60,7 +60,7 @@ export default {
   data () {
     return {
       sendAmount: null,
-      tokenCurrencyName: process.env.TOKEN_CURRENCY_NAME,
+      tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
     }
