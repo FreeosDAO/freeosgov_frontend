@@ -358,11 +358,11 @@ async logout() {
         if (currentIterationIdx <= 0) {
           reasonCannotClaim = "<div class='text-h5 text-negative'>Airclaim Not Started</div>"
         } else if (!userMeetsHoldingRequirement) {
-          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + $options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
+          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + $options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a style='text-decoration:underline' href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
         } else if (userClaimedAlready) {
           reasonCannotClaim = '<div class="text-h5 text-primary">You have already claimed</div>'
         } else if (!userMeetsStakeRequirement) {
-          reasonCannotClaim = "<div class='text-h5 text-negative'>You must <router-link to='/stake' class='text-negative'>stake</router-link> to claim!</div>"
+          reasonCannotClaim = "<div class='text-h5 text-negative'>You must <a href='/stake' class='text-primary' style='text-decoration:underline'>stake</a> to claim!</div>"
         }
       }
     }
