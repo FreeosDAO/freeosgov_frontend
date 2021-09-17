@@ -38,6 +38,7 @@
                     <p class="q-mb-md text-h4" style="line-height:1.2;">You're Staked!</p>
                     <p class="q-mb-sm text-subtitle1" style="line-height:1.4;">You've Staked so you can Claim, you've currently staked:</p>
                     <h4 class="text-h4 q-ma-xs" style="line-height:1;">{{userStake}} {{stakeCurrency}}</h4>
+                    <p class="q-mt-xs" style="line-height:1.4;">Now return to the <router-link to="/claim">Claim page</router-link> </p>
                     <p class="q-mt-md q-mb-sm" style="line-height:1.4;">For more info, <router-link to="/info#staking">click here</router-link></p>
                 </div>
 
