@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="balance q-pt-lg q-pl-md q-pr-md q-pb-xs">
-        <div class="flex justify-between q-mb-md" style="width: 100%">
+        <div v-if="(!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0" class="flex justify-between q-mb-md" style="width: 100%">
             <div class="flex items-center text-h6">
                 Liquid {{stakeCurrency}}:
                 <q-btn class="small-icon q-mt-sm q-ml-sm">
