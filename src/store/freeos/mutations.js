@@ -97,3 +97,7 @@ export const setstakeCurrency = (state, stakeCurrency) => {
 export const setunvestPercentage = (state, unvestPercentage) => {
   state.unvestPercentage = unvestPercentage
 }
+
+export const setairclaimStatus = (state, airclaimStatus) => {
+  state.airclaimStatus = airclaimStatus
+}

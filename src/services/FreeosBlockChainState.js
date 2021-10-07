@@ -334,6 +334,18 @@ async logout() {
     var userStake = 0
     var totalHolding = 0
     var reasonCannotClaim = ''
+    var currentIterationObj = iterations && iterations.currentIteration ? iterations.currentIteration : null
+    var nextIterationObj = iterations.nextIteration
+    var airclaimStatus = null
+
+    if(nextIterationObj && nextIterationObj.startStamp){
+      airclaimStatus = "Pending"
+    }else if(currentIterationObj && currentIterationObj.iteration_number === null && nextIterationObj && nextIterationObj.iteration_number === null){
+      airclaimStatus = "Complete"
+    }else{
+      airclaimStatus = "Running"
+    }
+
 
     if (bcUser) { // Registered
       for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
@@ -355,8 +367,10 @@ async logout() {
       userEligibleToClaim = currentIterationIdx > 0 && userMeetsHoldingRequirement && userMeetsStakeRequirement && !userClaimedAlready
 
       if (!userEligibleToClaim) {
-        if (currentIterationIdx <= 0) {
+        if (airclaimStatus === 'Pending') {
           reasonCannotClaim = "<div class='text-h5 text-negative'>Airclaim Not Started</div>"
+        } else if (airclaimStatus === 'Complete') {
+            reasonCannotClaim = "<div class='text-h5 text-negative'>The Airclaim has ended</div>"
         } else if (!userMeetsHoldingRequirement) {
           reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + $options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a style='text-decoration:underline' href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
         } else if (userClaimedAlready) {
@@ -370,8 +384,8 @@ async logout() {
     var output = {
       currencyName: currencyName,
       liquidOptions: liquidOptions,
-      currentIteration: iterations && iterations.currentIteration ? iterations.currentIteration : null,
-      nextIteration: iterations.nextIteration,
+      currentIteration: currentIterationObj,
+      nextIteration: nextIterationObj,
       user: bcUser,
       accountName: this.walletUser.accountName,
       isAuthenticated: this.walletUser.accountName && this.walletUser.accountName !== '' ? true : false,
@@ -389,7 +403,7 @@ async logout() {
       liquidFreeos: freeosBalance,
       airkeyBalance: bcAirkeyBalance,
       allIterations: currentIteration,
-
+      airclaimStatus: airclaimStatus,
       stakeRequirement: stakeRequirement,
       userHasStaked: userHasStaked,
       userClaimedAlready: userClaimedAlready,

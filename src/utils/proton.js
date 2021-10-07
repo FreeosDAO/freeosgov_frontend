@@ -6,7 +6,7 @@ import {
 class ProtonSDK {
   constructor () {
     this.chainId = process.env.NETWORK_CHAIN_ID
-    this.endpoints = [process.env.APP_CHAIN_ENDPOINT] // Multiple for fault tolerance
+    this.endpoints = process.env.APP_CHAIN_ENDPOINT.split(", "); // Multiple for fault tolerance
     this.appName = 'Freeos'
     this.requestAccount = process.env.AIRCLAIM_CONTRACT // optional
     this.session = null

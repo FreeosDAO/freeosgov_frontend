@@ -1,6 +1,6 @@
 <template>
 <div class="intro-info text-center q-pa-lg">
-    <div v-if="currentIteration && currentIteration.iteration_number !== null && currentIteration.iteration_number >= 0">
+    <div v-if="airclaimStatus === 'Running'">
         <div class="text-h4 text-weight-medium q-mb-none">Welcome to the</div>
         <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos AirClaim</div>
 
@@ -18,16 +18,24 @@
             </div>
         </div>
     </div>
-    <div v-if="nextIteration && nextIteration.startStamp">
+    <div v-if="airclaimStatus === 'Pending'">
         <div class="text-h4 text-weight-medium q-mb-none">Welcome, the</div>
         <div class="text-h3 text-weight-medium text-primary q-mb-none">Freeos AirClaim</div>
         <div class="text-h3 text-weight-medium q-mb-md">Starts in</div>
         <Countdown :startDate="nextIteration.startStamp" />
     </div>
-    <div v-if="currentIteration && currentIteration.iteration_number === null && nextIteration && nextIteration.iteration_number === null">
-        <div class="text-h4 text-weight-medium q-mb-none">Welcome, the</div>
-        <div class="text-h3 text-weight-medium text-primary q-mb-none">Freeos AirClaim</div>
-        <div class="text-h3 text-weight-medium q-mb-mb">Has now Closed</div>
+    <div v-if="airclaimStatus === 'Complete'">
+        <div class="text-h3 text-weight-medium text-primary q-mb-none">the Freeos AirClaim</div>
+        <div class="text-h3 text-weight-medium q-mt-sm q-mb-mb">Has now Closed</div>
+        <div class="text-h6 text-weight-medium q-mt-md q-mb-mb">You can still login to Check your Balance, Convert & Transfer for a limited time.</div>
+        <div class="q-mt-md q-mb-sm" v-if="isFreeosEnabled === true">
+            <q-btn unelevated no-caps size="lg" outline color="primary" @click="connectWallet('anchor')">Connect Wallet</q-btn>
+        </div>
+    </div>
+    <div v-if="!airclaimStatus">
+            <div class="q-pa-md  bg-negative" style="max-width:600px;margin:0 auto;">
+                <h4 class="text-white">The AirClaim is unavailable at this time, please try later </h4>
+            </div>
     </div>
     <div class="text-h6 q-mt-md text-weight-medium q-mb-none">For more info visit <a target="_blank" href="https://freeos.io/">freeos.io</a></div>
     <div class="q-mt-lg" style="">
@@ -52,7 +60,7 @@ export default {
     },
     computed: {
         //...mapGetters('account', ['isAuthenticated']),
-        ...mapGetters('freeos', ['isFreeosEnabled', 'isAuthenticated', 'currentIteration', 'nextIteration'])
+        ...mapGetters('freeos', ['isFreeosEnabled', 'isAuthenticated', 'currentIteration', 'nextIteration','airclaimStatus'])
     },
     methods: {
         ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),

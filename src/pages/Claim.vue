@@ -75,7 +75,7 @@
             <div class="flex justify-between add-custome-width">
 
                 <div class="flex column text-left"  style="flex:1">
-                    <div class="text-subtitle1 q-mt-xs q-mb-xs">Iteration</div>
+                    <div v-if="airclaimStatus !== 'Complete'" class="text-subtitle1 q-mt-xs q-mb-xs">Iteration</div>
                     <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: left;line-height:1;" class="q-mt-xs q-mb-xs text-subtitle1 text-capitalize">
                             <strong>{{notes}}</strong>
                     </div>
@@ -104,8 +104,8 @@
                 </div>
 
                 <div class="flex column text-right"  style="flex:1">
-                    <div v-if="nextIteration && nextIteration.iteration_number !== null && nextIteration.iteration_number >= 0" class="text-subtitle1  q-mt-xs q-mb-xs">Next Claim</div>
-                    <div v-if="nextIteration && nextIteration.iteration_number === null" class="text-subtitle1">Final Claim<br />ends in</div>
+                    <div v-if="airclaimStatus !== 'Complete' && nextIteration && nextIteration.iteration_number !== null && nextIteration.iteration_number >= 0" class="text-subtitle1  q-mt-xs q-mb-xs">Next Claim</div>
+                    <div v-if="airclaimStatus !== 'Complete' && nextIteration && nextIteration.iteration_number === null" class="text-subtitle1">Final Claim<br />ends in</div>
 
                     <div style="background: none; border: none; outline: none;  padding-right: 0; text-align: right;line-height:1;" class="text-subtitle1  q-mt-xs q-mb-xs">
                             <strong>{{nextClaimDescription}}</strong>
@@ -211,7 +211,7 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance']),
+        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus']),
         nextClaimDescription: function () {
             var daysToNextClaim = "";
             if(this.currentIteration && this.currentIteration.end){
