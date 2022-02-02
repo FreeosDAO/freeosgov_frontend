@@ -27,7 +27,7 @@
     <div v-if="airclaimStatus === 'Complete'">
         <div class="text-h3 text-weight-medium text-primary q-mb-none">the Freeos AirClaim</div>
         <div class="text-h3 text-weight-medium q-mt-sm q-mb-mb">Has now Closed</div>
-        <div class="text-h6 text-weight-medium q-mt-md q-mb-mb">You can still login to Check your Balance, Convert & Transfer for a limited time.</div>
+        <div class="text-h6 text-weight-medium q-mt-md q-mb-mb">You can still login to Check your Balance, Mint & Transfer for a limited time.</div>
         <div class="q-mt-md q-mb-sm" v-if="isFreeosEnabled === true">
             <q-btn unelevated no-caps size="lg" outline color="primary" @click="connectWallet('anchor')">Connect Wallet</q-btn>
         </div>
