@@ -1,4 +1,4 @@
-import { ConnectWallet } from '@protonprotocol/proton-web-sdk'
+import ProtonWebSDK from '@proton/web-sdk'
 import {
   FreeosBlockChainState
 } from '../services/FreeosBlockChainState'
@@ -14,7 +14,7 @@ class ProtonSDK {
   }
 
   connect = async ({ restoreSession }) => {
-    const { link, session } = await ConnectWallet({
+    const { link, session } = await ProtonWebSDK({
       linkOptions: {
         chainId: this.chainId,
         endpoints: this.endpoints,
