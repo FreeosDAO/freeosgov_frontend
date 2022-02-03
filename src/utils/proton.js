@@ -13,49 +13,57 @@ class ProtonSDK {
     this.link = null
   }
 
-  connect = async ({ restoreSession }) => {
-    const { link, session } = await ProtonWebSDK({
-      linkOptions: {
-        chainId: this.chainId,
-        endpoints: this.endpoints,
-        restoreSession
-      },
-      transportOptions: {
-        requestAccount: this.requestAccount,
-        backButton: true
-      },
-      selectorOptions: {
-        appName: this.appName,
-        appLogo: process.env.APP_LOGO,
-        customStyleOptions: {
-          /* Optional: Custom style options for modal */
-          modalBackgroundColor: '#00a1ed',
-          logoBackgroundColor: 'white',
-          isLogoRound: true,
-          optionBackgroundColor: '#0091dd',
-          optionFontColor: 'white',
-          primaryFontColor: 'white',
-          secondaryFontColor: '#eee',
-          linkColor: '#eee'
+  connect = async (restoreSession) => {
+    console.log('login', this.options)
+    try {
+      const { link, session } = await ProtonWebSDK({
+        linkOptions: {
+          chainId: this.chainId,
+          endpoints: this.endpoints,
+          restoreSession
+        },
+        transportOptions: {
+          requestAccount: this.requestAccount,
+          backButton: true
+        },
+        selectorOptions: {
+          appName: this.appName,
+          appLogo: process.env.APP_LOGO,
+          customStyleOptions: {
+            /* Optional: Custom style options for modal */
+            modalBackgroundColor: '#00a1ed',
+            logoBackgroundColor: 'white',
+            isLogoRound: true,
+            optionBackgroundColor: '#0091dd',
+            optionFontColor: 'white',
+            primaryFontColor: 'white',
+            secondaryFontColor: '#eee',
+            linkColor: '#eee'
+          }
         }
-      }
-    })
-    this.link = link
-    this.session = session
-  };
+      });
+      console.log('login', session)
+      console.log('loginLink', link)
+      this.link = link;
+      this.session = session;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
 
   login = async () => {
+    console.log('login', this.options)
     try {
-      await this.connect({ restoreSession: false })
-      const { auth, accountData } = this.session
-      return {
-        auth,
-        accountData: accountData[0]
-      }
+      await this.connect(false);
+      return { auth: this.session.auth};
     } catch (e) {
-      return e
+      console.error(e);
+      return e;
     }
-  };
+  }
+
+
 
   sendTransaction = async (actions) => {
     try {
@@ -69,6 +77,7 @@ class ProtonSDK {
       )
       return result
     } catch (e) {
+      console.error(e);
       return e
     }
   };
@@ -81,23 +90,15 @@ class ProtonSDK {
 
   restoreSession = async () => {
     try {
-      await this.connect({ restoreSession: true })
+      await this.connect(true);
       if (this.session) {
-        const { auth, accountData } = this.session
-        return {
-          auth,
-          accountData: accountData[0]
-        }
+        return { auth: this.session.auth };
+      } else {
+        return { auth: { actor: '', permission: '' }};
       }
-    } catch (e) {
-      return e
-    }
-    return {
-      auth: {
-        actor: '',
-        permission: ''
-      },
-      accountData: {}
+    } catch(e) {
+      console.error(e);
+      return e;
     }
   }
 }
