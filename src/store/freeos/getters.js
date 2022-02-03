@@ -31,3 +31,5 @@ export const stakeCurrency = ({ stakeCurrency }) => stakeCurrency
 export const currencyName = ({ currencyName }) => currencyName
 export const unvestPercentage = ({ unvestPercentage }) => unvestPercentage
 export const airclaimStatus = ({ airclaimStatus }) => airclaimStatus
+export const currentPrice = ({ currentPrice }) => currentPrice
+export const targetPrice = ({ targetPrice }) => targetPrice

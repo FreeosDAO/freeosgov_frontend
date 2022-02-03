@@ -41,6 +41,9 @@
     <CompleteDialog  ref="complete"  />
     <div class="add-bg q-px-md">
         <svg v-if="airkeyBalance > 0 && showAirkey" xmlns="http://www.w3.org/2000/svg" style="height:36px;width:36px;" viewBox="0 0 100 100"><path d="M86.776 33.97l-7.106-6.611 4.926-5.294a7.101 7.101 0 001.876-4.6c.043-1.796-.61-3.413-1.84-4.554-2.465-2.288-6.641-1.974-9.12.689L41.613 50.008c-7.916-3.722-17.394-1.937-23.437 4.547-7.612 8.179-7.153 21.027 1.023 28.642 3.784 3.521 8.658 5.436 13.797 5.436a20.11 20.11 0 0014.843-6.457 20.251 20.251 0 002.863-23.705l14.529-15.606 7.104 6.616c.291.271.677.406 1.076.401a1.502 1.502 0 001.045-.478l4.109-4.422a1.501 1.501 0 00-.076-2.119l-7.104-6.615 2.126-2.279 7.102 6.62a1.502 1.502 0 002.12-.075l4.117-4.422c.271-.291.416-.678.401-1.076a1.487 1.487 0 00-.475-1.046zm-5.214 3.4l-7.101-6.619a1.5 1.5 0 00-2.119.074l-4.173 4.474a1.502 1.502 0 00.075 2.121l7.105 6.617-2.066 2.224-7.104-6.615a1.455 1.455 0 00-1.076-.401 1.5 1.5 0 00-1.044.477L47.986 56.985l-.015.01a1.5 1.5 0 00-.42 2.051 17.252 17.252 0 01-1.907 21.085 17.133 17.133 0 01-12.015 5.49c-4.592.152-9.007-1.478-12.385-4.62-6.966-6.487-7.357-17.435-.873-24.402a17.283 17.283 0 0112.651-5.51c2.812 0 5.647.688 8.245 2.106a1.5 1.5 0 002.038-.604l34.4-36.948c1.35-1.448 3.63-1.698 4.884-.535.591.548.903 1.359.882 2.284a4.056 4.056 0 01-1.074 2.628l-5.947 6.392a1.499 1.499 0 00.078 2.12l7.106 6.611-2.072 2.227z"/><path d="M32.999 61.242a6.964 6.964 0 00-4.923 2.135 6.964 6.964 0 00-1.973 4.989c.063 3.826 3.196 6.896 7.009 6.896l.116-.001a6.967 6.967 0 004.923-2.134 6.97 6.97 0 001.972-4.99c-.031-1.872-.789-3.621-2.135-4.923s-3.117-1.962-4.989-1.972zm2.997 9.798a3.985 3.985 0 01-2.816 1.221l-.067.001a4.016 4.016 0 01-4.01-3.944 3.981 3.981 0 011.128-2.854 3.987 3.987 0 012.817-1.221l.067-.001c1.046 0 2.034.399 2.788 1.129a3.979 3.979 0 011.221 2.815 3.98 3.98 0 01-1.128 2.854z"/></svg>
+        
+        <p class="text-body3 q-mb-xs">FREEOS price xUSDC ${{currentPrice}} <q-icon v-if="currentPrice >= targetPrice" size='xs' name="arrow_upward" /><q-icon v-if="currentPrice < targetPrice" size='xs' name="arrow_downward" /></p>
+
 
         <div v-if="!isFreeosEnabled">
             <b>Freeos system is not currently operational. Please check back later.</b>
@@ -211,7 +214,7 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus']),
+        ...mapGetters('freeos', ['isRegistered', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
         nextClaimDescription: function () {
             var daysToNextClaim = "";
             if(this.currentIteration && this.currentIteration.end){

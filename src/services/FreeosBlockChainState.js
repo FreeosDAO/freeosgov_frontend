@@ -253,6 +253,7 @@ export class FreeosBlockChainState extends EventEmitter {
     var bcFreeosBalancePromise = null
     var bcAirkeyBalancePromise = null
     var bcUserPromise = null
+    var bcCurrentExchangeRatePromise = null;
     var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
     var currencyName = process.env.CURRENCY_NAME || 'FREEOS'
 
@@ -296,11 +297,12 @@ export class FreeosBlockChainState extends EventEmitter {
         upper_bound: 'AIRKEY',
         limit: 1
       }, 'balance')
-      dataRequests = dataRequests.concat([bcUnvestsPromise, bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise])
+      bcCurrentExchangeRatePromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'exchangerate', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, { 'limit':  1 })
+      dataRequests = dataRequests.concat([bcUnvestsPromise, bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise, bcCurrentExchangeRatePromise])
     }
 
     var outputValues = await Promise.all(dataRequests) // .then((values) => {
-    let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance] = outputValues
+    let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance, bcCurrentExchangeRate] = outputValues
     if (!bcAirkeyBalance) bcAirkeyBalance = 0
     if (!liquidOptions) liquidOptions = 0
     if (!vestedOptions) vestedOptions = 0
@@ -413,7 +415,9 @@ export class FreeosBlockChainState extends EventEmitter {
       totalFreeos: totalHolding,
       canClaim: userEligibleToClaim,
 
-      reasonCannotClaim: reasonCannotClaim
+      reasonCannotClaim: reasonCannotClaim,
+      currentPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.currentprice ? (bcCurrentExchangeRate.currentprice/1).toFixed(6) : 0,
+      targetPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.targetprice ? (bcCurrentExchangeRate.targetprice/1).toFixed(6) : 0,
     }
 
     console.log('output', output)

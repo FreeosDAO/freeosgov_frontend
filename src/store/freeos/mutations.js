@@ -101,3 +101,11 @@ export const setunvestPercentage = (state, unvestPercentage) => {
 export const setairclaimStatus = (state, airclaimStatus) => {
   state.airclaimStatus = airclaimStatus
 }
+
+export const setcurrentPrice = (state, currentPrice) => {
+  state.currentPrice = currentPrice
+}
+
+export const settargetPrice = (state, targetPrice) => {
+  state.targetPrice = targetPrice
+}
