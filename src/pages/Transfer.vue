@@ -50,7 +50,22 @@
                           <p class="q-mt-sm q-mb-none">Amount:</p>
                       </div>
                       <div class="col-xs-6 col-sm-8">
-                          <q-input required v-model="submitData.quantity" type="number" outlined dense />
+
+
+
+<label data-v-052b630f="" for="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component"><div class="q-field__inner relative-position col self-stretch"><div tabindex="-1" class="q-field__control relative-position row no-wrap"><div class="q-field__control-container col relative-position row no-wrap q-anchor--skip"><input v-model="submitData.quantity" tabindex="0" required="required" id="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" type="number" class="q-field__native q-placeholder">
+                        <q-btn  class="max-btn"
+                          size="sm"
+                          unelevated
+                          no-caps
+                          outline
+                          color="secondary"
+                          v-if="submitData.token"
+                          @click="maxAmount()"
+                        >Max</q-btn>
+
+</div></div></div></label>
+
                           <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{XPRBalance}} {{stakeCurrency}} available to transfer</small></p>
                           <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{liquidFreeos}} {{currencyName}} available to transfer</small></p>
                       </div>
@@ -134,6 +149,13 @@ export default {
     },
     methods: {
         ...mapActions('freeos', ['fetch', 'transfer']),
+        maxAmount(){
+            if(this.submitData.token === this.stakeCurrency){
+                this.submitData.quantity = this.XPRBalance
+            }else if(this.submitData.token === this.currencyName){
+                this.submitData.quantity = this.liquidFreeos
+            }
+        },
         async submit() {
             var dataToSubmit = Object.assign({}, this.submitData)
             dataToSubmit.from = this.accountName;
