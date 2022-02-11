@@ -91,14 +91,14 @@ Additionally, participants that come in late and are keen to participate, will n
                             <p class="text-subtitle1 q-mt-xs">These locked {{tokenCurrencyName}}s can be unlocked when the price is equal, or above, the price floor.  </p>
                             <p class="text-subtitle1 q-mt-xs">Alternatively, every 8 iterations that are consecutively below the price floor, 15% will be available to be unlocked. This is called the Failsafe unlocking condition.</p>
                                             <img src="../assets/info-page/locked_points.png" class="info-img"/>   
-                            <p class="text-subtitle1 q-mt-xs">When unlocking is available, simply press the “unlock” button and a portion of your points will be free to be minted.</p>
+                      
                         </div>
 
 
                         <div id="unvesting">
                             <p class="text-h4 q-mt-xl">Unlocking {{tokenCurrencyName}}s</p>
+                                  <p class="text-subtitle1 q-mt-xs">When unlocking is available, simply press the “unlock” button and a portion of your points will be free to be minted.</p>
                       <img src="../assets/info-page/unlock.png"  class="info-img" />   
-                            <p class="text-subtitle1 q-mt-xs">Info Coming Soon</p>
                         </div>
             </q-card>
         </div>
