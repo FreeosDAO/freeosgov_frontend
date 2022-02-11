@@ -94,7 +94,7 @@
 
                 <div class="q-mt-md text-center text-h5">@{{accountName}}</div>
 
-                <q-btn size="lg" @click="protonSwap()" href="https://www.protonswap.com/swap" class="q-mt-lg" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens?<br />try Proton Swap</q-btn>
+                <q-btn size="lg" @click="protonSwap()" href="https://proton.alcor.exchange/" class="q-mt-lg" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens?<br />try Alcor</q-btn>
 
             </q-card>
 
@@ -167,7 +167,7 @@ export default {
             this.resetForm()
         },
         protonSwap() {
-            window.open("https://www.protonswap.com/swap", '_blank');
+            window.open("https://proton.alcor.exchange/", '_blank');
         },
         resetForm() {
             this.submitData = {

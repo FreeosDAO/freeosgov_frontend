@@ -118,7 +118,7 @@ export default {
     methods: {
         ...mapActions('freeos', ['fetch', 'stake', 'unstake', 'cancelUnstake']),
         protonSwap() {
-            window.open("https://www.protonswap.com/swap", '_blank');
+            window.open("https://proton.alcor.exchange/", '_blank');
         },
         async stakeSubmit() {
             const _ = this;

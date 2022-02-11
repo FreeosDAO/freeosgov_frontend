@@ -103,9 +103,9 @@ const menuList = [
   },
   {
     icon: require('@/assets/proton.svg'),
-    label: 'Proton Swap',
+    label: 'Alcor',
     separator: true,
-    route: 'https://www.protonswap.com/swap'
+    route: 'https://proton.alcor.exchange/'
   },
   {
     icon: require('@/assets/info.svg'),
