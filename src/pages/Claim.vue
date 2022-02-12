@@ -20,7 +20,7 @@
                     interest in the Freeos AirClaim.
                     It’s just a press of a button.</p>
 
-             <q-checkbox id="termsCheckbox" v-model="termsCheckbox" /><label  for="termsCheckbox">I accept Freeos's <a class="cursor-pointer" style="text-decoration:underline" @click="showTerms = !showTerms">Terms of Service</a></label>
+             <q-checkbox id="termsCheckbox" v-model="termsCheckbox" /><label  for="termsCheckbox">I accept Freeos's <a target="_blank" href="https://www.freedao.io/t-cs" class="cursor-pointer" style="text-decoration:underline">Terms of Service</a></label>
 
 
                 <div v-show="showTerms" class="" style="width:100%;max-height:120px;overflow-y: auto;" class="text-left">
