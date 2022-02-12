@@ -2031,7 +2031,7 @@
     "@proton/link" "^3.2.4"
     "@proton/provider-axios" "^3.2.4"
 
-"@protonprotocol/proton-web-sdk@https://github.com/ProtonProtocol/ProtonWeb.git":
+"@protonprotocol/proton-web-sdk@https://github.com/ProtonProtocol/ProtonWeb":
   "resolved" "git+ssh://git@github.com/ProtonProtocol/ProtonWeb.git#b6b5e297ff0b7cf4b60df1e9a8fd0fb0cdbca831"
 
 "@quasar/app@^2.0.0":

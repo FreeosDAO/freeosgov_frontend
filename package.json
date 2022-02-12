@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@proton/web-sdk": "^3.3.6",
-    "@protonprotocol/proton-web-sdk": "https://github.com/ProtonProtocol/ProtonWeb.git",
+    "@protonprotocol/proton-web-sdk": "https://github.com/ProtonProtocol/ProtonWeb",
     "@quasar/extras": "^1.0.0",
     "@quasar/quasar-app-extension-dotenv": "^1.0.5",
     "axios": "^0.21.1",
