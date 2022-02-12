@@ -6,7 +6,7 @@
                 <div class="text-h4 text-center q-ma-lg">Registration</div>
                  <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#registration">click here</router-link></p>
 
-             <q-checkbox id="termsCheckbox" v-model="termsCheckbox" /><label  for="termsCheckbox">I accept Freeos's <a class="cursor-pointer" style="text-decoration:underline" @click="showTerms = !showTerms">Terms of Service</a></label>
+             <q-checkbox id="termsCheckbox" v-model="termsCheckbox" /><label  for="termsCheckbox">I accept Freeos's <a class="cursor-pointer" style="text-decoration:underline" target="_blank" href="https://www.freedao.io/t-cs">Terms of Service</a></label>
 
 
                 <div v-show="showTerms" class="" style="width:100%;max-height:120px;overflow-y: auto;" class="text-left">

@@ -49,7 +49,7 @@ const menuList = [
   },
   {
     icon: require('@/assets/proton.svg'),
-    label: 'proton Swap',
+    label: 'Alcor',
     separator: true,
     route: '/proton'
   },

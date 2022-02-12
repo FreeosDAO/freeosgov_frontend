@@ -83,23 +83,22 @@ Additionally, participants that come in late and are keen to participate, will n
                             <p class="text-subtitle1 q-mt-xs">Participants can mint these {{tokenCurrencyName}}s for FREEOS tokens—which may have a monetary value as decided by the open market.  Or the participants may choose not to mint for various reasons. Perhaps they wish to volunteer their time to a project they believe in, without any expectation of compensation.  Perhaps they wish to simply study the system.</p>
                             <p class="text-subtitle1 q-mt-xs">Others may be expecting to be rewarded for their participation, and can decide to mint {{tokenCurrencyName}}s into FREEOS tokens that represent their efforts and tracked data that is used to improve the system.</p>
                             <p class="text-subtitle1 q-mt-xs">As some countries/jurisdictions around the world expect taxes to be paid when value is transferred, this event may be considered a taxable event in your country/jurisdiction.  Check with your local tax authorities to determine whether minting is considered a taxable event.</p>
-                            <p class="text-h5 q-mt-lg">Locked {{tokenCurrencyName}}s</p>
+                           
+                               </div>
+                                   <div  id="vested-options">
+                            <p class="text-h4 q-mt-lg">Locked {{tokenCurrencyName}}s</p>
                             <p class="text-subtitle1 q-mt-xs">When the price of FREEOS is below the price floor of $0.0167 XUSDC, a portion of the awarded {{tokenCurrencyName}}s are temporarily locked.</p>
                             <p class="text-subtitle1 q-mt-xs">These locked {{tokenCurrencyName}}s can be unlocked when the price is equal, or above, the price floor.  </p>
                             <p class="text-subtitle1 q-mt-xs">Alternatively, every 8 iterations that are consecutively below the price floor, 15% will be available to be unlocked. This is called the Failsafe unlocking condition.</p>
                                             <img src="../assets/info-page/locked_points.png" class="info-img"/>   
-                            <p class="text-subtitle1 q-mt-xs">When unlocking is available, simply press the “unlock” button and a portion of your points will be free to be minted.</p>
+                      
                         </div>
 
-                        <div id="vested-options">
-                            <p class="text-h4 q-mt-xl">Locked {{tokenCurrencyName}}s</p>
-                            <p class="text-subtitle1 q-mt-xs">Info Coming Soon</p>
-                        </div>
 
                         <div id="unvesting">
                             <p class="text-h4 q-mt-xl">Unlocking {{tokenCurrencyName}}s</p>
+                                  <p class="text-subtitle1 q-mt-xs">When unlocking is available, simply press the “unlock” button and a portion of your points will be free to be minted.</p>
                       <img src="../assets/info-page/unlock.png"  class="info-img" />   
-                            <p class="text-subtitle1 q-mt-xs">Info Coming Soon</p>
                         </div>
             </q-card>
         </div>
