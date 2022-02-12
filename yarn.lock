@@ -2031,14 +2031,8 @@
     "@proton/link" "^3.2.4"
     "@proton/provider-axios" "^3.2.4"
 
-"@protonprotocol/proton-web-sdk@git://github.com/ProtonProtocol/ProtonWeb.git":
-  "resolved" "git+ssh://git@github.com/ProtonProtocol/ProtonWeb.git#47c8bcf16a8c971f799c6c9bbb402fd32f2f15be"
-  "version" "3.3.6"
-  dependencies:
-    "@greymass/eosio" "^0.4.7"
-    "@proton/browser-transport" "^3.2.5"
-    "@proton/link" "^3.2.4"
-    "@proton/provider-axios" "^3.2.4"
+"@protonprotocol/proton-web-sdk@https://github.com/ProtonProtocol/ProtonWeb.git":
+  "resolved" "git+ssh://git@github.com/ProtonProtocol/ProtonWeb.git#b6b5e297ff0b7cf4b60df1e9a8fd0fb0cdbca831"
 
 "@quasar/app@^2.0.0":
   "integrity" "sha512-aZdA39Jrc+Egy6l+KJh9NGjEpYy+OVM3NpypU89PmB80/pTK8nSfSjXbnkblXTJpR4zURCTs48b1sCSDXgFuSQ=="
@@ -10887,6 +10881,9 @@
     "json-stringify-safe" "^5.0.1"
     "semver-compare" "^1.0.0"
     "sprintf-js" "^1.1.2"
+
+"root@github:ProtonProtocol/ProtonWeb":
+  "resolved" "git+ssh://git@github.com/ProtonProtocol/ProtonWeb.git#b6b5e297ff0b7cf4b60df1e9a8fd0fb0cdbca831"
 
 "rtlcss@2.5.0":
   "integrity" "sha512-NCVdF45w70/3CQeqVvQ84bu2HN8agNn+CDjw+RxXaiWb7mPOmEvltdd1z4qzm9kin4Jnu9ShFBIx28yvWerZ2g=="
