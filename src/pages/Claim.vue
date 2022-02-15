@@ -288,7 +288,6 @@ export default {
     async mounted() {
         document.body.classList.add('claim-page');
         var result = await this.fetch();
-        console.log('awaitresult', result);
     },
     destroyed () {
         document.body.classList.remove('claim-page')

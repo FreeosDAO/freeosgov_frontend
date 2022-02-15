@@ -38,7 +38,6 @@ export async function monitorBlockChain (state) {
 export async function fetch(state) {
   var result = await FreeosBlockChainState.getInstance().singleFetch()
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
-  console.log('setisFreeosEnabled', result)
    return result;
 }
 

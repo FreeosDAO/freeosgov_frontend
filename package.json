@@ -1,8 +1,8 @@
 {
   "name": "freeos",
   "version": "0.0.1",
-  "description": "Application to claim your FreeOS tokens",
-  "productName": "FreeOS App",
+  "description": "Application to claim your Freeos tokens",
+  "productName": "Freeos App",
   "author": "FreeDAO",
   "private": true,
   "scripts": {
@@ -13,8 +13,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@proton/web-sdk": "^3.3.6",
-    "@protonprotocol/proton-web-sdk": "https://github.com/ProtonProtocol/ProtonWeb",
+    "@proton/web-sdk": "^4.1.0",
     "@quasar/extras": "^1.0.0",
     "@quasar/quasar-app-extension-dotenv": "^1.0.5",
     "axios": "^0.21.1",

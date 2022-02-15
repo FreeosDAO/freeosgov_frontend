@@ -50,13 +50,11 @@ export class FreeosBlockChainState extends EventEmitter {
    * Starts monitor for changes on the block chain
    */
   async start() {
-    console.log('  var isRunning = false', this.isRunning);
     if (this.isRunning) return
 
     this.isRunning = true
 
     var fetchTimer = async () => {
-      console.log('Fetching data....')
 
       const { auth } = await ProtonSDK.restoreSession();
 
@@ -67,15 +65,12 @@ export class FreeosBlockChainState extends EventEmitter {
         walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null
       })
 
-      console.log('NOW WALLET USER IS: ', this.walletUser)
 
       this.actionFetch().then((data) => {
-        console.log('changedata', data);
         this.emit('change', data)
         if (this.timer) clearTimeout(this.timer)
         this.timer = setTimeout(fetchTimer, process.env.TIMED_FETCH_DELAY)
       }).catch(err => {
-        console.log('Problem fetching data', err)
         if (this.timer) clearTimeout(this.timer)
         this.timer = setTimeout(fetchTimer, process.env.TIMED_FETCH_DELAY)
       })
@@ -315,8 +310,6 @@ export class FreeosBlockChainState extends EventEmitter {
 
     var currentIterationIdx = (iterations != null && iterations.currentIteration ? iterations.currentIteration.iteration_number : -1)
 
-    console.log('currentIterationIdx', currentIterationIdx)
-
     if (currentIterationIdx === 0 || currentIterationIdx === -1) {
       isFreeosEnabled = false;
     }
@@ -489,7 +482,6 @@ export class FreeosBlockChainState extends EventEmitter {
   }
 
   getCurrentAndNextIteration(rows) {
-    console.log('rows', rows);
     const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000); // Math.floor((new Date()).getTime() / 1000)
     var nextIteration = {
       startStamp: null,

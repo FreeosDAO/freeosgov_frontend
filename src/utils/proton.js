@@ -14,7 +14,6 @@ class ProtonSDK {
   }
 
   connect = async (restoreSession) => {
-    console.log('login', this.options)
     try {
       const { link, session } = await ProtonWebSDK({
         linkOptions: {
@@ -42,8 +41,6 @@ class ProtonSDK {
           }
         }
       });
-      console.log('login', session)
-      console.log('loginLink', link)
       this.link = link;
       this.session = session;
     } catch (e) {
@@ -53,7 +50,6 @@ class ProtonSDK {
 
 
   login = async () => {
-    console.log('login', this.options)
     try {
       await this.connect(false);
       return { auth: this.session.auth};

@@ -70,9 +70,7 @@ export default {
         isAuthenticated: {
             immediate: true,
             handler: function (val, oldVal) {
-                console.log(val, oldVal)
                 if (val === true && this.isFreeosEnabled !== false) {
-                    console.log('this.$route.query', this.$route.query.returnUrl)
                     if (this.$route.query.returnUrl) {
                         this.$router.push({
                             path: this.$route.query.returnUrl

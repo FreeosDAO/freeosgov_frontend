@@ -69,7 +69,6 @@ export async function connectProton (state, name) {
   try {
     // this.setState({ isLoggingIn: true })
     const { auth } = await ProtonSDK.login()
-    console.log('contec', auth);
     if (auth && auth.actor && auth.permission) {
       state.commit('setAccount', {
         accountName: auth.actor,
@@ -86,7 +85,6 @@ export async function connectProton (state, name) {
 export const logout = async function ({ commit }) {
   await commit('clearAccount', null)
   await ProtonSDK.logout()
-  console.log("PUSH", this.$router)
   // this.$router.push('/')
 }
 
