@@ -33,13 +33,14 @@
                             </ol>
                             <p class="text-subtitle1 q-mt-xs">XUSDC was chosen, as it does not fluctuate in value compared to other tokens.  This gives confidence to participants that they will receive the same value after the 25 weeks/iterations of the AirClaim once they release their stake.</p>
                             <p class="text-h5 q-mt-lg">Getting enough to Stake</p>
-                            <img class="info-img" src="../assets/info-page/need_USDC_stake.png" />
+                            <p class="text-subtitle1 q-mt-xs"><a href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b" target="_blank">How to get XUSDC?</a></p>
+                            <img class="info-img" src="../assets/info-page/need_USDC_stake-v2.png" />
                             <p class="text-h5 q-mt-lg">Staking your XUSDC</p>
 
-                            <p class="text-subtitle1 q-mt-xs">Once you have the required amount of XUSDC, you are able to press the “Stake” button.</p>
-                            <img class="info-img" src="../assets/info-page/staked_USDC.png" />
+                            <p class="text-subtitle1 q-mt-xs">Once you have the required amount of XUSDC, you are able to press the “Stake” button. <a href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b" target="_blank">How to get XUSDC?</a></p>
+                            <img class="info-img" src="../assets/info-page/staked_USDC-v2.png" />
                             <p class="text-subtitle1 q-mt-xs">Sign the transaction in your Proton Wallet and you should get the confirmation and you will see that you are now staked.</p>
-                            <img class="info-img" src="../assets/info-page/staked_USDC_2.png" />
+                            <img class="info-img" src="../assets/info-page/staked_USDC_2-v2.png" />
                        
                         </div>
                         <div id="unstaking">

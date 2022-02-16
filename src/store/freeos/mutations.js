@@ -109,3 +109,7 @@ export const setcurrentPrice = (state, currentPrice) => {
 export const settargetPrice = (state, targetPrice) => {
   state.targetPrice = targetPrice
 }
+
+export const setannounceObj = (state, announceObj) => {
+  state.announceObj = announceObj
+}

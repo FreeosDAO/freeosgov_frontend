@@ -212,13 +212,31 @@ export class FreeosBlockChainState extends EventEmitter {
 
   async actionFetch() {
 
-    var masterswitch = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'parameters', null, {
-      lower_bound: 'masterswitch',
-      upper_bound: 'masterswitch',
-      limit: 1
+
+    var parametersTable = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'parameters', null, {
+      lower_bound: '',
+      upper_bound: '',
+      limit: 100
     })
+
+    console.log('masterswitch', parametersTable)
+    var masterswitch = parametersTable.filter(function(row){
+        return row.paramname == 'masterswitch';
+    })[0];
     console.log('masterswitch', masterswitch)
     var isFreeosEnabled = masterswitch && masterswitch.value && masterswitch.value === '1' ? true : false
+
+
+    var announcetext = parametersTable.filter(function(row){return row.paramname == 'announcetext';})[0]
+    var announceid = parametersTable.filter(function(row){return row.paramname == 'announceid';})[0]
+    var announcelink = parametersTable.filter(function(row){return row.paramname == 'announcelink';})[0]
+
+    var announceObj = {
+      text: announcetext && announcetext.value ? announcetext.value : null,
+      id: announceid && announceid.value ? announceid.value : null,
+      link: announcelink && announcelink.value ? announcelink.value : null,
+    } 
+
 
     // Row data
     // {"iteration_number":1,"start":"2021-04-27T22:59:59.000","end":"2021-04-28T04:00:00.000","claim_amount":100,"tokens_required":0}
@@ -241,6 +259,9 @@ export class FreeosBlockChainState extends EventEmitter {
 
     var bcStateRequirementsPromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'stakereqs', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, { 'limit': 100 })
 
+    var bcPreRegistrationPromise = null
+
+
     var bcXPRBalancePromise = null
     var bcUnstakingPromise = null
     var optionsPromise = null
@@ -259,7 +280,13 @@ export class FreeosBlockChainState extends EventEmitter {
       bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests', this.walletUser.accountName)
 
 
-      bcUserPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT, 'users')
+      bcPreRegistrationPromise = this.getRecord('eosio.proton', 'usersinfo', 'eosio.proton', {
+        limit: 1,
+        upper_bound: this.walletUser.accountName,
+        lower_bound: this.walletUser.accountName
+      })
+
+      bcUserPromise = this.getUserRecord(process.env.AIRCLAIM_CONTRACT, 'users');
       // {"rows":[{"balance":"24920.0000 XPR"}],"more":false,"next_key":""}
       bcXPRBalancePromise = this.getUserRecordAsNumber(process.env.STAKING_CURRENCY_CONTRACT, 'accounts', {
         upper_bound: stakeCurrency,
@@ -292,16 +319,18 @@ export class FreeosBlockChainState extends EventEmitter {
         upper_bound: 'AIRKEY',
         limit: 1
       }, 'balance')
-      bcCurrentExchangeRatePromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'exchangerate', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, { 'limit':  1 })
-      dataRequests = dataRequests.concat([bcUnvestsPromise, bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise, bcCurrentExchangeRatePromise])
+      bcCurrentExchangeRatePromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'exchangerate', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, { 'limit': 1 })
+      dataRequests = dataRequests.concat([bcUnvestsPromise, bcPreRegistrationPromise, bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise, bcCurrentExchangeRatePromise])
     }
 
     var outputValues = await Promise.all(dataRequests) // .then((values) => {
-    let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance, bcCurrentExchangeRate] = outputValues
+    let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcPreRegistration, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance, bcCurrentExchangeRate] = outputValues
     if (!bcAirkeyBalance) bcAirkeyBalance = 0
     if (!liquidOptions) liquidOptions = 0
     if (!vestedOptions) vestedOptions = 0
     if (!freeosBalance) freeosBalance = 0
+
+  
 
     var unstakingIteration = bcUnstaking && bcUnstaking.iteration ? bcUnstaking.iteration : 0;
     bcUnstaking = !!bcUnstaking;
@@ -342,15 +371,36 @@ export class FreeosBlockChainState extends EventEmitter {
       airclaimStatus = "Running"
     }
 
-
+    var accountType = null;
     if (bcUser) { // Registered
-      for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
-        var stakeReq = bcStateRequirements[i]
-        if (registeredUserCount >= stakeReq.threshold) {
-          stakeRequirement = stakeReq['requirement_' + String.fromCharCode(bcUser.account_type)] // ascii to char conversion (will be a 'd', 'e' or 'v')
-          break
+      accountType = bcUser.account_type;
+    } else if (bcPreRegistration) {
+      var kyc = bcPreRegistration.kyc;
+      for (var i = 0; i < kyc.length+1; ++i) {
+        accountType = '100';
+        for (const prop in kyc[i]) {
+          console.log(prop);
+          if (prop === 'firstname' && prop === 'lastname') {
+            accountType = '128'; //account type V
+            break
+          }
         }
       }
+    } else {
+      accountType = '101';
+    }
+
+    for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
+      var stakeReq = bcStateRequirements[i]
+      if (registeredUserCount >= stakeReq.threshold) {
+        stakeRequirement = stakeReq['requirement_' + String.fromCharCode(accountType)] // ascii to char conversion (will be a 'd', 'e' or 'v')
+        break
+      }
+    }
+    console.log('stakeRequirement', stakeRequirement);
+
+    if (bcUser) { // Registered
+
 
       totalHolding = liquidOptions + vestedOptions + freeosBalance
       userStake = parseFloat(bcUser.stake)
@@ -407,10 +457,10 @@ export class FreeosBlockChainState extends EventEmitter {
       userMeetsStakeRequirement: userMeetsStakeRequirement,
       totalFreeos: totalHolding,
       canClaim: userEligibleToClaim,
-
+      announceObj: announceObj,
       reasonCannotClaim: reasonCannotClaim,
-      currentPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.currentprice ? (bcCurrentExchangeRate.currentprice/1).toFixed(6) : 0,
-      targetPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.targetprice ? (bcCurrentExchangeRate.targetprice/1).toFixed(6) : 0,
+      currentPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.currentprice ? (bcCurrentExchangeRate.currentprice / 1).toFixed(6) : 0,
+      targetPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.targetprice ? (bcCurrentExchangeRate.targetprice / 1).toFixed(6) : 0,
     }
 
     console.log('output', output)

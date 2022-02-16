@@ -36,6 +36,7 @@ var definition = {
   unvestPercentage: null, 
   airclaimStatus: null, 
   currentPrice: null,
-  targetPrice: null
+  targetPrice: null,
+  announceObj: null
 }
 export default definition

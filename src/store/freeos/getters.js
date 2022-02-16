@@ -33,3 +33,4 @@ export const unvestPercentage = ({ unvestPercentage }) => unvestPercentage
 export const airclaimStatus = ({ airclaimStatus }) => airclaimStatus
 export const currentPrice = ({ currentPrice }) => currentPrice
 export const targetPrice = ({ targetPrice }) => targetPrice
+export const announceObj = ({ announceObj }) => announceObj

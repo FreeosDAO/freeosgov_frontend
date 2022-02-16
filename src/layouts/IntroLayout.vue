@@ -107,13 +107,13 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .freeos-logo-icon{
     animation:fadeInRotate;
     opacity:0;
     animation-duration:1s;
     animation-iteration-count: 1;
-    animation-delay:1s;
+    animation-delay:.75s;
     animation-fill-mode: forwards;
 }
 .freeos-logo-text{
