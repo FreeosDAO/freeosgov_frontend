@@ -27,7 +27,6 @@
     "eos-transit-tokenpocket-provider": "^3.0.1",
     "eosjs": "^21.0.3",
     "quasar": "^1.0.0",
-    "root": "github:ProtonProtocol/ProtonWeb",
     "vue-sanitize": "^0.2.1"
   },
   "devDependencies": {
