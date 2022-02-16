@@ -30,7 +30,7 @@
                     <div class="text-h4">Stake Required</div>
                 </q-card-section>
                 <q-card-section class="q-pt-none text-center q-pb-xs" v-if="stakeRequirement">
-                    <p class="text-body1 q-mb-xs">{{ stakeRequirement }} XUSDC</p>
+                    <p class="text-body1 q-mb-xs">{{ stakeRequirement }} {{stakeCurrency}}</p>
                     <p class="text-body1 q-mb-xs">
                         <a
                             href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b"
