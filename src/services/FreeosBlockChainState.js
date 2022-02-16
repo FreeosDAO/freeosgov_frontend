@@ -377,17 +377,17 @@ export class FreeosBlockChainState extends EventEmitter {
     } else if (bcPreRegistration) {
       var kyc = bcPreRegistration.kyc;
       for (var i = 0; i < kyc.length+1; ++i) {
-        accountType = '100';
+        accountType = '100'; //account type d
         for (const prop in kyc[i]) {
           console.log(prop);
-          if (prop === 'firstname' && prop === 'lastname') {
-            accountType = '128'; //account type V
+          if (prop.includes('firstname') && prop.includes('lastname')) {
+            accountType = '118'; //account type v
             break
           }
         }
       }
     } else {
-      accountType = '101';
+      accountType = '101' //account type e;
     }
 
     for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
