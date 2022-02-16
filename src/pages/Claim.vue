@@ -464,7 +464,10 @@ export default {
         ...mapActions('freeos', ['fetch', 'register', 'claim']),
         ...mapActions('account', ['logout']),
         async registerUser() {
-            await this.register()
+            var result = await _.register();
+            if (!(result instanceof Error)) {
+                _.announceMsg()
+            }
             //await this.fetch()
         },
         async startClaim() {
@@ -474,6 +477,23 @@ export default {
                 if (!(result instanceof Error)) {
                     this.$refs.complete.openDialog({
                         title: "Woohoo", subtitle: "You earned", value: this.currentIteration.claim_amount
+                    });
+                }
+            }
+        },
+        announceMsg(){
+            const _ = this;
+            if (_.announceObj && _.announceObj.text) {
+                var storedAnnounceTextId = localStorage.getItem('announceTextId');
+                if(!storedAnnounceTextId || storedAnnounceTextId !== _.announceObj.id){
+                    var announceText =  _.announceObj.text;
+                    if(_.announceObj.link && _.announceObj.link !== ''){
+                        announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
+                    }
+                    _.$refs.complete.openDialog({
+                        title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, closeFunc: function(){
+                            localStorage.setItem('announceTextId', _.announceObj.id);
+                        }
                     });
                 }
             }
@@ -508,21 +528,9 @@ export default {
         document.body.classList.add('claim-page');
         const _ = this;
         var result = await _.fetch();
-        if (_.announceObj && _.announceObj.text) {
-            var storedAnnounceTextId = localStorage.getItem('announceTextId');
-            if(!storedAnnounceTextId || storedAnnounceTextId !== _.announceObj.id){
-                var announceText =  _.announceObj.text;
-                if(_.announceObj.link && _.announceObj.link !== ''){
-                    announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
-                }
-                _.$refs.complete.openDialog({
-                    title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, closeFunc: function(){
-                        localStorage.setItem('announceTextId', _.announceObj.id);
-                    }
-                });
-            }
+        if (this.isRegistered === true) {
+            _.announceMsg();
         }
-        
     },
     destroyed() {
         document.body.classList.remove('claim-page')
