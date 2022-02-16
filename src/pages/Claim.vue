@@ -26,10 +26,10 @@
                     </svg>
                 </div>
 
-                <q-card-section class="q-mt-none q-pb-xs text-center" v-if="stakeRequirement">
+                <q-card-section class="q-mt-none q-pb-xs text-center" v-if="stakeRequirement && !airkeyBalance">
                     <div class="text-h4">Stake Required</div>
                 </q-card-section>
-                <q-card-section class="q-pt-none text-center q-pb-xs" v-if="stakeRequirement">
+                <q-card-section class="q-pt-none text-center q-pb-xs" v-if="stakeRequirement && !airkeyBalance">
                     <p class="text-body1 q-mb-xs">{{ stakeRequirement }} {{stakeCurrency}}</p>
                     <p class="text-body1 q-mb-xs">
                         <a
@@ -516,7 +516,7 @@ export default {
                     announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
                 }
                 _.$refs.complete.openDialog({
-                    title: 'Announcement', subtitle: announceText, value: null, currency: null, time: null, closeFunc: function(){
+                    title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, closeFunc: function(){
                         localStorage.setItem('announceTextId', _.announceObj.id);
                     }
                 });
