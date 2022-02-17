@@ -370,25 +370,48 @@ export class FreeosBlockChainState extends EventEmitter {
     } else {
       airclaimStatus = "Running"
     }
+    console.log('stakeRequirement', bcPreRegistration);
+
+    /*bcPreRegistration = {
+      "acc": "11wl",
+      "name": "AncientThunder",
+      "avatar": "",
+      "verified": 0,
+      "date": 1642278575,
+      "verifiedon": 0,
+      "verifier": "",
+      "raccs": [],
+      "aacts": [],
+      "ac": [],
+      "kyc": [{
+          "kyc_provider": "metal.kyc",
+          "kyc_level": "trulioo:birthdate,trulioo:address,trulioo:firstname,trulioo:lastname",
+          "kyc_date": 1642278852
+        }
+      ]
+    }*/
 
     var accountType = null;
     if (bcUser) { // Registered
       accountType = bcUser.account_type;
     } else if (bcPreRegistration) {
-      var kyc = bcPreRegistration.kyc;
-      for (var i = 0; i < kyc.length+1; ++i) {
-        accountType = '100'; //account type d
-        for (const prop in kyc[i]) {
-          console.log(prop);
-          if (prop.includes('firstname') && prop.includes('lastname')) {
-            accountType = '118'; //account type v
-            break
+      accountType = '100'; //account type d
+      if(bcPreRegistration.kyc){
+        var kyc = bcPreRegistration.kyc;
+        for (var i = 0; i < kyc.length+1; ++i) {
+          for (const prop in kyc[i]) {
+            console.log(prop);
+            if (kyc[i][prop].includes('firstname') && kyc[i][prop].includes('lastname')) {
+              accountType = '118'; //account type v
+              break
+            }
           }
         }
       }
     } else {
       accountType = '101' //account type e;
     }
+    console.log('accountType', accountType);
 
     for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
       var stakeReq = bcStateRequirements[i]
