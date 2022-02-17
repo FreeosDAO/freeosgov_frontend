@@ -464,6 +464,7 @@ export default {
         ...mapActions('freeos', ['fetch', 'register', 'claim']),
         ...mapActions('account', ['logout']),
         async registerUser() {
+            const _ = this;
             var result = await _.register();
             if (!(result instanceof Error)) {
                 _.announceMsg()
