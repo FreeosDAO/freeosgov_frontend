@@ -188,6 +188,10 @@ export default {
 
 .wallet-selector-wallet-name{
     color:transparent !important;
+    font-size: 1px;
+    line-height: 1px;
+    color: white;
+    margin-left: 10px !important;
 }
 
 .wallet-selector-proton-logo,.wallet-selector-webauth-logo {
