@@ -107,6 +107,12 @@ const menuList = [
     separator: true,
     route: 'https://proton.alcor.exchange/'
   },
+    {
+    icon: require('@/assets/auction-icon.svg'),
+    label: 'Auctions',
+    separator: true,
+    route: 'https://auction.freeos.io'
+  },
   {
     icon: require('@/assets/info.svg'),
     label: 'Info',
@@ -161,10 +167,10 @@ export default {
     onSelectMenu (menuItem) {
       if(!menuItem.route.startsWith("http")){
         (this.$route.path !== menuItem.route) && this.$router.push(menuItem.route)
+        this.selectedItemLabel = menuItem.label
       }else{
         window.open(menuItem.route, '_blank');
       }
-      this.selectedItemLabel = menuItem.label
     },
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
     ...mapActions('calendar', ['getClaimCalendar'])

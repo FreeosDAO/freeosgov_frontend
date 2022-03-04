@@ -26,11 +26,17 @@
                     </svg>
                 </div>
 
-                <q-card-section class="q-mt-none q-pb-xs text-center" v-if="stakeRequirement && !airkeyBalance">
+                <q-card-section
+                    class="q-mt-none q-pb-xs text-center"
+                    v-if="stakeRequirement && !airkeyBalance"
+                >
                     <div class="text-h4">Stake Required</div>
                 </q-card-section>
-                <q-card-section class="q-pt-none text-center q-pb-xs" v-if="stakeRequirement && !airkeyBalance">
-                    <p class="text-body1 q-mb-xs">{{ stakeRequirement }} {{stakeCurrency}}</p>
+                <q-card-section
+                    class="q-pt-none text-center q-pb-xs"
+                    v-if="stakeRequirement && !airkeyBalance"
+                >
+                    <p class="text-body1 q-mb-xs">{{ stakeRequirement }} {{ stakeCurrency }}</p>
                     <p class="text-body1 q-mb-xs">
                         <a
                             href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b"
@@ -287,6 +293,21 @@
             <!-- <balance class="col-xs-12 col-md-5 row text-left" /> -->
             <balance />
         </div>
+        <div class="q-px-md q-pt-xs">
+            <a class="social-icon" href="https://web.telegram.org/" target="_blank">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    style=""
+                    viewBox="0 0 24 24"
+                ><path d="M46-4.9c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm1 15h-2v-6h2v6zm0-8h-2v-2h2v2zM1.6 11l14.2-5.8c1.4-.6 6.1-2.6 6.1-2.6s2.2-.9 2 1.2c-.1.9-.5 3.8-1 7l-1.5 9.5s-.1 1.4-1.2 1.6c-1 .2-2.7-.9-3-1.1-.2-.2-4.6-2.9-6.1-4.3-.4-.4-.9-1.1.1-1.9 2.2-2 4.8-4.5 6.4-6.1.7-.7 1.5-2.4-1.6-.4l-8.6 5.8s-1 .6-2.8.1S.7 12.7.7 12.7s-1.6-.8.9-1.7z"></path></svg>
+            </a>
+            <a class="social-icon" href="https://discord.gg/T3mNkKHfzV" target="_blank">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    style="" viewBox="0 0 32.4 35.9" class="text-primary"><path id="Path_420" data-name="Path 420" d="M28.5,0H3.8A3.778,3.778,0,0,0,0,3.7V28a3.714,3.714,0,0,0,3.8,3.7h21l-1-3.3,2.4,2.1,2.2,2,4,3.4V3.7A3.937,3.937,0,0,0,28.5,0ZM21.4,23.5s-.7-.8-1.2-1.5a5.958,5.958,0,0,0,3.3-2.1A22.059,22.059,0,0,1,21.4,21a13.817,13.817,0,0,1-2.7.8,15.394,15.394,0,0,1-4.8,0,12.544,12.544,0,0,1-2.7-.8c-.4-.2-.9-.4-1.4-.6-.1,0-.1-.1-.2-.1H9.5A5.2,5.2,0,0,0,9,20a5.932,5.932,0,0,0,3.2,2.1c-.6.7-1.2,1.5-1.2,1.5-4.1-.1-5.6-2.7-5.6-2.7A23.4,23.4,0,0,1,8.1,10.4a8.948,8.948,0,0,1,5.2-1.9l.2.2A10.672,10.672,0,0,0,8.7,11s.4-.2,1.1-.5A13.33,13.33,0,0,1,14,9.4h.3a15.243,15.243,0,0,1,3.7,0,16.225,16.225,0,0,1,5.6,1.7A12.081,12.081,0,0,0,19,8.8l.3-.3a8.948,8.948,0,0,1,5.2,1.9,23.4,23.4,0,0,1,2.7,10.5A7.865,7.865,0,0,1,21.4,23.5Z"></path></svg>
+            </a>
+        </div>
+
         <div style="width: 300px; margin: 0 auto;" v-if="false">
             <q-btn
                 class="add-hover q-mt-sm q-mb-md"
@@ -482,17 +503,17 @@ export default {
                 }
             }
         },
-        announceMsg(){
+        announceMsg() {
             const _ = this;
             if (_.announceObj && _.announceObj.text) {
                 var storedAnnounceTextId = localStorage.getItem('announceTextId');
-                if(!storedAnnounceTextId || storedAnnounceTextId !== _.announceObj.id){
-                    var announceText =  _.announceObj.text;
-                    if(_.announceObj.link && _.announceObj.link !== ''){
+                if (!storedAnnounceTextId || storedAnnounceTextId !== _.announceObj.id) {
+                    var announceText = _.announceObj.text;
+                    if (_.announceObj.link && _.announceObj.link !== '') {
                         announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
                     }
                     _.$refs.complete.openDialog({
-                        title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, closeFunc: function(){
+                        title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, closeFunc: function () {
                             localStorage.setItem('announceTextId', _.announceObj.id);
                         }
                     });
@@ -554,6 +575,29 @@ $panel-width: 360px;
     }
     &:hover {
         opacity: 1;
+    }
+}
+
+.social-icon{
+    margin:0 4px;
+    border:1px solid var(--q-color-primary);
+    border-radius: 50%;
+    display: inline-block;
+    height:38px;width:38px;
+    display: inline-flex;
+    flex-direction: columns;
+    justify-content: center;
+    align-items: center;
+    transition:all .1s linear;
+    svg{
+        fill:var(--q-color-primary);
+        height:22px;width:22px;
+    }
+    &:hover{
+        background:var(--q-color-primary);
+        svg{
+            fill:white;
+        }
     }
 }
 
