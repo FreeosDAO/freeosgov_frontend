@@ -369,8 +369,6 @@ export class FreeosBlockChainState extends EventEmitter {
     } else {
       airclaimStatus = "Running"
     }
-    console.log('stakeRequirement', bcPreRegistration);
-
     /*bcPreRegistration = {
       "acc": "11wl",
       "name": "AncientThunder",
@@ -419,7 +417,6 @@ export class FreeosBlockChainState extends EventEmitter {
         break
       }
     }
-    console.log('stakeRequirement', stakeRequirement);
 
     if (bcUser) { // Registered
 
