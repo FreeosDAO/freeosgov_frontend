@@ -279,7 +279,6 @@ export class FreeosBlockChainState extends EventEmitter {
     if (this.walletUser && this.walletUser.accountName) {
       bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests', this.walletUser.accountName)
 
-
       bcPreRegistrationPromise = this.getRecord('eosio.proton', 'usersinfo', 'eosio.proton', {
         limit: 1,
         upper_bound: this.walletUser.accountName,
@@ -441,7 +440,7 @@ export class FreeosBlockChainState extends EventEmitter {
         } else if (airclaimStatus === 'Complete') {
           reasonCannotClaim = "<div class='text-h5 text-negative'>The Airclaim has ended</div>"
         } else if (!userMeetsHoldingRequirement) {
-          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + $options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a style='text-decoration:underline' href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
+          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a style='text-decoration:underline' href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
         } else if (userClaimedAlready) {
           reasonCannotClaim = '<div class="text-h5 text-primary">You have already claimed</div>'
         } else if (!userMeetsStakeRequirement) {
