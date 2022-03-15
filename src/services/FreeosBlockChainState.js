@@ -73,6 +73,7 @@ export class FreeosBlockChainState extends EventEmitter {
       }).catch(err => {
         if (this.timer) clearTimeout(this.timer)
         this.timer = setTimeout(fetchTimer, process.env.TIMED_FETCH_DELAY)
+        console.error(err);
       })
 
     }
@@ -208,7 +209,9 @@ export class FreeosBlockChainState extends EventEmitter {
     await this.singleFetch();
   }
 
-
+  capitalize(string){
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+  }
 
   async actionFetch() {
 
@@ -431,13 +434,14 @@ export class FreeosBlockChainState extends EventEmitter {
 
       userEligibleToClaim = currentIterationIdx > 0 && userMeetsHoldingRequirement && userMeetsStakeRequirement && !userClaimedAlready
 
+
       if (!userEligibleToClaim) {
         if (airclaimStatus === 'Pending') {
           reasonCannotClaim = "<div class='text-h5 text-negative'>Airclaim Not Started</div>"
         } else if (airclaimStatus === 'Complete') {
           reasonCannotClaim = "<div class='text-h5 text-negative'>The Airclaim has ended</div>"
         } else if (!userMeetsHoldingRequirement) {
-          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a style='text-decoration:underline' href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
+          reasonCannotClaim = 'Oops! In order to Claim you need a minimum ' + iterations.currentIteration.tokens_required + " " + this.capitalize(process.env.TOKEN_CURRENCY_NAME) + "s in your Wallet. Please <a style='text-decoration:underline' href='/transfer'>transfer</a> an additional " + (iterations.currentIteration.tokens_required - totalHolding) + ' ' + currencyName + ' in order to Claim'
         } else if (userClaimedAlready) {
           reasonCannotClaim = '<div class="text-h5 text-primary">You have already claimed</div>'
         } else if (!userMeetsStakeRequirement) {
@@ -512,6 +516,8 @@ export class FreeosBlockChainState extends EventEmitter {
     }
     return null
   }
+
+
 
   async getUserRecord(scopeName, tableName, additionalParams) {
     return this.getRecord(scopeName, tableName, this.walletUser.accountName, additionalParams)
