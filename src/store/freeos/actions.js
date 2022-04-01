@@ -110,3 +110,10 @@ export async function unvest() {
   return result;
 }
 
+export async function vote({ state }, submitData) {
+  var result = await FreeosBlockChainState.getInstance().vote(submitData)
+  console.log('Result of vote', result)
+  return result;
+}
+
+

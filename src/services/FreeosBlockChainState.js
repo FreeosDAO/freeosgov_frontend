@@ -188,6 +188,10 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'unvest')
   }
 
+  async vote(sendData) {
+    return this.sendTransaction(process.env.VOTEMVP_CONTRACT, 'vote', sendData)
+  }
+
 
   async cancelUnstake() {
     return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'unstakecncl')
@@ -260,6 +264,13 @@ export class FreeosBlockChainState extends EventEmitter {
     // Currently empty
     var bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests',)
 
+
+    var bcVotePromise = this.getRecord(process.env.VOTEMVP_CONTRACT, 'dparameters', process.env.VOTEMVP_CONTRACT, {
+      upper_bound: "lockfactor",
+      lower_bound: "lockfactor",
+      limit: 1
+    })
+
     var bcStateRequirementsPromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'stakereqs', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, { 'limit': 100 })
 
     var bcPreRegistrationPromise = null
@@ -273,9 +284,9 @@ export class FreeosBlockChainState extends EventEmitter {
     var bcAirkeyBalancePromise = null
     var bcUserPromise = null
     var bcCurrentExchangeRatePromise = null;
+    var bcSVRVotingPromise = null;
     var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
     var currencyName = process.env.CURRENCY_NAME || 'FREEOS'
-
 
     var dataRequests = [currentIterationPromise, bcStatisticsPromise, bcStateRequirementsPromise]
 
@@ -321,12 +332,15 @@ export class FreeosBlockChainState extends EventEmitter {
         upper_bound: 'AIRKEY',
         limit: 1
       }, 'balance')
+      bcSVRVotingPromise = this.getUserRecord(process.env.VOTEMVP_CONTRACT, 'svrs', {
+        limit: 1
+      })
       bcCurrentExchangeRatePromise = this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'exchangerate', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, { 'limit': 1 })
-      dataRequests = dataRequests.concat([bcUnvestsPromise, bcPreRegistrationPromise, bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise, bcCurrentExchangeRatePromise])
+      dataRequests = dataRequests.concat([bcUnvestsPromise, bcVotePromise, bcPreRegistrationPromise, bcUserPromise, bcXPRBalancePromise, bcUnstakingPromise, optionsPromise, bcVestaccountsPromise, bcFreeosBalancePromise, bcAirkeyBalancePromise, bcCurrentExchangeRatePromise, bcSVRVotingPromise])
     }
 
     var outputValues = await Promise.all(dataRequests) // .then((values) => {
-    let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcPreRegistration, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance, bcCurrentExchangeRate] = outputValues
+    let [currentIteration, bcStatistics, bcStateRequirements, bcUnvests, bcVote, bcPreRegistration, bcUser, bcXPRBalance, bcUnstaking, liquidOptions, vestedOptions, freeosBalance, bcAirkeyBalance, bcCurrentExchangeRate, bcSVRVoting] = outputValues
     if (!bcAirkeyBalance) bcAirkeyBalance = 0
     if (!liquidOptions) liquidOptions = 0
     if (!vestedOptions) vestedOptions = 0
@@ -450,6 +464,18 @@ export class FreeosBlockChainState extends EventEmitter {
       }
     }
 
+
+    console.log('bcSVRVoting',bcSVRVoting);
+    var userHasVoted = false;
+    for (const property in bcSVRVoting) {
+      if(property.startsWith("vote") && bcSVRVoting[property] === currentIterationObj.iteration_number){
+        userHasVoted = true;
+        break;
+      }
+    }
+
+
+    console.log('bcVote',bcVote);
     var output = {
       currencyName: currencyName,
       liquidOptions: liquidOptions,
@@ -484,6 +510,8 @@ export class FreeosBlockChainState extends EventEmitter {
       reasonCannotClaim: reasonCannotClaim,
       currentPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.currentprice ? (bcCurrentExchangeRate.currentprice / 1).toFixed(6) : 0,
       targetPrice: bcCurrentExchangeRate && bcCurrentExchangeRate.targetprice ? (bcCurrentExchangeRate.targetprice / 1).toFixed(6) : 0,
+      lockFactor: (bcVote && bcVote.paramname && bcVote.paramname === 'lockfactor') ? bcVote.value : 0,
+      userHasVoted: userHasVoted
     }
 
     console.log('output', output)

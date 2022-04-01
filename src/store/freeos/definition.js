@@ -37,6 +37,8 @@ var definition = {
   airclaimStatus: null, 
   currentPrice: null,
   targetPrice: null,
-  announceObj: null
+  announceObj: null,
+  lockFactor: null,
+  userHasVoted: null
 }
 export default definition

@@ -34,3 +34,5 @@ export const airclaimStatus = ({ airclaimStatus }) => airclaimStatus
 export const currentPrice = ({ currentPrice }) => currentPrice
 export const targetPrice = ({ targetPrice }) => targetPrice
 export const announceObj = ({ announceObj }) => announceObj
+export const lockFactor = ({ lockFactor }) => lockFactor
+export const userHasVoted = ({ userHasVoted }) => userHasVoted

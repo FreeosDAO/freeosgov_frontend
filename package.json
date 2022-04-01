@@ -26,7 +26,7 @@
     "eos-transit-scatter-provider": "^3.0.1",
     "eos-transit-tokenpocket-provider": "^3.0.1",
     "eosjs": "^21.0.3",
-    "quasar": "^1.0.0"
+    "quasar": "^1.18.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

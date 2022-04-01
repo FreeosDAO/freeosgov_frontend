@@ -18,7 +18,8 @@ const routes = [
       { path: '/re-register', component: () => import('pages/Re-register.vue') },
       { path: '/transfer', component: () => import('pages/Transfer.vue') }, 
       { path: '/mint', component: () => import('pages/ConvertOptions.vue') },
-      { path: '/info', component: () => import('pages/Info.vue') }
+      { path: '/info', component: () => import('pages/Info.vue') },
+      { path: '/vote', component: () => import('pages/Vote.vue') },
     ]
   },
 

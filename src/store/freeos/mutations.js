@@ -113,3 +113,11 @@ export const settargetPrice = (state, targetPrice) => {
 export const setannounceObj = (state, announceObj) => {
   state.announceObj = announceObj
 }
+
+export const setlockFactor = (state, lockFactor) => {
+  state.lockFactor = lockFactor
+}
+
+export const setuserHasVoted = (state, userHasVoted) => {
+  state.userHasVoted = userHasVoted
+}

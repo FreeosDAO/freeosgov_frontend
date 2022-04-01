@@ -34,7 +34,7 @@
             <q-item v-if="handleFunctionCall(menuItem.displayCondition)" :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
                 <q-item-section avatar style="    align-items: center;">
                   <!-- <q-icon :name="menuItem.icon" /> -->
-                  <img :src="menuItem.icon" alt="menu-icon">
+                  <img :src="menuItem.icon" alt="menu-icon" class="menu-icon">
                 </q-item-section>
                 <q-item-section class="text-subtitle1">
                    <strong>{{ menuItem.label }}</strong>
@@ -96,6 +96,13 @@ const menuList = [
     route: '/stake'
   },
   {
+    icon: require('@/assets/vote-icon.svg'),
+    label: 'Vote',
+    separator: true,
+    route: '/vote',
+    displayCondition: "showUserHasStaked"
+  },
+  {
     icon: require('@/assets/register.svg'),
     label: 'Re-register',
     separator: true,
@@ -108,7 +115,7 @@ const menuList = [
     route: 'https://proton.alcor.exchange/'
   },
     {
-    icon: require('@/assets/auction-icon.svg'),
+    icon: require('@/assets/auction-icon.svg?v=2'),
     label: 'Auctions',
     separator: true,
     route: 'https://auction.freeos.io'
@@ -153,6 +160,10 @@ export default {
     showStake: function () {
       //(!this.userHasStaked && !this.airkeyBalance)
        return (!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0
+    },
+    showUserHasStaked: function () {
+      //(!this.userHasStaked && !this.airkeyBalance)
+       return this.userHasStaked
     },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
@@ -262,6 +273,15 @@ $panel-width: 360px;
     border: 2px solid var(--q-color-primary) !important;
 }
 
+.panel-primary {
+    color:white;
+    background: var(--q-color-primary);
+    a{
+      color:white;
+    }
+}
+
+
 .panel-warning {
     border: 2px solid var(--q-color-warning) !important;
 }
@@ -272,6 +292,10 @@ $panel-width: 360px;
     padding-bottom: 45px;
     margin-bottom: -20px;
     margin-top: 4px;
+}
+
+.menu-icon{
+  width:34px;
 }
 
 
