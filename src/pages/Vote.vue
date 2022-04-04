@@ -13,7 +13,7 @@
             <h4
               class="text-h4 q-ma-xs"
               style="line-height:1;"
-            >{{ targetPrice }} {{ stakeCurrency }}</h4>
+            >{{ targetPrice }} USD</h4>
           </div>
 
 
