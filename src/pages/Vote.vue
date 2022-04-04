@@ -20,7 +20,7 @@
           <p class="text-subtitle1 q-mb-md" style="line-height:1.2"><strong>What price should the Locking Threshold be this week?</strong></p>
 
           <p class="q-mb-lg">
-              Increasing the Locking Threshold may help support the price of {{tokenCurrencyName}}. However you may end up with more of your {{tokenCurrencyName}} Locked. For more information <router-link to="/info#vested-options">click here</router-link>
+              Increasing the Locking Threshold may help support the price of {{currencyName}}. However you may end up with more of your {{tokenCurrencyName}} Locked. For more information <router-link to="/info#vested-options">click here</router-link>
           </p>
 
 
