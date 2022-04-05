@@ -77,7 +77,7 @@
             </div>
           </div>
 
-          <p class="text-center text-negative q-mt-none q-mb-sm" v-if="lockingThresholdVoteInvalid">Locking Threashold must be between {{thresholdRangeLower}} and {{thresholdRangeUpper}}</p>
+          <p class="text-center text-negative q-mt-none q-mb-sm" v-if="lockingThresholdVoteInvalid && lockingThresholdVote !== 0">Locking Threashold must be between {{thresholdRangeLower}} and {{thresholdRangeUpper}}</p>
 
           <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
             <q-btn
@@ -116,7 +116,6 @@ export default {
       currencyName: process.env.CURRENCY_NAME,
       tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       thresholdRangeLower: parseFloat(process.env.VOTETHRESHOLDLOWER),
-      lockingThresholdVoteInvalid:false,
     }
   },
       components: {
@@ -125,7 +124,7 @@ export default {
   computed: {
     ...mapGetters('freeos', ['userHasVoted', 'lockFactor', 'userHasStaked', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     thresholdRangeUpper(){
-        return Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000) / 10000;
+        return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000) / 10000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000) / 10000;
     },
     lockingThresholdVoteInvalid(){
         var val = parseFloat(this.lockingThresholdVote);
@@ -137,9 +136,7 @@ export default {
     }
   },
   created: function () {
-      //this.lockingThresholdVote = this.currentPrice;
-      console.log('lockingFactor', this.lockFactor);
-      if(this.lockFactor) this.thresholdRangeUpper = Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000) / 10000;
+
   },
   watch: {
     lockingThresholdVote(newValue, oldValue){
@@ -159,7 +156,7 @@ export default {
                 var result = await _.vote({user:this.accountName, q3response:this.lockingThresholdVote})
                 if (!(result instanceof Error)) {
                     this.$refs.complete.openDialog({
-                        title: "Woohoo", subtitle: "You voted", text: "Thaks for Voting!", value: this.lockingThresholdVote
+                        title: "Woohoo", subtitle: "You voted", text: "Thaks for Voting!", value: this.lockingThresholdVote, currency: "USD"
                     });
                 }
             }
