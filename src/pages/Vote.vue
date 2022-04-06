@@ -38,7 +38,7 @@
               v-model="lockingThresholdVote"
               :min="thresholdRangeLower"
               :max="thresholdRangeUpper"
-              :step="0.001"
+              :step="0.0001"
               marker-labels
               label
               :label-always="!!lockingThresholdVote"
@@ -48,7 +48,7 @@
           </div>
 
           <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-            <div class="col-xs-8 col-sm-7 text-sm">Or manually add amount:</div>
+            <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
             <div class="col-xs-1"></div>
             <div class="col-xs-3 col-sm-4">
               <label
@@ -62,6 +62,7 @@
                       class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder"
                     >
                       <input
+                      novalidate
                         style="text-align: center;"
                         v-model="lockingThresholdVote"
                         tabindex="0"
@@ -124,7 +125,7 @@ export default {
   computed: {
     ...mapGetters('freeos', ['userHasVoted', 'lockFactor', 'userHasStaked', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     thresholdRangeUpper(){
-        return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000) / 10000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000) / 10000;
+        return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 100000) / 100000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 100000) / 100000;
     },
     lockingThresholdVoteInvalid(){
         var val = parseFloat(this.lockingThresholdVote);
@@ -156,7 +157,7 @@ export default {
                 var result = await _.vote({user:this.accountName, q3response:this.lockingThresholdVote})
                 if (!(result instanceof Error)) {
                     this.$refs.complete.openDialog({
-                        title: "Woohoo", subtitle: "You voted", text: "Thaks for Voting!", value: this.lockingThresholdVote, currency: "USD"
+                        title: "Woohoo", subtitle: "Thanks for Voting!", text: "You Voted:", value: this.lockingThresholdVote, currency: "USD"
                     });
                 }
             }
