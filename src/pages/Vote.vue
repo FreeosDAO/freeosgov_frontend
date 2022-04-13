@@ -38,7 +38,7 @@
               v-model="lockingThresholdVote"
               :min="thresholdRangeLower"
               :max="thresholdRangeUpper"
-              :step="0.0001"
+              :step="0.000001"
               marker-labels
               label
               :label-always="!!lockingThresholdVote"
@@ -66,7 +66,6 @@
                         style="text-align: center;"
                         v-model="lockingThresholdVote"
                         tabindex="0"
-                        required="required"
                         id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
                         type="number"
                         class="q-field__native q-placeholder"
@@ -125,7 +124,7 @@ export default {
   computed: {
     ...mapGetters('freeos', ['userHasVoted', 'lockFactor', 'userHasStaked', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     thresholdRangeUpper(){
-        return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 100000) / 100000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 100000) / 100000;
+        return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
     },
     lockingThresholdVoteInvalid(){
         var val = parseFloat(this.lockingThresholdVote);
