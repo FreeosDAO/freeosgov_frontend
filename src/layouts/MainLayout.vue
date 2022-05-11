@@ -100,7 +100,7 @@ const menuList = [
     label: 'Vote',
     separator: true,
     route: '/vote',
-    displayCondition: "showUserHasStaked"
+    displayCondition: "showUserHasStakedORHasAirkey"
   },
   {
     icon: require('@/assets/register.svg'),
@@ -158,12 +158,10 @@ export default {
           return true
     },
     showStake: function () {
-      //(!this.userHasStaked && !this.airkeyBalance)
        return (!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0
     },
-    showUserHasStaked: function () {
-      //(!this.userHasStaked && !this.airkeyBalance)
-       return this.userHasStaked
+    showUserHasStakedORHasAirkey: function () {
+       return this.userHasStaked || this.airkeyBalance
     },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');

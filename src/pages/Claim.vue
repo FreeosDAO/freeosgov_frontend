@@ -116,7 +116,7 @@
             </svg>
 
             <p class="text-body3 q-mb-xs">
-                FREEOS price xUSDC ${{ currentPrice }}
+                {{ priceLabel }}{{ currentPrice }}
                 <q-icon v-if="currentPrice >= targetPrice" size="xs" name="arrow_upward" />
                 <q-icon v-if="currentPrice < targetPrice" size="xs" name="arrow_downward" />
             </p>
@@ -471,7 +471,7 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['userHasVoted', 'userHasStaked', 'isRegistered', 'announceObj', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
+        ...mapGetters('freeos', ['userHasVoted', 'priceLabel', 'userHasStaked', 'isRegistered', 'announceObj', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
         nextClaimDescription: function () {
             var daysToNextClaim = "";
             if (this.currentIteration && this.currentIteration.end) {

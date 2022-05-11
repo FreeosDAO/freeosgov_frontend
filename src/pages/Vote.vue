@@ -34,7 +34,7 @@
 
           <section v-if="userHasStaked && !userHasVoted">
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="lockingThresholdVote" :min="thresholdRangeLower" :max="thresholdRangeUpper"
+              <q-slider v-model="lockingThresholdVote" :min="thresholdRangeLower" :max="thresholdRangeUpper()"
                 :step="0.000001" marker-labels label :label-always="!!lockingThresholdVote" track-size="5px"
                 thumb-size="28px" />
             </div>
@@ -61,7 +61,7 @@
 
             <p class="text-center text-negative q-mt-none q-mb-sm"
               v-if="lockingThresholdVoteInvalid && lockingThresholdVote !== 0">Locking Threashold must be between
-              {{ thresholdRangeLower }} and {{ thresholdRangeUpper }}</p>
+              {{ thresholdRangeLower }} and {{ thresholdRangeUpper() }}</p>
 
             <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
               <q-btn size="lg" unelevated no-caps outline
@@ -89,7 +89,6 @@ export default {
   name: 'Vote',
   data() {
     return {
-      lockingThresholdVote: 0,
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
       tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
@@ -101,8 +100,8 @@ export default {
   },
   computed: {
     ...mapGetters('freeos', ['airclaimStatus', 'userHasVoted', 'lockFactor', 'userHasStaked', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
-    thresholdRangeUpper() {
-      return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
+    lockingThresholdVote() {
+      return (this.thresholdRangeUpper() + this.thresholdRangeLower) / 2
     },
     lockingThresholdVoteInvalid() {
       var val = parseFloat(this.lockingThresholdVote);
@@ -128,6 +127,9 @@ export default {
   },
   methods: {
     ...mapActions('freeos', ['vote']),
+    thresholdRangeUpper() {
+      return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
+    },
     async submit() {
       if (this.userHasStaked && this.lockingThresholdVote) {
         const _ = this;

@@ -39,6 +39,7 @@ var definition = {
   targetPrice: null,
   announceObj: null,
   lockFactor: null,
+  priceLabel: null,
   userHasVoted: null
 }
 export default definition

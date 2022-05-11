@@ -244,7 +244,10 @@ export class FreeosBlockChainState extends EventEmitter {
       link: announcelink && announcelink.value ? announcelink.value : null,
     } 
 
-
+    var priceLabel = parametersTable.filter(function(row){
+      return row.paramname == 'pricelabel';
+    })[0];
+    console.log('priceLabel', priceLabel)
     // Row data
     // {"iteration_number":1,"start":"2021-04-27T22:59:59.000","end":"2021-04-28T04:00:00.000","claim_amount":100,"tokens_required":0}
     var currentIterationPromise = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'iterations', process.env.AIRCLAIM_CONFIGURATION_CONTRACT, { 'limit': 100 })
@@ -499,6 +502,7 @@ export class FreeosBlockChainState extends EventEmitter {
       airkeyBalance: bcAirkeyBalance,
       allIterations: currentIteration,
       airclaimStatus: airclaimStatus,
+      priceLabel: priceLabel && priceLabel.value ? priceLabel.value : "",
       stakeRequirement: stakeRequirement,
       userHasStaked: userHasStaked,
       userClaimedAlready: userClaimedAlready,

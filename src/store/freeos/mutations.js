@@ -121,3 +121,7 @@ export const setlockFactor = (state, lockFactor) => {
 export const setuserHasVoted = (state, userHasVoted) => {
   state.userHasVoted = userHasVoted
 }
+
+export const setpriceLabel = (state, priceLabel) => {
+  state.priceLabel = priceLabel
+}

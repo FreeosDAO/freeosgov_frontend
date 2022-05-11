@@ -36,3 +36,4 @@ export const targetPrice = ({ targetPrice }) => targetPrice
 export const announceObj = ({ announceObj }) => announceObj
 export const lockFactor = ({ lockFactor }) => lockFactor
 export const userHasVoted = ({ userHasVoted }) => userHasVoted
+export const priceLabel = ({ priceLabel }) => priceLabel
