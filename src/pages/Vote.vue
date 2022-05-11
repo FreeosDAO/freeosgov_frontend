@@ -32,7 +32,7 @@
 
           </section>
 
-          <section v-if="userHasStaked && !userHasVoted">
+          <section v-if="userHasStakedORHasAirkey && !userHasVoted">
             <div class="q-px-md q-py-sm">
               <q-slider v-model="lockingThresholdVote" :min="thresholdRangeLower" :max="thresholdRangeUpper()"
                 :step="0.000001" marker-labels label :label-always="!!lockingThresholdVote" track-size="5px"
@@ -65,7 +65,7 @@
 
             <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
               <q-btn size="lg" unelevated no-caps outline
-                :disable="!userHasStaked || userHasVoted || !lockingThresholdVote || airclaimStatus !== 'Running'" color="primary" @click="submit()">
+                :disable="!userHasStakedORHasAirkey || userHasVoted || !lockingThresholdVote || airclaimStatus !== 'Running'" color="primary" @click="submit()">
                 Submit Vote</q-btn>
             </div>
           </section>
@@ -99,7 +99,10 @@ export default {
     CompleteDialog
   },
   computed: {
-    ...mapGetters('freeos', ['airclaimStatus', 'userHasVoted', 'lockFactor', 'userHasStaked', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
+    ...mapGetters('freeos', ['airclaimStatus', 'userHasVoted', 'airkeyBalance', 'lockFactor', 'userHasStaked', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
+     userHasStakedORHasAirkey() {
+       return this.userHasStaked || this.airkeyBalance
+    },
     lockingThresholdVote() {
       return (this.thresholdRangeUpper() + this.thresholdRangeLower) / 2
     },
@@ -131,7 +134,7 @@ export default {
       return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
     },
     async submit() {
-      if (this.userHasStaked && this.lockingThresholdVote) {
+      if (this.userHasStakedORHasAirkey && this.lockingThresholdVote) {
         const _ = this;
         var result = await _.vote({ user: this.accountName, q3response: this.lockingThresholdVote })
         if (!(result instanceof Error)) {
