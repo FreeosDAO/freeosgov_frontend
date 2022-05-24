@@ -89,6 +89,7 @@ export default {
   name: 'Vote',
   data() {
     return {
+      lockingThresholdVote: 0,
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
       tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
@@ -103,12 +104,9 @@ export default {
      userHasStakedORHasAirkey() {
        return this.userHasStaked || this.airkeyBalance
     },
-    lockingThresholdVote() {
-      return (this.thresholdRangeUpper() + this.thresholdRangeLower) / 2
-    },
     lockingThresholdVoteInvalid() {
       var val = parseFloat(this.lockingThresholdVote);
-      if (typeof val !== 'number' || val < this.thresholdRangeLower || val > this.thresholdRangeUpper) {
+      if (typeof val !== 'number' || val < this.thresholdRangeLower || val > this.thresholdRangeUpper()) {
         return true;
       } else {
         return false;
@@ -116,7 +114,7 @@ export default {
     }
   },
   created: function () {
-
+      this.lockingThresholdVote = (this.thresholdRangeUpper() + this.thresholdRangeLower) / 2;
   },
   watch: {
     lockingThresholdVote(newValue, oldValue) {
