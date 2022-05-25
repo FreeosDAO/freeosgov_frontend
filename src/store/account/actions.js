@@ -17,7 +17,90 @@ export function connectWallet (state, name) {
   //   state.dispatch('connectScatter', 'scatter')
   // } else if (name === 'anchor') {
   state.dispatch('connectProton', name)
+  advancedWalletSetup()
   // }
+}
+
+/* 
+  * Change layout of Proton
+  * wallet modal when it loads
+  */
+function advancedWalletSetup(){
+
+  let walletCheck = setInterval(() => {
+    let wallet = document.querySelector('.wallet-selector')
+    let protonLink = document.querySelector('.proton-link')
+
+    if(wallet){
+
+      // Get Elements
+      let walletList = wallet.querySelector('.wallet-selector-wallet-list')
+
+      // Setup advanced selector
+      let walletAdvancedHTML = '<div class="advanced-selector text-center q-pa-lg cursor-pointer">Advanced →</div>'
+      walletList.insertAdjacentHTML('afterend', walletAdvancedHTML)
+
+      // Hide advanced options
+      walletList.querySelector('.wallet-selector-webauth-wallet').style.display = 'none'
+      walletList.querySelector('.wallet-selector-anchor-wallet').style.display = 'none'
+
+      whenAdvancedSelectorClicked(wallet, walletList)
+
+      if(!protonLink){
+        // On Proton Wallet Back Link click
+        document.addEventListener('click', (e)=>{
+
+          // If the clicked element doesn't have the right selector, bail
+          if (!e.target.matches('.proton-link-back')) return;
+
+          setTimeout(()=>{
+            let wallet = document.querySelector('.wallet-selector')
+            let walletList = wallet.querySelector('.wallet-selector-wallet-list')
+            
+            // Setup advanced selector
+            let walletAdvancedHTML = '<div class="advanced-selector text-center q-pa-lg cursor-pointer">Advanced →</div>'
+            walletList.insertAdjacentHTML('afterend', walletAdvancedHTML)
+
+            // Hide advanced options
+            walletList.querySelector('.wallet-selector-webauth-wallet').style.display = 'none'
+            walletList.querySelector('.wallet-selector-anchor-wallet').style.display = 'none'
+
+            whenAdvancedSelectorClicked(wallet, walletList)
+          }, 20)
+
+        }, true);
+      }
+
+      // Function to add click event listener to advanced div
+      function whenAdvancedSelectorClicked(wallet, walletList){
+        document.addEventListener('click', (e)=>{
+          // If the clicked element doesn't have the right selector, bail
+          if (!e.target.matches('.advanced-selector')) return;
+
+          // On advanced click
+          let walletAdvanced = wallet.querySelector('.advanced-selector')
+
+          // else hide/show relevant wallets
+          if(wallet.classList.contains('advanced')){
+            walletAdvanced.innerHTML = 'Advanced →';
+            walletList.querySelector('.wallet-selector-proton-wallet').style.display = 'flex'
+            walletList.querySelector('.wallet-selector-webauth-wallet').style.display = 'none'
+            walletList.querySelector('.wallet-selector-anchor-wallet').style.display = 'none'
+            wallet.classList.toggle('advanced')
+          } else{
+            walletAdvanced.innerHTML = '← Basic';
+            walletList.querySelector('.wallet-selector-proton-wallet').style.display = 'none'
+            walletList.querySelector('.wallet-selector-webauth-wallet').style.display = 'flex'
+            walletList.querySelector('.wallet-selector-anchor-wallet').style.display = 'flex'
+            wallet.classList.toggle('advanced')
+          }
+        })
+      }
+
+      // Clear Interval
+      clearInterval(walletCheck);
+    }
+  }, 20);
 }
 
 /**
