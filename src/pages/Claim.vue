@@ -43,6 +43,15 @@
                             target="_blank"
                         >How to get XUSDC?</a>
                     </p>
+                    <p class="text-body1 q-mb-xs">
+                        <a
+                            href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6"
+                            target="_blank"
+                        >
+                        <span v-if="stakeRequirementKYC > 0">Undergo KYC and only stake {{ stakeRequirementKYC }} {{ stakeCurrency }}</span>
+                        <span v-if="stakeRequirementKYC == 0">Undergo KYC for no staking requirement</span>
+                        </a>
+                    </p>
                 </q-card-section>
                 <q-card-section class="q-mt-xs text-center">
                     <div class="text-h4">Register Your Interest</div>
@@ -471,7 +480,7 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['userHasVoted', 'priceLabel', 'userHasStaked', 'isRegistered', 'announceObj', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
+        ...mapGetters('freeos', ['userHasVoted', 'priceLabel', 'userHasStaked', 'isRegistered', 'announceObj', 'stakeRequirement', 'stakeRequirementKYC', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
         nextClaimDescription: function () {
             var daysToNextClaim = "";
             if (this.currentIteration && this.currentIteration.end) {

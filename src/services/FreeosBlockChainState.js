@@ -369,6 +369,7 @@ export class FreeosBlockChainState extends EventEmitter {
     var registeredUserCount = bcStatistics && bcStatistics.usercount ? bcStatistics.usercount : 0
 
     var stakeRequirement = null
+    var stakeRequirementKYC = null
     var userHasStaked = false
     var userClaimedAlready = false
     var userEligibleToClaim = false
@@ -434,10 +435,11 @@ export class FreeosBlockChainState extends EventEmitter {
       var stakeReq = bcStateRequirements[i]
       if (registeredUserCount >= stakeReq.threshold) {
         stakeRequirement = stakeReq['requirement_' + String.fromCharCode(accountType)] // ascii to char conversion (will be a 'd', 'e' or 'v')
+        stakeRequirementKYC = stakeReq['requirement_v']
         break
       }
     }
-
+    
     if (bcUser) { // Registered
 
 
@@ -504,6 +506,7 @@ export class FreeosBlockChainState extends EventEmitter {
       airclaimStatus: airclaimStatus,
       priceLabel: priceLabel && priceLabel.value ? priceLabel.value : "",
       stakeRequirement: stakeRequirement,
+      stakeRequirementKYC: stakeRequirementKYC,
       userHasStaked: userHasStaked,
       userClaimedAlready: userClaimedAlready,
       userStake: userStake,

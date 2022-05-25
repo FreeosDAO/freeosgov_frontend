@@ -44,6 +44,9 @@ export const setliquidOptions = (state, liquidOptions) => {
 export const setstakeRequirement = (state, stakeRequirement) => {
   state.stakeRequirement = stakeRequirement
 }
+export const setstakeRequirementKYC = (state, stakeRequirementKYC) => {
+  state.stakeRequirementKYC = stakeRequirementKYC
+}
 export const setuserHasStaked = (state, userHasStaked) => {
   state.userHasStaked = userHasStaked
 }
