@@ -9,7 +9,7 @@
              <q-checkbox id="termsCheckbox" v-model="termsCheckbox" /><label  for="termsCheckbox">I accept Freeos's <a class="cursor-pointer" style="text-decoration:underline" target="_blank" href="https://www.freedao.io/t-cs">Terms of Service</a></label>
 
 
-                <div v-show="showTerms" class="" style="width:100%;max-height:120px;overflow-y: auto;" class="text-left">
+                <div v-show="showTerms" style="width:100%;max-height:120px;overflow-y: auto;" class="text-left">
                     <p class="text-body1"><strong>Freeos Terms of Service</strong></p>
                     <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
                     <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
@@ -22,6 +22,8 @@
                 <q-btn :disabled="!termsCheckbox" unelevated size="lg" class="q-mb-m" outline color="primary" @click="submit()">Register</q-btn>
             </q-card-actions>
             </q-card>
+
+            <CompleteDialog  ref="complete"  />
         </div>
     </div>
 </div>
@@ -34,6 +36,8 @@ import {
     mapGetters
 } from 'vuex'
 
+import CompleteDialog from 'src/components/CompleteDialog.vue'
+
 export default {
     name: 'Re-register',
     data() {
@@ -41,6 +45,9 @@ export default {
             termsCheckbox:false,
             showTerms: false, 
         }
+    },
+    components: {
+        CompleteDialog
     },
     computed: {
         ...mapGetters('freeos', ['accountName', 'XPRBalance', 'liquidFreeos', 'isAuthenticated']),
@@ -50,8 +57,10 @@ export default {
         async submit() {
             var result = await this.reregister();
             console.log('registerResult', result)
-            if(result){
-
+            if (!(result instanceof Error)) {
+                this.$refs.complete.openDialog({
+                    title: 'Woohoo!', subtitle: 'You have successfuly re-registered', text: null, value: null, currency: null, time: null
+                });
             }
         },
     }
