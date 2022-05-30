@@ -1,7 +1,7 @@
 <template>
     <div class="text-center relative">
         <q-dialog v-model="registerModalTrigger">
-            <q-card style="max-width: 440px;" class="q-pa-lg">
+            <q-card style="max-width: 500px;" class="q-pa-lg">
                 <q-card-actions class="q-pa-none" align="right">
                     <q-icon
                         class="q-ma-none cursor-pointer"
@@ -27,17 +27,17 @@
                 </div>
 
                 <q-card-section
-                    class="q-mt-none q-pb-xs text-center"
-                    v-if="stakeRequirement && !airkeyBalance"
-                >
-                    <div class="text-h4">Stake Required</div>
-                </q-card-section>
-                <q-card-section
                     class="q-pt-none text-center q-pb-xs"
                     v-if="stakeRequirement && !airkeyBalance"
                 >
-                    <p class="text-body1 q-mb-xs">{{ stakeRequirement }} {{ stakeCurrency }}</p>
-                    <p class="text-body1 q-mb-xs">
+
+                    <p class="text-h5 q-mb-xs q-mt-md">Verify your account at <a target="_black" href="http://protonkyc.com/">protonkyc.com</a></p>
+                    <p class="text-body1 q-mb-xs">Verified accounts stake 0 {{ stakeCurrency }}.</p>
+                    <p class="text-body2 q-mb-md"><a target="_black" href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6">How to verify your account?</a></p>
+
+                    <p class="text-h5 q-mb-xs">Not verified?</p>  
+                    <p class="text-body1 q-mb-xs">Stake {{ stakeRequirement }} {{ stakeCurrency }}</p>
+                    <p class="text-body2 q-mb-xs">
                         <a
                             href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b"
                             target="_blank"
