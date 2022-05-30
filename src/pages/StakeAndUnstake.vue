@@ -10,11 +10,22 @@
 
                 <div class="text-h4 text-center q-ma-lg">Staking Requirement</div>
 
-                <div v-if="!bcUnstaking && !userHasStaked">
+                <div class="q-pb-lg" v-if="!bcUnstaking && !userHasStaked">
                     <p class="text-center q-mb-xs">With Freeos unverified users will need a minimum amount in their account to Claim. For more info, <router-link to="/info#staking">click here</router-link>.</p>
                     <p class="text-center q-mb-xs">In order to Claim your weekly {{tokenCurrencyName}}s, you need to stake </p>
-                    <h4 class="text-center text-h4 q-ma-none q-mb-xs" style="line-height:1;">{{stakeRequirement}} {{stakeCurrency}}</h4>
-                    <p class="text-center q-mb-lg"><a href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b" target="_blank">How to get XUSDC?</a></p>
+                    
+                    <p class="text-h5 text-center q-mb-xs q-mt-md">Verify your account at <a target="_black" href="http://protonkyc.com/">protonkyc.com</a></p>
+                    <p class="text-body1 text-center q-mb-xs">Verified accounts stake {{ stakeRequirementKYC }} {{ stakeCurrency }}.</p>
+                    <p class="text-body2 text-center q-mb-md"><a target="_black" href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6">How to verify your account?</a></p>
+
+                    <p class="text-h5 text-center q-mb-xs">Not verified?</p>  
+                    <p class="text-body1 text-center q-mb-xs">Stake {{ stakeRequirement }} {{ stakeCurrency }}</p>
+                    <p class="text-body2 text-center q-mb-xs">
+                        <a
+                            href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b"
+                            target="_blank"
+                        >How to get XUSDC?</a>
+                    </p>
                 </div>
 
                 <div class="panel panel-warning q-pa-lg text-center q-mb-lg q-pa-lg" v-if="bcUnstaking">
@@ -98,7 +109,7 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['accountName', 'bcUnstaking', 'XPRBalance', 'liquidFreeos', 'isAuthenticated', 'stakeRequirement', 'userHasStaked', 'userStake', 'userMeetsStakeRequirement', 'currentIteration','unstakingIteration']),
+        ...mapGetters('freeos', ['accountName', 'bcUnstaking', 'XPRBalance', 'liquidFreeos', 'isAuthenticated', 'stakeRequirement', 'stakeRequirementKYC', 'userHasStaked', 'userStake', 'userMeetsStakeRequirement', 'currentIteration','unstakingIteration']),
       stakeIterationMsg () {
 
         //Handle

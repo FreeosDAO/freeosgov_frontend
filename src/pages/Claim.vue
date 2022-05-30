@@ -32,7 +32,7 @@
                 >
 
                     <p class="text-h5 q-mb-xs q-mt-md">Verify your account at <a target="_black" href="http://protonkyc.com/">protonkyc.com</a></p>
-                    <p class="text-body1 q-mb-xs">Verified accounts stake 0 {{ stakeCurrency }}.</p>
+                    <p class="text-body1 q-mb-xs">Verified accounts stake {{ stakeRequirementKYC }} {{ stakeCurrency }}.</p>
                     <p class="text-body2 q-mb-md"><a target="_black" href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6">How to verify your account?</a></p>
 
                     <p class="text-h5 q-mb-xs">Not verified?</p>  
@@ -42,15 +42,6 @@
                             href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b"
                             target="_blank"
                         >How to get XUSDC?</a>
-                    </p>
-                    <p class="text-body1 q-mb-xs">
-                        <a
-                            href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6"
-                            target="_blank"
-                        >
-                        <span v-if="stakeRequirementKYC > 0">Undergo KYC and only stake {{ stakeRequirementKYC }} {{ stakeCurrency }}</span>
-                        <span v-if="stakeRequirementKYC == 0">Undergo KYC for no staking requirement</span>
-                        </a>
                     </p>
                 </q-card-section>
                 <q-card-section class="q-mt-xs text-center">
