@@ -46,7 +46,8 @@ function advancedWalletSetup(){
 
       whenAdvancedSelectorClicked(wallet, walletList)
 
-      if(!protonLink){
+      if(!protonLink && !window.advancedWalletSetup){
+
         // On Proton Wallet Back Link click
         document.addEventListener('click', (e)=>{
 
@@ -66,9 +67,11 @@ function advancedWalletSetup(){
             walletList.querySelector('.wallet-selector-anchor-wallet').style.display = 'none'
 
             whenAdvancedSelectorClicked(wallet, walletList)
-          }, 20)
+          }, 0)
 
         }, true);
+
+        window.advancedWalletSetup = true;
       }
 
       // Function to add click event listener to advanced div
