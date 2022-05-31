@@ -429,6 +429,7 @@ export class FreeosBlockChainState extends EventEmitter {
     } else {
       accountType = '101' //account type e;
     }
+    
     console.log('accountType', accountType);
 
     for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
@@ -507,6 +508,7 @@ export class FreeosBlockChainState extends EventEmitter {
       priceLabel: priceLabel && priceLabel.value ? priceLabel.value : "",
       stakeRequirement: stakeRequirement,
       stakeRequirementKYC: stakeRequirementKYC,
+      accountType: accountType,
       userHasStaked: userHasStaked,
       userClaimedAlready: userClaimedAlready,
       userStake: userStake,

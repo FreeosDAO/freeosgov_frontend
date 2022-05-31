@@ -14,6 +14,7 @@ export const airkeyBalance = ({ airkeyBalance }) => airkeyBalance
 export const liquidOptions = ({ liquidOptions }) => liquidOptions
 export const stakeRequirement = ({ stakeRequirement }) => stakeRequirement
 export const stakeRequirementKYC = ({ stakeRequirementKYC }) => stakeRequirementKYC
+export const accountType = ({ accountType }) => accountType
 export const userHasStaked = ({ userHasStaked }) => userHasStaked
 export const userClaimedAlready = ({ userClaimedAlready }) => userClaimedAlready
 export const userMeetsStakeRequirement = ({ userMeetsStakeRequirement }) => userMeetsStakeRequirement

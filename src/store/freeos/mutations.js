@@ -47,6 +47,9 @@ export const setstakeRequirement = (state, stakeRequirement) => {
 export const setstakeRequirementKYC = (state, stakeRequirementKYC) => {
   state.stakeRequirementKYC = stakeRequirementKYC
 }
+export const setaccountType = (state, accountType) => {
+  state.accountType = accountType
+}
 export const setuserHasStaked = (state, userHasStaked) => {
   state.userHasStaked = userHasStaked
 }

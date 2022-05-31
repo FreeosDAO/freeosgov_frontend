@@ -30,12 +30,13 @@
                     class="q-pt-none text-center q-pb-xs"
                     v-if="stakeRequirement && !airkeyBalance"
                 >
+                    <div v-if="accountType != '118'">
+                        <p class="text-h5 q-mb-xs q-mt-md">Verify your account at <a target="_black" href="http://protonkyc.com/">protonkyc.com</a></p>
+                        <p class="text-body1 q-mb-xs">Verified accounts stake {{ stakeRequirementKYC }} {{ stakeCurrency }}.</p>
+                        <p class="text-body2 q-mb-md"><a target="_black" href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6">How to verify your account?</a></p>
 
-                    <p class="text-h5 q-mb-xs q-mt-md">Verify your account at <a target="_black" href="http://protonkyc.com/">protonkyc.com</a></p>
-                    <p class="text-body1 q-mb-xs">Verified accounts stake {{ stakeRequirementKYC }} {{ stakeCurrency }}.</p>
-                    <p class="text-body2 q-mb-md"><a target="_black" href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6">How to verify your account?</a></p>
-
-                    <p class="text-h5 q-mb-xs">Not verified?</p>  
+                        <p class="text-h5 q-mb-xs">Not verified?</p>
+                    </div>
                     <p class="text-body1 q-mb-xs">Stake {{ stakeRequirement }} {{ stakeCurrency }}</p>
                     <p class="text-body2 q-mb-xs">
                         <a
@@ -471,7 +472,7 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['userHasVoted', 'priceLabel', 'userHasStaked', 'isRegistered', 'announceObj', 'stakeRequirement', 'stakeRequirementKYC', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
+        ...mapGetters('freeos', ['userHasVoted', 'accountType', 'priceLabel', 'userHasStaked', 'isRegistered', 'announceObj', 'stakeRequirement', 'stakeRequirementKYC', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
         nextClaimDescription: function () {
             var daysToNextClaim = "";
             if (this.currentIteration && this.currentIteration.end) {
