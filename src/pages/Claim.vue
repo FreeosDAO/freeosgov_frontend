@@ -295,7 +295,7 @@
             <balance />
         </div>
 
-<div class="panel-wrap" v-if="userHasStaked">
+<div class="panel-wrap" v-if="userHasStaked || airkeyBalance > 0">
                 <div class="panel panel-primary q-pa-lg text-center q-mb-md q-pa-lg">
                     <p class="q-mb-sm text-h4" style="line-height:1.2;">Vote:</p>
                     <p class="q-mb-sm">Introducing the first economic tool to democratically steer Freeos</p>
