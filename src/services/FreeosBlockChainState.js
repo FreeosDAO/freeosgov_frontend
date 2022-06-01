@@ -290,13 +290,14 @@ export class FreeosBlockChainState extends EventEmitter {
     var bcSVRVotingPromise = null;
     var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
     var currencyName = process.env.CURRENCY_NAME || 'FREEOS'
+    var altVerifyAcc = process.env.ALTVERIFYACC || 'eosio.proton'
 
     var dataRequests = [currentIterationPromise, bcStatisticsPromise, bcStateRequirementsPromise]
 
     if (this.walletUser && this.walletUser.accountName) {
       bcUnvestsPromise = this.getRecord(process.env.AIRCLAIM_CONTRACT, 'unvests', this.walletUser.accountName)
 
-      bcPreRegistrationPromise = this.getRecord('eosio.proton', 'usersinfo', 'eosio.proton', {
+      bcPreRegistrationPromise = this.getRecord(altVerifyAcc, 'usersinfo', altVerifyAcc, {
         limit: 1,
         upper_bound: this.walletUser.accountName,
         lower_bound: this.walletUser.accountName
@@ -430,7 +431,7 @@ export class FreeosBlockChainState extends EventEmitter {
       accountType = '101' //account type e;
     }
     
-    console.log('accountType', accountType);
+    console.log('accountType', accountType)
 
     for (var i = bcStateRequirements.length - 1; i >= 0; --i) {
       var stakeReq = bcStateRequirements[i]
