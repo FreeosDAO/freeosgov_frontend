@@ -59,7 +59,9 @@ export default {
             console.log('registerResult', result)
             if (!(result instanceof Error)) {
                 this.$refs.complete.openDialog({
-                    title: 'Woohoo!', subtitle: 'You have successfully re-registered', text: null, value: null, currency: null, time: null
+                    title: 'Woohoo!', subtitle: 'You have successfully re-registered', text: null, value: null, currency: null, time: 3000, closeFunc: ()=>{
+                        this.$router.push('/claim')
+                    }
                 });
             }
         },

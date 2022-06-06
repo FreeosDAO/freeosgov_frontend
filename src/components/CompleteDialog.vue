@@ -63,7 +63,7 @@ export default {
     watch: {
         isOpen: {
             handler: function(val, oldVal) {
-                if(!this.dialogObj.time && this.dialogObj.closeFunc && val===false){
+                if(/*!this.dialogObj.time &&*/ this.dialogObj.closeFunc && val===false){
                         this.dialogObj.closeFunc();
                 }
             },

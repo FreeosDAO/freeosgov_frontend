@@ -176,7 +176,6 @@ export default {
     onSelectMenu (menuItem) {
       if(!menuItem.route.startsWith("http")){
         (this.$route.path !== menuItem.route) && this.$router.push(menuItem.route)
-        this.selectedItemLabel = menuItem.label
       }else{
         window.open(menuItem.route, '_blank');
       }
@@ -204,6 +203,15 @@ export default {
           }
       },
     },
+    $route(to, from){
+      let item = menuList.filter((menuItem)=>{
+        return menuItem.route == to.path;
+      })
+      if(item.length){
+        this.selectedItemLabel = item[0].label
+      }
+      
+    }
   }
 }
 </script>
