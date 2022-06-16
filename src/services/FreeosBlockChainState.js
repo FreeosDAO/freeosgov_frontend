@@ -26,6 +26,7 @@ function connect(config) {
 
 export class FreeosBlockChainState extends EventEmitter {
   static sInstance = null;
+  static parametersTable;
 
   static getInstance() {
     var sInstance = FreeosBlockChainState.sInstance
@@ -53,6 +54,12 @@ export class FreeosBlockChainState extends EventEmitter {
     if (this.isRunning) return
 
     this.isRunning = true
+
+    this.parametersTable = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'parameters', null, {
+      lower_bound: '',
+      upper_bound: '',
+      limit: 100
+    })
 
     var fetchTimer = async () => {
 
@@ -88,23 +95,7 @@ export class FreeosBlockChainState extends EventEmitter {
     }
   }
 
-  async register() {
-    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'reguser')
-  }
-
-  async reregister() {
-    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'reverify')
-  }
-
-  async convertOptions(sendData) {
-    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'convert', sendData)
-  }
-
-
-
-
-
-  async sendTransaction(contractAccountName, contractName, extraData) {
+  async sendTransaction(contractAccountName, contractName, extraData, extraAction) {
     var accountName = this.walletUser ? this.walletUser.accountName : null
     var actionData = {}
 
@@ -119,7 +110,7 @@ export class FreeosBlockChainState extends EventEmitter {
       return
     }
     try {
-      const actions = [{
+      let actions = [{
         account: contractAccountName,
         name: contractName,
         authorization: [{
@@ -128,6 +119,10 @@ export class FreeosBlockChainState extends EventEmitter {
         }],
         data: actionData
       }]
+      // push extra action if exists
+      if(extraAction){
+        actions.push(extraAction)
+      }
       console.log('Sending transaction with', actions)
       const result = await ProtonSDK.sendTransaction(actions)
 
@@ -141,8 +136,114 @@ export class FreeosBlockChainState extends EventEmitter {
     }
   }
 
+  // API Calls to get token prices
+  async getPrices(){
+    let prices = {btcPrice: 0, freeosPrice: 0}
+    try {
+      // get prices
+      let [btcResponse, freeosResponse] = await Promise.all([
+        fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin',{timeout: 2000}),
+        fetch('https://api.protonchain.com/v1/chain/exchange-rates/info',{timeout: 2000})
+      ]);
+    
+      // find BTC
+      btcResponse = await btcResponse.json()
+      // Iterate over btcresponse
+      btcResponse.forEach((object) => {
+        // if btc
+        if (object.symbol == 'btc') {
+          // return price
+          prices.btcPrice = object.current_price;
+        }
+      })
+
+      // find freeos
+      freeosResponse = await freeosResponse.json()
+      // iterate over freeosResponse
+      freeosResponse.forEach((object) => {
+        // if freeos
+        if (object.symbol == 'FREEOS') {
+          // check rates
+          object.rates.forEach((rate) => {
+            if (rate.counterCurrency == 'USD') {
+              // return price
+              prices.freeosPrice = rate.price;
+            }
+          })
+        }
+      })
+    }
+    catch(err) {
+      console.log(err);
+    }
+    console.log('prices:', prices)
+    return prices
+  }
+
+  // Setup Cronacle
+  async setupCronacle(){
+
+    // Check Cronacle Params
+    let cronenabled = this.parametersTable.filter(function(row){
+      return row.paramname == 'cronenabled'
+    })
+    cronenabled = (cronenabled.length) ? cronenabled[0].value : 0
+    console.log('cronenabled:', cronenabled)
+    if(cronenabled != 1){
+      console.log('Cronacle Disabled')
+      return
+    }
+
+    // Check wallet name
+    var accountName = this.walletUser ? this.walletUser.accountName : null
+    if (!accountName) {
+      console.log('No account.....')
+      return
+    }
+
+    // get Prices
+    let prices = await this.getPrices()
+
+    // If BTC or FREEOS price, add action
+    if(prices.btcPrice || prices.freeosPrice){
+      // setup action
+      let action = {
+        account: 'cronacle',
+        name: 'storeprices',
+        authorization: [{
+          actor: accountName,
+          permission: 'active'
+        }],
+        data: {
+          user: accountName,
+          btcprice: prices.btcPrice,
+          freeosprice: prices.freeosPrice
+        }
+      };
+      
+      return action
+    }
+    
+    // else return nothing
+    return
+  }
+
+  async register() {
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'reguser')
+  }
+
+  async reregister() {
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'reverify')
+  }
+
+  async convertOptions(sendData) {
+    let cronacle = await this.setupCronacle()
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'convert', sendData, cronacle)
+  }
+
   async claim() {
-    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'claim')
+    let cronacle = await this.setupCronacle()
+    return this.sendTransaction(process.env.AIRCLAIM_CONTRACT, 'claim', false, cronacle)
   }
 
   async transfer(sendData) {
@@ -189,7 +290,8 @@ export class FreeosBlockChainState extends EventEmitter {
   }
 
   async vote(sendData) {
-    return this.sendTransaction(process.env.VOTEMVP_CONTRACT, 'vote', sendData)
+    let cronacle = await this.setupCronacle()
+    return this.sendTransaction(process.env.VOTEMVP_CONTRACT, 'vote', sendData, cronacle)
   }
 
 
@@ -219,24 +321,17 @@ export class FreeosBlockChainState extends EventEmitter {
 
   async actionFetch() {
 
-
-    var parametersTable = await this.getRecord(process.env.AIRCLAIM_CONFIGURATION_CONTRACT, 'parameters', null, {
-      lower_bound: '',
-      upper_bound: '',
-      limit: 100
-    })
-
-    console.log('masterswitch', parametersTable)
-    var masterswitch = parametersTable.filter(function(row){
+    console.log('masterswitch', this.parametersTable)
+    var masterswitch = this.parametersTable.filter(function(row){
         return row.paramname == 'masterswitch';
     })[0];
     console.log('masterswitch', masterswitch)
     var isFreeosEnabled = masterswitch && masterswitch.value && masterswitch.value === '1' ? true : false
 
 
-    var announcetext = parametersTable.filter(function(row){return row.paramname == 'announcetext';})[0]
-    var announceid = parametersTable.filter(function(row){return row.paramname == 'announceid';})[0]
-    var announcelink = parametersTable.filter(function(row){return row.paramname == 'announcelink';})[0]
+    var announcetext = this.parametersTable.filter(function(row){return row.paramname == 'announcetext';})[0]
+    var announceid = this.parametersTable.filter(function(row){return row.paramname == 'announceid';})[0]
+    var announcelink = this.parametersTable.filter(function(row){return row.paramname == 'announcelink';})[0]
 
     var announceObj = {
       text: announcetext && announcetext.value ? announcetext.value : null,
@@ -244,7 +339,7 @@ export class FreeosBlockChainState extends EventEmitter {
       link: announcelink && announcelink.value ? announcelink.value : null,
     } 
 
-    var priceLabel = parametersTable.filter(function(row){
+    var priceLabel = this.parametersTable.filter(function(row){
       return row.paramname == 'pricelabel';
     })[0];
     console.log('priceLabel', priceLabel)
@@ -290,7 +385,7 @@ export class FreeosBlockChainState extends EventEmitter {
     var bcSVRVotingPromise = null;
     var stakeCurrency = process.env.STAKING_CURRENCY || 'XPR'
     var currencyName = process.env.CURRENCY_NAME || 'FREEOS'
-    var altVerifyAcc = parametersTable.filter(function(row){
+    var altVerifyAcc = this.parametersTable.filter(function(row){
         return row.paramname == 'altverifyacc'
     })
     altVerifyAcc = (altVerifyAcc.length) ? altVerifyAcc[0].value : 'eosio.proton'

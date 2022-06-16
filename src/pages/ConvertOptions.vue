@@ -69,7 +69,7 @@
               unelevated
               no-caps
               outline
-              :disable="!sendAmount || sendAmount > liquidOptions"
+              :disable="!sendAmount || sendAmount > liquidOptions || convertWatch"
               color="primary"
               v-if="isAuthenticated"
               @click="submit()"
@@ -104,6 +104,7 @@ export default {
       tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
+      convertWatch: false
     }
   },
   computed: {
@@ -112,6 +113,7 @@ export default {
   methods: {
     ...mapActions('freeos', ['convertOptions']),
     async submit() {
+      this.convertWatch = true
       var result = await this.convertOptions({ owner: this.accountName, quantity: `${parseFloat(this.sendAmount).toFixed(process.env.TOKEN_PRECISION)} ${process.env.TOKEN_CURRENCY_NAME}` })
 
       if (!(result instanceof Error)) {
@@ -120,8 +122,8 @@ export default {
         });
       }
 
-
       console.log('resultR', result)
+      this.convertWatch = false
       this.resetForm()
     },
     resetForm() {

@@ -193,7 +193,7 @@
                         </div>
                     </div>
 
-                    <div class="wrap-avatar" v-bind:class="{ 'enable-btn': canClaim }">
+                    <div class="wrap-avatar" v-bind:class="{ 'enable-btn': canClaim }" :disabled="claimWatch">
                         <div class="avatar claim-btn" @click="startClaim()">
                             <q-icon
                                 size="md"
@@ -276,6 +276,7 @@
                             style="cursor:pointer;text-decoration:underline"
                             @click="startClaim()"
                             v-if="canClaim"
+                            :disabled="claimWatch"
                         >Claim now</a>
                         to get your weekly {{ tokenCurrencyName }}s
                     </div>
@@ -512,12 +513,14 @@ export default {
         async startClaim() {
             if (this.canClaim) {
                 const _ = this;
+                this.claimWatch = true
                 var result = await _.claim()
                 if (!(result instanceof Error)) {
                     this.$refs.complete.openDialog({
                         title: "Woohoo", subtitle: "You earned", value: this.currentIteration.claim_amount
                     });
                 }
+                this.claimWatch = false
             }
         },
         announceMsg() {

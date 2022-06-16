@@ -49,7 +49,7 @@
                     <div tabindex="-1" class="q-field__control relative-position row no-wrap">
                       <div
                         class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
-                        <input novalidate style="text-align: center;" v-model="lockingThresholdVote" tabindex="0"
+                        <input novalidate="true" style="text-align: center;" v-model="lockingThresholdVote" tabindex="0"
                           id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
                           class="q-field__native q-placeholder" />
                       </div>
@@ -60,12 +60,12 @@
             </div>
 
             <p class="text-center text-negative q-mt-none q-mb-sm"
-              v-if="lockingThresholdVoteInvalid && lockingThresholdVote !== 0">Locking Threashold must be between
+              v-if="lockingThresholdVoteInvalid && lockingThresholdVote !== 0">Locking Threshold must be between
               {{ thresholdRangeLower }} and {{ thresholdRangeUpper() }}</p>
 
             <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
               <q-btn size="lg" unelevated no-caps outline
-                :disable="!userHasStakedORHasAirkey || userHasVoted || !lockingThresholdVote || airclaimStatus !== 'Running'" color="primary" @click="submit()">
+                :disable="!userHasStakedORHasAirkey || userHasVoted || !lockingThresholdVote || airclaimStatus !== 'Running' || voteWatcher" color="primary" @click="submit()">
                 Submit Vote</q-btn>
             </div>
           </section>
@@ -94,6 +94,7 @@ export default {
       currencyName: process.env.CURRENCY_NAME,
       tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       thresholdRangeLower: parseFloat(process.env.VOTETHRESHOLDLOWER),
+      voteWatcher: false
     }
   },
   components: {
@@ -105,7 +106,7 @@ export default {
        return this.userHasStaked || this.airkeyBalance
     },
     lockingThresholdVoteInvalid() {
-      var val = parseFloat(this.lockingThresholdVote);
+      var val = parseFloat(this.lockingThresholdVote)
       if (typeof val !== 'number' || val < this.thresholdRangeLower || val > this.thresholdRangeUpper()) {
         return true;
       } else {
@@ -117,14 +118,15 @@ export default {
       this.lockingThresholdVote = (this.thresholdRangeUpper() + this.thresholdRangeLower) / 2;
   },
   watch: {
-    lockingThresholdVote(newValue, oldValue) {
+    /*lockingThresholdVote(newValue, oldValue) {
       var val = parseFloat(newValue);
+      console.log('lT Changed')
       if (typeof val !== 'number' || val < this.thresholdRangeLower || val > this.thresholdRangeUpper) {
         this.lockingThresholdVoteInvalid = true;
       } else {
         this.lockingThresholdVoteInvalid = false;
       }
-    }
+    }*/
   },
   methods: {
     ...mapActions('freeos', ['vote']),
@@ -134,12 +136,14 @@ export default {
     async submit() {
       if (this.userHasStakedORHasAirkey && this.lockingThresholdVote) {
         const _ = this;
+        this.voteWatcher = true
         var result = await _.vote({ user: this.accountName, q3response: this.lockingThresholdVote })
         if (!(result instanceof Error)) {
           this.$refs.complete.openDialog({
             title: "Woohoo", subtitle: "Thanks for Voting!", text: "You Voted:", value: this.lockingThresholdVote, currency: "USD"
           });
         }
+        this.voteWatcher = false
       }
     },
   }
