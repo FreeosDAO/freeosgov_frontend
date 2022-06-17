@@ -65,7 +65,7 @@
 
             <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
               <q-btn size="lg" unelevated no-caps outline
-                :disable="!userHasStakedORHasAirkey || userHasVoted || !lockingThresholdVote || airclaimStatus !== 'Running' || voteWatcher" color="primary" @click="submit()">
+                :disable="lockingThresholdVoteInvalid || !userHasStakedORHasAirkey || userHasVoted || !lockingThresholdVote || airclaimStatus !== 'Running' || voteWatcher" color="primary" @click="submit()">
                 Submit Vote</q-btn>
             </div>
           </section>
@@ -134,7 +134,7 @@ export default {
       return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
     },
     async submit() {
-      if (this.userHasStakedORHasAirkey && this.lockingThresholdVote) {
+      if (!this.lockingThresholdVoteInvalid && this.userHasStakedORHasAirkey && this.lockingThresholdVote) {
         const _ = this;
         this.voteWatcher = true
         var result = await _.vote({ user: this.accountName, q3response: this.lockingThresholdVote })
