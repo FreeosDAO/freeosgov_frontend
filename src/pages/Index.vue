@@ -2,7 +2,7 @@
 <div class="intro-info text-center q-pa-lg">
     <div v-if="airclaimStatus === 'Running'">
         <div class="text-h4 text-weight-medium q-mb-none">Welcome to the</div>
-        <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos AirClaim</div>
+        <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos Governance App</div>
 
         <div class="text-weight-regular">
             <div class="text-h5 q-mb-md q-mt-lg">
@@ -20,12 +20,12 @@
     </div>
     <div v-if="airclaimStatus === 'Pending'">
         <div class="text-h4 text-weight-medium q-mb-none">Welcome, the</div>
-        <div class="text-h3 text-weight-medium text-primary q-mb-none">Freeos AirClaim</div>
+        <div class="text-h3 text-weight-medium text-primary q-mb-none">Freeos Governance App</div>
         <div class="text-h3 text-weight-medium q-mb-md">Starts in</div>
         <Countdown :startDate="nextIteration.startStamp" />
     </div>
     <div v-if="airclaimStatus === 'Complete'">
-        <div class="text-h3 text-weight-medium text-primary q-mb-none">the Freeos AirClaim</div>
+        <div class="text-h3 text-weight-medium text-primary q-mb-none">the Freeos Governance App</div>
         <div class="text-h3 text-weight-medium q-mt-sm q-mb-mb">Has now Closed</div>
         <div class="text-h6 text-weight-medium q-mt-md q-mb-mb">You can still login to Check your Balance, Mint & Transfer for a limited time.</div>
         <div class="q-mt-md q-mb-sm" v-if="isFreeosEnabled === true">
