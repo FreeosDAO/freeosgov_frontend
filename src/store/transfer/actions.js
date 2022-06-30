@@ -4,7 +4,7 @@ import ProtonSDK from '../../utils/proton'
 export async function transferTokens ({ state }, data) {
   const { fromAccountName, toAccountName, tokenType, sendAmount, memo } = data
   const actions = [{
-    account: tokenType === 'XPR' ? 'eosio.token' : process.env.AIRCLAIM_CONTRACT,
+    account: tokenType === 'XPR' ? 'eosio.token' : process.env.FREEOSGOV_CONTRACT,
     name: 'transfer',
     authorization: [{
       actor: fromAccountName,

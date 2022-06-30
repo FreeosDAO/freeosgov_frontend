@@ -7,7 +7,7 @@ import ProtonSDK from '../../utils/proton'
 export const actionClaim = async function ({ commit }, accountName) {
   const resp3 = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
     scope: accountName,
     table: 'accounts',
     lower_bound: 'FREEOS',
@@ -19,7 +19,7 @@ export const actionClaim = async function ({ commit }, accountName) {
   try {
     const result = await ProtonSDK.sendTransaction({
       actions: [{
-        account: process.env.AIRCLAIM_CONTRACT, // the name of the airclaim contract (i'm using freeos333333 as a test account on Kylin)
+        account: process.env.FREEOSGOV_CONTRACT, // the name of the airclaim contract (i'm using freeos333333 as a test account on Kylin)
         name: 'claim', // name of the action to call
         authorization: [{
           actor: global.accountName, // the claim action is called on behalf of the user
@@ -38,7 +38,7 @@ export const actionClaim = async function ({ commit }, accountName) {
       notifyAlert('success', result.processed.action_traces[0].console) // Kenneth: Notify message in green
       const resp3After = connect({
         json: true,
-        code: process.env.AIRCLAIM_CONTRACT,
+        code: process.env.FREEOSGOV_CONTRACT,
         scope: accountName,
         table: 'accounts',
         lower_bound: 'FREEOS',

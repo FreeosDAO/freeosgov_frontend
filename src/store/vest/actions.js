@@ -4,7 +4,7 @@ import ProtonSDK from '../../utils/proton'
 
 export async function getVestedRecord (state, accountName) {
   const config = {
-    code: process.env.AIRCLAIM_CONTRACT, // the airclaim account
+    code: process.env.FREEOSGOV_CONTRACT, // the airclaim account
     scope: accountName, // the subset of the table to query
     table: 'vestaccounts', // the name of the table
     limit: 1
@@ -17,7 +17,7 @@ export async function getUnVestHistory (state, data) {
   const { accountName, iterationNumber } = data
   const result = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
     scope: accountName,
     table: 'unvests',
     limit: 1,
@@ -29,7 +29,7 @@ export async function getUnVestHistory (state, data) {
 export async function getUnvestPercentage (state, accountName) {
   const result = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
     scope: accountName,
     table: 'counters',
     limit: 1
@@ -39,7 +39,7 @@ export async function getUnvestPercentage (state, accountName) {
 export async function unVest (state, accountName) {
   try {
     const actions = [{
-      account: process.env.AIRCLAIM_CONTRACT, // the name of the airclaim contract (i'm using freeos333333 as a test account on Kylin)
+      account: process.env.FREEOSGOV_CONTRACT, // the name of the airclaim contract (i'm using freeos333333 as a test account on Kylin)
       name: 'unvest', // name of the action to call
       authorization: [{
         actor: accountName, // the claim action is called on behalf of the user

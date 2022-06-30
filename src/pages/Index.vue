@@ -1,6 +1,17 @@
 <template>
 <div class="intro-info text-center q-pa-lg">
-    <div v-if="airclaimStatus === 'Running'">
+    <div class="text-h4 text-weight-medium q-mb-none">Welcome to the</div>
+    <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos Governance App</div>
+
+    <div class="text-weight-regular">
+        <div class="text-h5 q-mb-md q-mt-lg">
+            Access the Freeos Economic System here:
+        </div>
+    </div>
+    <div class="q-mt-xs q-mb-sm">
+        <q-btn unelevated no-caps size="lg" outline color="primary" @click="connectWallet('anchor')">Connect Wallet</q-btn>
+    </div>
+   <!-- <div v-if="airclaimStatus === 'Running'">
         <div class="text-h4 text-weight-medium q-mb-none">Welcome to the</div>
         <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos Governance App</div>
 
@@ -36,7 +47,7 @@
             <div class="q-pa-md  bg-negative" style="max-width:600px;margin:0 auto;">
                 <h4 class="text-white">The AirClaim is unavailable at this time, please try later </h4>
             </div>
-    </div>
+    </div>-->
     <div class="text-h6 q-mt-md text-weight-medium q-mb-none">For more info visit <a target="_blank" href="https://freeos.io/">freeos.io</a></div>
     <div class="q-mt-lg" style="">
         <img src="../assets/join-screen-image.svg" alt="">

@@ -187,7 +187,7 @@ export function getAccountInfo (state) {
 export async function GetFreeosRecord (state) {
   const result = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
     scope: state.state.accountName, // the subset of the table to query
     table: 'users' // the name of the table
   })
@@ -217,8 +217,8 @@ export async function getLiquidInAccount (state) {
 export async function getStakeRequirementInfo (state) {
   const result = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
-    scope: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
+    scope: process.env.FREEOSGOV_CONTRACT,
     table: 'stakes' // the name of the table
   })
 
@@ -232,7 +232,7 @@ export async function getStakeRequirementInfo (state) {
 export async function getResAirKey (state) {
   const result = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
     scope: state.state.accountName,
     table: 'accounts',
     lower_bound: 'AIRKEY',
@@ -249,7 +249,7 @@ export async function getResAirKey (state) {
 export async function getUserStakedInfo (state) {
   const result = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
     scope: state.state.accountName,
     table: 'users',
     limit: 1
@@ -265,7 +265,7 @@ export async function getUserStakedInfo (state) {
 export async function getFreeosInfo (state) {
   const result = await connect({
     json: true,
-    code: process.env.AIRCLAIM_CONTRACT,
+    code: process.env.FREEOSGOV_CONTRACT,
     scope: state.state.accountName,
     table: 'accounts',
     lower_bound: 'FREEOS',
@@ -301,7 +301,7 @@ export async function getClaimDetailInfo (state, iterationNumber) {
   if (iterationNumber) {
     respIsUserAlreadyClaimed = await connect({
       json: true,
-      code: process.env.AIRCLAIM_CONTRACT,
+      code: process.env.FREEOSGOV_CONTRACT,
       scope: state.state.accountName,
       table: 'claims',
       lower_bound: iterationNumber,

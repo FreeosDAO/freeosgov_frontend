@@ -5,7 +5,7 @@ import ProtonSDK from '../../utils/proton'
 export async function actionUnstake ({ state }, accountName) {
   try {
     const actions = [{
-      account: process.env.AIRCLAIM_CONTRACT,
+      account: process.env.FREEOSGOV_CONTRACT,
       name: 'unstake',
       authorization: [{
         actor: accountName,

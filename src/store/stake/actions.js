@@ -5,7 +5,7 @@ import ProtonSDK from '../../utils/proton'
 export async function onRegisterUser ({ state }, accountName) {
   try {
     const actions = [{
-      account: process.env.AIRCLAIM_CONTRACT,
+      account: process.env.FREEOSGOV_CONTRACT,
       name: 'reguser',
       authorization: [{
         actor: accountName,
@@ -34,7 +34,7 @@ export async function actionStake ({ state }, data) {
       }],
       data: {
         from: accountName,
-        to: process.env.AIRCLAIM_CONTRACT,
+        to: process.env.FREEOSGOV_CONTRACT,
         quantity: amount,
         memo: 'freeos stake'
       }
