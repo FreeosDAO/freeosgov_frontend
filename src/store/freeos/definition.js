@@ -40,6 +40,18 @@ var definition = {
   announceObj: null,
   lockFactor: null,
   priceLabel: null,
-  userHasVoted: null
+  userHasVoted: null,
+
+  surveyShare: null,
+  voteShare: null,
+  surveyClosesIn: null,
+  surveyPeriodActive: null,
+  surveyCompleted: null, 
+  voteStartsIn: null, 
+  voteClosesIn: null,
+  votePeriodActive: null,
+  voteCompleted: null, 
+  ratificationStartsIn: null,
+  ratifyShare:null, 
 }
 export default definition

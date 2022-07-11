@@ -19,6 +19,9 @@
 
 
             <q-card-actions align="center">
+                <q-btn :disabled="!termsCheckbox" unelevated size="lg" class="q-mb-m" outline color="primary" @click="submit()">ReRegister</q-btn>
+            </q-card-actions>
+            <q-card-actions align="center">
                 <q-btn :disabled="!termsCheckbox" unelevated size="lg" class="q-mb-m" outline color="primary" @click="submit()">Register</q-btn>
             </q-card-actions>
             </q-card>
@@ -53,9 +56,20 @@ export default {
         ...mapGetters('freeos', ['accountName', 'XPRBalance', 'liquidFreeos', 'isAuthenticated']),
     },
     methods: {
-        ...mapActions('freeos', ['reregister']),
+        ...mapActions('freeos', ['reregister','register']),
         async submit() {
             var result = await this.reregister();
+            console.log('registerResult', result)
+            if (!(result instanceof Error)) {
+                this.$refs.complete.openDialog({
+                    title: 'Woohoo!', subtitle: 'You have successfully re-registered', text: null, value: null, currency: null, time: 3000, closeFunc: ()=>{
+                        this.$router.push('/claim')
+                    }
+                });
+            }
+        },
+        async register() {
+            var result = await this.register();
             console.log('registerResult', result)
             if (!(result instanceof Error)) {
                 this.$refs.complete.openDialog({

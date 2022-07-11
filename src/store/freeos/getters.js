@@ -39,3 +39,17 @@ export const announceObj = ({ announceObj }) => announceObj
 export const lockFactor = ({ lockFactor }) => lockFactor
 export const userHasVoted = ({ userHasVoted }) => userHasVoted
 export const priceLabel = ({ priceLabel }) => priceLabel
+
+export const surveyShare = ({ surveyShare }) => surveyShare
+export const voteShare = ({ voteShare }) => voteShare
+
+export const surveyClosesIn = ({ surveyClosesIn }) => surveyClosesIn
+export const surveyPeriodActive = ({ surveyPeriodActive }) => surveyPeriodActive
+export const surveyCompleted = ({ surveyCompleted }) => surveyCompleted
+
+export const voteStartsIn = ({ voteStartsIn }) => voteStartsIn
+export const voteClosesIn = ({ voteClosesIn }) => voteClosesIn
+export const votePeriodActive = ({ votePeriodActive }) => votePeriodActive
+export const voteCompleted = ({ voteCompleted }) => voteCompleted
+export const ratificationStartsIn = ({ ratificationStartsIn }) => ratificationStartsIn
+export const ratifyShare = ({ ratifyShare }) => ratifyShare

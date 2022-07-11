@@ -181,6 +181,38 @@ export class FreeosBlockChainState extends EventEmitter {
       output['accountName'] = user.name
     }
 
+
+    
+    /**
+     * Exchange Rate Vars
+     */
+     const exchangeRate = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'exchangerate');
+     output['currentPrice'] = exchangeRate && exchangeRate.currentprice ? (exchangeRate.currentprice / 1).toFixed(6) : 0,
+     output['targetPrice'] = exchangeRate && exchangeRate.targetprice ? (exchangeRate.targetprice / 1).toFixed(6) : 0,
+
+
+    /**
+     * Survey Vars
+     */
+
+    //dparametersTable vars
+    output['surveyShare'] =  parseFloat(this.getParameterFromTable('surveyshare', this.dparametersTable, ''),10).toFixed(2) * 100;
+    output['voteShare'] =  parseFloat(this.getParameterFromTable('voteshare', this.dparametersTable, ''),10).toFixed(2) * 100;
+    output['ratifyShare'] =  parseFloat(this.getParameterFromTable('ratifyshare', this.dparametersTable, ''),10).toFixed(2) * 100;
+
+    output['voteClosesIn'] = iterations['voteClosesIn'];
+    output['surveyClosesIn'] = iterations['surveyClosesIn'];
+    output['voteStartsIn'] = iterations['voteStartsIn'];
+    output['surveyPeriodActive'] = iterations['surveyPeriodActive'];
+    output['votePeriodActive'] = iterations['votePeriodActive'];
+
+    //Survey Results
+    const surveyTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', user.name, {limit: 1});
+    output['surveyCompleted'] = surveyTable ? true : false;
+
+
+
+
     /**
      * Output vars
      */
@@ -356,12 +388,12 @@ export class FreeosBlockChainState extends EventEmitter {
    */
   async register() {
     /* TO DO */
-    //return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'reguser')
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'reguser')
   }
 
   async reregister() {
     /* TO DO */
-    //return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'reverify')
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'reregister')
   }
 
   async convertOptions(sendData) {
@@ -392,6 +424,14 @@ export class FreeosBlockChainState extends EventEmitter {
     //let cronacle = await this.setupCronacle()
     //return this.sendTransaction(process.env.VOTEMVP_CONTRACT, 'vote', sendData, cronacle)
   }
+
+
+  async survey(sendData) {
+    /* TO DO */
+    //let cronacle = await this.setupCronacle()
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'survey', sendData)
+  }
+
 
   /**
    * Logout
@@ -480,18 +520,37 @@ export class FreeosBlockChainState extends EventEmitter {
   getCurrentAndNextIteration() {
 
     // Gather vars
-    let init = Date.parse(this.systemRow.init)
+    let init = new Date('1970-01-01');
     let now = Date.now()
-    let iterationsec = this.getParameterFromTable('iterationsec', this.parametersTable, 3600)
+    let iterationsec = parseInt(this.getParameterFromTable('iterationsec', this.parametersTable, 3600),10);
+    let surveystart = parseInt(this.getParameterFromTable('surveystart', this.parametersTable, 3600),10);
+    let surveyend = parseInt(this.getParameterFromTable('surveyend', this.parametersTable, 3600),10);
+    let votestart = parseInt(this.getParameterFromTable('votestart', this.parametersTable, 3600),10);
+    let voteend = parseInt(this.getParameterFromTable('voteend', this.parametersTable, 3600),10);
+    let ratifystart = parseInt(this.getParameterFromTable('ratifystart', this.parametersTable, 3600),10);
 
+    console.log('init', this.systemRow.init);
+    console.log('init', init);
+    console.log(now);
     // Calculate time elapsed
-    let elapsed_seconds = now - init
-
+    let elapsed_seconds = (now / 1000) - (init / 1000)
     // Get current iteration
     let currentIteration = Math.floor( (elapsed_seconds / iterationsec) + 1 )
     let nextIteration = currentIteration + 1
    
+    console.log('elapsed_seconds', elapsed_seconds);
+    console.log('iterationsec', iterationsec);
+    let elapsedFromIteration = elapsed_seconds % iterationsec;
+    console.log('elapsedFromIteration', elapsedFromIteration);
+    console.log('surveyClosesIn', surveyend - elapsedFromIteration)
+
     return {
+      surveyPeriodActive: elapsedFromIteration >= surveystart && elapsedFromIteration <= surveyend ? true : false,
+      voteStartsIn: votestart - elapsedFromIteration,
+      voteClosesIn: voteend - elapsedFromIteration,
+      votePeriodActive: elapsedFromIteration >= votestart && elapsedFromIteration <= voteend ? true : false,
+      surveyClosesIn:  surveyend - elapsedFromIteration,
+      ratificationStartsIn: ratifystart - elapsedFromIteration,
       current: currentIteration,
       next: nextIteration
     }

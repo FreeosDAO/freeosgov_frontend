@@ -458,8 +458,8 @@ export default {
             dialogTitle: "",
             dialogSubtitle: null,
             dialogValue: null,
-            tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
-            dialogCurrency: process.env.CURRENCY_NAME + ' ' + this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
+            tokenCurrencyName: '',//this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
+            dialogCurrency: '',//process.env.CURRENCY_NAME + ' ' + this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
             stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
             registerModalOverride: true,
@@ -516,9 +516,9 @@ export default {
                 this.claimWatch = true
                 var result = await _.claim()
                 if (!(result instanceof Error)) {
-                    this.$refs.complete.openDialog({
+                   /* this.$refs.complete.openDialog({
                         title: "Woohoo", subtitle: "You earned", value: this.currentIteration.claim_amount
-                    });
+                    });*/
                 }
                 this.claimWatch = false
             }
@@ -532,11 +532,11 @@ export default {
                     if (_.announceObj.link && _.announceObj.link !== '') {
                         announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
                     }
-                    _.$refs.complete.openDialog({
+                    /* _.$refs.complete.openDialog({
                         title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, closeFunc: function () {
                             localStorage.setItem('announceTextId', _.announceObj.id);
                         }
-                    });
+                    });*/ 
                 }
             }
         },

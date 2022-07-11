@@ -19,7 +19,7 @@ const routes = [
       { path: '/transfer', component: () => import('pages/Transfer.vue') }, 
       { path: '/mint', component: () => import('pages/ConvertOptions.vue') },
       { path: '/info', component: () => import('pages/Info.vue') },
-      { path: '/vote', component: () => import('pages/Vote.vue') },
+      { path: '/activities', component: () => import('pages/Activities.vue') },
     ]
   },
 

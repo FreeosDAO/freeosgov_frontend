@@ -70,6 +70,13 @@ import { stakeRequirement } from 'src/store/freeos/getters'
 import { mapState, mapActions, mapGetters } from 'vuex'
 // import dollar from '../assets/dollar-icon.svg'
 const menuList = [
+    {
+    icon: require('@/assets/vote-icon.svg'),
+    label: 'Activities',
+    separator: true,
+    route: '/activities',
+    displayCondition: "showAccountTypeV"
+  },
   {
     icon: require('@/assets/dollar-icon.svg'),
     label: 'Claim',
@@ -94,13 +101,6 @@ const menuList = [
     separator: true,
     displayCondition: "showStake",
     route: '/stake'
-  },
-  {
-    icon: require('@/assets/vote-icon.svg'),
-    label: 'Vote',
-    separator: true,
-    route: '/vote',
-    displayCondition: "showUserHasStakedORHasAirkey"
   },
   {
     icon: require('@/assets/register.svg'),
@@ -163,6 +163,9 @@ export default {
     showUserHasStakedORHasAirkey: function () {
        return this.userHasStaked || this.airkeyBalance
     },
+    showAccountTypeV: function () {
+       return this.user && this.user.record && this.user.record.account_type;
+    },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
     },
@@ -185,7 +188,7 @@ export default {
   },
   created () {
     // this.getClaimCalendar()
-    this.monitorBlockChain()
+    this.monitorBlockChain();
   },
   watch: {
     isFreeosEnabled: {

@@ -19,7 +19,7 @@ export async function monitorBlockChain (state) {
       }
       /*
         this.balance = data.XPRBalance;
-        this.currentIteration = data.currentIteration;
+        this.currentIteration = data.currentIteraoutputtion;
         this.nextIteration = data.nextIteration;
         this.isRegistered = data.isRegistered;
         this.user = data.user;
@@ -113,6 +113,12 @@ export async function unvest() {
 export async function vote({ state }, submitData) {
   var result = await FreeosBlockChainState.getInstance().vote(submitData)
   console.log('Result of vote', result)
+  return result;
+}
+
+export async function survey({ state }, submitData) {
+  var result = await FreeosBlockChainState.getInstance().survey(submitData)
+  console.log('Result of survey', result)
   return result;
 }
 
