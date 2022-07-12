@@ -187,11 +187,12 @@ export class FreeosBlockChainState extends EventEmitter {
       output['surveyCompleted'] = false;
       output['ratifyCompleted'] = false;
       const svrsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', user.name, {limit: 1});
+      console.log('svrsTable', svrsTable)
       for (const item in svrsTable) {
         if(svrsTable[item]===iterations.current){
-          if(item.indexOf("vote") > 0) output['voteCompleted'] = true;
-          if(item.indexOf("ratify") > 0) output['ratifyCompleted'] = true;
-          if(item.indexOf("survey") > 0) output['surveyCompleted'] = true;
+          if(item.indexOf("vote") >= 0) output['voteCompleted'] = true;
+          if(item.indexOf("ratify") >= 0) output['ratifyCompleted'] = true;
+          if(item.indexOf("survey") >= 0) output['surveyCompleted'] = true;
         }
       } 
     }
@@ -218,8 +219,8 @@ export class FreeosBlockChainState extends EventEmitter {
     output['voteStartsIn'] = iterations['voteStartsIn'];
     output['surveyPeriodActive'] = iterations['surveyPeriodActive'];
     output['votePeriodActive'] = iterations['votePeriodActive'];
-
-
+    output['ratifyPeriodActive'] = iterations['ratifyPeriodActive'];
+    output['ratifyClosesIn'] = iterations['ratifyClosesIn'];
 
     /**
      * Output vars
@@ -532,6 +533,7 @@ export class FreeosBlockChainState extends EventEmitter {
     let votestart = parseInt(this.getParameterFromTable('votestart', this.parametersTable, 3600),10);
     let voteend = parseInt(this.getParameterFromTable('voteend', this.parametersTable, 3600),10);
     let ratifystart = parseInt(this.getParameterFromTable('ratifystart', this.parametersTable, 3600),10);
+    let ratifyend = parseInt(this.getParameterFromTable('ratifyend', this.parametersTable, 3600),10);
 
     console.log('init', this.systemRow.init);
     console.log('init', init);
@@ -554,7 +556,9 @@ export class FreeosBlockChainState extends EventEmitter {
       voteClosesIn: voteend - elapsedFromIteration,
       votePeriodActive: elapsedFromIteration >= votestart && elapsedFromIteration <= voteend ? true : false,
       surveyClosesIn:  surveyend - elapsedFromIteration,
+      ratifyClosesIn: ratifyend - elapsedFromIteration,
       ratificationStartsIn: ratifystart - elapsedFromIteration,
+      ratifyPeriodActive: elapsedFromIteration >= ratifystart && elapsedFromIteration <= ratifyend ? true : false,
       current: currentIteration,
       next: nextIteration
     }

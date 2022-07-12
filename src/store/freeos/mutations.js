@@ -72,3 +72,9 @@ export const setratificationStartsIn = (state, ratificationStartsIn) => {
 export const setratifyCompleted = (state, ratifyCompleted) => {
   state.ratifyCompleted = ratifyCompleted
 }
+export const setratifyPeriodActive = (state, ratifyPeriodActive) => {
+  state.ratifyPeriodActive = ratifyPeriodActive
+}
+export const setratifyClosesIn = (state, ratifyClosesIn) => {
+  state.ratifyClosesIn = ratifyClosesIn
+}

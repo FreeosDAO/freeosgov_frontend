@@ -54,5 +54,7 @@ var definition = {
   ratificationStartsIn: null,
   ratifyCompleted:null, 
   ratifyShare:null, 
+  ratifyPeriodActive: null,
+  ratifyClosesIn: null,
 }
 export default definition

@@ -14,7 +14,7 @@
 
 
 
-
+      <!--SURVEY Completed-->
       <div v-if="surveyCompleted && surveyPeriodActive" class="panel-wrap">
         <q-card class="panel q-pa-lg">
           <div class="text-h4 text-center q-ma-lg">Wahoo</div>
@@ -39,14 +39,14 @@
               v-html="$options.filters.secondsToDhms(voteStartsIn)"></span></div>
 
 
-          <div class="text-subtitle1 text-center q-ma-lg">Completing the vote enables you to claim an additional {{voteShare}}% of your weekly claim potential </div>
+          <div class="text-subtitle1 text-center q-ma-lg">Completing the vote enables you to claim an additional
+            {{ voteShare }}% of your weekly claim potential </div>
           <div class="text-subtitle1 text-center q-ma-lg">See you soon for the VOTE</div>
         </q-card>
       </div>
 
 
-
-
+      <!--THE SURVEY-->
       <q-form v-if="!surveyCompleted && surveyPeriodActive" ref="myForm" class="panel-wrap" @submit="submitSurvey()"
         @validation-error="onValidationError">
         <q-card class="panel q-pa-lg">
@@ -55,16 +55,12 @@
 
           <div class="text-subtitle1 text-center q-ma-lg">Survey Closes in: <span
               v-html="$options.filters.secondsToDhms(surveyClosesIn)"></span></div>
-
           <p>Thank you for being part of FREEOS community who actively stewards this economy. Besides empowering your
             own financial freedom, your answers also affect the FREEOS community. The bonus is your participation is
             rewarded when you ‘Claim’. Initially, it may take some take the time to understand each economic tool - but
             that will change. For more info refer to:</p>
-
           <p class="text-subtitle1 text-center q-ma-lg">Ready? Let’s start</p>
-
           <section>
-
             <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
               <p class="text-subtitle1 q-mb-none" style="line-height:1.4;">
                 <strong>Q1: Wider Crypto Economy Sentiment</strong>
@@ -73,7 +69,6 @@
 
             <p>Do you feel the Bitcoin (BTC) and wider crypto market is a growing (bull market), shrinking (bear market)
               or neither (going sideways)?</p>
-
 
             <div class="q-pa-sm q-mb-lg">
               <q-field borderless ref="surveyq1response" :value="surveyq1response" lazy-rules
@@ -95,8 +90,9 @@
 
 
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="surveyq2response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!surveyq2response" track-size="5px" thumb-size="22px" />
+              <q-slider v-model="surveyq2response" :min="surveythresholdRangeLower" :max="surveythresholdRangeUpper"
+                required :step="1" marker-labels label :label-always="!!surveyq2response" track-size="5px"
+                thumb-size="22px" />
             </div>
             <div class="panel q-pa-sm text-center q-mb-lg"><strong>{{ surveyq2response }} months</strong></div>
           </section>
@@ -129,10 +125,11 @@
 
             <p>How long will the above Freeos market last before it changes direction?</p>
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="surveyq4response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!surveyq4response" track-size="5px" thumb-size="22px" />
+              <q-slider v-model="surveyq4response" :min="surveythresholdRangeLower" :max="surveythresholdRangeUpper"
+                required :step="1" marker-labels label :label-always="!!surveyq4response" track-size="5px"
+                thumb-size="22px" />
             </div>
-            <div class="panel q-pa-sm text-center q-mb-lg">{{ surveyq4response }} months</div>
+            <div class="panel q-pa-sm text-center q-mb-lg"><strong>{{ surveyq4response }} months</strong></div>
 
             <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
               <p class="q-mb-none text-subtitle1" style="line-height:1.4;">
@@ -153,11 +150,11 @@
             <q-select lazy-rules :rules="[val => val || 'Please Select an Option']" required emit-value map-options
               outlined v-model="surveyq5choice1" :options="surveyq5options1" label="Select Priority 1" />
             <q-select class="q-mt-sm" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="surveyq5choice1 === null" emit-value map-options outlined v-model="surveyq5choice2" :options="surveyq5options2"
-              label="Select Priority 2" />
+              :disable="surveyq5choice1 === null" emit-value map-options outlined v-model="surveyq5choice2"
+              :options="surveyq5options2" label="Select Priority 2" />
             <q-select class="q-mt-sm q-mb-lg" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="surveyq5choice2 === null" emit-value map-options outlined v-model="surveyq5choice3" :options="surveyq5options3"
-              label="Select Priority 3" />
+              :disable="surveyq5choice2 === null" emit-value map-options outlined v-model="surveyq5choice3"
+              :options="surveyq5options3" label="Select Priority 3" />
           </section>
 
           <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
@@ -169,10 +166,8 @@
         </q-card>
       </q-form>
 
-
-
-
- <q-form v-if="!voteCompleted && votePeriodActive" ref="myForm" class="panel-wrap" @submit="submitVote()"
+      <!--THE VOTE-->
+      <q-form v-if="!voteCompleted && votePeriodActive" ref="myForm" class="panel-wrap" @submit="submitVote()"
         @validation-error="onValidationError">
         <q-card class="panel q-pa-lg">
           <div class="text-h4 text-center q-ma-lg">Welcome to the Vote</div>
@@ -181,118 +176,59 @@
           <div class="bar-dark text-subtitle1 text-center q-ma-lg">Vote Closes in: <span
               v-html="$options.filters.secondsToDhms(voteClosesIn)"></span></div>
 
-          <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your answers also affect the FREEOS community. The bonus is your participation is rewarded when you ‘Claim’. Initially, it may take some take the time to understand each economic tool - but that will change. For more info refer to:</p>
+          <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your
+            answers also affect the FREEOS community. The bonus is your participation is rewarded when you ‘Claim’.
+            Initially, it may take some take the time to understand each economic tool - but that will change. For more
+            info refer to:</p>
 
           <p class="text-subtitle1 text-center q-ma-lg">Ready? to Vote Let’s start</p>
-<!--
-          <section>
 
-            <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
-              <p class="text-subtitle1 q-mb-none" style="line-height:1.4;">
-                <strong>Q1: Wider Crypto Economy Sentiment</strong>
-              </p>
-            </div>
-
-            <p>Do you feel the Bitcoin (BTC) and wider crypto market is a growing (bull market), shrinking (bear market)
-              or neither (going sideways)?</p>
-
-
-            <div class="q-pa-sm q-mb-lg">
-              <q-field borderless ref="surveyq1response" :value="surveyq1response" lazy-rules
-                :rules="[val => val || 'Please Select an Option']">
-                <template v-slot:control>
-                  <q-option-group required v-model="surveyq1response" :options="surveyq1options" />
-                </template>
-              </q-field>
-            </div>
-
-          </section>
-          <section>
-            <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
-              <p class="q-mb-none text-subtitle1" style="line-height:1.4;">
-                <strong>Q2: Crypto Market Change of Direction</strong>
-              </p>
-            </div>
-            <p>How long will the above Bitcoin and crypto market last before it changes direction?</p>
-
-
+          <section style="display:none">
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="surveyq2response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!surveyq2response" track-size="5px" thumb-size="22px" />
+              <q-slider v-model="lockingThresholdVote" :min="thresholdRangeLower" :max="thresholdRangeUpper()"
+                :step="0.000001" marker-labels label :label-always="!!lockingThresholdVote" track-size="5px"
+                thumb-size="28px" />
             </div>
-            <div class="panel q-pa-sm text-center q-mb-lg"><strong>{{ surveyq2response }} months</strong></div>
+
+            <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+              <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
+              <div class="col-xs-1"></div>
+              <div class="col-xs-3 col-sm-4">
+                <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
+                  class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
+                  <div class="q-field__inner relative-position col self-stretch">
+                    <div tabindex="-1" class="q-field__control relative-position row no-wrap">
+                      <div
+                        class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
+                        <input novalidate="true" style="text-align: center;" v-model="lockingThresholdVote" tabindex="0"
+                          id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
+                          class="q-field__native q-placeholder" />
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <p class="text-center text-negative q-mt-none q-mb-sm"
+              v-if="lockingThresholdVoteInvalid && lockingThresholdVote !== 0">Locking Threshold must be between
+              {{ thresholdRangeLower }} and {{ thresholdRangeUpper() }}</p>
           </section>
-          <section>
-            <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
-              <p class="q-mb-none text-subtitle1" style="line-height:1.4;">
-                <strong>Q3: FREEOS Economy Sentiment</strong>
-              </p>
-            </div>
-
-            <p>Do you feel the Freeos economy is a growing (bull market), shrinking (bear market) or neither (going
-              sideways)?</p>
-
-            <div class="q-pa-sm q-mb-lg">
-              <q-field borderless ref="surveyq3response" :value="surveyq3response" lazy-rules
-                :rules="[val => val || 'Please Select an Option']">
-                <template v-slot:control>
-                  <q-option-group required v-model="surveyq3response" :options="surveyq1options" />
-                </template>
-              </q-field>
-            </div>
-          </section>
-          <section>
-
-            <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
-              <p class="q-mb-none text-subtitle1" style="line-height:1.4;">
-                <strong>Q4: FREEOS Change of Direction</strong>
-              </p>
-            </div>
-
-            <p>How long will the above Freeos market last before it changes direction?</p>
-            <div class="q-px-md q-py-sm">
-              <q-slider v-model="surveyq4response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!surveyq4response" track-size="5px" thumb-size="22px" />
-            </div>
-            <div class="panel q-pa-sm text-center q-mb-lg">{{ surveyq4response }} months</div>
-
-            <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
-              <p class="q-mb-none text-subtitle1" style="line-height:1.4;">
-                <strong>Q5: Priorities for Voting</strong>
-              </p>
-            </div>
-
-          </section>
-          <section>
-            <p>Select your top three priorities for this weeks vote from the following economic tools</p>
-
-            <ul>
-              <li>Growing the participants</li>
-              <li>Stabilising the price</li>
-              <li>Raising the Locking Threshold</li>
-            </ul>
-
-            <q-select lazy-rules :rules="[val => val || 'Please Select an Option']" required emit-value map-options
-              outlined v-model="surveyq5choice1" :options="surveyq5options1" label="Select Priority 1" />
-            <q-select class="q-mt-sm" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="surveyq5choice1 === null" emit-value map-options outlined v-model="surveyq5choice2" :options="surveyq5options2"
-              label="Select Priority 2" />
-            <q-select class="q-mt-sm q-mb-lg" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="surveyq5choice2 === null" emit-value map-options outlined v-model="surveyq5choice3" :options="surveyq5options3"
-              label="Select Priority 3" />
-          </section>
--->
           <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
-            <q-btn size="lg" unelevated no-caps outline :disable="!votePeriodActive || voteCompleted"
-              color="primary" type="submit">
+            <q-btn size="lg" unelevated no-caps outline :disable="!votePeriodActive || voteCompleted" color="primary"
+              type="submit">
               Submit Vote</q-btn>
           </div>
-
         </q-card>
       </q-form>
 
+      <!--THE RATIFICATION-->
+      <q-form v-if="!ratifyCompleted && ratifyPeriodActive" ref="myForm" class="panel-wrap" @submit="submitVote()">
+        <h4 v-if="voteCompleted">Thanks for Voting, please ratify</h4>
+        <h4 v-if="!voteCompleted">You missed the Vote, so you can't ratify this week</h4>
 
-
+      <div class="text-subtitle1 text-center q-ma-lg">Survey Closes in: <span
+              v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
+      </q-form>
 
 
 
@@ -336,8 +272,9 @@ export default {
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
       tokenCurrencyName: "XPR",//this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
-      thresholdRangeLower: 1,
-      thresholdRangeUpper: 24,
+      surveythresholdRangeLower: 1,
+      surveythresholdRangeUpper: 24,
+      thresholdRangeLower: parseFloat(process.env.VOTETHRESHOLDLOWER),
       voteWatcher: false
     }
   },
@@ -361,6 +298,8 @@ export default {
       'votePeriodActive',
       'voteCompleted',
       'ratifyCompleted',
+      'ratifyPeriodActive',
+      'ratifyClosesIn',
       'userHasStaked', 'userHasVoted', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     userHasStakedORHasAirkey() {
       return this.userHasStaked || this.airkeyBalance
@@ -373,8 +312,9 @@ export default {
     },
   },
   created: function () {
-    this.surveyq2response = this.thresholdRangeUpper / 2;
-    this.surveyq4response = this.thresholdRangeUpper / 2;
+    this.surveyq2response = this.surveythresholdRangeUpper / 2;
+    this.surveyq4response = this.surveythresholdRangeUpper / 2;
+    this.lockingThresholdVote = (this.thresholdRangeUpper() + this.thresholdRangeLower) / 2;
   },
   watch: {
     /*lockingThresholdVote(newValue, oldValue) {
@@ -389,9 +329,17 @@ export default {
   },
   methods: {
     ...mapActions('freeos', ['survey']),
-    /* thresholdRangeUpper() {
+    thresholdRangeUpper() {
       return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
-    },*/
+    },
+    lockingThresholdVoteInvalid() {
+      var val = parseFloat(this.lockingThresholdVote)
+      if (typeof val !== 'number' || val < this.thresholdRangeLower || val > this.thresholdRangeUpper()) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     async onValidationError(ref) {
       console.log('ref', ref.$refs.target);
       const el = ref.$refs.target;
@@ -413,28 +361,46 @@ export default {
       })
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo", subtitle: "You earned", value: this.currentIteration.claim_amount
+          title: "Woohoo", subtitle: "Thanx for Submitting the Survey"
         });
       }
+    },
+    async submitVote() {
+      const _ = this;
+      console.log(this.surveyPeriodActive, this.surveyCompleted);
 
-
-
+      var result = await _.survey({
+        user: this.accountName,
+        q1response: this.surveyq1response,
+        q2response: this.surveyq2response,
+        q3response: this.surveyq3response,
+        q4response: this.surveyq4response,
+        q5choice1: this.surveyq5choice1,
+        q5choice2: this.surveyq5choice2,
+        q5choice3: this.surveyq5choice3
+      })
+      if (!(result instanceof Error)) {
+        this.$refs.complete.openDialog({
+          title: "Woohoo", subtitle: "Thanx for Voting"
+        });
+      }
     },
   }
 }
 </script>
 
 <style>
+.happy-stickman{
+  margin:-3rem 0;
+}
 .happy-stickman .st0 {
   fill: #FFFFFF;
 }
-
 .happy-stickman .st1 {
   fill: none;
   stroke: #45A1E7;
   stroke-width: 4;
 }
-
 .happy-stickman .st2 {
   fill: none;
   stroke: #45A1E7;
@@ -442,7 +408,6 @@ export default {
   stroke-linecap: round;
   stroke-miterlimit: 4.0021;
 }
-
 .happy-stickman .st3 {
   fill: none;
   stroke: #45A1E7;
@@ -450,18 +415,15 @@ export default {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
 .happy-stickman .st4 {
   fill: none;
   stroke: #45A1E7;
   stroke-linecap: round;
 }
-
 .q-slider__marker-labels-container .q-slider__marker-labels {
   display: none;
   font-size: 12px;
 }
-
 .q-slider__marker-labels-container .q-slider__marker-labels:first-child,
 .q-slider__marker-labels-container .q-slider__marker-labels:last-child {
   display: block;
