@@ -76,10 +76,10 @@
 
 
             <div class="q-pa-sm q-mb-lg">
-              <q-field borderless ref="q1response" :value="q1response" lazy-rules
+              <q-field borderless ref="surveyq1response" :value="surveyq1response" lazy-rules
                 :rules="[val => val || 'Please Select an Option']">
                 <template v-slot:control>
-                  <q-option-group required v-model="q1response" :options="q1options" />
+                  <q-option-group required v-model="surveyq1response" :options="surveyq1options" />
                 </template>
               </q-field>
             </div>
@@ -95,10 +95,10 @@
 
 
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="q2response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!q2response" track-size="5px" thumb-size="22px" />
+              <q-slider v-model="surveyq2response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
+                marker-labels label :label-always="!!surveyq2response" track-size="5px" thumb-size="22px" />
             </div>
-            <div class="panel q-pa-sm text-center q-mb-lg"><strong>{{ q2response }} months</strong></div>
+            <div class="panel q-pa-sm text-center q-mb-lg"><strong>{{ surveyq2response }} months</strong></div>
           </section>
           <section>
             <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
@@ -111,10 +111,10 @@
               sideways)?</p>
 
             <div class="q-pa-sm q-mb-lg">
-              <q-field borderless ref="q3response" :value="q3response" lazy-rules
+              <q-field borderless ref="surveyq3response" :value="surveyq3response" lazy-rules
                 :rules="[val => val || 'Please Select an Option']">
                 <template v-slot:control>
-                  <q-option-group required v-model="q3response" :options="q1options" />
+                  <q-option-group required v-model="surveyq3response" :options="surveyq1options" />
                 </template>
               </q-field>
             </div>
@@ -129,10 +129,10 @@
 
             <p>How long will the above Freeos market last before it changes direction?</p>
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="q4response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!q4response" track-size="5px" thumb-size="22px" />
+              <q-slider v-model="surveyq4response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
+                marker-labels label :label-always="!!surveyq4response" track-size="5px" thumb-size="22px" />
             </div>
-            <div class="panel q-pa-sm text-center q-mb-lg">{{ q4response }} months</div>
+            <div class="panel q-pa-sm text-center q-mb-lg">{{ surveyq4response }} months</div>
 
             <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
               <p class="q-mb-none text-subtitle1" style="line-height:1.4;">
@@ -151,12 +151,12 @@
             </ul>
 
             <q-select lazy-rules :rules="[val => val || 'Please Select an Option']" required emit-value map-options
-              outlined v-model="q5choice1" :options="q5options1" label="Select Priority 1" />
+              outlined v-model="surveyq5choice1" :options="surveyq5options1" label="Select Priority 1" />
             <q-select class="q-mt-sm" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="q5choice1 === null" emit-value map-options outlined v-model="q5choice2" :options="q5options2"
+              :disable="surveyq5choice1 === null" emit-value map-options outlined v-model="surveyq5choice2" :options="surveyq5options2"
               label="Select Priority 2" />
             <q-select class="q-mt-sm q-mb-lg" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="q5choice2 === null" emit-value map-options outlined v-model="q5choice3" :options="q5options3"
+              :disable="surveyq5choice2 === null" emit-value map-options outlined v-model="surveyq5choice3" :options="surveyq5options3"
               label="Select Priority 3" />
           </section>
 
@@ -172,7 +172,7 @@
 
 
 
- <q-form v-if="votePeriodActive" ref="myForm" class="panel-wrap" @submit="submitVote()"
+ <q-form v-if="!voteCompleted && votePeriodActive" ref="myForm" class="panel-wrap" @submit="submitVote()"
         @validation-error="onValidationError">
         <q-card class="panel q-pa-lg">
           <div class="text-h4 text-center q-ma-lg">Welcome to the Vote</div>
@@ -198,10 +198,10 @@
 
 
             <div class="q-pa-sm q-mb-lg">
-              <q-field borderless ref="q1response" :value="q1response" lazy-rules
+              <q-field borderless ref="surveyq1response" :value="surveyq1response" lazy-rules
                 :rules="[val => val || 'Please Select an Option']">
                 <template v-slot:control>
-                  <q-option-group required v-model="q1response" :options="q1options" />
+                  <q-option-group required v-model="surveyq1response" :options="surveyq1options" />
                 </template>
               </q-field>
             </div>
@@ -217,10 +217,10 @@
 
 
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="q2response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!q2response" track-size="5px" thumb-size="22px" />
+              <q-slider v-model="surveyq2response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
+                marker-labels label :label-always="!!surveyq2response" track-size="5px" thumb-size="22px" />
             </div>
-            <div class="panel q-pa-sm text-center q-mb-lg"><strong>{{ q2response }} months</strong></div>
+            <div class="panel q-pa-sm text-center q-mb-lg"><strong>{{ surveyq2response }} months</strong></div>
           </section>
           <section>
             <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
@@ -233,10 +233,10 @@
               sideways)?</p>
 
             <div class="q-pa-sm q-mb-lg">
-              <q-field borderless ref="q3response" :value="q3response" lazy-rules
+              <q-field borderless ref="surveyq3response" :value="surveyq3response" lazy-rules
                 :rules="[val => val || 'Please Select an Option']">
                 <template v-slot:control>
-                  <q-option-group required v-model="q3response" :options="q1options" />
+                  <q-option-group required v-model="surveyq3response" :options="surveyq1options" />
                 </template>
               </q-field>
             </div>
@@ -251,10 +251,10 @@
 
             <p>How long will the above Freeos market last before it changes direction?</p>
             <div class="q-px-md q-py-sm">
-              <q-slider v-model="q4response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
-                marker-labels label :label-always="!!q4response" track-size="5px" thumb-size="22px" />
+              <q-slider v-model="surveyq4response" :min="thresholdRangeLower" :max="thresholdRangeUpper" required :step="1"
+                marker-labels label :label-always="!!surveyq4response" track-size="5px" thumb-size="22px" />
             </div>
-            <div class="panel q-pa-sm text-center q-mb-lg">{{ q4response }} months</div>
+            <div class="panel q-pa-sm text-center q-mb-lg">{{ surveyq4response }} months</div>
 
             <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
               <p class="q-mb-none text-subtitle1" style="line-height:1.4;">
@@ -273,12 +273,12 @@
             </ul>
 
             <q-select lazy-rules :rules="[val => val || 'Please Select an Option']" required emit-value map-options
-              outlined v-model="q5choice1" :options="q5options1" label="Select Priority 1" />
+              outlined v-model="surveyq5choice1" :options="surveyq5options1" label="Select Priority 1" />
             <q-select class="q-mt-sm" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="q5choice1 === null" emit-value map-options outlined v-model="q5choice2" :options="q5options2"
+              :disable="surveyq5choice1 === null" emit-value map-options outlined v-model="surveyq5choice2" :options="surveyq5options2"
               label="Select Priority 2" />
             <q-select class="q-mt-sm q-mb-lg" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-              :disable="q5choice2 === null" emit-value map-options outlined v-model="q5choice3" :options="q5options3"
+              :disable="surveyq5choice2 === null" emit-value map-options outlined v-model="surveyq5choice3" :options="surveyq5options3"
               label="Select Priority 3" />
           </section>
 -->
@@ -315,23 +315,23 @@ export default {
   data() {
     return {
       name: '',
-      q1response: null,
-      q1options: [
+      surveyq1response: null,
+      surveyq1options: [
         { label: 'Growing (bull market)', value: 1 },
         { label: 'Shrinking (bear market)', value: 2 },
         { label: 'Neither (going sideways)', value: 3 }
       ],
-      q5options1: [
+      surveyq5options1: [
         { label: 'Growing the participants', value: 1 },
         { label: 'Stabilising the price', value: 2 },
         { label: 'Raising the Locking Threshold', value: 3 }
       ],
-      q2response: null,
-      q3response: null,
-      q4response: null,
-      q5choice1: null,
-      q5choice2: null,
-      q5choice3: null,
+      surveyq2response: null,
+      surveyq3response: null,
+      surveyq4response: null,
+      surveyq5choice1: null,
+      surveyq5choice2: null,
+      surveyq5choice3: null,
       lockingThresholdVote: 0,
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
@@ -360,20 +360,21 @@ export default {
       'voteClosesIn',
       'votePeriodActive',
       'voteCompleted',
+      'ratifyCompleted',
       'userHasStaked', 'userHasVoted', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     userHasStakedORHasAirkey() {
       return this.userHasStaked || this.airkeyBalance
     },
-    q5options2() {
-      return this.q5options1.filter(q => q.value !== this.q5choice1);
+    surveyq5options2() {
+      return this.surveyq5options1.filter(q => q.value !== this.surveyq5choice1);
     },
-    q5options3() {
-      return this.q5options1.filter(q => q.value !== this.q5choice1 && q.value !== this.q5choice2);
+    surveyq5options3() {
+      return this.surveyq5options1.filter(q => q.value !== this.surveyq5choice1 && q.value !== this.surveyq5choice2);
     },
   },
   created: function () {
-    this.q2response = this.thresholdRangeUpper / 2;
-    this.q4response = this.thresholdRangeUpper / 2;
+    this.surveyq2response = this.thresholdRangeUpper / 2;
+    this.surveyq4response = this.thresholdRangeUpper / 2;
   },
   watch: {
     /*lockingThresholdVote(newValue, oldValue) {
@@ -388,9 +389,9 @@ export default {
   },
   methods: {
     ...mapActions('freeos', ['survey']),
-    thresholdRangeUpper() {
+    /* thresholdRangeUpper() {
       return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
-    },
+    },*/
     async onValidationError(ref) {
       console.log('ref', ref.$refs.target);
       const el = ref.$refs.target;
@@ -402,13 +403,13 @@ export default {
 
       var result = await _.survey({
         user: this.accountName,
-        q1response: this.q1response,
-        q2response: this.q2response,
-        q3response: this.q3response,
-        q4response: this.q4response,
-        q5choice1: this.q5choice1,
-        q5choice2: this.q5choice2,
-        q5choice3: this.q5choice3
+        q1response: this.surveyq1response,
+        q2response: this.surveyq2response,
+        q3response: this.surveyq3response,
+        q4response: this.surveyq4response,
+        q5choice1: this.surveyq5choice1,
+        q5choice2: this.surveyq5choice2,
+        q5choice3: this.surveyq5choice3
       })
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({

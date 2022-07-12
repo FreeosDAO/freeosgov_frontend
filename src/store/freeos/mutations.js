@@ -69,3 +69,6 @@ export const setvotePeriodActive = (state, votePeriodActive) => {
 export const setratificationStartsIn = (state, ratificationStartsIn) => {
   state.ratificationStartsIn = ratificationStartsIn
 }
+export const setratifyCompleted = (state, ratifyCompleted) => {
+  state.ratifyCompleted = ratifyCompleted
+}

@@ -175,14 +175,27 @@ export class FreeosBlockChainState extends EventEmitter {
       
       [ user['record'], user['pointBalance'], user['lockedBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'] ] = userVars
 
+
+
       // Add to output
       output['user'] = user
       output['isAuthenticated'] = true
       output['accountName'] = user.name
+
+      //Survey Results
+      output['voteCompleted'] = false;
+      output['surveyCompleted'] = false;
+      output['ratifyCompleted'] = false;
+      const svrsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', user.name, {limit: 1});
+      for (const item in svrsTable) {
+        if(svrsTable[item]===iterations.current){
+          if(item.indexOf("vote") > 0) output['voteCompleted'] = true;
+          if(item.indexOf("ratify") > 0) output['ratifyCompleted'] = true;
+          if(item.indexOf("survey") > 0) output['surveyCompleted'] = true;
+        }
+      } 
     }
 
-
-    
     /**
      * Exchange Rate Vars
      */
@@ -205,11 +218,6 @@ export class FreeosBlockChainState extends EventEmitter {
     output['voteStartsIn'] = iterations['voteStartsIn'];
     output['surveyPeriodActive'] = iterations['surveyPeriodActive'];
     output['votePeriodActive'] = iterations['votePeriodActive'];
-
-    //Survey Results
-    const surveyTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', user.name, {limit: 1});
-    output['surveyCompleted'] = surveyTable ? true : false;
-
 
 
 
@@ -419,19 +427,15 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(contract, 'transfer', sendData)*/
   }
 
-  async vote(sendData) {
-    /* TO DO */
-    //let cronacle = await this.setupCronacle()
-    //return this.sendTransaction(process.env.VOTEMVP_CONTRACT, 'vote', sendData, cronacle)
-  }
-
-
   async survey(sendData) {
-    /* TO DO */
     //let cronacle = await this.setupCronacle()
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'survey', sendData)
   }
 
+  async vote(sendData) {
+    //let cronacle = await this.setupCronacle()
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'vote', sendData)
+  }
 
   /**
    * Logout

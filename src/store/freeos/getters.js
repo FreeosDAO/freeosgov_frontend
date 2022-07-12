@@ -53,3 +53,4 @@ export const votePeriodActive = ({ votePeriodActive }) => votePeriodActive
 export const voteCompleted = ({ voteCompleted }) => voteCompleted
 export const ratificationStartsIn = ({ ratificationStartsIn }) => ratificationStartsIn
 export const ratifyShare = ({ ratifyShare }) => ratifyShare
+export const ratifyCompleted = ({ ratifyCompleted }) => ratifyCompleted
