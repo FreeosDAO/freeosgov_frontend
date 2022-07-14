@@ -52,7 +52,7 @@ export const voteClosesIn = ({ voteClosesIn }) => voteClosesIn
 export const votePeriodActive = ({ votePeriodActive }) => votePeriodActive
 export const voteCompleted = ({ voteCompleted }) => voteCompleted
 
-export const ratificationStartsIn = ({ ratificationStartsIn }) => ratificationStartsIn
+export const ratifyStartsIn = ({ ratifyStartsIn }) => ratifyStartsIn
 export const ratifyShare = ({ ratifyShare }) => ratifyShare
 export const ratifyCompleted = ({ ratifyCompleted }) => ratifyCompleted
 export const ratifyPeriodActive = ({ ratifyPeriodActive }) => ratifyPeriodActive

@@ -201,9 +201,8 @@ export class FreeosBlockChainState extends EventEmitter {
      * Exchange Rate Vars
      */
      const exchangeRate = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'exchangerate');
-     output['currentPrice'] = exchangeRate && exchangeRate.currentprice ? (exchangeRate.currentprice / 1).toFixed(6) : 0,
-     output['targetPrice'] = exchangeRate && exchangeRate.targetprice ? (exchangeRate.targetprice / 1).toFixed(6) : 0,
-
+     output['currentPrice'] = exchangeRate && exchangeRate.currentprice ? (exchangeRate.currentprice / 1).toFixed(6) : 0;
+     output['targetPrice'] = exchangeRate && exchangeRate.targetprice ? (exchangeRate.targetprice / 1).toFixed(6) : 0;
 
     /**
      * Survey Vars
@@ -213,15 +212,20 @@ export class FreeosBlockChainState extends EventEmitter {
     output['surveyShare'] =  parseFloat(this.getParameterFromTable('surveyshare', this.dparametersTable, ''),10).toFixed(2) * 100;
     output['voteShare'] =  parseFloat(this.getParameterFromTable('voteshare', this.dparametersTable, ''),10).toFixed(2) * 100;
     output['ratifyShare'] =  parseFloat(this.getParameterFromTable('ratifyshare', this.dparametersTable, ''),10).toFixed(2) * 100;
+    output['lockFactor'] =  parseFloat(this.getParameterFromTable('lockfactor', this.dparametersTable, ''),10).toFixed(2);
+
+
+
 
     output['voteClosesIn'] = iterations['voteClosesIn'];
     output['surveyClosesIn'] = iterations['surveyClosesIn'];
     output['voteStartsIn'] = iterations['voteStartsIn'];
     output['surveyPeriodActive'] = iterations['surveyPeriodActive'];
     output['votePeriodActive'] = iterations['votePeriodActive'];
+    output['ratifyStartsIn'] = iterations['ratifyStartsIn'];
     output['ratifyPeriodActive'] = iterations['ratifyPeriodActive'];
     output['ratifyClosesIn'] = iterations['ratifyClosesIn'];
-
+    
     /**
      * Output vars
      */
@@ -556,6 +560,7 @@ export class FreeosBlockChainState extends EventEmitter {
       voteClosesIn: voteend - elapsedFromIteration,
       votePeriodActive: elapsedFromIteration >= votestart && elapsedFromIteration <= voteend ? true : false,
       surveyClosesIn:  surveyend - elapsedFromIteration,
+      ratifyStartsIn: ratifystart - elapsedFromIteration,
       ratifyClosesIn: ratifyend - elapsedFromIteration,
       ratificationStartsIn: ratifystart - elapsedFromIteration,
       ratifyPeriodActive: elapsedFromIteration >= ratifystart && elapsedFromIteration <= ratifyend ? true : false,

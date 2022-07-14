@@ -110,16 +110,20 @@ export async function unvest() {
   return result;
 }
 
-export async function vote({ state }, submitData) {
-  var result = await FreeosBlockChainState.getInstance().vote(submitData)
-  console.log('Result of vote', result)
-  return result;
-}
-
 export async function survey({ state }, submitData) {
   var result = await FreeosBlockChainState.getInstance().survey(submitData)
   console.log('Result of survey', result)
   return result;
 }
 
+export async function vote({ state }, submitData) {
+  var result = await FreeosBlockChainState.getInstance().vote(submitData)
+  console.log('Result of vote', result)
+  return result;
+}
 
+export async function ratify({ state }, submitData) {
+  var result = await FreeosBlockChainState.getInstance().ratify(submitData)
+  console.log('Result of vote', result)
+  return result;
+}

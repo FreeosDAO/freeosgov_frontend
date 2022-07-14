@@ -51,7 +51,7 @@ var definition = {
   voteClosesIn: null,
   votePeriodActive: null,
   voteCompleted: null, 
-  ratificationStartsIn: null,
+  ratifyStartsIn: null,
   ratifyCompleted:null, 
   ratifyShare:null, 
   ratifyPeriodActive: null,

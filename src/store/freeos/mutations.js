@@ -35,6 +35,10 @@ export const settargetPrice = (state, targetPrice) => {
   state.targetPrice = targetPrice
 }
 
+export const setlockFactor = (state, lockFactor) => {
+  state.lockFactor = lockFactor
+}
+
 //Survey mutations
 export const setsurveyShare = (state, surveyShare) => {
   state.surveyShare = surveyShare
@@ -66,8 +70,8 @@ export const setvoteCompleted = (state, voteCompleted) => {
 export const setvotePeriodActive = (state, votePeriodActive) => {
   state.votePeriodActive = votePeriodActive
 }
-export const setratificationStartsIn = (state, ratificationStartsIn) => {
-  state.ratificationStartsIn = ratificationStartsIn
+export const setratifyStartsIn = (state, ratifyStartsIn) => {
+  state.ratifyStartsIn = ratifyStartsIn
 }
 export const setratifyCompleted = (state, ratifyCompleted) => {
   state.ratifyCompleted = ratifyCompleted

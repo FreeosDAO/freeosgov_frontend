@@ -86,7 +86,7 @@ export default {
 
 <style lang="scss" scoped>
 $panel-border-radius: 8px;
-$panel-width: 360px;
+$panel-width: 380px;
 .balance {
     display: flex;
     justify-content: space-between;

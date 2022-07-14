@@ -9,15 +9,25 @@
       </p>
 
 
+      <!--THE RATIFICATION-->
+      <q-form v-if="!ratifyCompleted && ratifyPeriodActive" class="panel-wrap" @submit="submitRatify()">
+        <q-card class="panel">
+          <h4 class="text-h4 text-center q-pa-sm" v-if="voteCompleted">Thanks for Voting, please ratify</h4>
+          <h4 class="text-h4 text-center q-pa-sm" v-if="!voteCompleted">You missed the Vote, so you can't ratify this week</h4>
+
+          <div v-if="voteCompleted" class="bg-info text-center q-py-md">Complete for {{ratifyShare}}% of your weekly Claim</div>
+          <div class="bg-primary text-h5 text-center text-white q-py-md">Ratify Closes in: <span
+              v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
+          <p class="q-pa-lg">Since you voted this week, some market changes might altered to effect the community decision. Carefully consider the current market with the links below. The ratification vote enables you to confirm or void this weeks vote…for more information click here</p>    
+          <h4 class="text-h5 text-center q-pa-sm">This weeks Vote Results</h4>
+        </q-card>
+      </q-form>
 
 
-
-
-
-      <!--SURVEY Completed-->
-      <div v-if="surveyCompleted && surveyPeriodActive" class="panel-wrap">
-        <q-card class="panel q-pa-lg">
-          <div class="text-h4 text-center q-ma-lg">Wahoo</div>
+      <!--Vote Completed-->
+      <div v-if="voteCompleted && votePeriodActive" class="panel-wrap">
+        <q-card class="panel">
+          <div class="text-h4 text-center q-ma-lg">Yay, you did it</div>
           <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 170.1 170.1"
             style="enable-background:new 0 0 170.1 170.1;" xml:space="preserve">
@@ -33,15 +43,220 @@
             <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
           </svg>
 
-          <div class="text-subtitle1 text-center q-ma-lg">Thanks for participating in this weeks survey</div>
-          <div class="text-h4 text-center q-ma-lg">Next: The Weekly Vote</div>
-          <div class="text-subtitle1 text-center q-ma-lg">Starts In <span
+          <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in this weeks vote</div>
+          <div class="bg-primary text-h5 text-center text-white q-py-md">Next: The Ratification Vote</div>
+          <div class="bg-info text-h5 text-center q-py-md">Starts In <span
+              v-html="$options.filters.secondsToDhms(ratifyStartsIn)"></span></div>
+
+
+          <div class="bg-primary text-subtitle2 text-white text-center q-py-md q-px-lg">Completing the ratification vote
+            enables you to claim an additional {{ ratifyShare }}% of your weekly claim potential </div>
+          <div class="text-h5 text-center q-ma-lg">See you soon for the Ratification Vote</div>
+        </q-card>
+      </div>
+
+
+      <!--THE VOTE-->
+      <q-form ref="myForm" v-if="!voteCompleted && votePeriodActive" class="panel-wrap" @submit="submitVote()"
+        novalidate>
+        <q-card class="panel">
+          <div class="text-h4 text-center q-pa-lg">Welcome to the Vote</div>
+          <div class="bg-info text-center q-py-md">Complete for {{ voteShare }}% of your weekly Claim</div>
+
+          <div class="bg-primary text-h5 text-center text-white q-py-md">Vote Closes in: <span
+              v-html="$options.filters.secondsToDhms(voteClosesIn)"></span></div>
+
+
+          <section class="q-pa-lg">
+            <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your
+              answers also affect the FREEOS community. The bonus is your participation is rewarded when you ‘Claim’.
+              Initially, it may take some take the time to understand each economic tool - but that will change. For
+              more
+              info refer to:</p>
+          </section>
+          <div class="text-h5 text-center bg-info q-px-lg q-py-md">
+            Ready? to Vote Let’s start
+          </div>
+
+
+          <!--Issuance Vote-->
+          <article>
+            <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
+            <div class="text-md bg-info q-px-lg q-py-md">
+              Last weeks Issuance: <strong>{{ targetPrice }}%</strong>
+            </div>
+
+            <section class="q-pa-lg">
+              <p><strong>What percentage of the issuance should be minted this week?</strong></p>
+              <p>Issuance is the amount of Points issued weekly. Minimising the issuance reduces the supply of FREEOS
+                tokens that can be minted. Restricting supply can increase the price when there is suitable demand.</p>
+
+
+
+              <div class="q-px-md q-py-sm">
+                <q-slider v-model="voteq1response" :min="voteq1RangeLower" :max="voteq1RangeUpper" :step="1"
+                  marker-labels label :label-always="true" track-size="5px" thumb-size="28px" />
+              </div>
+
+              <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
+                <div class="col-xs-1"></div>
+                <div class="col-xs-3 col-sm-4">
+                  <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
+                    class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
+                    <div class="q-field__inner relative-position col self-stretch">
+                      <div tabindex="-1" class="q-field__control relative-position row no-wrap">
+                        <div
+                          class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
+                          <input novalidate="true" v-model="voteq1response" tabindex="0"
+                            id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
+                            class="q-field__native q-placeholder text-center" />
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <p class="text-center text-negative q-mt-none q-mb-none"
+                v-if="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper)">Issuance must be between
+                {{ voteq1RangeLower }} and {{ voteq1RangeUpper }}</p>
+            </section>
+          </article>
+
+          <!--Mint Fee Vote-->
+          <article>
+            <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee</div>
+            <div class="text-md bg-info q-px-lg q-py-md">
+              Current Mint Fee:: <strong>{{ targetPrice }}%</strong>
+            </div>
+
+            <section class="q-pa-lg">
+              <p><strong>What percentage of the issuance should be minted this week?</strong></p>
+              <p>The Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens,
+                which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+
+
+
+              <div class="q-px-md q-py-sm">
+                <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
+                  marker-labels label :label-always="!!voteq2response" track-size="5px" thumb-size="28px" />
+              </div>
+
+              <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
+                <div class="col-xs-1"></div>
+                <div class="col-xs-3 col-sm-4">
+                  <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
+                    class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
+                    <div class="q-field__inner relative-position col self-stretch">
+                      <div tabindex="-1" class="q-field__control relative-position row no-wrap">
+                        <div
+                          class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
+                          <input novalidate="true" v-model="voteq2response" tabindex="0"
+                            id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
+                            class="q-field__native q-placeholder text-center" />
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <p class="text-center text-negative q-mt-none q-mb-none"
+                v-if="validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper)">Mint Fee must be between
+                {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
+            </section>
+          </article>
+
+          <!--Locking Threshold Vote-->
+          <article>
+            <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
+            <div class="text-md bg-info q-px-lg q-py-md">
+              Current Locking Threshold: <strong>{{ targetPrice }} USD</strong>
+            </div>
+
+            <section class="q-pa-lg">
+              <p><strong>What price should the Locking Threshold be this week?</strong></p>
+              <p>The Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens,
+                which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+
+
+
+              <div class="q-px-md q-py-sm">
+                <q-slider required v-model="voteq3response" :min="voteq3RangeLower" :max="voteq3RangeUpper()"
+                  :step="0.000001" marker-labels label :label-always="!!voteq3response" track-size="5px"
+                  thumb-size="28px" />
+              </div>
+
+              <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
+                <div class="col-xs-1"></div>
+                <div class="col-xs-3 col-sm-4">
+                  <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
+                    class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
+                    <div class="q-field__inner relative-position col self-stretch">
+                      <div tabindex="-1" class="q-field__control relative-position row no-wrap">
+                        <div
+                          class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
+                          <input novalidate="true" v-model="voteq3response" tabindex="0"
+                            id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
+                            class="q-field__native q-placeholder text-center" />
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <p class="text-center text-negative q-mt-none q-mb-none"
+                v-if="validateRange(voteq3response, voteq3RangeLower, voteq3RangeUpper())">Locking Threshold must be
+                between
+                {{ voteq3RangeLower }} and {{ voteq3RangeUpper() }}</p>
+            </section>
+          </article>
+
+          <div class="q-pa-lg justify-center q-mb-sm">
+            <q-btn size="lg" unelevated no-caps outline
+              :disable="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper) || validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper) || validateRange(voteq3response, voteq3RangeLower, voteq3RangeUpper())"
+              color="primary" type="submit">
+              Submit Vote</q-btn>
+          </div>
+
+        </q-card>
+      </q-form>
+
+
+
+
+
+      <!--SURVEY Completed-->
+      <div v-if="surveyCompleted && surveyPeriodActive" class="panel-wrap">
+        <q-card class="panel">
+          <div class="text-h4 text-center q-ma-lg">Woohoo</div>
+          <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 170.1 170.1"
+            style="enable-background:new 0 0 170.1 170.1;" xml:space="preserve">
+            <g id="Ellipse_45" transform="translate(28.411 7.976)">
+              <ellipse class="st0" cx="60.5" cy="40" rx="11.9" ry="11.5" />
+              <ellipse class="st1" cx="60.5" cy="40" rx="9.9" ry="9.5" />
+            </g>
+            <path id="Path_389" class="st1" d="M85.1,58.5c-7,12.9-7.6,28.2-1.7,41.6" />
+            <path id="Path_390" class="st2" d="M82.4,100.1c-12,8,2.6,36.8,2.6,36.8L80,139" />
+            <path id="Path_391" class="st3" d="M118.4,89.3l-2.1,6.5c0,0-11.8-12.5-32.8,3.3" />
+            <path id="Path_392" class="st3" d="M51.2,44.4l7.6,18l21.7,6.1" />
+            <path id="Path_393" class="st3" d="M115,37.3l-2.5,15.2L80.7,68.9" />
+            <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
+          </svg>
+
+          <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in this weeks survey
+          </div>
+          <div class="bg-info text-h5 text-center q-py-md">Next: The Weekly Vote</div>
+          <div div class="bg-primary text-h5 text-center text-white q-py-md">Starts In <span
               v-html="$options.filters.secondsToDhms(voteStartsIn)"></span></div>
 
 
-          <div class="text-subtitle1 text-center q-ma-lg">Completing the vote enables you to claim an additional
+          <div class="bg-info text-subtitle2 text-center q-py-md q-px-lg">Completing the vote enables you to claim an
+            additional
             {{ voteShare }}% of your weekly claim potential </div>
-          <div class="text-subtitle1 text-center q-ma-lg">See you soon for the VOTE</div>
+          <div class="text-h5 text-center q-ma-lg">See you soon for the VOTE</div>
         </q-card>
       </div>
 
@@ -166,69 +381,8 @@
         </q-card>
       </q-form>
 
-      <!--THE VOTE-->
-      <q-form v-if="!voteCompleted && votePeriodActive" ref="myForm" class="panel-wrap" @submit="submitVote()"
-        @validation-error="onValidationError">
-        <q-card class="panel q-pa-lg">
-          <div class="text-h4 text-center q-ma-lg">Welcome to the Vote</div>
-          <div class="bar-light text-sm text-center q-ma-lg">Participate for {{ voteShare }}% of your weekly Claim</div>
 
-          <div class="bar-dark text-subtitle1 text-center q-ma-lg">Vote Closes in: <span
-              v-html="$options.filters.secondsToDhms(voteClosesIn)"></span></div>
 
-          <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your
-            answers also affect the FREEOS community. The bonus is your participation is rewarded when you ‘Claim’.
-            Initially, it may take some take the time to understand each economic tool - but that will change. For more
-            info refer to:</p>
-
-          <p class="text-subtitle1 text-center q-ma-lg">Ready? to Vote Let’s start</p>
-
-          <section style="display:none">
-            <div class="q-px-md q-py-sm">
-              <q-slider v-model="lockingThresholdVote" :min="thresholdRangeLower" :max="thresholdRangeUpper()"
-                :step="0.000001" marker-labels label :label-always="!!lockingThresholdVote" track-size="5px"
-                thumb-size="28px" />
-            </div>
-
-            <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-              <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
-              <div class="col-xs-1"></div>
-              <div class="col-xs-3 col-sm-4">
-                <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
-                  class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
-                  <div class="q-field__inner relative-position col self-stretch">
-                    <div tabindex="-1" class="q-field__control relative-position row no-wrap">
-                      <div
-                        class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
-                        <input novalidate="true" style="text-align: center;" v-model="lockingThresholdVote" tabindex="0"
-                          id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
-                          class="q-field__native q-placeholder" />
-                      </div>
-                    </div>
-                  </div>
-                </label>
-              </div>
-            </div>
-            <p class="text-center text-negative q-mt-none q-mb-sm"
-              v-if="lockingThresholdVoteInvalid && lockingThresholdVote !== 0">Locking Threshold must be between
-              {{ thresholdRangeLower }} and {{ thresholdRangeUpper() }}</p>
-          </section>
-          <div style="align-items: center;" class="row justify-center q-mt-md q-mb-sm q-pb-none">
-            <q-btn size="lg" unelevated no-caps outline :disable="!votePeriodActive || voteCompleted" color="primary"
-              type="submit">
-              Submit Vote</q-btn>
-          </div>
-        </q-card>
-      </q-form>
-
-      <!--THE RATIFICATION-->
-      <q-form v-if="!ratifyCompleted && ratifyPeriodActive" ref="myForm" class="panel-wrap" @submit="submitVote()">
-        <h4 v-if="voteCompleted">Thanks for Voting, please ratify</h4>
-        <h4 v-if="!voteCompleted">You missed the Vote, so you can't ratify this week</h4>
-
-      <div class="text-subtitle1 text-center q-ma-lg">Survey Closes in: <span
-              v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
-      </q-form>
 
 
 
@@ -245,13 +399,13 @@ import {
   mapGetters
 } from 'vuex'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
+import M from 'minimatch'
 
 export default {
   name: 'Vote',
   data() {
     return {
       name: '',
-      surveyq1response: null,
       surveyq1options: [
         { label: 'Growing (bull market)', value: 1 },
         { label: 'Shrinking (bear market)', value: 2 },
@@ -262,20 +416,28 @@ export default {
         { label: 'Stabilising the price', value: 2 },
         { label: 'Raising the Locking Threshold', value: 3 }
       ],
+      surveyq1response: null,
       surveyq2response: null,
       surveyq3response: null,
       surveyq4response: null,
       surveyq5choice1: null,
       surveyq5choice2: null,
       surveyq5choice3: null,
+      voteq1response: 0,
+      voteq2response: 6,
+      voteq3response: 0,
       lockingThresholdVote: 0,
       stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
       tokenCurrencyName: "XPR",//this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       surveythresholdRangeLower: 1,
       surveythresholdRangeUpper: 24,
-      thresholdRangeLower: parseFloat(process.env.VOTETHRESHOLDLOWER),
-      voteWatcher: false
+      voteq3RangeLower: parseFloat(process.env.VOTETHRESHOLDLOWER),
+      voteWatcher: false,
+      voteq1RangeLower: 0,
+      voteq1RangeUpper: 100,
+      voteq2RangeLower: 6,
+      voteq2RangeUpper: 30,
     }
   },
   components: {
@@ -297,9 +459,12 @@ export default {
       'voteClosesIn',
       'votePeriodActive',
       'voteCompleted',
+      'ratifyStartsIn',
+      'ratifyShare',
       'ratifyCompleted',
       'ratifyPeriodActive',
       'ratifyClosesIn',
+      'lockFactor',
       'userHasStaked', 'userHasVoted', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     userHasStakedORHasAirkey() {
       return this.userHasStaked || this.airkeyBalance
@@ -314,31 +479,26 @@ export default {
   created: function () {
     this.surveyq2response = this.surveythresholdRangeUpper / 2;
     this.surveyq4response = this.surveythresholdRangeUpper / 2;
-    this.lockingThresholdVote = (this.thresholdRangeUpper() + this.thresholdRangeLower) / 2;
-  },
-  watch: {
-    /*lockingThresholdVote(newValue, oldValue) {
-      var val = parseFloat(newValue);
-      console.log('lT Changed')
-      if (typeof val !== 'number' || val < this.thresholdRangeLower || val > this.thresholdRangeUpper) {
-        this.lockingThresholdVoteInvalid = true;
-      } else {
-        this.lockingThresholdVoteInvalid = false;
-      }
-    }*/
+    this.voteq3response = (this.voteq3RangeUpper() + this.voteq3RangeLower) / 2;
   },
   methods: {
-    ...mapActions('freeos', ['survey']),
-    thresholdRangeUpper() {
-      return this.currentPrice < this.thresholdRangeLower ? Math.floor(parseFloat(this.lockFactor) * this.thresholdRangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
-    },
-    lockingThresholdVoteInvalid() {
-      var val = parseFloat(this.lockingThresholdVote)
-      if (typeof val !== 'number' || val < this.thresholdRangeLower || val > this.thresholdRangeUpper()) {
+    ...mapActions('freeos', ['survey', 'vote', 'ratify']),
+    validateRange(val, lower, upper) {
+      try {
+        val = parseFloat(val);
+      } catch (err) {
+        console.log(err);
+        val = lower;
+        return false
+      }
+      if (isNaN(val) || typeof val !== 'number' || val < lower || val > upper) {
         return true;
       } else {
         return false;
       }
+    },
+    voteq3RangeUpper() {
+      return this.currentPrice < this.voteq3RangeLower ? Math.floor(parseFloat(this.lockFactor) * this.voteq3RangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
     },
     async onValidationError(ref) {
       console.log('ref', ref.$refs.target);
@@ -369,7 +529,29 @@ export default {
       const _ = this;
       console.log(this.surveyPeriodActive, this.surveyCompleted);
 
-      var result = await _.survey({
+      var result = await _.vote({
+        user: this.accountName,
+        q1response: this.voteq1response,
+        q2response: this.voteq2response,
+        q3response: this.voteq3response,
+        q4response: "POOL",
+        q5response: 0,
+        q6choice1: 1,
+        q6choice2: 2,
+        q6choice3: 3
+
+      })
+      if (!(result instanceof Error)) {
+        this.$refs.complete.openDialog({
+          title: "Woohoo", subtitle: "Thanx for Voting"
+        });
+      }
+    },
+    async submitRatify() {
+      const _ = this;
+      console.log(this.surveyPeriodActive, this.surveyCompleted);
+
+      var result = await _.ratify({
         user: this.accountName,
         q1response: this.surveyq1response,
         q2response: this.surveyq2response,
@@ -381,7 +563,7 @@ export default {
       })
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo", subtitle: "Thanx for Voting"
+          title: "Woohoo", subtitle: "Thanx for Ratifying"
         });
       }
     },
@@ -390,17 +572,20 @@ export default {
 </script>
 
 <style>
-.happy-stickman{
-  margin:-3rem 0;
+.happy-stickman {
+  margin: -3rem 0;
 }
+
 .happy-stickman .st0 {
   fill: #FFFFFF;
 }
+
 .happy-stickman .st1 {
   fill: none;
   stroke: #45A1E7;
   stroke-width: 4;
 }
+
 .happy-stickman .st2 {
   fill: none;
   stroke: #45A1E7;
@@ -408,6 +593,7 @@ export default {
   stroke-linecap: round;
   stroke-miterlimit: 4.0021;
 }
+
 .happy-stickman .st3 {
   fill: none;
   stroke: #45A1E7;
@@ -415,15 +601,18 @@ export default {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
 .happy-stickman .st4 {
   fill: none;
   stroke: #45A1E7;
   stroke-linecap: round;
 }
+
 .q-slider__marker-labels-container .q-slider__marker-labels {
   display: none;
   font-size: 12px;
 }
+
 .q-slider__marker-labels-container .q-slider__marker-labels:first-child,
 .q-slider__marker-labels-container .q-slider__marker-labels:last-child {
   display: block;

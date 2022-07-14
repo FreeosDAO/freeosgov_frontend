@@ -221,7 +221,7 @@ export default {
 
 <style lang="scss">
 $panel-border-radius: 8px;
-$panel-width: 360px;
+$panel-width: 380px;
 
   .page-container-main{
       background: url('../assets/bluebg.svg') center -50px no-repeat;
