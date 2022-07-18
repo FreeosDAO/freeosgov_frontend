@@ -24,8 +24,21 @@ export const setuser = (state, user) => {
 export const setisAuthenticated = (state, isAuthenticated) => {
   state.isAuthenticated = isAuthenticated
 }
+export const setisFreeosEnabled = (state, isFreeosEnabled) => {
+  state.isFreeosEnabled = isFreeosEnabled
+}
+
 export const setaccountName = (state, accountName) => {
   state.accountName = accountName
+}
+export const setaccountType = (state, accountType) => {
+  state.accountType = accountType
+}
+export const setisRegistered = (state, isRegistered) => {
+  state.isRegistered = isRegistered
+}
+export const setisVerified = (state, isVerified) => {
+  state.isVerified = isVerified
 }
 
 export const setcurrentPrice = (state, currentPrice) => {
@@ -81,4 +94,9 @@ export const setratifyPeriodActive = (state, ratifyPeriodActive) => {
 }
 export const setratifyClosesIn = (state, ratifyClosesIn) => {
   state.ratifyClosesIn = ratifyClosesIn
+}
+
+
+export const setrewards = (state, rewards) => {
+  state.rewards = rewards
 }

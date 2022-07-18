@@ -70,7 +70,6 @@ export default {
         Countdown
     },
     computed: {
-        //...mapGetters('account', ['isAuthenticated']),
         ...mapGetters('freeos', ['isFreeosEnabled', 'isAuthenticated', 'currentIteration', 'nextIteration','airclaimStatus'])
     },
     methods: {
@@ -88,7 +87,7 @@ export default {
                         })
                     } else {
                         this.$router.push({
-                            path: '/claim'
+                            path: '/activities'
                         })
                     }
                 }

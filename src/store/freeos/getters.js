@@ -25,6 +25,8 @@ export const userStake = ({ userStake }) => userStake
 export const reasonCannotClaim = ({ reasonCannotClaim }) => reasonCannotClaim
 
 export const isAuthenticated = ({ isAuthenticated }) => isAuthenticated
+export const isVerified  = ({ isVerified }) => isVerified
+
 export const accountName = ({ accountName }) => accountName
 export const allIterations = ({ allIterations }) => allIterations
 export const unstakingIteration = ({ unstakingIteration }) => unstakingIteration
@@ -57,3 +59,5 @@ export const ratifyShare = ({ ratifyShare }) => ratifyShare
 export const ratifyCompleted = ({ ratifyCompleted }) => ratifyCompleted
 export const ratifyPeriodActive = ({ ratifyPeriodActive }) => ratifyPeriodActive
 export const ratifyClosesIn = ({ ratifyClosesIn }) => ratifyClosesIn
+
+export const rewards = ({ rewards }) => rewards

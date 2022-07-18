@@ -75,7 +75,7 @@ const menuList = [
     label: 'Activities',
     separator: true,
     route: '/activities',
-    displayCondition: "showAccountTypeV"
+    //displayCondition: "showAccountTypeV"
   },
   {
     icon: require('@/assets/dollar-icon.svg'),

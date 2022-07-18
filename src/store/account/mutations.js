@@ -5,9 +5,9 @@ export const setAccount = function (state, { accountName, walletId }) {
     localStorage.walletId = walletId
     state.accountName = accountName
     state.connecting = false
-    if (this.$router.currentRoute.fullPath !== state.path) {
-      this.$router.push({ path: state.path })
-    }
+    //if (this.$router.currentRoute.fullPath !== state.path) {
+    //  this.$router.push({ path: state.path })
+    //}
   }
 }
 

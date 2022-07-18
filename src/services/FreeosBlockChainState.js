@@ -146,6 +146,8 @@ export class FreeosBlockChainState extends EventEmitter {
     output['priceLabel'] = priceLabel
     output['iterations'] = iterations
 
+
+    output['isFreeosEnabled'] = masterSwitch === '1' ? true : false
     /**
      * Grab User Vars
      */
@@ -159,21 +161,29 @@ export class FreeosBlockChainState extends EventEmitter {
       // user name
       user['name'] = this.walletUser.accountName
 
+      var altVerifyAcc = this.parametersTable.filter(function(row){
+        return row.paramname == 'altverifyacc'
+      })
+      altVerifyAcc = (altVerifyAcc.length) ? altVerifyAcc[0].value : 'eosio.proton'
+
       // vars setup
       let userQueries = [
-        {contract: process.env.FREEOSGOV_CONTRACT, table: 'users', scope: user.name, params: {limit: 1}},
+        {contract: process.env.FREEOSGOV_CONTRACT, table: 'participants', scope: user.name, params: {limit: 1}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
-        {contract: process.env.FREEOSGOV_CONTRACT, table: 'lockaccounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
+        {contract: process.env.FREEOSGOV_CONTRACT, table: 'vestaccounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEOS', upper_bound: 'FREEOS'}},
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
+        {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
+        {contract: altVerifyAcc, table: 'usersinfo', scope: altVerifyAcc, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
       ]
+
 
       let userVars = await Promise.all(userQueries.map(async query => {
         return await this.getRecord(query.contract, query.table, query.scope, query.params)
       }));
       
-      [ user['record'], user['pointBalance'], user['lockedBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'] ] = userVars
+      [ user['record'], user['pointBalance'], user['lockedBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'], user['preRegistration']  ] = userVars
 
 
 
@@ -181,12 +191,39 @@ export class FreeosBlockChainState extends EventEmitter {
       output['user'] = user
       output['isAuthenticated'] = true
       output['accountName'] = user.name
+      output['isRegistered'] = user && user['record'] !== null ? true : false
+      // KYC PreRegistration Account
+      var accountType = null;
+      if (output['isRegistered']) { // Registered
+        accountType = user['record'].account_type;
+      } else if (user['preRegistration']) {
+        accountType = 'd'; //account type d
+        if(user['preRegistration'].kyc){
+          var kyc = user['preRegistration'].kyc;
+          for (var i = 0; i < kyc.length+1; ++i) {
+            for (const prop in kyc[i]) {
+              if (kyc[i][prop].includes('firstname') && kyc[i][prop].includes('lastname')) {
+                accountType = 'v'; //account type v
+                break
+              }
+            }
+          }
+        }
+      } else {
+        accountType = 'e' //account type e;
+      }
+      
+      console.log('accountType', accountType);
+      output['accountType'] = accountType;
+      output['isVerified'] = accountType === 'v' || accountType === 'b' || accountType === 'c' ? true : false;
+
+
 
       //Survey Results
       output['voteCompleted'] = false;
       output['surveyCompleted'] = false;
       output['ratifyCompleted'] = false;
-      const svrsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', user.name, {limit: 1});
+      const svrsTable = await this.getUserRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', {limit: 1});
       console.log('svrsTable', svrsTable)
       for (const item in svrsTable) {
         if(svrsTable[item]===iterations.current){
@@ -216,7 +253,7 @@ export class FreeosBlockChainState extends EventEmitter {
 
 
 
-
+    /* Vars calculated via Iterations */
     output['voteClosesIn'] = iterations['voteClosesIn'];
     output['surveyClosesIn'] = iterations['surveyClosesIn'];
     output['voteStartsIn'] = iterations['voteStartsIn'];
@@ -226,6 +263,21 @@ export class FreeosBlockChainState extends EventEmitter {
     output['ratifyPeriodActive'] = iterations['ratifyPeriodActive'];
     output['ratifyClosesIn'] = iterations['ratifyClosesIn'];
     
+
+
+    const rewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: iterations.current - 1, upper_bound: iterations.current - 1});
+    console.log('rewards', rewardsTable);
+
+    if(rewardsTable){
+      //issuance_rate && mint_fee_percent
+      output['rewards'] = rewardsTable;
+    }
+
+
+  
+
+
+
     /**
      * Output vars
      */
