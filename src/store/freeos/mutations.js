@@ -95,8 +95,9 @@ export const setratifyPeriodActive = (state, ratifyPeriodActive) => {
 export const setratifyClosesIn = (state, ratifyClosesIn) => {
   state.ratifyClosesIn = ratifyClosesIn
 }
-
-
-export const setrewards = (state, rewards) => {
-  state.rewards = rewards
+export const setrewardsCurrent = (state, rewardsCurrent) => {
+  state.rewardsCurrent = rewardsCurrent
+}
+export const setrewardsPrevious = (state, rewardsPrevious) => {
+  state.rewardsPrevious = rewardsPrevious
 }

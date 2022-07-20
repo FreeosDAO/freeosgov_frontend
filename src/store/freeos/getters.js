@@ -60,4 +60,5 @@ export const ratifyCompleted = ({ ratifyCompleted }) => ratifyCompleted
 export const ratifyPeriodActive = ({ ratifyPeriodActive }) => ratifyPeriodActive
 export const ratifyClosesIn = ({ ratifyClosesIn }) => ratifyClosesIn
 
-export const rewards = ({ rewards }) => rewards
+export const rewardsPrevious = ({ rewardsPrevious }) => rewardsPrevious
+export const rewardsCurrent = ({ rewardsCurrent }) => rewardsCurrent

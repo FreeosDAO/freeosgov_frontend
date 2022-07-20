@@ -58,6 +58,7 @@ var definition = {
   ratifyPeriodActive: null,
   ratifyClosesIn: null,
 
-  rewards: null
+  rewardsPrevious: null,
+  rewardsCurrent: null
 }
 export default definition

@@ -1,5 +1,6 @@
 // IMPORTS
 import { EventEmitter } from 'events'
+import { env } from 'process';
 import ProtonSDK from '../utils/proton'
 const { JsonRpc } = require('eosjs')
 
@@ -161,10 +162,7 @@ export class FreeosBlockChainState extends EventEmitter {
       // user name
       user['name'] = this.walletUser.accountName
 
-      var altVerifyAcc = this.parametersTable.filter(function(row){
-        return row.paramname == 'altverifyacc'
-      })
-      altVerifyAcc = (altVerifyAcc.length) ? altVerifyAcc[0].value : 'eosio.proton'
+      const kycContract = process.env.KYC_CONTRACT ? process.env.KYC_CONTRACT: 'eosio.proton'
 
       // vars setup
       let userQueries = [
@@ -174,8 +172,7 @@ export class FreeosBlockChainState extends EventEmitter {
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEOS', upper_bound: 'FREEOS'}},
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
-        {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
-        {contract: altVerifyAcc, table: 'usersinfo', scope: altVerifyAcc, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
+        {contract: kycContract, table: 'usersinfo', scope: kycContract, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
       ]
 
 
@@ -184,8 +181,6 @@ export class FreeosBlockChainState extends EventEmitter {
       }));
       
       [ user['record'], user['pointBalance'], user['lockedBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'], user['preRegistration']  ] = userVars
-
-
 
       // Add to output
       output['user'] = user
@@ -200,6 +195,7 @@ export class FreeosBlockChainState extends EventEmitter {
         accountType = 'd'; //account type d
         if(user['preRegistration'].kyc){
           var kyc = user['preRegistration'].kyc;
+          console.log('kyc', kyc);
           for (var i = 0; i < kyc.length+1; ++i) {
             for (const prop in kyc[i]) {
               if (kyc[i][prop].includes('firstname') && kyc[i][prop].includes('lastname')) {
@@ -213,7 +209,6 @@ export class FreeosBlockChainState extends EventEmitter {
         accountType = 'e' //account type e;
       }
       
-      console.log('accountType', accountType);
       output['accountType'] = accountType;
       output['isVerified'] = accountType === 'v' || accountType === 'b' || accountType === 'c' ? true : false;
 
@@ -224,6 +219,7 @@ export class FreeosBlockChainState extends EventEmitter {
       output['surveyCompleted'] = false;
       output['ratifyCompleted'] = false;
       const svrsTable = await this.getUserRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', {limit: 1});
+      console.log('current', iterations.current)
       console.log('svrsTable', svrsTable)
       for (const item in svrsTable) {
         if(svrsTable[item]===iterations.current){
@@ -264,19 +260,12 @@ export class FreeosBlockChainState extends EventEmitter {
     output['ratifyClosesIn'] = iterations['ratifyClosesIn'];
     
 
+    // Rewards i.e issuance_rate && mint_fee_percent
+    const lastRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: iterations.current - 1, upper_bound: iterations.current - 1});
+    if(lastRewardsTable) output['rewardsPrevious'] = lastRewardsTable;
 
-    const rewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: iterations.current - 1, upper_bound: iterations.current - 1});
-    console.log('rewards', rewardsTable);
-
-    if(rewardsTable){
-      //issuance_rate && mint_fee_percent
-      output['rewards'] = rewardsTable;
-    }
-
-
-  
-
-
+    const thisRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'voterecord', process.env.FREEOSGOV_CONTRACT, {limit: 1});
+    if(thisRewardsTable) output['rewardsCurrent'] = thisRewardsTable;
 
     /**
      * Output vars
@@ -494,6 +483,11 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'vote', sendData)
   }
 
+  async ratify(sendData) {
+    //let cronacle = await this.setupCronacle()
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'ratify', sendData)
+  }
+
   /**
    * Logout
    */
@@ -581,8 +575,14 @@ export class FreeosBlockChainState extends EventEmitter {
   getCurrentAndNextIteration() {
 
     // Gather vars
-    let init = new Date('1970-01-01');
-    let now = Date.now()
+    let init = new Date(this.systemRow.init);
+    var date = new Date(); //Current timestamp
+    date = date.toUTCString(); //Convert to UTC/GMT
+    date = new Date(date); //will convert to present timestamp offset
+    var now = (new Date().getTime()) + (date.getTimezoneOffset() * 60 * 1000);  //GET UTC TimeZone Offset and add to Current Local Timestamp
+
+
+    //let now = new Date(new Date().toUTCString()).getTime()
     let iterationsec = parseInt(this.getParameterFromTable('iterationsec', this.parametersTable, 3600),10);
     let surveystart = parseInt(this.getParameterFromTable('surveystart', this.parametersTable, 3600),10);
     let surveyend = parseInt(this.getParameterFromTable('surveyend', this.parametersTable, 3600),10);
@@ -591,21 +591,12 @@ export class FreeosBlockChainState extends EventEmitter {
     let ratifystart = parseInt(this.getParameterFromTable('ratifystart', this.parametersTable, 3600),10);
     let ratifyend = parseInt(this.getParameterFromTable('ratifyend', this.parametersTable, 3600),10);
 
-    console.log('init', this.systemRow.init);
-    console.log('init', init);
-    console.log(now);
     // Calculate time elapsed
     let elapsed_seconds = (now / 1000) - (init / 1000)
     // Get current iteration
     let currentIteration = Math.floor( (elapsed_seconds / iterationsec) + 1 )
     let nextIteration = currentIteration + 1
-   
-    console.log('elapsed_seconds', elapsed_seconds);
-    console.log('iterationsec', iterationsec);
     let elapsedFromIteration = elapsed_seconds % iterationsec;
-    console.log('elapsedFromIteration', elapsedFromIteration);
-    console.log('surveyClosesIn', surveyend - elapsedFromIteration)
-
     return {
       surveyPeriodActive: elapsedFromIteration >= surveystart && elapsedFromIteration <= surveyend ? true : false,
       voteStartsIn: votestart - elapsedFromIteration,

@@ -21,8 +21,10 @@ export default ({ Vue}) => {
             return hDisplay + ", " + mDisplay
         } else if (dDisplay) {
             return dDisplay
-        } else {
+        } else if(mDisplay) {
             return "<strong class='text-negative'>" + mDisplay + "</strong>"
+        } else {
+            return "<strong class='text-negative'><1 min</strong>"
         }
     })
   }

@@ -9,9 +9,9 @@
       </p>
 
       <!--GET KYC'd-->
-      <div class="panel-wrap" v-if="!isVerified && !isRegistered">
+      <div class="panel-wrap" v-if="!isVerified">
         <q-card class="panel">
-          <div class="text-h4 text-center q-pa-lg">Sorry Your Not Verifed Yet</div>
+          <div class="text-h4 text-center q-pa-lg">Sorry You are Not Verifed Yet</div>
 
 
           <div class="text-h5 text-center q-mt-md q-py-md bg-primary text-white">Get Verified to Vote</div>
@@ -48,8 +48,47 @@
 
 
       <div v-if="isVerified && isRegistered">
+
+        <div v-if="ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
+          <q-card class="panel">
+            <div class="text-h4 text-center q-ma-lg">Cool burgers!</div>
+            <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 170.1 170.1"
+              style="enable-background:new 0 0 170.1 170.1;" xml:space="preserve">
+              <g id="Ellipse_45" transform="translate(28.411 7.976)">
+                <ellipse class="st0" cx="60.5" cy="40" rx="11.9" ry="11.5" />
+                <ellipse class="st1" cx="60.5" cy="40" rx="9.9" ry="9.5" />
+              </g>
+              <path id="Path_389" class="st1" d="M85.1,58.5c-7,12.9-7.6,28.2-1.7,41.6" />
+              <path id="Path_390" class="st2" d="M82.4,100.1c-12,8,2.6,36.8,2.6,36.8L80,139" />
+              <path id="Path_391" class="st3" d="M118.4,89.3l-2.1,6.5c0,0-11.8-12.5-32.8,3.3" />
+              <path id="Path_392" class="st3" d="M51.2,44.4l7.6,18l21.7,6.1" />
+              <path id="Path_393" class="st3" d="M115,37.3l-2.5,15.2L80.7,68.9" />
+              <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
+            </svg>
+
+            <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in the ratification vote
+            </div>
+
+
+
+            <div class="bg-primary text-h5 text-center text-white q-py-md">Next weeks Survey<br/>Starts in:
+              <span v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
+            
+              <div class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Completing the weekly survey enables you to claim an additional {{surveyShare}}% of your weekly claim potential</strong></div>
+
+
+            <div class="text-h5 text-center q-ma-lg">See you soon for the Survey</div>
+
+          </q-card>
+        </div>
+
+
+
+
+
         <!--THE RATIFICATION-->
-        <q-form v-if="!ratifyCompleted && ratifyPeriodActive" class="panel-wrap" @submit="submitRatify()">
+        <q-form v-if="!ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
             <h4 class="text-h4 text-center q-pa-sm" v-if="voteCompleted">Thanks for Voting, please ratify</h4>
             <h4 class="text-h4 text-center q-pa-sm" v-if="!voteCompleted">You missed the Vote, so you can't ratify this
@@ -59,10 +98,45 @@
               Claim</div>
             <div class="bg-primary text-h5 text-center text-white q-py-md">Ratify Closes in: <span
                 v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
-            <p class="q-pa-lg">Since you voted this week, some market changes might altered to effect the community
+            <p class="q-pa-lg q-ma-none" v-if="voteCompleted">Since you voted this week, some market changes might altered to effect the community
               decision. Carefully consider the current market with the links below. The ratification vote enables you to
               confirm or void this week's vote…for more information click here</p>
-            <h4 class="text-h5 text-center q-pa-sm">this week's Vote Results</h4>
+            <div class="text-h5 text-center q-pa-lg">This week's Vote Results</div>
+
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
+              <div v-if="rewardsCurrent && rewardsCurrent['q1average']" class="text-md bg-info q-px-lg q-py-md">
+                Current Issuance: <strong>{{ parseFloat(rewardsCurrent['q1average']) }}%</strong>
+              </div>
+              <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md q-px-lg q-py-md">
+                The Voted Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
+              </div>
+
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee</div>
+              <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md bg-info q-px-lg q-py-md">
+                Current Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
+              </div>
+              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md q-px-lg q-py-md">
+                The Voted Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+              </div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
+              <div  v-if="rewardsCurrent && rewardsCurrent['q3average']" class="text-md bg-info q-px-lg q-py-md">
+                Current Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) }} USD</strong>
+              </div>
+              <div v-if="rewardsPrevious && rewardsPrevious['locking_threshold']" class="text-md q-px-lg q-py-md">
+                The Voted Locking Threshold: <strong>{{ parseFloat(rewardsPrevious['locking_threshold']) }} USD</strong>
+              </div>
+              <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this weeks VOTE is appropriate today?</strong></div>
+
+              <div rounded v-if="voteCompleted" style="display:flex;justify-content:center;" class="q-pa-md full-width justify-center q-mb-md ">
+                <q-btn size="lg" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
+                  color="primary">
+                  Yes</q-btn>
+
+                <q-btn size="lg" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
+                  color="primary">
+                  No</q-btn>
+
+              </div>
           </q-card>
         </q-form>
 
@@ -127,8 +201,8 @@
             <!--Issuance Vote-->
             <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
-              <div v-if="rewards && rewards['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
-                Last weeks Issuance: <strong>{{ parseFloat(rewards['issuance_rate']) }}%</strong>
+              <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
+                Last weeks Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
@@ -172,8 +246,8 @@
             <!--Mint Fee Vote-->
             <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee</div>
-              <div v-if="rewards && rewards['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee: <strong>{{ parseFloat(rewards['mint_fee_percent']) }}%</strong>
+              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
+                Current Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
@@ -507,7 +581,8 @@ export default {
       'lockFactor',
       'accountType',
       'isRegistered',
-      'rewards',
+      'rewardsCurrent',
+      'rewardsPrevious',
       'isVerified',
       'userHasStaked', 'userHasVoted', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     userHasStakedORHasAirkey() {
@@ -600,19 +675,12 @@ export default {
         });
       }
     },
-    async submitRatify() {
+    async submitRatify(option) {
       const _ = this;
-      console.log(this.surveyPeriodActive, this.surveyCompleted);
-
+      console.log('submitRatify')
       var result = await _.ratify({
         user: this.accountName,
-        q1response: this.surveyq1response,
-        q2response: this.surveyq2response,
-        q3response: this.surveyq3response,
-        q4response: this.surveyq4response,
-        q5choice1: this.surveyq5choice1,
-        q5choice2: this.surveyq5choice2,
-        q5choice3: this.surveyq5choice3
+        ratify_vote: option
       })
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
