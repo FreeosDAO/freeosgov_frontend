@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div class="balance q-pt-lg q-pl-md q-pr-md q-pb-xs">
-        <div v-if="(!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0" class="flex justify-between q-mb-md" style="width: 100%">
+    <div class="balance bg-white panel-wrap panel-top-total q-pa-lg q-mt-lg">
+        <!--<div v-if="(!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0" class="flex justify-between q-mb-md" style="width: 100%">
             <div class="flex items-center text-h6">
                 Liquid {{stakeCurrency}}:
                 <q-btn class="small-icon q-mt-sm q-ml-sm">
@@ -12,9 +12,9 @@
 
             </div>
             <div class=" text-h6">{{XPRBalance || '0'}}</div>
-        </div>
+        </div>-->
 
-        <div v-if="(!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0" class="flex justify-between q-mb-md">
+       <!--<div v-if="(!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0" class="flex justify-between q-mb-md">
             <div class="flex items-center text-h6">
                 Staked {{stakeCurrency}}:                 
                 <q-btn class="small-icon q-mt-sm q-ml-sm">
@@ -24,21 +24,23 @@
                 </q-btn>
             </div>
             <div class="text-h6">{{userStake || '0'}}</div>
-        </div>
+        </div>-->
 
 
         <div class="flex justify-between q-mb-md">
-            <div class="flex items-center  text-h6">
-               Locked {{tokenCurrencyName}}s:
+            <div class="flex items-center  text-h5">
+               Locked Points:
             </div>
-            <div class="col-5 text-h6">{{vestedOptions || '0'}}</div>
-            <div class="flex"><small class="q-mr-auto">For more info on Locked {{tokenCurrencyName}}s <router-link to="/info#vested-options">click here</router-link></small></div>
-            <q-btn :disable="!canUnvest || !vestedOptions" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary"><span>Unlock<span v-if="unvestPercentage && canUnvest && vestedOptions"> {{unvestPercentage}}%</span></span></q-btn>
+            <div class="col-5 text-h5">{{user.lockedBalance || '0'}}</div>
         </div>
-
-    </div>
+        <div class="flex">
+            <small class="q-mr-auto">For more info on Locked Points <router-link to="/info#vested-options">click here</router-link></small>
+        </div>
+        <q-btn v-if="systemRow.unlockpercent > 0" v-bind:disabled="user.record.last_unlock == currentIteration" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">
+            <span>Unlock<span> {{systemRow.unlockpercent || 0}}%</span></span>
+        </q-btn>
         <CompleteDialog  ref="complete"  />
-    <!-- <balance-vest /> -->
+    </div>
 </div>
 </template>
 
@@ -51,27 +53,20 @@ import {
 import BalanceVest from './BalanceVest'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 export default {
-    data() {
-        return {
-            stakeCurrency: process.env.STAKING_CURRENCY,
-            currencyName: process.env.CURRENCY_NAME,
-            tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
-        }
-    },
     computed: {
-        ...mapGetters('freeos', ['XPRBalance', 'liquidOptions', 'userStake', 'liquidFreeos', 'totalFreeos', 'canUnvest', 'vestedOptions', 'stakeRequirement', 'unvestPercentage', 'userHasStaked', 'userStake', 'airkeyBalance']),
-        unvestedAmount:function(){
-            var unvestAmount = this.vestedOptions && this.unvestPercentage ? Math.ceil((this.unvestPercentage / 100) * this.vestedOptions) : 0;
-            return unvestAmount;
+        ...mapGetters('freeos', ['user', 'systemRow', 'currentIteration', 'accountName']),
+        unlockedAmount:function(){
+            var unlockedAmount = this.user.lockedBalance && this.systemRow.unlockpercent ? Math.ceil((this.systemRow.unlockpercent / 100) * this.user.lockedBalance) : 0;
+            return unlockedAmount;
         }
     },
     methods: {
-        ...mapActions('freeos', ['unvest']),
+        ...mapActions('freeos', ['unlock']),
         async submit() {
-            var result = await this.unvest();
+            var result = await this.unlock();
               if(!(result instanceof Error)){
                 this.$refs.complete.openDialog({
-                  title: "Unlocked", subtitle: "You Unlocked", value: this.unvestedAmount, currency: this.tokenCurrencyName + "s"
+                  title: "Unlocked", subtitle: "You Unlocked", value: this.unlockedAmount, currency: "Points"
                 });
               }
         },
@@ -85,17 +80,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$panel-border-radius: 8px;
-$panel-width: 380px;
+
 .balance {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    margin: 15px auto;
-    background-color: white;
-    border-radius: $panel-border-radius;
-    max-width: $panel-width;
-    border: 2px solid #e5e5e5;
+    flex-wrap: wrap;
+    margin: 45px auto 20px;
 
     .small-icon {
         display: block;

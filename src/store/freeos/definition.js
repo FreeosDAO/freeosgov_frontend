@@ -28,6 +28,7 @@ var definition = {
 
   accountName: null,
   isAuthenticated: null,
+  accountType: null,
   isVerified: null,
   allIterations: null,
   unstakingIteration: null,
@@ -59,6 +60,12 @@ var definition = {
   ratifyClosesIn: null,
 
   rewardsPrevious: null,
-  rewardsCurrent: null
+  rewardsCurrent: null,
+
+  systemRow: null,
+  nextClaimIn: null,
+  eligibleToClaim: null,
+  nextActivity: null,
+
 }
 export default definition

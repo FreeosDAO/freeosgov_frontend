@@ -1,144 +1,38 @@
 <template>
     <div class="text-center relative">
-        <q-dialog v-model="registerModalTrigger">
-            <q-card style="max-width: 500px;" class="q-pa-lg">
-                <q-card-actions class="q-pa-none" align="right">
-                    <q-icon
-                        class="q-ma-none cursor-pointer"
-                        style="font-size:2rem"
-                        name="close"
-                        v-close-popup
-                    />
-                </q-card-actions>
-                <div
-                    class="flex justify-center text-center q-mt-md"
-                    style="width: 80px; height: 80px; margin: -25px auto 0;"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 84 84"
-                        class="freeos-logo-icon inline-block fill-current text-primary header-logoicon"
-                    >
-                        <path
-                            fill="#00a1ed"
-                            d="M41.7 0C18.7 0 0 18.7 0 41.7c0 23 18.7 41.7 41.7 41.7 23 0 41.7-18.7 41.7-41.7C83.4 18.7 64.8 0 41.7 0zM26.9 68.6c-2.7 0-5.3-1-7.3-2.8-13.3-12.2-14.2-32.9-2-46.3C23.8 12.8 32.6 9 41.7 9c1.7 0 3.4.1 5.1.4h.2c-5.6 2.3-9.7 7.5-10.6 13.5-.1.6-.2 1.3-.2 1.9V26c-.1 4.1.1 8.2.6 12.3l-10.6 3.9c-.7.3-1.1 1.1-.8 1.8l.5 1.2c1.4 4 5.8 6 9.8 4.6.4-.2.9-.4 1.3-.6l1-.6.3-.2v.4c.2 3 .1 6-.2 9H38c0 .3 0 .6-.1 1-.1.6-.2 1.2-.4 1.8-1.4 4.8-5.7 8-10.6 8zm14.8 5.9c-1.8 0-3.7-.2-5.5-.5 6-2.5 10.1-8 10.8-14.5.7-5.4.7-10.9-.1-16.3l10.8-6.4c1.2-.7 1.7-2.2 1.2-3.5l-.1-.3c-.5-1.4-2-2.1-3.4-1.6L45.9 35l-.2.1V35c-.4-2.8-.5-5.7-.4-8.5.4-8.3 5.3-11.7 11.3-11.6 2.5.1 4.8.9 6.8 2.4.5.4.9.8 1.4 1.3 12.8 12.6 12.9 33.3.2 46.2-6.2 6.2-14.5 9.7-23.3 9.7z"
-                        />
-                    </svg>
-                </div>
-
-                <q-card-section
-                    class="q-pt-none text-center q-pb-xs"
-                    v-if="stakeRequirement && !airkeyBalance"
-                >
-                    <div v-if="accountType != '118'">
-                        <p class="text-h5 q-mb-xs q-mt-md">Verify your account at <a target="_black" href="http://protonkyc.com/">protonkyc.com</a></p>
-                        <p class="text-body1 q-mb-xs">Verified accounts stake {{ stakeRequirementKYC }} {{ stakeCurrency }}.</p>
-                        <p class="text-body2 q-mb-md"><a target="_black" href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6">How to verify your account?</a></p>
-
-                        <p class="text-h5 q-mb-xs">Not verified?</p>
-                    </div>
-                    <p class="text-body1 q-mb-xs">Stake {{ stakeRequirement }} {{ stakeCurrency }}</p>
-                    <p class="text-body2 q-mb-xs">
-                        <a
-                            href="https://medium.com/freedao/freeos-xusdc-guide-20c2a1cfc07b"
-                            target="_blank"
-                        >How to get XUSDC?</a>
-                    </p>
-                </q-card-section>
-                <q-card-section class="q-mt-xs text-center">
-                    <div class="text-h4">Register Your Interest</div>
-                </q-card-section>
-
-                <q-card-section class="q-pt-none text-center">
-                    <p class="text-body1">To join the AirClaim: just click "REGISTER"</p>
-
-                    <q-checkbox id="termsCheckbox" v-model="termsCheckbox" />
-                    <label for="termsCheckbox">
-                        I accept Freeos'
-                        <a
-                            target="_blank"
-                            href="https://www.freedao.io/t-cs"
-                            class="cursor-pointer"
-                            style="text-decoration:underline"
-                        >Terms of Service</a>
-                    </label>
-
-                    <div
-                        v-show="showTerms"
-                        class="text-left"
-                        style="width:100%;max-height:120px;overflow-y: auto;"
-                    >
-                        <p class="text-body1">
-                            <strong>Freeos Terms of Service</strong>
-                        </p>
-                        <p
-                            class="text-body2"
-                        >Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
-                        <p
-                            class="text-body2"
-                        >Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
-                        <p
-                            class="text-body2"
-                        >Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
-                        <p
-                            class="text-body2"
-                        >Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
-                    </div>
-                </q-card-section>
-
-                <q-card-actions align="center">
-                    <q-btn
-                        :disabled="!termsCheckbox"
-                        unelevated
-                        size="lg"
-                        class="q-mb-m"
-                        outline
-                        color="primary"
-                        @click="registerUser()"
-                    >Register</q-btn>
-                </q-card-actions>
-            </q-card>
-        </q-dialog>
 
         <CompleteDialog ref="complete" />
-        <div class="add-bg q-px-md">
-            <svg
-                v-if="airkeyBalance > 0 && showAirkey"
-                xmlns="http://www.w3.org/2000/svg"
-                style="height:36px;width:36px;"
-                viewBox="0 0 100 100"
-            >
-                <path
-                    d="M86.776 33.97l-7.106-6.611 4.926-5.294a7.101 7.101 0 001.876-4.6c.043-1.796-.61-3.413-1.84-4.554-2.465-2.288-6.641-1.974-9.12.689L41.613 50.008c-7.916-3.722-17.394-1.937-23.437 4.547-7.612 8.179-7.153 21.027 1.023 28.642 3.784 3.521 8.658 5.436 13.797 5.436a20.11 20.11 0 0014.843-6.457 20.251 20.251 0 002.863-23.705l14.529-15.606 7.104 6.616c.291.271.677.406 1.076.401a1.502 1.502 0 001.045-.478l4.109-4.422a1.501 1.501 0 00-.076-2.119l-7.104-6.615 2.126-2.279 7.102 6.62a1.502 1.502 0 002.12-.075l4.117-4.422c.271-.291.416-.678.401-1.076a1.487 1.487 0 00-.475-1.046zm-5.214 3.4l-7.101-6.619a1.5 1.5 0 00-2.119.074l-4.173 4.474a1.502 1.502 0 00.075 2.121l7.105 6.617-2.066 2.224-7.104-6.615a1.455 1.455 0 00-1.076-.401 1.5 1.5 0 00-1.044.477L47.986 56.985l-.015.01a1.5 1.5 0 00-.42 2.051 17.252 17.252 0 01-1.907 21.085 17.133 17.133 0 01-12.015 5.49c-4.592.152-9.007-1.478-12.385-4.62-6.966-6.487-7.357-17.435-.873-24.402a17.283 17.283 0 0112.651-5.51c2.812 0 5.647.688 8.245 2.106a1.5 1.5 0 002.038-.604l34.4-36.948c1.35-1.448 3.63-1.698 4.884-.535.591.548.903 1.359.882 2.284a4.056 4.056 0 01-1.074 2.628l-5.947 6.392a1.499 1.499 0 00.078 2.12l7.106 6.611-2.072 2.227z"
-                />
-                <path
-                    d="M32.999 61.242a6.964 6.964 0 00-4.923 2.135 6.964 6.964 0 00-1.973 4.989c.063 3.826 3.196 6.896 7.009 6.896l.116-.001a6.967 6.967 0 004.923-2.134 6.97 6.97 0 001.972-4.99c-.031-1.872-.789-3.621-2.135-4.923s-3.117-1.962-4.989-1.972zm2.997 9.798a3.985 3.985 0 01-2.816 1.221l-.067.001a4.016 4.016 0 01-4.01-3.944 3.981 3.981 0 011.128-2.854 3.987 3.987 0 012.817-1.221l.067-.001c1.046 0 2.034.399 2.788 1.129a3.979 3.979 0 011.221 2.815 3.98 3.98 0 01-1.128 2.854z"
-                />
-            </svg>
 
-            <p class="text-body3 q-mb-xs">
-                {{ priceLabel }}{{ currentPrice }}
-                <q-icon v-if="currentPrice >= targetPrice" size="xs" name="arrow_upward" />
-                <q-icon v-if="currentPrice < targetPrice" size="xs" name="arrow_downward" />
-            </p>
+        <div v-if="!isFreeosEnabled">
+            <b>Freeos system is not currently operational. Please check back later.</b>
+        </div>
 
-            <div v-if="!isFreeosEnabled">
-                <b>Freeos system is not currently operational. Please check back later.</b>
-            </div>
+        <div v-if="isFreeosEnabled && !isVerified">
+            <b>User not verified. Message goes here.</b>
+        </div>
 
-            <div class="panel-wrap panel-top-total q-pt-lg" v-if="isFreeosEnabled">
+        <div v-if="isFreeosEnabled">
+            <div class="bg-white panel-wrap panel-top-total q-pa-lg">
                 <div class="row">
-                    <div class="col">
-                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;">
-                            <strong>{{ tokenCurrencyName }}s</strong>
+                    <div class="col text-left">
+                        <p class="q-mb-xs" style="line-height:1;">
+                           <small>POINTS</small>
                         </p>
                         <p
                             class="text-bold text-h4"
                             style="line-height:1;letter-spacing:-2px;"
-                        >{{ liquidOptions }}</p>
+                        >{{ user.pointBalance }}</p>
+
+                        <p class="q-mb-xs q-mt-lg" style="line-height:1;">
+                            <small>FREEBI</small>
+                        </p>
+                        <p
+                            class="text-bold text-h4"
+                            style="line-height:1;letter-spacing:-2px;"
+                        >{{ user.freebiBalance }}</p>
                     </div>
                     <div class="col" style="max-width:40px;">
-                        <router-link class="convert-btn" v-if="liquidOptions > 0" to="/mint">
+                        <router-link class="convert-btn" to="/mint">
                             <small>Mint</small>
                             <svg
                                 version="1.1"
@@ -166,39 +60,38 @@
                             </svg>
                         </router-link>
                     </div>
-                    <div class="col">
-                        <p class="text-subtitle1 q-mb-xs" style="line-height:1;">
-                            <strong>{{ currencyName }}</strong>
+                    <div class="col text-right">
+                        <p class="q-mb-xs" style="line-height:1;">
+                            <small>FREEOS</small>
                         </p>
                         <p
                             class="text-bold text-h4"
                             style="line-height:1;letter-spacing:-2px;"
-                        >{{ liquidFreeos }}</p>
+                        >{{ user.freeosBalance }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="add-bg-white" v-if="isFreeosEnabled">
+            <div class="claim-panel bg-white panel-wrap panel-top-total q-pa-lg">
                 <div class="flex justify-between add-custome-width">
                     <div class="flex column text-left" style="flex:1">
-                        <div
-                            v-if="airclaimStatus !== 'Complete'"
-                            class="text-subtitle1 q-mt-xs q-mb-xs"
-                        >Iteration</div>
+                        <div class="q-mt-xs q-mb-xs">
+                            <small>Iteration</small>
+                            </div>
                         <div
                             style="background: none; border: none; outline: none;  padding-right: 0; text-align: left;line-height:1;"
-                            class="q-mt-xs q-mb-xs text-subtitle1 text-capitalize"
+                            class="q-mt-xs q-mb-xs text-h5 text-capitalize"
                         >
-                            <strong>{{ notes }}</strong>
+                            <strong>{{ currentIteration }}</strong>
                         </div>
                     </div>
 
-                    <div class="wrap-avatar" v-bind:class="{ 'enable-btn': canClaim }" :disabled="claimWatch">
+                    <div class="wrap-avatar" v-bind:class="{ 'enable-btn': eligibleToClaim }" :disabled="claimWatch">
                         <div class="avatar claim-btn" @click="startClaim()">
                             <q-icon
                                 size="md"
                                 style="margin-top: -0px; margin-bottom: 2px;"
-                                v-bind:class="{ 'hide': canClaim }"
+                                v-bind:class="{ 'hide': eligibleToClaim }"
                             >
                                 <svg
                                     version="1.1"
@@ -214,10 +107,10 @@
                                     <path
                                         fill="#ffffff"
                                         d="M501.362,383.95L320.497,51.474c-29.059-48.921-99.896-48.986-128.994,0L10.647,383.95
-                      c-29.706,49.989,6.259,113.291,64.482,113.291h361.736C495.039,497.241,531.068,433.99,501.362,383.95z M256,437.241
-                      c-16.538,0-30-13.462-30-30c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30C286,423.779,272.538,437.241,256,437.241z
-                      M286,317.241c0,16.538-13.462,30-30,30c-16.538,0-30-13.462-30-30v-150c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30
-                      V317.241z"
+                        c-29.706,49.989,6.259,113.291,64.482,113.291h361.736C495.039,497.241,531.068,433.99,501.362,383.95z M256,437.241
+                        c-16.538,0-30-13.462-30-30c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30C286,423.779,272.538,437.241,256,437.241z
+                        M286,317.241c0,16.538-13.462,30-30,30c-16.538,0-30-13.462-30-30v-150c0-16.538,13.462-30,30-30c16.538,0,30,13.462,30,30
+                        V317.241z"
                                     />
                                 </svg>
                             </q-icon>
@@ -227,7 +120,7 @@
                                     <small style="font-size:90%;">
                                         Your Freeos
                                         <br />
-                                        {{ tokenCurrencyName }}s
+                                        Points
                                     </small>
                                 </p>
                             </div>
@@ -245,42 +138,31 @@
                     </div>
 
                     <div class="flex column text-right" style="flex:1">
-                        <div
-                            v-if="airclaimStatus !== 'Complete' && nextIteration && nextIteration.iteration_number !== null && nextIteration.iteration_number >= 0"
-                            class="text-subtitle1 q-mt-xs q-mb-xs"
-                        >Next Claim</div>
-                        <div
-                            v-if="airclaimStatus !== 'Complete' && nextIteration && nextIteration.iteration_number === null"
-                            class="text-subtitle1"
-                        >
-                            Final Claim
-                            <br />ends in
+                        <div class="q-mt-xs q-mb-xs">
+                            <small>Next Claim</small>
                         </div>
 
                         <div
                             style="background: none; border: none; outline: none;  padding-right: 0; text-align: right;line-height:1;"
-                            class="text-subtitle1 q-mt-xs q-mb-xs"
+                            class="text-h5 q-mt-xs q-mb-xs"
                         >
-                            <strong>{{ nextClaimDescription }}</strong>
+                            <span v-html="$options.filters.secondsToDhms(nextClaimIn)"></span>
                         </div>
                     </div>
                 </div>
 
                 <div
-                    class="flex justify-center text-center"
-                    style="align-items:center;height:80px;margin-top:-4px;"
+                    class="flex justify-center text-center q-mt-lg"
+                    style="align-items:center;"
                 >
-                    <div class="text-h6" style="line-height:1.25" v-if="canClaim">
-                        <a
-                            class="text-primary"
-                            style="cursor:pointer;text-decoration:underline"
-                            @click="startClaim()"
-                            v-if="canClaim"
-                            :disabled="claimWatch"
-                        >Claim now</a>
-                        to get your weekly {{ tokenCurrencyName }}s
+                    <div class="full-width q-mb-sm" v-if="!eligibleToClaim">Please participate in the voting process to claim.</div>
+                    <div v-if="nextActivity.type">
+                        <div class="text-h6 text-primary">
+                            <b v-html="nextActivity.message"></b>
+                        </div>
+                        <q-btn class="q-mt-sm q-mb-lg full-width" unelevated no-caps size="lg" color="primary" @click.prevent="goToActivities()"><span>Go to this week's <span v-html="nextActivity.type"></span></span></q-btn>
                     </div>
-                    <div v-if="!canClaim" v-html="reasonCannotClaim"></div>
+                    
                     <div class="flex">
                         <small class="q-mr-auto">
                             For more info on Claiming
@@ -289,163 +171,20 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="q-px-md" v-if="isFreeosEnabled">
-            <!-- <balance class="col-xs-12 col-md-5 row text-left" /> -->
-            <balance />
-        </div>
-
-<div class="panel-wrap" v-if="userHasStaked || airkeyBalance > 0">
-                <div class="panel panel-primary q-pa-lg text-center q-mb-md q-pa-lg">
-                    <p class="q-mb-sm text-h4" style="line-height:1.2;">Vote:</p>
-                    <p class="q-mb-sm">Introducing the first economic tool to democratically steer Freeos</p>
-                    <router-link class="text-h6 text-underline" to="/vote">Go to Vote</router-link>
-                </div>
-
-</div>
-
-
-
-
-
-        <div class="q-px-md q-pt-xs">
-            <a class="social-icon" href="https://web.telegram.org/" target="_blank">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    style=""
-                    viewBox="0 0 24 24"
-                ><path d="M46-4.9c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm1 15h-2v-6h2v6zm0-8h-2v-2h2v2zM1.6 11l14.2-5.8c1.4-.6 6.1-2.6 6.1-2.6s2.2-.9 2 1.2c-.1.9-.5 3.8-1 7l-1.5 9.5s-.1 1.4-1.2 1.6c-1 .2-2.7-.9-3-1.1-.2-.2-4.6-2.9-6.1-4.3-.4-.4-.9-1.1.1-1.9 2.2-2 4.8-4.5 6.4-6.1.7-.7 1.5-2.4-1.6-.4l-8.6 5.8s-1 .6-2.8.1S.7 12.7.7 12.7s-1.6-.8.9-1.7z"></path></svg>
-            </a>
-            <a class="social-icon" href="https://discord.gg/T3mNkKHfzV" target="_blank">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    style="" viewBox="0 0 32.4 35.9" class="text-primary"><path id="Path_420" data-name="Path 420" d="M28.5,0H3.8A3.778,3.778,0,0,0,0,3.7V28a3.714,3.714,0,0,0,3.8,3.7h21l-1-3.3,2.4,2.1,2.2,2,4,3.4V3.7A3.937,3.937,0,0,0,28.5,0ZM21.4,23.5s-.7-.8-1.2-1.5a5.958,5.958,0,0,0,3.3-2.1A22.059,22.059,0,0,1,21.4,21a13.817,13.817,0,0,1-2.7.8,15.394,15.394,0,0,1-4.8,0,12.544,12.544,0,0,1-2.7-.8c-.4-.2-.9-.4-1.4-.6-.1,0-.1-.1-.2-.1H9.5A5.2,5.2,0,0,0,9,20a5.932,5.932,0,0,0,3.2,2.1c-.6.7-1.2,1.5-1.2,1.5-4.1-.1-5.6-2.7-5.6-2.7A23.4,23.4,0,0,1,8.1,10.4a8.948,8.948,0,0,1,5.2-1.9l.2.2A10.672,10.672,0,0,0,8.7,11s.4-.2,1.1-.5A13.33,13.33,0,0,1,14,9.4h.3a15.243,15.243,0,0,1,3.7,0,16.225,16.225,0,0,1,5.6,1.7A12.081,12.081,0,0,0,19,8.8l.3-.3a8.948,8.948,0,0,1,5.2,1.9,23.4,23.4,0,0,1,2.7,10.5A7.865,7.865,0,0,1,21.4,23.5Z"></path></svg>
-            </a>
-        </div>
-
-        <!--Hidden from below onwards-->
-
-        <div style="width: 300px; margin: 0 auto;" v-if="false">
-            <q-btn
-                class="add-hover q-mt-sm q-mb-md"
-                style="width: 300px; height: 40px; border: 2px solid #00a1ed; border-radius: 8px; color: #00a1ed; width: 100%;"
-            >Invite friends and family</q-btn>
-        </div>
-
-        <div class="box" v-if="false">
-            <div class="flex justify-end q-pr-md q-mt-lg">
-                <q-icon class="cursor-pointer text-h5" name="close" />
-            </div>
-            <div class="flex column justify-center q-mx-auto items-center">
-                <div class="q-mt-md" style="width: 50px; height: 50px;">
-                    <!-- Envelop---Icon -->
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="80.846"
-                        height="51.005"
-                        viewBox="0 0 80.846 51.005"
-                    >
-                        <g
-                            id="Group_25"
-                            data-name="Group 25"
-                            transform="translate(-766.538 -268.64)"
-                        >
-                            <path
-                                id="Path_34"
-                                data-name="Path 34"
-                                d="M846.384,319.645H767.538a1,1,0,0,1-1-1v-49a1,1,0,0,1,1-1h78.846a1,1,0,0,1,1,1v49A1,1,0,0,1,846.384,319.645Zm-77.846-2h76.846v-47H768.538Z"
-                                fill="#00aced"
-                            />
-                            <path
-                                id="Path_35"
-                                data-name="Path 35"
-                                d="M806.961,295.143a1,1,0,0,1-.527-.151l-39.424-24.5a1,1,0,0,1,1.056-1.7l38.9,24.173,38.9-24.173a1,1,0,0,1,1.056,1.7l-39.423,24.5A1,1,0,0,1,806.961,295.143Z"
-                                fill="#00aced"
-                            />
-                        </g>
-                    </svg>
-                </div>
-                <div class="q-mb-lg q-mt-lg">
-                    Hi Jerome, we’ve noticed you
-                    <br />haven’t signed up for
-                    <br />notifcations. Signup to
-                    <br />get notified of claims.
-                </div>
-                <div class="flex justify-between items-basline q-pb-md">
-                    <div
-                        class="add-input flex justify-between"
-                        style="width: 200px; margin-right: 20px; height: 35px;"
-                    >
-                        <input placeholder="Email" />
-                    </div>
-                    <span class="curve-arrow">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="59.438"
-                            height="59.439"
-                            viewBox="0 0 59.438 59.439"
-                        >
-                            <g
-                                id="Group_31"
-                                data-name="Group 31"
-                                transform="translate(-777.242 -556.374)"
-                            >
-                                <g id="Group_29" data-name="Group 29">
-                                    <circle
-                                        id="Ellipse_3"
-                                        data-name="Ellipse 3"
-                                        cx="28.719"
-                                        cy="28.719"
-                                        r="28.719"
-                                        transform="translate(778.242 557.374)"
-                                        fill="#fff"
-                                    />
-                                    <path
-                                        id="Path_39"
-                                        data-name="Path 39"
-                                        d="M806.961,615.813a29.719,29.719,0,1,1,29.719-29.72A29.754,29.754,0,0,1,806.961,615.813Zm0-57.439a27.719,27.719,0,1,0,27.719,27.719A27.751,27.751,0,0,0,806.961,558.374Z"
-                                        fill="#00aced"
-                                    />
-                                </g>
-                                <g id="Group_30" data-name="Group 30">
-                                    <path
-                                        id="Path_40"
-                                        data-name="Path 40"
-                                        d="M789.223,593.7l7.748-7.748h25.194"
-                                        fill="#fff"
-                                    />
-                                    <path
-                                        id="Path_41"
-                                        data-name="Path 41"
-                                        d="M789.223,594.7a1,1,0,0,1-.707-1.707l7.748-7.748a1,1,0,0,1,.707-.293h25.2a1,1,0,0,1,0,2H797.385L789.93,594.4A.993.993,0,0,1,789.223,594.7Z"
-                                        fill="#00aced"
-                                    />
-                                </g>
-                                <path
-                                    id="Path_42"
-                                    data-name="Path 42"
-                                    d="M815.936,595.507a1,1,0,0,1-.707-1.707l7.758-7.758-7.654-7.655a1,1,0,0,1,1.414-1.414l8.361,8.362a1,1,0,0,1,0,1.414l-8.465,8.465A1,1,0,0,1,815.936,595.507Z"
-                                    fill="#00aced"
-                                />
-                            </g>
-                        </svg>
-                    </span>
-                </div>
+            <div class="q-px-md">
+                <balance />
             </div>
         </div>
+       
     </div>
 </template>
 
 <script>
 import {
-    mapState,
     mapActions,
     mapGetters
 } from 'vuex'
-import {
-    FreeosBlockChainState
-} from '../services/FreeosBlockChainState'
 import Balance from 'components/accountManagement/Balance'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 
@@ -453,19 +192,7 @@ export default {
     name: 'Claim',
     data() {
         return {
-            showCompleteDialog: false,
-            termsCheckbox: false,
-            dialogTitle: "",
-            dialogSubtitle: null,
-            dialogValue: null,
-            tokenCurrencyName: '',//this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
-            dialogCurrency: '',//process.env.CURRENCY_NAME + ' ' + this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
-            stakeCurrency: process.env.STAKING_CURRENCY,
-            currencyName: process.env.CURRENCY_NAME,
-            registerModalOverride: true,
-            showTerms: false,
-            claimWatch: null,
-            showAirkey: process.env.SHOW_AIRKEY
+            claimWatch: null
         }
     },
     components: {
@@ -473,116 +200,63 @@ export default {
         CompleteDialog
     },
     computed: {
-        ...mapGetters('freeos', ['userHasVoted', 'accountType', 'priceLabel', 'userHasStaked', 'isRegistered', 'announceObj', 'stakeRequirement', 'stakeRequirementKYC', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
-        nextClaimDescription: function () {
-            var daysToNextClaim = "";
-            if (this.currentIteration && this.currentIteration.end) {
-                const dateEnd = Math.floor(Date.parse(this.currentIteration.end + "Z") / 1000);
-                const currentTimeStamp = Math.floor(Date.parse(new Date().toISOString()) / 1000);
-                daysToNextClaim = this.secondsToDhms(dateEnd - currentTimeStamp);
-            }
-            return daysToNextClaim
-        },
-        notes: function () {
-            return this.currentIteration && this.currentIteration.iteration_number ? ('Week ' + this.currentIteration.iteration_number) : ''
-        },
-        registerModalTrigger: {
-            get() {
-                return (this.isRegistered === false && this.registerModalOverride === true)
-            },
-            async set(value) {
-                this.registerModalOverride = value;
-                if (this.isRegistered === false) {
-                    console.log("LOGOUT");
-                    await this.logout();
-                }
-            }
-        },
+        ...mapGetters('freeos', [
+            'isFreeosEnabled',
+            'isVerified',
+            'user',
+            'accountType', 
+            'nextClaimIn',
+            'currentIteration',
+            'eligibleToClaim',
+            'nextActivity',
+            'accountName'
+            ]),
     },
     methods: {
-        ...mapActions('freeos', ['fetch', 'register', 'claim']),
-        ...mapActions('account', ['logout']),
-        async registerUser() {
-            const _ = this;
-            var result = await _.register();
-            if (!(result instanceof Error)) {
-                _.announceMsg()
-            }
-            //await this.fetch()
+        ...mapActions('freeos', ['fetch', 'claim']),
+        async goToActivities(){
+            this.$router.push({
+                path: '/activities'
+            })
         },
         async startClaim() {
-            if (this.canClaim) {
+            if (this.eligibleToClaim) {
                 const _ = this;
                 this.claimWatch = true
+
+                var currentPointBalance = this.user.pointBalance
+
                 var result = await _.claim()
                 if (!(result instanceof Error)) {
-                   /* this.$refs.complete.openDialog({
-                        title: "Woohoo", subtitle: "You earned", value: this.currentIteration.claim_amount
-                    });*/
+
+                    //var updateVars = await _.fetch()
+                    //if (!(updateVars instanceof Error)) {
+                        var newPointsBalance = this.user.pointBalance
+
+                        let pointsUnlocked = newPointsBalance - currentPointBalance
+                        console.warn('currentPointBalance', currentPointBalance)
+                        console.warn('newPointsBalance', newPointsBalance)
+
+                        this.$refs.complete.openDialog({
+                            title: "Woohoo", subtitle: "Your claim is being processed.", value: null, currency: null
+                        });
+                    //}
+                    
                 }
                 this.claimWatch = false
             }
-        },
-        announceMsg() {
-            const _ = this;
-            if (_.announceObj && _.announceObj.text) {
-                var storedAnnounceTextId = localStorage.getItem('announceTextId');
-                if (!storedAnnounceTextId || storedAnnounceTextId !== _.announceObj.id) {
-                    var announceText = _.announceObj.text;
-                    if (_.announceObj.link && _.announceObj.link !== '') {
-                        announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
-                    }
-                    /* _.$refs.complete.openDialog({
-                        title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, closeFunc: function () {
-                            localStorage.setItem('announceTextId', _.announceObj.id);
-                        }
-                    });*/ 
-                }
-            }
-        },
-        secondsToDhms(seconds) {
-            seconds = Number(seconds);
-            var d = Math.floor(seconds / (3600 * 24));
-            var h = Math.floor(seconds % (3600 * 24) / 3600);
-            var m = Math.floor(seconds % 3600 / 60);
-            var s = Math.floor(seconds % 60);
-
-            var dDisplay = d > 0 ? d + (d == 1 ? "day" : "days") : "";
-            var hDisplay = h > 0 ? h + (h == 1 ? "hr" : "hrs") : "";
-            var mDisplay = m > 0 ? m + (m == 1 ? "min" : "mins") : "";
-
-            if (dDisplay && hDisplay) {
-                return dDisplay + ", " + hDisplay
-            } else if (hDisplay) {
-                return hDisplay + ", " + mDisplay
-            } else if (dDisplay) {
-                return dDisplay
-            } else {
-                return "0hrs, " + mDisplay
-            }
         }
 
-
     },
-    async created() {
-    },
-    async mounted() {
-        document.body.classList.add('claim-page');
-        const _ = this;
-        var result = await _.fetch();
-        if (this.isRegistered === true) {
-            _.announceMsg();
-        }
-    },
-    destroyed() {
-        document.body.classList.remove('claim-page')
+    mounted(){
+        /*setInterval(()=>{
+            console.warn('nextClaimIn', this.$options.filters.secondsToDhms(this.nextClaimIn))
+        }, 5000)*/
     }
 }
 </script>
 
 <style lang="scss">
-$panel-border-radius: 8px;
-$panel-width: 380px;
 
 .convert-btn {
     text-decoration: none;
@@ -642,55 +316,8 @@ $panel-width: 380px;
     opacity: 0.15;
     transform: translate(-50%, -50%);
 }
-.add-bg {
-    position: relative;
-    padding-top: 10px;
-    padding-bottom: 10px;
 
-    &:after {
-        content: "";
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        pointer-events: none;
-        background: url("../assets/bluebg.svg") bottom center no-repeat;
-        background-size: 4096px;
-    }
-
-    .add-blue-bg {
-        position: absolute;
-        top: -40px;
-        left: 0;
-        right: 0;
-        width: 100%;
-    }
-
-    .add-blue-bg-clip {
-        position: relative;
-        width: 100%;
-    }
-
-    .add-blue-bg > svg {
-        position: absolute;
-        top: 0%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 5000px;
-        clip: rect(0px, 5000px, 520px, 0px);
-    }
-
-    .add-bg-white {
-        position: relative;
-        z-index: 2000;
-        margin: 20px auto 0;
-        max-width: $panel-width;
-        width: 100%;
-        height: 150px;
-        background: #fff;
-        border-radius: 8px;
-        padding: 10px 16px;
+.claim-panel {
         .text-subtitle1 {
             font-size: 0.95rem;
             line-height: 1;
@@ -706,7 +333,7 @@ $panel-width: 380px;
             border: 4px solid #fff;
             margin: -4.5rem -25px 0;
             /* margin-left:  35px; */
-            opacity: 0.9;
+            opacity: 1;
             width: 8rem;
             height: 8rem;
             cursor: default;
@@ -770,7 +397,6 @@ $panel-width: 380px;
             }
         }
     }
-}
 
 .add-hover:hover {
     color: #fff !important;

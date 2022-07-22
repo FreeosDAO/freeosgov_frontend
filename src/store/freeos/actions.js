@@ -17,26 +17,11 @@ export async function monitorBlockChain (state) {
           state.commit('set' + key, data[key])
         }
       }
-      /*
-        this.balance = data.XPRBalance;
-        this.currentIteration = data.currentIteraoutputtion;
-        this.nextIteration = data.nextIteration;
-        this.isRegistered = data.isRegistered;
-        this.user = data.user;
-        this.statistics = data.statistics;
-        this.unvests = data.unvests;
-
-        this.stakeRequirement = data.stakeRequirement ;
-        this.userHasStaked = data.userHasStaked;
-        this.canUnvest = data.canUnvest;
-
-        this.userClaimedAlready = data.userClaimedAlready;
-        */
     }
   })
 }
 export async function fetch(state) {
-  var result = await FreeosBlockChainState.getInstance().singleFetch()
+  var result = await FreeosBlockChainState.getInstance().fetch()
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
    return result;
 }
@@ -104,9 +89,9 @@ export async function convertOptions({ state }, submitData) {
 
 
 
-export async function unvest() {
-  var result = await FreeosBlockChainState.getInstance().unvest()
-  console.log('Result of unvest', result)
+export async function unlock() {
+  var result = await FreeosBlockChainState.getInstance().unlock()
+  console.log('Result of unlock', result)
   return result;
 }
 

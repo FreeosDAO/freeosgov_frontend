@@ -78,9 +78,9 @@ export class FreeosBlockChainState extends EventEmitter {
    async fetch() {
     try {
       this.stop()
-      this.actionFetch()
+      await this.actionFetch()
     } finally {
-      this.start()
+      await this.start()
     }
   }
 
@@ -128,7 +128,7 @@ export class FreeosBlockChainState extends EventEmitter {
     output['parametersTable'] = this.parametersTable
     output['dparametersTable'] = this.dparametersTable
     output['systemRow'] = this.systemRow
-
+    console.log('systemn', this.systemRow)
     /**
      * Grab Main Vars
      */
@@ -169,6 +169,7 @@ export class FreeosBlockChainState extends EventEmitter {
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'participants', scope: user.name, params: {limit: 1}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'vestaccounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
+        {contract: process.env.FREEBITOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEBI', upper_bound: 'FREEBI'}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEOS', upper_bound: 'FREEOS'}},
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
@@ -180,7 +181,10 @@ export class FreeosBlockChainState extends EventEmitter {
         return await this.getRecord(query.contract, query.table, query.scope, query.params)
       }));
       
-      [ user['record'], user['pointBalance'], user['lockedBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'], user['preRegistration']  ] = userVars
+      [ user['record'], user['pointBalance'], user['lockedBalance'], user['freebiBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'], user['preRegistration']  ] = userVars
+
+      // Filter Balances
+      user = this.filterBalances(user)
 
       // Add to output
       output['user'] = user
@@ -228,8 +232,28 @@ export class FreeosBlockChainState extends EventEmitter {
           if(item.indexOf("survey") >= 0) output['surveyCompleted'] = true;
         }
       } 
-    }
 
+      // Check nextActivity
+      let nextActivity = {type: false, message: ''};
+      if(iterations.surveyPeriodActive && !output['surveyCompleted']){
+        nextActivity.type = 'Survey'
+        nextActivity.message = 'Earn Points, participate in the Survey'
+      } 
+      else if(iterations.votePeriodActive && !output['voteCompleted']){
+        nextActivity.type = 'Vote'
+        nextActivity.message = 'Earn Points, participate in the Vote'
+      } 
+      else if(iterations.ratifyPeriodActive && !output['ratifyCompleted']){
+        nextActivity.type = 'Ratify'
+        nextActivity.message = 'Earn Points, Ratify the Vote'
+      }
+      output['nextActivity'] = nextActivity
+
+      // Check eligible to claim
+      const rewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 4});
+      var eligibleToClaim = this.checkEligibleToClaim( iterations.current, svrsTable, user.record, rewardsTable )
+      output['eligibleToClaim'] = eligibleToClaim
+    }
     /**
      * Exchange Rate Vars
      */
@@ -258,6 +282,8 @@ export class FreeosBlockChainState extends EventEmitter {
     output['ratifyStartsIn'] = iterations['ratifyStartsIn'];
     output['ratifyPeriodActive'] = iterations['ratifyPeriodActive'];
     output['ratifyClosesIn'] = iterations['ratifyClosesIn'];
+    output['nextClaimIn'] = iterations['nextClaimIn'];
+    output['currentIteration'] = iterations['current'];
     
 
     // Rewards i.e issuance_rate && mint_fee_percent
@@ -459,7 +485,12 @@ export class FreeosBlockChainState extends EventEmitter {
   async claim() {
     /* TO DO */
     //let cronacle = await this.setupCronacle()
-    //return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'claim', false, cronacle)
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'claim')
+  }
+
+  async unlock() {
+    //let cronacle = await this.setupCronacle()
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'unlock')
   }
 
   async transfer(sendData) {
@@ -596,19 +627,30 @@ export class FreeosBlockChainState extends EventEmitter {
     // Get current iteration
     let currentIteration = Math.floor( (elapsed_seconds / iterationsec) + 1 )
     let nextIteration = currentIteration + 1
+   
+    
     let elapsedFromIteration = elapsed_seconds % iterationsec;
+    let nextClaimIn = iterationsec - elapsedFromIteration
+
+
+    // Set active period
+    let surveyPeriodActive = elapsedFromIteration >= surveystart && elapsedFromIteration <= surveyend ? true : false;
+    let votePeriodActive =  elapsedFromIteration >= votestart && elapsedFromIteration <= voteend ? true : false;
+    let ratifyPeriodActive = elapsedFromIteration >= ratifystart && elapsedFromIteration <= ratifyend ? true : false;
+
     return {
-      surveyPeriodActive: elapsedFromIteration >= surveystart && elapsedFromIteration <= surveyend ? true : false,
+      surveyPeriodActive: surveyPeriodActive,
       voteStartsIn: votestart - elapsedFromIteration,
       voteClosesIn: voteend - elapsedFromIteration,
-      votePeriodActive: elapsedFromIteration >= votestart && elapsedFromIteration <= voteend ? true : false,
+      votePeriodActive: votePeriodActive,
       surveyClosesIn:  surveyend - elapsedFromIteration,
       ratifyStartsIn: ratifystart - elapsedFromIteration,
       ratifyClosesIn: ratifyend - elapsedFromIteration,
       ratificationStartsIn: ratifystart - elapsedFromIteration,
-      ratifyPeriodActive: elapsedFromIteration >= ratifystart && elapsedFromIteration <= ratifyend ? true : false,
+      ratifyPeriodActive: ratifyPeriodActive,
       current: currentIteration,
-      next: nextIteration
+      next: nextIteration,
+      nextClaimIn: nextClaimIn
     }
   }
 
@@ -619,4 +661,79 @@ export class FreeosBlockChainState extends EventEmitter {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }
 
+  /**
+   * Filters balances retrived from contract tables
+   */
+  filterBalances(user){
+    // iterate over user
+    for (let [key, value] of Object.entries(user)) {
+      // only get valid balances
+      if(key.includes('Balance')){
+
+        // make sure it isn't null
+        if (value){
+          let balance = parseFloat(value.balance.split(' ')[0]).toFixed(0)
+          user[key] = balance.toLocaleString('en-US')
+        }
+        // if null
+        else{
+          user[key] = "0"
+        }
+        
+      }
+    }
+
+    return user
+  }
+
+  /**
+   * Check if user is eligible to claim
+   */
+  checkEligibleToClaim(currentIteration, svrsTable, userRecord, rewardsTable){
+
+    // if first iteration then return
+    if(currentIteration == 1){
+      console.warn('eligibleToClaim', 'not eligible due to first iteration')
+      return false
+    }
+
+    // get all iterations user participated in
+    // which are higher than the last claimed iteration
+    let iterationsParticipated = []
+    for(let [key, row] of Object.entries(svrsTable)){
+      if(row > userRecord.last_claim){
+        iterationsParticipated.push(row)
+      }
+    }
+
+    console.warn('eligibleToClaim: iterations', iterationsParticipated)
+
+    // iterate over participated iterations
+    // check if vote has been ratified
+    let eligible = false
+
+    for(let iteration of iterationsParticipated){
+
+      let filteredRewards = []
+      if(rewardsTable.length){
+        filteredRewards = rewardsTable.filter((row)=>{
+          return row.iteration == iteration && row.ratified == 1
+        })
+      } else if( "iteration" in rewardsTable){
+        if(rewardsTable.iteration == iteration && rewardsTable.ratified){
+          filteredRewards.push(rewardsTable)
+        }
+      }
+
+      if(filteredRewards.length){
+        console.warn('eligibleToClaim: rewards found', filteredRewards)
+        eligible = true;
+        break;
+      }
+
+    }
+
+    return eligible
+
+  }
 }

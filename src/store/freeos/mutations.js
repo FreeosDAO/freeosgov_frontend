@@ -101,3 +101,17 @@ export const setrewardsCurrent = (state, rewardsCurrent) => {
 export const setrewardsPrevious = (state, rewardsPrevious) => {
   state.rewardsPrevious = rewardsPrevious
 }
+
+// Claim Mutations
+export const setnextClaimIn = (state, nextClaimIn) => {
+  state.nextClaimIn = nextClaimIn
+}
+export const setcurrentIteration = (state, currentIteration) => {
+  state.currentIteration = currentIteration
+}
+export const seteligibleToClaim = (state, eligibleToClaim) => {
+  state.eligibleToClaim = eligibleToClaim
+}
+export const setnextActivity = (state, nextActivity) => {
+  state.nextActivity = nextActivity
+}

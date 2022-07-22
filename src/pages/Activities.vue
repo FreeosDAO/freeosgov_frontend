@@ -2,11 +2,11 @@
   <div class="q-pa-md">
     <CompleteDialog ref="complete" />
     <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
-      <p class="text-body3 q-mb-xs text-center">
+      <!--<p class="text-body3 q-mb-xs text-center">
         {{ priceLabel }}{{ currentPrice }}
         <q-icon v-if="currentPrice >= targetPrice" size="xs" name="arrow_upward" />
         <q-icon v-if="currentPrice < targetPrice" size="xs" name="arrow_downward" />
-      </p>
+      </p>-->
 
       <!--GET KYC'd-->
       <div class="panel-wrap" v-if="!isVerified">
