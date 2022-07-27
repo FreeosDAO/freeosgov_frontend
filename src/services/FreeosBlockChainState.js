@@ -124,13 +124,11 @@ export class FreeosBlockChainState extends EventEmitter {
 
     [this.parametersTable, this.dparametersTable, this.systemRow, this.surveyRecord] = tables;
 
-    console.log('surveyrecord', this.surveyRecord);
     output['surveyRecord'] = this.surveyRecord;
     // add to output
     output['parametersTable'] = this.parametersTable
     output['dparametersTable'] = this.dparametersTable
     output['systemRow'] = this.systemRow
-    console.log('systemn', this.systemRow)
     /**
      * Grab Main Vars
      */
@@ -225,8 +223,6 @@ export class FreeosBlockChainState extends EventEmitter {
       output['surveyCompleted'] = false;
       output['ratifyCompleted'] = false;
       const svrsTable = await this.getUserRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', {limit: 1});
-      console.log('current', iterations.current)
-      console.log('svrsTable', svrsTable)
       for (const item in svrsTable) {
         if(svrsTable[item]===iterations.current){
           if(item.indexOf("vote") >= 0) output['voteCompleted'] = true;

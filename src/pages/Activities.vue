@@ -1,12 +1,8 @@
 <template>
   <div class="q-pa-md">
     <CompleteDialog ref="complete" />
+
     <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
-      <!--<p class="text-body3 q-mb-xs text-center">
-        {{ priceLabel }}{{ currentPrice }}
-        <q-icon v-if="currentPrice >= targetPrice" size="xs" name="arrow_upward" />
-        <q-icon v-if="currentPrice < targetPrice" size="xs" name="arrow_downward" />
-      </p>-->
 
       <!--GET KYC'd-->
       <div class="panel-wrap" v-if="!isVerified">
@@ -52,15 +48,15 @@
 
 
         <!--SURVEY RESULTS-->
-        <div v-if="surveyCompleted && surveyPeriodActive && surveyResultsDisplay"  class="panel-wrap">
+        <div v-if="!voteCompleted && votePeriodActive && surveyResultsDisplay"  class="panel-wrap">
           <q-card class="panel">
             <div class="text-h4 text-center q-ma-lg">This Weeks Survey Results</div>
             
 
-            <div class="text-subtitle1 bg-primary text-white text-center q-pa-md"><strong>Thank you to everyone who participated in the weekly survey. This weeks survey results are:</strong></div>
+            <div class="text-subtitle2 bg-primary text-white text-center q-pa-md"><strong>Thank you to everyone who participated in the weekly survey. This weeks survey results are:</strong></div>
 
             <section class="q-py-md" >
-                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
             Q1: Where do you feel the Bitcoin & Wider crypto markets are heading?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
@@ -70,7 +66,7 @@
                   </ul>
             </section>
             <section class="q-py-md bg-info">
-                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
             Q2: How long before the crypto market changes direction?:
                   </strong></p>
                   <ul v-if="surveyRecord" class="resultlist q-mb-sm">
@@ -78,7 +74,7 @@
                   </ul>
             </section>
             <section class="q-py-md" >
-                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
             Q3: Where do you feel the FREEOS market is heading?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
@@ -88,15 +84,15 @@
                   </ul>
             </section>
             <section class="q-py-md bg-info">
-                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
             Q4: How long before the FREEOS market changes direction?:
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
                     <li class="highitem">{{parseFloat(surveyRecord['q4average'])}} Months (average)</li>
                   </ul>
             </section>
-            <section>
-                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+            <section class="q-py-md">
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
            Q5: What are the priorities for voting this week?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
@@ -246,8 +242,8 @@
         <q-form ref="myForm" v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay" class="panel-wrap" @submit="submitVote()"
           novalidate>
           <q-card class="panel">
-            <a class="q-link q-ma-md text-primary" @click="surveyResultsDisplay = true">< Back to survey results</a>
-            <div class="text-h4 text-center q-pa-lg">Welcome to the Vote</div>
+            <div class="cursor-pointer text-subtitle2 q-pa-md text-primary" @click="surveyResultsDisplay = true">< Back to survey results</div>
+            <div class="text-h4 text-center q-px-lg q-pb-lg">Welcome to the Vote</div>
             <div class="bg-info text-center q-py-md">Complete for {{ voteShare }}% of your weekly Claim</div>
 
             <div class="bg-primary text-h5 text-center text-white q-py-md">Vote Closes in: <span
@@ -434,7 +430,7 @@
               <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
             </svg>
 
-            <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in this week's survey
+            <div class="text-subtitle2 text-primary text-center q-ma-md q-mt-none">Thanks for participating in this week's survey
             </div>
             <div class="bg-info text-h5 text-center q-py-md">Next: The Weekly Vote</div>
             <div class="bg-primary text-h5 text-center text-white q-py-md">Starts In <span
