@@ -67,5 +67,6 @@ var definition = {
   eligibleToClaim: null,
   nextActivity: null,
 
+  surveyRecord: null
 }
 export default definition

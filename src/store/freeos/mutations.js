@@ -71,6 +71,9 @@ export const setsurveyClosesIn = (state, surveyClosesIn) => {
 export const setsurveyPeriodActive = (state, surveyPeriodActive) => {
   state.surveyPeriodActive = surveyPeriodActive
 }
+export const setsurveyRecord = (state, surveyRecord) => {
+  state.surveyRecord = surveyRecord
+}
 export const setvoteStartsIn = (state, voteStartsIn) => {
   state.voteStartsIn = voteStartsIn
 }

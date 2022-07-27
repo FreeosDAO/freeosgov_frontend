@@ -49,6 +49,73 @@
 
       <div v-if="isVerified && isRegistered">
 
+
+
+        <!--SURVEY RESULTS-->
+        <div v-if="surveyCompleted && surveyPeriodActive && surveyResultsDisplay"  class="panel-wrap">
+          <q-card class="panel">
+            <div class="text-h4 text-center q-ma-lg">This Weeks Survey Results</div>
+            
+
+            <div class="text-subtitle1 bg-primary text-white text-center q-pa-md"><strong>Thank you to everyone who participated in the weekly survey. This weeks survey results are:</strong></div>
+
+            <section class="q-py-md" >
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+            Q1: Where do you feel the Bitcoin & Wider crypto markets are heading?
+                  </strong></p>
+                  <ul class="resultlist q-mb-sm">
+                    <li :class="{highitem: resultq1Highest === surveyRecord['q1choice1']}">{{resultq1choice1}}% Growing (Bull Market)</li>
+                    <li :class="{highitem: resultq1Highest === surveyRecord['q1choice2']}">{{resultq1choice2}}% Shrinking (Bear Market)</li>
+                    <li :class="{highitem: resultq1Highest === surveyRecord['q1choice3']}">{{resultq1choice3}}% Neither (going sideways)</li>
+                  </ul>
+            </section>
+            <section class="q-py-md bg-info">
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+            Q2: How long before the crypto market changes direction?:
+                  </strong></p>
+                  <ul v-if="surveyRecord" class="resultlist q-mb-sm">
+                    <li class="highitem">{{parseFloat(surveyRecord['q2average'])}} Months (average)</li>
+                  </ul>
+            </section>
+            <section class="q-py-md" >
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+            Q3: Where do you feel the FREEOS market is heading?
+                  </strong></p>
+                  <ul class="resultlist q-mb-sm">
+                    <li :class="{highitem: resultq3Highest === surveyRecord['q3choice1']}">{{resultq3choice1}}% Growing (Bull Market)</li>
+                    <li :class="{highitem: resultq3Highest === surveyRecord['q3choice2']}">{{resultq3choice2}}% Shrinking (Bear Market)</li>
+                    <li :class="{highitem: resultq3Highest === surveyRecord['q3choice3']}">{{resultq3choice3}}% Neither (going sideways)</li>
+                  </ul>
+            </section>
+            <section class="q-py-md bg-info">
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+            Q4: How long before the FREEOS market changes direction?:
+                  </strong></p>
+                  <ul class="resultlist q-mb-sm">
+                    <li class="highitem">{{parseFloat(surveyRecord['q4average'])}} Months (average)</li>
+                  </ul>
+            </section>
+            <section>
+                  <p class="text-subtitle1 text-primary q-mx-lg q-mt-md"><strong>
+           Q5: What are the priorities for voting this week?
+                  </strong></p>
+                  <ul class="resultlist q-mb-sm">
+                  <li :class="{highitem: resultq5Highest === surveyRecord['q5choice1']}">{{resultq5choice1}}% Growing the participants</li>
+                  <li :class="{highitem: resultq5Highest === surveyRecord['q5choice2']}">{{resultq5choice2}}% Stabilising the price</li>
+                  <li :class="{highitem: resultq5Highest === surveyRecord['q5choice3']}">{{resultq5choice3}}% Raising the Locking Threshold</li>
+                  </ul>
+            </section>
+            <div class="q-pa-lg justify-center q-mb-sm">
+              <q-btn @click="surveyResultsDisplay = false" size="lg" unelevated no-caps outline
+                color="primary">
+                Start this Weeks Vote</q-btn>
+            </div>
+
+          </q-card>
+        </div>
+
+
+
         <div v-if="ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
             <div class="text-h4 text-center q-ma-lg">Cool burgers!</div>
@@ -176,9 +243,10 @@
 
 
         <!--THE VOTE-->
-        <q-form ref="myForm" v-if="!voteCompleted && votePeriodActive" class="panel-wrap" @submit="submitVote()"
+        <q-form ref="myForm" v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay" class="panel-wrap" @submit="submitVote()"
           novalidate>
           <q-card class="panel">
+            <a class="q-link q-ma-md text-primary" @click="surveyResultsDisplay = true">< Back to survey results</a>
             <div class="text-h4 text-center q-pa-lg">Welcome to the Vote</div>
             <div class="bg-info text-center q-py-md">Complete for {{ voteShare }}% of your weekly Claim</div>
 
@@ -552,6 +620,7 @@ export default {
       voteq1RangeUpper: 100,
       voteq2RangeLower: 6,
       voteq2RangeUpper: 30,
+      surveyResultsDisplay: true,
     }
   },
   components: {
@@ -584,9 +653,70 @@ export default {
       'rewardsCurrent',
       'rewardsPrevious',
       'isVerified',
+      'surveyRecord',
       'userHasStaked', 'userHasVoted', 'isAuthenticated', 'accountName', 'isRegistered', 'stakeRequirement', 'isFreeosEnabled', 'totalFreeos', 'liquidFreeos', 'liquidOptions', 'canClaim', 'reasonCannotClaim', 'currentIteration', 'nextIteration', 'airkeyBalance', 'airclaimStatus', 'currentPrice', 'targetPrice']),
     userHasStakedORHasAirkey() {
       return this.userHasStaked || this.airkeyBalance
+    },
+    resultq1choice1() {
+      const sv = this.surveyRecord
+      var result = sv['q1choice1'] / (sv['q1choice1'] + sv['q1choice2'] + sv['q1choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq1choice2() {
+      const sv = this.surveyRecord
+      var result = sv['q1choice2'] / (sv['q1choice1'] + sv['q1choice2'] + sv['q1choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq1choice3() {
+      const sv = this.surveyRecord
+      var result = sv['q1choice3'] / (sv['q1choice1'] + sv['q1choice2'] + sv['q1choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq1Highest() {
+      const arr = [this.surveyRecord['q1choice1'],this.surveyRecord['q1choice2'],this.surveyRecord['q1choice3']];
+      var max = Math.max(...arr)
+      return max;
+    },
+    resultq3choice1() {
+      const sv = this.surveyRecord;
+      var result = sv['q3choice1'] / (sv['q3choice1'] + sv['q3choice2'] + sv['q3choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq3choice2() {
+      const sv = this.surveyRecord
+      var result = sv['q3choice2'] / (sv['q3choice1'] + sv['q3choice2'] + sv['q3choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq3choice3() {
+      const sv = this.surveyRecord
+      var result = sv['q3choice3'] / (sv['q3choice1'] + sv['q3choice2'] + sv['q3choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq3Highest() {
+      const arr = [this.surveyRecord['q3choice1'],this.surveyRecord['q3choice2'],this.surveyRecord['q3choice3']];
+      var max = Math.max(...arr)
+      return max;
+    },
+    resultq5choice1() {
+      const sv = this.surveyRecord;
+      var result = sv['q5choice1'] / (sv['q5choice1'] + sv['q5choice2'] + sv['q5choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq5choice2() {
+      const sv = this.surveyRecord
+      var result = sv['q5choice2'] / (sv['q5choice1'] + sv['q5choice2'] + sv['q5choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq5choice3() {
+      const sv = this.surveyRecord
+      var result = sv['q5choice3'] / (sv['q5choice1'] + sv['q5choice2'] + sv['q5choice3']) * 100;
+      return parseFloat(result.toFixed(2));
+    },
+    resultq5Highest() {
+      const arr = [this.surveyRecord['q5choice1'],this.surveyRecord['q5choice2'],this.surveyRecord['q5choice3']];
+      var max = Math.max(...arr)
+      return max;
     },
     surveyq5options2() {
       return this.surveyq5options1.filter(q => q.value !== this.surveyq5choice1);
@@ -656,7 +786,7 @@ export default {
     async submitVote() {
       const _ = this;
       console.log(this.surveyPeriodActive, this.surveyCompleted);
-
+      this.surveyResultsDisplay = true;
       var result = await _.vote({
         user: this.accountName,
         q1response: this.voteq1response,
@@ -693,6 +823,7 @@ export default {
 </script>
 
 <style>
+
 .happy-stickman {
   margin: -3rem 0;
 }
@@ -738,5 +869,16 @@ export default {
 .q-slider__marker-labels-container .q-slider__marker-labels:last-child {
   display: block;
   line-height: 1;
+}
+
+.highitem{
+  font-weight:bold;
+  font-size:15.5px;
+}
+.resultlist{
+  list-style: none;
+  line-height: 2;
+  margin-top:-10px;
+  padding-top:0;
 }
 </style>

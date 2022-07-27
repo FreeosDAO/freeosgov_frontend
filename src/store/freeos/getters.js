@@ -48,6 +48,7 @@ export const voteShare = ({ voteShare }) => voteShare
 export const surveyClosesIn = ({ surveyClosesIn }) => surveyClosesIn
 export const surveyPeriodActive = ({ surveyPeriodActive }) => surveyPeriodActive
 export const surveyCompleted = ({ surveyCompleted }) => surveyCompleted
+export const surveyRecord = ({ surveyRecord }) => surveyRecord
 
 export const voteStartsIn = ({ voteStartsIn }) => voteStartsIn
 export const voteClosesIn = ({ voteClosesIn }) => voteClosesIn

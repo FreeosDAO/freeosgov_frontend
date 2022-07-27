@@ -117,13 +117,15 @@ export class FreeosBlockChainState extends EventEmitter {
      * Get Contract Tables
      */
 
-    let tableNames = ['parameters', 'dparameters', 'system']
+    let tableNames = ['parameters', 'dparameters', 'system', 'surveyrecord']
     let tables = await Promise.all(tableNames.map(async table => {
       return await this.getRecord(process.env.FREEOSGOV_CONTRACT, table, null, {limit: 100})
     }));
 
-    [this.parametersTable, this.dparametersTable, this.systemRow] = tables;
+    [this.parametersTable, this.dparametersTable, this.systemRow, this.surveyRecord] = tables;
 
+    console.log('surveyrecord', this.surveyRecord);
+    output['surveyRecord'] = this.surveyRecord;
     // add to output
     output['parametersTable'] = this.parametersTable
     output['dparametersTable'] = this.dparametersTable
