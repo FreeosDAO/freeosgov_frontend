@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr fFf">
+  <q-layout view="hHh Lpr fFf" class="page">
     <q-header reveal elevated  height-hint="98" style="background-color: #00a1ed">
       <q-toolbar style="justify-content: space-between;">
         <q-btn class="burger-menu" :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')" @click="drawer = !drawer">
@@ -36,7 +36,7 @@
                   <!-- <q-icon :name="menuItem.icon" /> -->
                   <img :src="menuItem.icon" alt="menu-icon" class="menu-icon">
                 </q-item-section>
-                <q-item-section class="text-subtitle1">
+                <q-item-section class="text-subtitle1 lhs">
                    <strong>{{ menuItem.label }}</strong>
                 </q-item-section>
             </q-item>
@@ -125,6 +125,12 @@ const menuList = [
     separator: true,
     route: 'https://auction.freeos.io'
   },
+    {
+    icon: require('@/assets/snipcoins.svg'),
+    label: 'Snipcoins Community',
+    separator: true,
+    route: 'https://snipcoins.com/Freeos_Chat'
+  },
   {
     icon: require('@/assets/info.svg'),
     label: 'Info',
@@ -195,6 +201,9 @@ export default {
     // this.getClaimCalendar()
     this.monitorBlockChain();
   },
+  mounted(){
+    document.body.classList.remove('index')
+  },
   watch: {
     isFreeosEnabled: {
       immediate: true,
@@ -228,11 +237,16 @@ export default {
 $panel-border-radius: 8px;
 $panel-width: 450px;
 
-  .page-container-main{
-      background: url('../assets/bluebg.svg') center -50px no-repeat;
-      background-size:4056px;
-      padding-bottom:100px;
+  .page .page-container{
+    background-image: url('../assets/bluebg.svg');
+    background-size: 130vw;
+    background-position: center 25vh;
+    background-repeat: no-repeat;
+    padding-bottom:100px;
   }
+  .lhs{
+    line-height: 1.1 !important
+  } 
   .claim-page   .page-container-main{
     background:none;
   }

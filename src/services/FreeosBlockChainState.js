@@ -170,7 +170,7 @@ export class FreeosBlockChainState extends EventEmitter {
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'vestaccounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
         {contract: process.env.FREEBITOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEBI', upper_bound: 'FREEBI'}},
-        {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEOS', upper_bound: 'FREEOS'}},
+        {contract: process.env.FREEOSTOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEOS', upper_bound: 'FREEOS'}},
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
         {contract: kycContract, table: 'usersinfo', scope: kycContract, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
@@ -185,7 +185,7 @@ export class FreeosBlockChainState extends EventEmitter {
 
       // Filter Balances
       user = this.filterBalances(user)
-
+      
       // Add to output
       output['user'] = user
       output['isAuthenticated'] = true
@@ -694,6 +694,12 @@ export class FreeosBlockChainState extends EventEmitter {
     // if first iteration then return
     if(currentIteration == 1){
       console.warn('eligibleToClaim', 'not eligible due to first iteration')
+      return false
+    }
+
+    // if any tables null, then not eligible
+    if(svrsTable == null || userRecord == null || rewardsTable == null){
+      console.warn('eligibleToClaim', 'not eligible due to empty tables')
       return false
     }
 

@@ -94,11 +94,16 @@ export default {
             },
         },
     },
-    async mounted() {}
+    mounted() {
+        document.body.classList.add('index')
+    }
 }
 </script>
 
 <style>
+body.index{
+    background-color: #d5f2ff
+}
 .q-focus-helper {
     display: none;
 }

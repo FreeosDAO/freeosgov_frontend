@@ -1,5 +1,5 @@
 <template>
-    <div class="text-center relative">
+    <div class="text-center relative q-px-md">
 
         <CompleteDialog ref="complete" />
 
@@ -171,10 +171,9 @@
                     </div>
                 </div>
             </div>
+            
+            <balance />
 
-            <div class="q-px-md">
-                <balance />
-            </div>
         </div>
        
     </div>
