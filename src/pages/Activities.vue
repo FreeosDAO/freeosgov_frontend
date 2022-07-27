@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div>
     <CompleteDialog ref="complete" />
 
     <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
@@ -36,7 +36,7 @@
               href="https://www.freedao.io/t-cs">Terms of Service</a></label>
 
           <q-card-actions align="center">
-            <q-btn :disabled="!termsCheckbox" unelevated size="lg" class="q-mb-m" outline color="primary"
+            <q-btn :disabled="!termsCheckbox" unelevated no-caps size="xl" class="full-width q-mb-m" color="primary"
               @click="register()">Register</q-btn>
           </q-card-actions>
         </q-card>
@@ -102,7 +102,7 @@
                   </ul>
             </section>
             <div class="q-pa-lg justify-center q-mb-sm">
-              <q-btn @click="surveyResultsDisplay = false" size="lg" unelevated no-caps outline
+              <q-btn class="full-width" @click="surveyResultsDisplay = false" size="xl" unelevated no-caps
                 color="primary">
                 Start this Weeks Vote</q-btn>
             </div>
@@ -191,11 +191,11 @@
               <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this weeks VOTE is appropriate today?</strong></div>
 
               <div rounded v-if="voteCompleted" style="display:flex;justify-content:center;" class="q-pa-md full-width justify-center q-mb-md ">
-                <q-btn size="lg" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
+                <q-btn size="xl" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
                   color="primary">
                   Yes</q-btn>
 
-                <q-btn size="lg" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
+                <q-btn size="xl" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
                   color="primary">
                   No</q-btn>
 
@@ -398,7 +398,7 @@
             </article>
 
             <div class="q-pa-lg justify-center q-mb-sm">
-              <q-btn size="lg" unelevated no-caps outline
+              <q-btn class="full-width" size="xl" unelevated no-caps
                 :disable="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper) || validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper) || validateRange(voteq3response, voteq3RangeLower, voteq3RangeUpper())"
                 color="primary" type="submit">
                 Submit Vote</q-btn>
@@ -545,19 +545,19 @@
                 </ul>
 
                 <q-select lazy-rules :rules="[val => val || 'Please Select an Option']" required emit-value map-options
-                  outlined v-model="surveyq5choice1" :options="surveyq5options1" label="Select Priority 1" />
+                 v-model="surveyq5choice1" :options="surveyq5options1" label="Select Priority 1" />
                 <q-select class="q-mt-sm" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-                  :disable="surveyq5choice1 === null" emit-value map-options outlined v-model="surveyq5choice2"
+                  :disable="surveyq5choice1 === null" emit-value map-options v-model="surveyq5choice2"
                   :options="surveyq5options2" label="Select Priority 2" />
                 <q-select class="q-mt-sm q-mb-lg" lazy-rules :rules="[val => val || 'Please Select an Option']" required
-                  :disable="surveyq5choice2 === null" emit-value map-options outlined v-model="surveyq5choice3"
+                  :disable="surveyq5choice2 === null" emit-value map-options v-model="surveyq5choice3"
                   :options="surveyq5options3" label="Select Priority 3" />
 
               </div>
             </section>
 
             <div style="align-items: center;" class="row justify-center q-mt-sm q-mb-lg q-px-lg">
-              <q-btn size="lg" unelevated no-caps outline :disable="!surveyPeriodActive || surveyCompleted"
+              <q-btn class="full-width" size="xl" unelevated no-caps :disable="!surveyPeriodActive || surveyCompleted"
                 color="primary" type="submit">
                 Submit Survey</q-btn>
             </div>
