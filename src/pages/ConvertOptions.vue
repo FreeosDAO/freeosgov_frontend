@@ -13,7 +13,7 @@
           >This could be a Taxable event in your jurisdiction</p>
           <p class="q-mb-md text-center" style="line-height:1.4;">
             For more info,
-            <router-link to="/info#mint">click here</router-link>
+            <a target="_blank" title="Info on minting" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1442">click here</a>
           </p>
           <div class="panel panel-strong q-pa-lg text-center q-mb-lg q-pa-lg">
             <p class="q-mb-sm text-subtitle1" style="line-height:1.2;">

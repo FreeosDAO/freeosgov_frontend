@@ -4,19 +4,11 @@
         <div class="panel-wrap">
             <q-card class="panel  q-pa-lg">
                 <div class="text-h4 text-center q-ma-lg">Registration</div>
-                 <p class="q-mb-md text-center" style="line-height:1.4;">For more info, <router-link to="/info#registration">click here</router-link></p>
+                 <p class="q-mb-md text-center" style="line-height:1.4;">
+                    For more info, <a target="_blank" title="Info on registration" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1382">click here</a>
+                </p>
 
              <q-checkbox id="termsCheckbox" v-model="termsCheckbox" /><label  for="termsCheckbox">I accept Freeos's <a class="cursor-pointer" style="text-decoration:underline" target="_blank" href="https://www.freedao.io/t-cs">Terms of Service</a></label>
-
-
-                <div v-show="showTerms" style="width:100%;max-height:120px;overflow-y: auto;" class="text-left">
-                    <p class="text-body1"><strong>Freeos Terms of Service</strong></p>
-                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                    <p class="text-body2">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
-                </div>
-
 
             <q-card-actions align="center">
                 <q-btn :disabled="!termsCheckbox" unelevated size="lg" class="q-mb-m" outline color="primary" @click="submit()">ReRegister</q-btn>

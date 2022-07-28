@@ -101,13 +101,6 @@ const menuList = [
     route: '/mint'
   },
   {
-    icon: require('@/assets/stack.svg'),
-    label: 'Stake',
-    separator: true,
-    displayCondition: "showStake",
-    route: '/stake'
-  },
-  {
     icon: require('@/assets/register.svg'),
     label: 'Re-register',
     separator: true,
@@ -135,7 +128,7 @@ const menuList = [
     icon: require('@/assets/info.svg'),
     label: 'Info',
     separator: true,
-    route: '/info'
+    route: 'https://docs.freeos.io/'
   }
 ]
 export default {

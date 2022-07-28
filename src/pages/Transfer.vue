@@ -8,7 +8,7 @@
                 <div class="text-h4 text-center q-mt-lg q-mb-sm">Send Tokens</div>
 
                 <div class="text-center q-pb-lg">
-                    For more info <router-link to="/info#transfer">click here</router-link>.
+                    For more info <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
                 </div>  
                 <div v-if="!liquidFreeos && !XPRBalance" class="q-pa-lg text-center">
                     You have nothing in your account to transfer currently
@@ -89,7 +89,7 @@
                 <div class="text-h4 text-center  q-mt-lg q-mb-sm">Receive Tokens</div>
 
                 <div class="text-center q-pb-xs">
-                    For more info <router-link to="/info#transfer">click here</router-link>.
+                    For more info <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>..
                 </div>  
 
                 <div class="q-mt-md text-center text-h5">@{{accountName}}</div>

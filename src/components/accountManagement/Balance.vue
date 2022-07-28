@@ -34,11 +34,12 @@
             <div class="col-5 text-h5">{{user.lockedBalance || '0'}}</div>
         </div>
         <div class="flex">
-            <small class="q-mr-auto">For more info on Locked Points <router-link to="/info#vested-options">click here</router-link></small>
+            <small class="q-mr-auto">For more info on Locked Points <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1462">click here</a></small>
         </div>
         <q-btn v-if="systemRow.unlockpercent > 0" v-bind:disabled="user.record.last_unlock == currentIteration" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">
             <span>Unlock<span> {{systemRow.unlockpercent || 0}}%</span></span>
         </q-btn>
+        <p class="text-h6 q-mt-lg q-mb-none" v-if="systemRow.unlockpercent <= 0">Points currently cannot be unlocked.</p>
         <CompleteDialog  ref="complete"  />
     </div>
 </div>

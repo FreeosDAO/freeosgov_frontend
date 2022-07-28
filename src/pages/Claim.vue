@@ -1,15 +1,13 @@
 <template>
     <div class="text-center relative q-px-md">
 
-        <CompleteDialog ref="complete" />
+        <CompleteDialog ref="complete"></CompleteDialog>
 
         <div v-if="!isFreeosEnabled">
             <b>Freeos system is not currently operational. Please check back later.</b>
         </div>
 
-        <div v-if="isFreeosEnabled && !isVerified">
-            <b>User not verified. Message goes here.</b>
-        </div>
+        <GetVerified message="Get Verified to Claim" />
 
         <div v-if="isFreeosEnabled">
             <div class="bg-white panel-wrap panel-top-total q-pa-lg">
@@ -151,7 +149,7 @@
                     </div>
                 </div>
 
-                <div
+                <div v-if="isVerified"
                     class="flex justify-center text-center q-mt-lg"
                     style="align-items:center;"
                 >
@@ -166,15 +164,13 @@
                     <div class="flex">
                         <small class="q-mr-auto">
                             For more info on Claiming
-                            <router-link to="/info#claiming">click here</router-link>
+                            <a title="Info on claiming" target="_blank" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1422">click here</a>
                         </small>
                     </div>
                 </div>
             </div>
-            
-            <balance />
-
         </div>
+        <balance />
        
     </div>
 </template>
@@ -186,6 +182,7 @@ import {
 } from 'vuex'
 import Balance from 'components/accountManagement/Balance'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
+import GetVerified from 'src/components/GetVerified.vue'
 
 export default {
     name: 'Claim',
@@ -196,7 +193,8 @@ export default {
     },
     components: {
         Balance,
-        CompleteDialog
+        CompleteDialog,
+        GetVerified
     },
     computed: {
         ...mapGetters('freeos', [
