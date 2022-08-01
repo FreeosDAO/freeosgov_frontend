@@ -98,7 +98,8 @@ const menuList = [
     icon: require('@/assets/convert.svg'),
     label: 'Mint',
     separator: true,
-    route: '/mint'
+    route: '/mint',
+    displayCondition: "isVerifiedCheck"
   },
   {
     icon: require('@/assets/register.svg'),
@@ -142,7 +143,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('freeos', ['user', 'isAuthenticated', 'stakeRequirement', 'isFreeosEnabled', 'userHasStaked', 'userStake', 'airkeyBalance', 'currentPrice', 'targetPrice', 'priceLabel']),
+    ...mapGetters('freeos', ['user', 'isVerified', 'isAuthenticated', 'stakeRequirement', 'isFreeosEnabled', 'userHasStaked', 'userStake', 'airkeyBalance', 'currentPrice', 'targetPrice', 'priceLabel']),
     appVersion: function () {
       return process.env.APP_VERSION
     },
@@ -167,8 +168,8 @@ export default {
     showUserHasStakedORHasAirkey: function () {
        return this.userHasStaked || this.airkeyBalance
     },
-    showAccountTypeV: function () {
-       return this.user && this.user.record && this.user.record.account_type;
+    isVerifiedCheck: function () {
+       return this.isVerified
     },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
@@ -281,7 +282,7 @@ $panel-width: 450px;
 }
 
 .panel {
-    border: 1px solid #eee !important;
+    border: 1px solid var(--q-color-primary) !important;
     border-radius: $panel-border-radius !important;
     box-shadow: none;
 }

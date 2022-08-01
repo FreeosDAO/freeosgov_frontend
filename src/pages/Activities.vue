@@ -643,17 +643,18 @@ export default {
     resultq1choice1() {
       const sv = this.surveyRecord
       var result = sv['q1choice1'] / (sv['q1choice1'] + sv['q1choice2'] + sv['q1choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      console.log('rese', result);
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq1choice2() {
       const sv = this.surveyRecord
       var result = sv['q1choice2'] / (sv['q1choice1'] + sv['q1choice2'] + sv['q1choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq1choice3() {
       const sv = this.surveyRecord
       var result = sv['q1choice3'] / (sv['q1choice1'] + sv['q1choice2'] + sv['q1choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq1Highest() {
       const arr = [this.surveyRecord['q1choice1'],this.surveyRecord['q1choice2'],this.surveyRecord['q1choice3']];
@@ -663,17 +664,17 @@ export default {
     resultq3choice1() {
       const sv = this.surveyRecord;
       var result = sv['q3choice1'] / (sv['q3choice1'] + sv['q3choice2'] + sv['q3choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq3choice2() {
       const sv = this.surveyRecord
       var result = sv['q3choice2'] / (sv['q3choice1'] + sv['q3choice2'] + sv['q3choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq3choice3() {
       const sv = this.surveyRecord
       var result = sv['q3choice3'] / (sv['q3choice1'] + sv['q3choice2'] + sv['q3choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq3Highest() {
       const arr = [this.surveyRecord['q3choice1'],this.surveyRecord['q3choice2'],this.surveyRecord['q3choice3']];
@@ -683,17 +684,17 @@ export default {
     resultq5choice1() {
       const sv = this.surveyRecord;
       var result = sv['q5choice1'] / (sv['q5choice1'] + sv['q5choice2'] + sv['q5choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq5choice2() {
       const sv = this.surveyRecord
       var result = sv['q5choice2'] / (sv['q5choice1'] + sv['q5choice2'] + sv['q5choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq5choice3() {
       const sv = this.surveyRecord
       var result = sv['q5choice3'] / (sv['q5choice1'] + sv['q5choice2'] + sv['q5choice3']) * 100;
-      return parseFloat(result.toFixed(2));
+      return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq5Highest() {
       const arr = [this.surveyRecord['q5choice1'],this.surveyRecord['q5choice2'],this.surveyRecord['q5choice3']];

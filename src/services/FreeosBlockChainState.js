@@ -474,10 +474,10 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'reregister')
   }
 
-  async convertOptions(sendData) {
+  async mintFreeBI(sendData) {
     /* TO DO */
     //let cronacle = await this.setupCronacle()
-    //return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'convert', sendData, cronacle)
+    return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'mintfreebi', sendData)
   }
 
   async claim() {

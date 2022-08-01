@@ -78,11 +78,11 @@ export async function cancelUnstake () {
   return result;
 }
 
-export async function convertOptions({ state }, submitData) {
-  var result = await FreeosBlockChainState.getInstance().convertOptions(submitData)
+export async function mintFreeBI({ state }, submitData) {
+  var result = await FreeosBlockChainState.getInstance().mintFreeBI(submitData)
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
-  console.log('Result of convertOptions', result)
+  console.log('Result of mintFreeBI', result)
   return result;
 }
 
