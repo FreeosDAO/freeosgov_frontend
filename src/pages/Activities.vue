@@ -34,10 +34,10 @@
         <!--SURVEY RESULTS-->
         <div v-if="!voteCompleted && votePeriodActive && surveyResultsDisplay"  class="panel-wrap">
           <q-card class="panel">
-            <div class="text-h4 text-center q-ma-lg">This Weeks Survey Results</div>
+            <div class="text-h4 text-center q-ma-lg">This Week's Survey Results</div>
             
 
-            <div class="text-subtitle2 bg-primary text-white text-center q-pa-md"><strong>Thank you to everyone who participated in the weekly survey. This weeks survey results are:</strong></div>
+            <div class="text-subtitle2 bg-primary text-white text-center q-pa-md"><strong>Thank you to everyone who participated in the weekly survey. This week's survey results are:</strong></div>
 
             <section class="q-py-md" >
                   <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
@@ -51,7 +51,7 @@
             </section>
             <section class="q-py-md bg-info">
                   <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
-            Q2: How long before the crypto market changes direction?:
+            Q2: How long before the crypto market changes direction?
                   </strong></p>
                   <ul v-if="surveyRecord" class="resultlist q-mb-sm">
                     <li class="highitem">{{parseFloat(surveyRecord['q2average'])}} Months (average)</li>
@@ -88,7 +88,7 @@
             <div class="q-pa-lg justify-center q-mb-sm">
               <q-btn class="full-width" @click="surveyResultsDisplay = false" size="xl" unelevated no-caps
                 color="primary">
-                Start this Weeks Vote</q-btn>
+                Start this Week's Vote</q-btn>
             </div>
 
           </q-card>
@@ -151,26 +151,32 @@
             <div class="text-h5 text-center q-pa-lg">This week's Vote Results</div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
-              <div v-if="rewardsCurrent && rewardsCurrent['q1average']" class="text-md bg-info q-px-lg q-py-md">
-                Current Issuance: <strong>{{ parseFloat(rewardsCurrent['q1average']) }}%</strong>
+              <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
+                Current Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
               </div>
-              <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md q-px-lg q-py-md">
-                The Voted Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
+              <div v-if="rewardsCurrent && rewardsCurrent['q1average']" class="text-md q-px-lg q-py-md">
+                The Voted Issuance: <strong>{{ parseFloat(rewardsCurrent['q1average']) }}%</strong>
+                  <q-icon v-if="rewardsCurrent['q1average'] >= rewardsPrevious['issuance_rate']" size="xs" name="arrow_upward" />
+                  <q-icon v-if="rewardsCurrent['q1average'] < rewardsPrevious['issuance_rate']" size="xs" name="arrow_downward" />
               </div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee</div>
-              <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
+              <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
+                Current Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
               </div>
-              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+              <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
+                The Voted Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
+                  <q-icon v-if="rewardsCurrent['q2average'] >= rewardsPrevious['mint_fee_percent']" size="xs" name="arrow_upward" />
+                  <q-icon v-if="rewardsCurrent['q2average'] < rewardsPrevious['mint_fee_percent']" size="xs" name="arrow_downward" />
               </div>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
-              <div  v-if="rewardsCurrent && rewardsCurrent['q3average']" class="text-md bg-info q-px-lg q-py-md">
-                Current Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) }} USD</strong>
+              <div  v-if="rewardsPrevious && rewardsPrevious['locking_threshold']" class="text-md bg-info q-px-lg q-py-md">
+                Current Locking Threshold: <strong>{{ parseFloat(rewardsPrevious['locking_threshold']) }} USD</strong>
               </div>
-              <div v-if="rewardsPrevious && rewardsPrevious['locking_threshold']" class="text-md q-px-lg q-py-md">
-                The Voted Locking Threshold: <strong>{{ parseFloat(rewardsPrevious['locking_threshold']) }} USD</strong>
+              <div v-if="rewardsCurrent && rewardsCurrent['q3average']" class="text-md q-px-lg q-py-md">
+                The Voted Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) }} USD</strong>
+                  <q-icon v-if="rewardsCurrent['q3average'] >= rewardsPrevious['locking_threshold']" size="xs" name="arrow_upward" />
+                  <q-icon v-if="rewardsCurrent['q3average'] < rewardsPrevious['locking_threshold']" size="xs" name="arrow_downward" />
               </div>
               <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this weeks VOTE is appropriate today?</strong></div>
 
@@ -178,11 +184,9 @@
                 <q-btn size="xl" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
                   color="primary">
                   Yes</q-btn>
-
                 <q-btn size="xl" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
                   color="primary">
                   No</q-btn>
-
               </div>
           </q-card>
         </q-form>
@@ -207,7 +211,7 @@
               <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
             </svg>
 
-            <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in this week vote
+            <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in this week's vote
             </div>
             <div class="bg-primary text-h5 text-center text-white q-py-md">Next: The Ratification Vote</div>
             <div class="bg-info text-h5 text-center q-py-md">Starts In <span
@@ -237,9 +241,8 @@
             <section class="q-pa-lg">
               <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your
                 answers also affect the FREEOS community. The bonus is your participation is rewarded when you ‘Claim’.
-                Initially, it may take some take the time to understand each economic tool - but that will change. For
-                more
-                info refer to:</p>
+                Initially, it may take some time to understand each economic tool - but that will change. For
+                more info refer to:</p>
             </section>
             <div class="text-h5 text-center bg-info q-px-lg q-py-md">
               Ready? to Vote Let’s start
@@ -299,11 +302,8 @@
               </div>
 
               <section class="q-pa-lg">
-                <p><strong>What percentage of the issuance should be minted this week?</strong></p>
-                <p>The Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens,
-                  which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
-
-
+                <p><strong>What should the Mint Fee be this week?</strong></p>
+                <p>The Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
@@ -344,8 +344,7 @@
 
               <section class="q-pa-lg">
                 <p><strong>What price should the Locking Threshold be this week?</strong></p>
-                <p>The Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens,
-                  which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+                <p>The Locking Threshold makes the community to receive locked Points when the price is low and lowers the supply of FREEOS that can be minted. Locked Points are saved to be unlocked when the price is above the community’s agreed Locking Threshold value. This acts as a way to save value for a time when the economy is healthier.</p>
 
 
 
@@ -380,6 +379,11 @@
                   {{ voteq3RangeLower }} and {{ voteq3RangeUpper() }}</p>
               </section>
             </article>
+
+            <div class="text-white bg-primary q-pa-lg text-bold text-center">
+              Almost done - Just check and <br/>‘submit your vote’.
+            </div>
+
 
             <div class="q-pa-lg justify-center q-mb-sm">
               <q-btn class="full-width" size="xl" unelevated no-caps
@@ -528,12 +532,12 @@
                   <li>Raising the Locking Threshold</li>
                 </ul>
 
-                <q-select lazy-rules :rules="[val => val || 'Please Select an Option']" required emit-value map-options
+                <q-select rounded standout lazy-rules :rules="[val => val || 'Please Select an Option']" required emit-value map-options
                  v-model="surveyq5choice1" :options="surveyq5options1" label="Select Priority 1" />
-                <q-select class="q-mt-sm" lazy-rules :rules="[val => val || 'Please Select an Option']" required
+                <q-select rounded standout class="" lazy-rules :rules="[val => val || 'Please Select an Option']" required
                   :disable="surveyq5choice1 === null" emit-value map-options v-model="surveyq5choice2"
                   :options="surveyq5options2" label="Select Priority 2" />
-                <q-select class="q-mt-sm q-mb-lg" lazy-rules :rules="[val => val || 'Please Select an Option']" required
+                <q-select rounded standout class="q-mb-md" lazy-rules :rules="[val => val || 'Please Select an Option']" required
                   :disable="surveyq5choice2 === null" emit-value map-options v-model="surveyq5choice3"
                   :options="surveyq5options3" label="Select Priority 3" />
 
@@ -808,7 +812,7 @@ export default {
 <style>
 
 .happy-stickman {
-  margin: -3rem 0;
+  margin: -4rem 0;
 }
 
 .happy-stickman .st0 {
