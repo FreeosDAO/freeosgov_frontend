@@ -670,7 +670,7 @@ export class FreeosBlockChainState extends EventEmitter {
 
         // make sure it isn't null
         if (value){
-          let balance = parseFloat(value.balance.split(' ')[0]).toFixed(0)
+          let balance = parseFloat(value.balance.split(' ')[0]).toFixed(process.env.TOKEN_PRECISION)
           user[key] = balance.toLocaleString('en-US')
         }
         // if null
