@@ -178,7 +178,7 @@
                   <q-icon v-if="rewardsCurrent['q3average'] >= rewardsPrevious['locking_threshold']" size="xs" name="arrow_upward" />
                   <q-icon v-if="rewardsCurrent['q3average'] < rewardsPrevious['locking_threshold']" size="xs" name="arrow_downward" />
               </div>
-              <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this weeks VOTE is appropriate today?</strong></div>
+              <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this week's VOTE is appropriate today?</strong></div>
 
               <div rounded v-if="voteCompleted" style="display:flex;justify-content:center;" class="q-pa-md full-width justify-center q-mb-md ">
                 <q-btn size="xl" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
