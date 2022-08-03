@@ -36,10 +36,12 @@
         <div class="flex">
             <small class="q-mr-auto">For more info on Locked Points <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1462">click here</a></small>
         </div>
-        <q-btn v-if="systemRow.unlockpercent > 0" v-bind:disabled="user.record.last_unlock == currentIteration" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">
+        <q-btn v-bind:disabled="systemRow.unlockpercent <= 0 || !user.record || user.record.last_unlock == currentIteration" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">
             <span>Unlock<span> {{systemRow.unlockpercent || 0}}%</span></span>
         </q-btn>
-        <p class="text-h6 q-mt-lg q-mb-none" v-if="systemRow.unlockpercent <= 0">Points currently cannot be unlocked.</p>
+        <div v-if="systemRow.unlockpercent <= 0 || !user.record || user.record.last_unlock == currentIteration" class="flex">
+            <small class="q-mt-sm q-mb-none q-mr-auto">Your Points cannot be unlocked. For more info <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1462">click here.</a></small>
+        </div>
         <CompleteDialog  ref="complete"  />
     </div>
 </div>

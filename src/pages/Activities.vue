@@ -266,7 +266,7 @@
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq1response" :min="voteq1RangeLower" :max="voteq1RangeUpper" :step="1"
-                    marker-labels label :label-always="true" track-size="5px" thumb-size="28px" />
+                    marker-labels label :label-always="true" :marker-labels="val => markerLabels(val, '%')" track-size="5px" thumb-size="28px" />
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
@@ -307,7 +307,7 @@
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
-                    marker-labels label :label-always="!!voteq2response" track-size="5px" thumb-size="28px" />
+                    marker-labels label :label-always="!!voteq2response" :marker-labels="val => markerLabels(val, '%')" track-size="5px" thumb-size="28px" />
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
@@ -350,7 +350,7 @@
 
                 <div class="q-px-md q-py-sm">
                   <q-slider required v-model="voteq3response" :min="voteq3RangeLower" :max="voteq3RangeUpper()"
-                    :step="0.000001" marker-labels label :label-always="!!voteq3response" track-size="5px"
+                    :step="0.000001" marker-labels label :label-always="!!voteq3response" :marker-labels="val => markerLabels(val, ' USD')" track-size="5px"
                     thumb-size="28px" />
                 </div>
 
@@ -477,7 +477,7 @@
 
               <div class="q-px-md q-py-sm">
                 <q-slider v-model="surveyq2response" :min="surveythresholdRangeLower" :max="surveythresholdRangeUpper"
-                  required :step="1" marker-labels label :label-always="!!surveyq2response" track-size="5px"
+                  required :step="1" marker-labels label :label-always="!!surveyq2response" :marker-labels="val => markerLabels(val, ' month', ' months')" track-size="5px"
                   thumb-size="22px" />
               </div>
               <div class="panel q-pa-sm text-center q-mx-md q-mb-xl"><strong>{{ surveyq2response }} months</strong>
@@ -509,7 +509,7 @@
                 direction?</p>
               <div class="q-px-md q-py-sm">
                 <q-slider v-model="surveyq4response" :min="surveythresholdRangeLower" :max="surveythresholdRangeUpper"
-                  required :step="1" marker-labels label :label-always="!!surveyq4response" track-size="5px"
+                  required :step="1" marker-labels label :label-always="!!surveyq4response" :marker-labels="val => markerLabels(val, ' month', ' months')" track-size="5px"
                   thumb-size="22px" />
               </div>
               <div class="panel q-pa-sm text-center q-mx-md q-mb-xl"><strong>{{ surveyq4response }} months</strong>
@@ -715,6 +715,8 @@ export default {
   created: function () {
     this.surveyq2response = this.surveythresholdRangeUpper / 2;
     this.surveyq4response = this.surveythresholdRangeUpper / 2;
+    this.voteq1response = (this.voteq1RangeUpper + this.voteq1RangeLower) / 2;
+    this.voteq2response = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
     this.voteq3response = (this.voteq3RangeUpper() + this.voteq3RangeLower) / 2;
   },
   methods: {
@@ -805,6 +807,9 @@ export default {
         });
       }
     },
+    markerLabels(val, single, plural = single){
+      return (val == 1) ? val + single : val + plural
+    }
   }
 }
 </script>
@@ -856,6 +861,15 @@ export default {
 .q-slider__marker-labels-container .q-slider__marker-labels:last-child {
   display: block;
   line-height: 1;
+  font-weight: bold;
+}
+.q-slider__marker-labels-container .q-slider__marker-labels:first-child{
+    transform: translateX(0%);
+}
+.q-slider__marker-labels-container .q-slider__marker-labels:last-child{
+    transform: translateX(0);
+    left: unset !important;
+    right: 0;
 }
 
 .highitem{

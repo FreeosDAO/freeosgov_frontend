@@ -11,7 +11,7 @@
             href="http://protonkyc.com/">protonkyc.com</a></p>
 
         <p class="text-body2 q-mb-md q-mt-md  text-center"><a target="_black"
-            href="https://medium.com/freedao/staking-and-kyc-update-fe5be2985ce6">How to verify your account?</a>
+            href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1502">How to verify your account?</a>
         </p>
     </div>
     </q-card>
