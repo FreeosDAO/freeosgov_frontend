@@ -266,26 +266,14 @@
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq1response" :min="voteq1RangeLower" :max="voteq1RangeUpper" :step="1"
-                    marker-labels label :label-always="true" :marker-labels="val => markerLabels(val, '%')" track-size="5px" thumb-size="28px" />
+                    label :label-always="true" :label-value="voteq1response+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
                   <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-xs-1"></div>
                   <div class="col-xs-3 col-sm-4">
-                    <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
-                      class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
-                      <div class="q-field__inner relative-position col self-stretch">
-                        <div tabindex="-1" class="q-field__control relative-position row no-wrap">
-                          <div
-                            class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
-                            <input novalidate="true" v-model="voteq1response" tabindex="0"
-                              id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
-                              class="q-field__native q-placeholder text-center" />
-                          </div>
-                        </div>
-                      </div>
-                    </label>
+                    <q-input v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -307,26 +295,14 @@
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
-                    marker-labels label :label-always="!!voteq2response" :marker-labels="val => markerLabels(val, '%')" track-size="5px" thumb-size="28px" />
+                    label :label-always="!!voteq2response" :label-value="voteq2response+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
                   <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-xs-1"></div>
                   <div class="col-xs-3 col-sm-4">
-                    <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
-                      class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
-                      <div class="q-field__inner relative-position col self-stretch">
-                        <div tabindex="-1" class="q-field__control relative-position row no-wrap">
-                          <div
-                            class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
-                            <input novalidate="true" v-model="voteq2response" tabindex="0"
-                              id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
-                              class="q-field__native q-placeholder text-center" />
-                          </div>
-                        </div>
-                      </div>
-                    </label>
+                    <q-input v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -350,27 +326,15 @@
 
                 <div class="q-px-md q-py-sm">
                   <q-slider required v-model="voteq3response" :min="voteq3RangeLower" :max="voteq3RangeUpper()"
-                    :step="0.000001" marker-labels label :label-always="!!voteq3response" :marker-labels="val => markerLabels(val, ' USD')" track-size="5px"
-                    thumb-size="28px" />
+                    :step="0.000001" label :label-always="!!voteq3response" :marker-labels="val => markerLabels(val, ' USD')" track-size="7px"
+                    thumb-size="35px" />
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
                   <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-xs-1"></div>
                   <div class="col-xs-3 col-sm-4">
-                    <label data-v-052b630f for="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7"
-                      class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
-                      <div class="q-field__inner relative-position col self-stretch">
-                        <div tabindex="-1" class="q-field__control relative-position row no-wrap">
-                          <div
-                            class="q-field__control-container col relative-position row no-wrap q-anchor--skip max-btn-holder">
-                            <input novalidate="true" v-model="voteq3response" tabindex="0"
-                              id="f_6eee53df-da8d-4f65-9fad-d55fd4c1e7e7" type="number"
-                              class="q-field__native q-placeholder text-center" />
-                          </div>
-                        </div>
-                      </div>
-                    </label>
+                    <q-input v-model="voteq3response" suffix="USD" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -477,8 +441,8 @@
 
               <div class="q-px-md q-py-sm">
                 <q-slider v-model="surveyq2response" :min="surveythresholdRangeLower" :max="surveythresholdRangeUpper"
-                  required :step="1" marker-labels label :label-always="!!surveyq2response" :marker-labels="val => markerLabels(val, ' month', ' months')" track-size="5px"
-                  thumb-size="22px" />
+                  required :step="1" label :label-always="!!surveyq2response" :marker-labels="val => markerLabels(val, ' month', ' months')" track-size="7px"
+                  thumb-size="35px" />
               </div>
               <div class="panel q-pa-sm text-center q-mx-md q-mb-xl"><strong>{{ surveyq2response }} months</strong>
               </div>
@@ -509,8 +473,8 @@
                 direction?</p>
               <div class="q-px-md q-py-sm">
                 <q-slider v-model="surveyq4response" :min="surveythresholdRangeLower" :max="surveythresholdRangeUpper"
-                  required :step="1" marker-labels label :label-always="!!surveyq4response" :marker-labels="val => markerLabels(val, ' month', ' months')" track-size="5px"
-                  thumb-size="22px" />
+                  required :step="1" label :label-always="!!surveyq4response" :marker-labels="val => markerLabels(val, ' month', ' months')" track-size="7px"
+                  thumb-size="35px" />
               </div>
               <div class="panel q-pa-sm text-center q-mx-md q-mb-xl"><strong>{{ surveyq4response }} months</strong>
               </div>

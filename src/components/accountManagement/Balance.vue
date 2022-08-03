@@ -40,7 +40,7 @@
             <span>Unlock<span> {{systemRow.unlockpercent || 0}}%</span></span>
         </q-btn>
         <div v-if="systemRow.unlockpercent <= 0 || !user.record || user.record.last_unlock == currentIteration" class="flex">
-            <small class="q-mt-sm q-mb-none q-mr-auto">Your Points cannot be unlocked. For more info <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1462">click here.</a></small>
+            <small class="q-mt-sm q-mb-none q-mr-auto">Your Points cannot be unlocked. For more info <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1482">click here.</a></small>
         </div>
         <CompleteDialog  ref="complete"  />
     </div>
