@@ -153,17 +153,21 @@ export const connectScatter = async function ({ commit }, walletId) {
 
 export async function connectProton (state, name) {
   try {
-    // this.setState({ isLoggingIn: true })
+    state.commit('setConnecting', true)
     const { auth } = await ProtonSDK.login()
     if (auth && auth.actor && auth.permission) {
       state.commit('setAccount', {
         accountName: auth.actor,
         walletId: ProtonSDK.link.walletType
       })
+      console.log('logged in')
       // setLoggedInState(auth.actor, auth.permission)
     }
-    // this.setState({ isLoggingIn: false })
+    else{
+      state.commit('setConnecting', false)
+    }
   } catch (e) {
+    state.commit('setConnecting', false)
     console.error(e)
   }
 }

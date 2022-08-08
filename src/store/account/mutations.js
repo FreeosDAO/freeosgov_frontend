@@ -4,7 +4,7 @@ export const setAccount = function (state, { accountName, walletId }) {
   if (!state.accountName) {
     localStorage.walletId = walletId
     state.accountName = accountName
-    state.connecting = false
+    //state.connecting = false
     //if (this.$router.currentRoute.fullPath !== state.path) {
     //  this.$router.push({ path: state.path })
     //}
@@ -26,6 +26,7 @@ export const clearAccount = function (state) {
   localStorage.removeItem('walletId')
   state.accountName = null
   notifyAlert(1, 'logout successfully')
+  state.connecting = false
 }
 
 export const setConnecting = (state, connecting) => {

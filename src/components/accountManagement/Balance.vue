@@ -36,10 +36,10 @@
         <div class="flex">
             <small class="q-mr-auto">For more info on Locked Points <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1462">click here</a></small>
         </div>
-        <q-btn v-bind:disabled="systemRow.unlockpercent <= 0 || !user.record || user.record.last_unlock == currentIteration" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">
+        <q-btn v-bind:disabled="!canUnlock" class="q-mt-lg" unelevated no-caps size="lg" outline @click="submit()" color="primary">
             <span>Unlock<span> {{systemRow.unlockpercent || 0}}%</span></span>
         </q-btn>
-        <div v-if="systemRow.unlockpercent <= 0 || !user.record || user.record.last_unlock == currentIteration" class="flex">
+        <div v-if="!canUnlock" class="flex">
             <small class="q-mt-sm q-mb-none q-mr-auto">Your Points cannot be unlocked. For more info <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1482">click here.</a></small>
         </div>
         <CompleteDialog  ref="complete"  />
@@ -55,12 +55,31 @@ import {
 } from 'vuex'
 import BalanceVest from './BalanceVest'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
+import { user } from 'src/store/freeos/getters';
 export default {
     computed: {
         ...mapGetters('freeos', ['user', 'systemRow', 'currentIteration', 'accountName']),
         unlockedAmount:function(){
             var unlockedAmount = this.user.lockedBalance && this.systemRow.unlockpercent ? Math.ceil((this.systemRow.unlockpercent / 100) * this.user.lockedBalance) : 0;
             return unlockedAmount;
+        },
+        canUnlock(){
+            // if unlock percent higher than 0
+            if(this.systemRow.unlockpercent <= 0){
+                return false;
+            }
+            
+            // if user record doesn't exist
+            if(!this.user.record){
+                return false;
+            }
+
+            // if user last unlock is same as this iteration
+            if(this.user.record.last_unlock == this.currentIteration){
+                return false;
+            }
+
+            return true;
         }
     },
     methods: {
