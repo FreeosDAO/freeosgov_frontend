@@ -2,7 +2,7 @@
   "name": "freeos",
   "version": "0.0.1",
   "description": "Application to claim your Freeos tokens",
-  "productName": "Freeos App",
+  "productName": "Freeos Governance dApp",
   "author": "FreeDAO",
   "private": true,
   "scripts": {

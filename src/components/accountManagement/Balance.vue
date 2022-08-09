@@ -68,15 +68,12 @@ export default {
             if(this.systemRow.unlockpercent <= 0){
                 return false;
             }
-            
-            // if user record doesn't exist
-            if(!this.user.record){
-                return false;
-            }
 
             // if user last unlock is same as this iteration
-            if(this.user.record.last_unlock == this.currentIteration){
-                return false;
+            if(this.user.record){
+                if(this.user.record.last_unlock == this.currentIteration){
+                    return false;
+                }
             }
 
             return true;

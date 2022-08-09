@@ -124,11 +124,12 @@ export class FreeosBlockChainState extends EventEmitter {
 
     [this.parametersTable, this.dparametersTable, this.systemRow, this.surveyRecord] = tables;
 
-    output['surveyRecord'] = this.surveyRecord;
     // add to output
     output['parametersTable'] = this.parametersTable
     output['dparametersTable'] = this.dparametersTable
     output['systemRow'] = this.systemRow
+    output['surveyRecord'] = this.surveyRecord;
+
     /**
      * Grab Main Vars
      */
