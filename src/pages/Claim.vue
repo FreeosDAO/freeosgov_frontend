@@ -16,18 +16,13 @@
                         <p class="q-mb-xs" style="line-height:1;">
                            <small>POINTS</small>
                         </p>
-                        <p
-                            class="text-bold text-h4"
-                            style="line-height:1;letter-spacing:-2px;"
-                        >{{ user.pointBalance }}</p>
+                        <AbbreviateNumber :value="user.pointBalance" />
 
                         <p class="q-mb-xs q-mt-lg" style="line-height:1;">
                             <small>FREEBI</small>
                         </p>
-                        <p
-                            class="text-bold text-h4"
-                            style="line-height:1;letter-spacing:-2px;"
-                        >{{ user.freebiBalance }}</p>
+                        <AbbreviateNumber :value="user.freebiBalance" />
+
                     </div>
                     <div class="col" style="max-width:40px;">
                         <router-link class="convert-btn" to="/mint">
@@ -62,10 +57,7 @@
                         <p class="q-mb-xs" style="line-height:1;">
                             <small>FREEOS</small>
                         </p>
-                        <p
-                            class="text-bold text-h4"
-                            style="line-height:1;letter-spacing:-2px;"
-                        >{{ user.freeosBalance }}</p>
+                        <AbbreviateNumber :value="user.freeosBalance" />
                     </div>
                 </div>
             </div>
@@ -183,6 +175,7 @@ import {
 import Balance from 'components/accountManagement/Balance'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 import GetVerified from 'src/components/GetVerified.vue'
+import AbbreviateNumber from 'src/components/AbbreviateNumber.vue'
 
 export default {
     name: 'Claim',
@@ -192,10 +185,11 @@ export default {
         }
     },
     components: {
-        Balance,
-        CompleteDialog,
-        GetVerified
-    },
+    Balance,
+    CompleteDialog,
+    GetVerified,
+    AbbreviateNumber
+},
     computed: {
         ...mapGetters('freeos', [
             'isFreeosEnabled',

@@ -27,6 +27,22 @@ export default ({ Vue}) => {
             return "<strong class='text-negative'><1 min</strong>"
         }
     })
+
+    Vue.filter('shortNumber', function(value){
+        let newValue = parseFloat(value);
+        newValue = newValue.toString().split('.')[0].length > 3 ? newValue.toPrecision(3) : newValue.toFixed(2);
+
+        const suffixes = ["", "K", "M", "B","T"];
+        let suffixNum = 0;
+        while (newValue >= 1000) {
+            newValue /= 1000;
+            suffixNum++;
+        }
+        
+
+        newValue += suffixes[suffixNum];
+        return newValue;
+    })
   }
 
 

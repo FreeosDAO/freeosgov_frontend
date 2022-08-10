@@ -31,7 +31,7 @@
             <div class="flex items-center  text-h5">
                Locked Points:
             </div>
-            <div class="col-5 text-h5">{{user.lockedBalance || '0'}}</div>
+            <AbbreviateNumber :value="user.lockedBalance" classes="col-5 text-h5" />
         </div>
         <div class="flex">
             <small class="q-mr-auto">For more info on Locked Points <a target="_blank" title="Info on Locked Points" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1462">click here</a></small>
@@ -56,6 +56,7 @@ import {
 import BalanceVest from './BalanceVest'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 import { user } from 'src/store/freeos/getters';
+import AbbreviateNumber from '../AbbreviateNumber.vue';
 export default {
     computed: {
         ...mapGetters('freeos', ['user', 'systemRow', 'currentIteration', 'accountName']),
@@ -91,9 +92,10 @@ export default {
         },
     },
     components: {
-        BalanceVest,
-        CompleteDialog
-    }
+    BalanceVest,
+    CompleteDialog,
+    AbbreviateNumber
+}
 
 }
 </script>

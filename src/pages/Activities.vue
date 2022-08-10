@@ -253,7 +253,7 @@
             <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
               <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
-                Last weeks Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
+                Last week's Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
