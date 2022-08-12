@@ -493,14 +493,12 @@ export class FreeosBlockChainState extends EventEmitter {
   }
 
   async transfer(sendData) {
-    /* TO DO */
-    /*
     var contract = process.env.FREEOSTOKENS_CONTRACT
-    if (sendData.token === process.env.STAKING_CURRENCY) {
-      contract = process.env.STAKING_CURRENCY_CONTRACT
+    if (sendData.token === 'FREEBI') {
+      contract = process.env.FREEBITOKENS_CONTRACT
     }
     delete sendData.token
-    return this.sendTransaction(contract, 'transfer', sendData)*/
+    return this.sendTransaction(contract, 'transfer', sendData)
   }
 
   async survey(sendData) {
@@ -676,7 +674,8 @@ export class FreeosBlockChainState extends EventEmitter {
         }
         // if null
         else{
-          user[key] = "0"
+          let zero = 0
+          user[key] = zero.toFixed(process.env.TOKEN_PRECISION)
         }
         
       }
