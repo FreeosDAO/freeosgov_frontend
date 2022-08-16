@@ -94,7 +94,7 @@
 
                 <div class="q-mt-md text-center text-h5">@{{accountName}}</div>
 
-                <q-btn @click="protonSwap()" href="https://proton.alcor.exchange/" class="q-mt-lg full-width" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens? Try Alcor</q-btn>
+                <q-btn href="https://proton.alcor.exchange/" target="_blank" class="q-mt-lg full-width" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens? Try Alcor</q-btn>
 
             </q-card>
 
@@ -204,9 +204,6 @@ export default {
                 memo: '',
                 from: null
             }
-        },
-        protonSwap() {
-            window.open("https://proton.alcor.exchange/", '_blank');
         }
     },
     watch:{

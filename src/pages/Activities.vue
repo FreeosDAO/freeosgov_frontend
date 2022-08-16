@@ -69,7 +69,7 @@
             </section>
             <section class="q-py-md bg-info">
                   <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
-            Q4: How long before the FREEOS market changes direction?:
+            Q4: How long before the FREEOS market changes direction?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
                     <li class="highitem">{{parseFloat(surveyRecord['q4average'])}} Months (average)</li>
