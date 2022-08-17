@@ -16,12 +16,12 @@
                         <p class="q-mb-xs" style="line-height:1;">
                            <small>POINTS</small>
                         </p>
-                        <AbbreviateNumber :value="user.pointBalance" />
+                        <AbbreviateNumber classes="text-bold text-h4" :value="user.pointBalance" />
 
                         <p class="q-mb-xs q-mt-lg" style="line-height:1;">
                             <small>FREEBI</small>
                         </p>
-                        <AbbreviateNumber :value="user.freebiBalance" />
+                        <AbbreviateNumber classes="text-bold text-h4" :value="user.freebiBalance" />
 
                     </div>
                     <div class="col" style="max-width:40px;">
@@ -57,7 +57,7 @@
                         <p class="q-mb-xs" style="line-height:1;">
                             <small>FREEOS</small>
                         </p>
-                        <AbbreviateNumber :value="user.freeosBalance" />
+                        <AbbreviateNumber classes="text-bold text-h4" :value="user.freeosBalance" />
                     </div>
                 </div>
             </div>

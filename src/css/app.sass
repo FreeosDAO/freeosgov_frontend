@@ -22,6 +22,23 @@ h5,
   font-weight: 600
 
 
+.q-btn.tab-btn
+  padding:2px 0
+  border-bottom:0
+  border-bottom-left-radius:0
+  border-bottom-right-radius:0
+  font-size:21px
+
+.q-btn.tab-btn.tab-btn--unselected
+  padding:0px
+  background:#ccc !important
+  margin-top: auto
+  margin-left: -1px
+  margin-right: -1px
+  border-width: 1px
+  font-size: 17px
+
+
 .q-btn
   min-width:120px
 
@@ -30,15 +47,12 @@ h5,
 
 
 .q-btn--outline
-    width:100%
-    max-width:380px
     border:2px solid var(--q-color-primary)
     font-weight: bold
     
-.q-btn--outline:not(.disabled):hover
+.q-btn--outline:not(.disabled):hoverxs
     background-color: var(--q-color-primary) !important
     color:#fff !important
-    border:2px solid #fff
 
 .q-btn--outline .q-btn__wrapper:before
     border:0
@@ -107,3 +121,7 @@ input[type=number]
 
 .q-field__bottom
   padding-top:3px
+
+
+.full-width
+  width: 100%

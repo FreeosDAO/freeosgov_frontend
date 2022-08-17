@@ -39,6 +39,8 @@ export const currentPrice = ({ currentPrice }) => currentPrice
 export const targetPrice = ({ targetPrice }) => targetPrice
 export const announceObj = ({ announceObj }) => announceObj
 export const lockFactor = ({ lockFactor }) => lockFactor
+export const mintFeeMin = ({ mintFeeMin }) => mintFeeMin
+
 export const userHasVoted = ({ userHasVoted }) => userHasVoted
 export const priceLabel = ({ priceLabel }) => priceLabel
 
@@ -69,3 +71,7 @@ export const systemRow = ({ systemRow }) => systemRow
 export const nextClaimIn = ({ nextClaimIn }) => nextClaimIn
 export const eligibleToClaim = ({ eligibleToClaim }) => eligibleToClaim
 export const nextActivity = ({ nextActivity }) => nextActivity
+
+export const xprContract = ({ xprContract }) => xprContract
+export const usdContract = ({ usdContract }) => usdContract
+export const freeosContract = ({ freeosContract }) => freeosContract

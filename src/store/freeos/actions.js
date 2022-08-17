@@ -26,9 +26,9 @@ export async function fetch(state) {
    return result;
 }
 
-export async function transfer ({ state }, submitData) {
+export async function transfer ({ state }, submitData, account) {
   console.log('transfer', submitData)
-  var result = await FreeosBlockChainState.getInstance().transfer(submitData)
+  var result = await FreeosBlockChainState.getInstance().transfer(submitData, account)
   // Result of claim Error: assertion failure with message: user is not eligible to claim in this iteration
 
   console.log('Result of transfer', result)
@@ -86,7 +86,13 @@ export async function mintFreeBI({ state }, submitData) {
   return result;
 }
 
+export async function mintFreeos({ state }, submitData) {
+  //submitData is an Array in this case
+  var result = await FreeosBlockChainState.getInstance().mintFreeos(submitData)
 
+  console.log('Result of mintFreeos', result)
+  return result;
+}
 
 
 export async function unlock() {

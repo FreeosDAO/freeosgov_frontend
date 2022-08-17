@@ -172,6 +172,7 @@ export class FreeosBlockChainState extends EventEmitter {
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'vestaccounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
         {contract: process.env.FREEBITOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEBI', upper_bound: 'FREEBI'}},
         {contract: process.env.FREEOSTOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEOS', upper_bound: 'FREEOS'}},
+        {contract: process.env.FREEOSGOV_CONTRACT, table: 'mintfeefree', scope: user.name, params: {limit: 1}},
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
         {contract: kycContract, table: 'usersinfo', scope: kycContract, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
@@ -182,7 +183,7 @@ export class FreeosBlockChainState extends EventEmitter {
         return await this.getRecord(query.contract, query.table, query.scope, query.params)
       }));
       
-      [ user['record'], user['pointBalance'], user['lockedBalance'], user['freebiBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'], user['preRegistration']  ] = userVars
+      [ user['record'], user['pointBalance'], user['lockedBalance'], user['freebiBalance'], user['freeosBalance'], user['mffBalance'], user['XPRBalance'], user['XUSDCBalance'], user['preRegistration']  ] = userVars
 
       // Filter Balances
       user = this.filterBalances(user)
@@ -260,16 +261,29 @@ export class FreeosBlockChainState extends EventEmitter {
      output['currentPrice'] = exchangeRate && exchangeRate.currentprice ? (exchangeRate.currentprice / 1).toFixed(6) : 0;
      output['targetPrice'] = exchangeRate && exchangeRate.targetprice ? (exchangeRate.targetprice / 1).toFixed(6) : 0;
 
+     const xprContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,XPR', upper_bound: '4,XPR'});
+     console.log('xprContract', xprContract)
+     output['xprContract'] = xprContract;
+
+     const usdContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '6,XUSDC', upper_bound: '6,XUSDC'});
+     console.log('usdContract', usdContract)
+     output['usdContract'] = usdContract;
+
+     const freeosContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,FREEOS', upper_bound: '4,FREEOS'});
+     console.log('freeosContract', freeosContract)
+     output['freeosContract'] = freeosContract;
+
     /**
      * Survey Vars
      */
 
     //dparametersTable vars
-    output['surveyShare'] =  parseFloat(this.getParameterFromTable('surveyshare', this.dparametersTable, ''),10).toFixed(2) * 100;
-    output['voteShare'] =  parseFloat(this.getParameterFromTable('voteshare', this.dparametersTable, ''),10).toFixed(2) * 100;
-    output['ratifyShare'] =  parseFloat(this.getParameterFromTable('ratifyshare', this.dparametersTable, ''),10).toFixed(2) * 100;
-    output['lockFactor'] =  parseFloat(this.getParameterFromTable('lockfactor', this.dparametersTable, ''),10).toFixed(2);
-
+    output['surveyShare'] =  parseFloat(this.getParameterFromTable('surveyshare', this.dparametersTable, '')).toFixed(2) * 100;
+    output['voteShare'] =  parseFloat(this.getParameterFromTable('voteshare', this.dparametersTable, '')).toFixed(2) * 100;
+    output['ratifyShare'] =  parseFloat(this.getParameterFromTable('ratifyshare', this.dparametersTable, '')).toFixed(2) * 100;
+    output['lockFactor'] =  parseFloat(this.getParameterFromTable('lockfactor', this.dparametersTable, '')).toFixed(2);
+    output['mintFeeMin'] = parseFloat(this.getParameterFromTable('mintfeemin', this.dparametersTable, ''));
+    console.log('mintFeeMin', output['mintFeeMin'] )
 
 
     /* Vars calculated via Iterations */
@@ -286,7 +300,7 @@ export class FreeosBlockChainState extends EventEmitter {
     
 
     // Rewards i.e issuance_rate && mint_fee_percent
-    const lastRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: iterations.current - 1, upper_bound: iterations.current - 1});
+    const lastRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 1, reverse: true});
     if(lastRewardsTable) output['rewardsPrevious'] = lastRewardsTable;
 
     const thisRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'voterecord', process.env.FREEOSGOV_CONTRACT, {limit: 1});
@@ -357,10 +371,48 @@ export class FreeosBlockChainState extends EventEmitter {
       }, process.env.FETCH_DELAY)
 
       return result
+
+
     } catch (e) {
       console.log('Problem sendingTransaction ' + contractName, e)
     }
   }
+
+
+
+  createTransaction(contractAccountName, contractName, extraData) {
+    var accountName = this.walletUser ? this.walletUser.accountName : null
+    var actionData = {}
+
+      if (!accountName) {
+        console.log('No account.....')
+        return
+      }
+
+
+      if (extraData) {
+        actionData = extraData
+      } else {
+        actionData.user = accountName
+      }
+
+      var action = {
+        account: contractAccountName,
+        name: contractName,
+        authorization: [{
+          actor: accountName,
+          permission: 'active'
+        }],
+        data: actionData
+      }
+
+
+      return action
+  }
+
+
+ 
+
 
   /**
    * CRONACLE INTEGRATION
@@ -492,14 +544,60 @@ export class FreeosBlockChainState extends EventEmitter {
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'unlock')
   }
 
-  async transfer(sendData) {
-    var contract = process.env.FREEOSTOKENS_CONTRACT
-    if (sendData.token === 'FREEBI') {
-      contract = process.env.FREEBITOKENS_CONTRACT
+  async transfer(sendData, contractAccountName) {
+    var contract;
+    if(contractAccountName){
+      contract = contractAccountName;
+    }else{
+      var contract = process.env.FREEOSTOKENS_CONTRACT
+      if (sendData.token === 'FREEBI') {
+        contract = process.env.FREEBITOKENS_CONTRACT
+      }
     }
+
     delete sendData.token
     return this.sendTransaction(contract, 'transfer', sendData)
   }
+
+
+
+
+  async mintFreeos(sendDataArray) {
+    //let cronacle = await this.setupCronacle()
+    let actions = [];
+
+    console.log('sendDataArray', sendDataArray)
+
+    const _ = this;
+
+    sendDataArray.forEach(function (item, index) {
+      var contract = item.contract;
+      delete item.contract;
+      var table = item.mint_fee_currency  ? 'mintfreeos' : 'transfer';
+    
+      var action = _.createTransaction(contract, table, item);
+      console.log('action', action)
+      actions.push(action);
+    });
+
+    console.log('mintfreeos', actions)
+
+    try {
+
+      const result = await ProtonSDK.sendTransaction(actions)
+
+
+      console.log('mintFreeosmintFreeos', result)
+      return result
+
+
+    } catch (e) {
+      console.log('Problem sendingTransaction mintfreeos')
+    }
+
+
+  }
+
 
   async survey(sendData) {
     //let cronacle = await this.setupCronacle()
@@ -515,6 +613,8 @@ export class FreeosBlockChainState extends EventEmitter {
     //let cronacle = await this.setupCronacle()
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'ratify', sendData)
   }
+
+
 
   /**
    * Logout
@@ -669,13 +769,14 @@ export class FreeosBlockChainState extends EventEmitter {
 
         // make sure it isn't null
         if (value){
-          let balance = parseFloat(value.balance.split(' ')[0]).toFixed(process.env.TOKEN_PRECISION)
-          user[key] = balance.toLocaleString('en-US')
+          let balance = parseFloat(value.balance.split(' ')[0]);
+          console.log('bal', balance.toLocaleString('en-US'));
+          user[key] = balance
         }
         // if null
         else{
           let zero = 0
-          user[key] = zero.toFixed(process.env.TOKEN_PRECISION)
+          user[key] = zero
         }
         
       }

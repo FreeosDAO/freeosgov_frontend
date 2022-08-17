@@ -52,6 +52,10 @@ export const setlockFactor = (state, lockFactor) => {
   state.lockFactor = lockFactor
 }
 
+export const setmintFeeMin = (state, mintFeeMin) => {
+  state.mintFeeMin = mintFeeMin
+}
+
 //Survey mutations
 export const setsurveyShare = (state, surveyShare) => {
   state.surveyShare = surveyShare
@@ -117,4 +121,14 @@ export const seteligibleToClaim = (state, eligibleToClaim) => {
 }
 export const setnextActivity = (state, nextActivity) => {
   state.nextActivity = nextActivity
+}
+
+export const setfreeosContract = (state, freeosContract) => {
+  state.freeosContract = freeosContract
+}
+export const setxprContract = (state, xprContract) => {
+  state.xprContract = xprContract
+}
+export const setusdContract = (state, usdContract) => {
+  state.usdContract = usdContract
 }

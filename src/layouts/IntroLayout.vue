@@ -135,6 +135,8 @@ export default {
     animation-iteration-count: 1;
     animation-delay:2s;
     animation-fill-mode: forwards;
+    margin:0 auto;
+    max-width:550px;
 }
 
 @keyframes fadeInRotate {

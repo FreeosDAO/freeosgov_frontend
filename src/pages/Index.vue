@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="q-mt-xs q-mb-sm">
-            <q-btn unelevated no-caps size="lg" outline color="primary" @click="connectWallet('anchor')">Connect Wallet</q-btn>
+            <q-btn class="full-width" unelevated no-caps size="lg" outline color="primary" @click="connectWallet('anchor')">Connect Wallet</q-btn>
         </div>
         <div class="text-h6 q-mt-md text-weight-medium q-mb-none">For more info visit <a target="_blank" href="https://freeos.io/">freeos.io</a></div>
         <div class="q-mt-lg" style="">

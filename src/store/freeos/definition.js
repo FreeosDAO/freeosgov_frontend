@@ -41,6 +41,8 @@ var definition = {
   targetPrice: null,
   announceObj: null,
   lockFactor: null,
+  mintFeeMin: null,
+
   priceLabel: null,
   userHasVoted: null,
 
@@ -67,6 +69,10 @@ var definition = {
   eligibleToClaim: null,
   nextActivity: null,
 
-  surveyRecord: null
+  surveyRecord: null,
+
+  freeosContract: null,
+  usdContract: null,
+  xprContract: null
 }
 export default definition

@@ -1,11 +1,12 @@
 <template>
-    <div :class="classes" :id="id" abbreviateNumber>
+    <span :class="classes" :id="id" abbreviateNumber>
         {{output}}
-        <q-tooltip content-class="bg-black text-body1 text-bold" anchor="bottom middle" :target="'#'+id+' img'">
+        <q-tooltip content-class="bg-black text-body1 text-bold" anchor="bottom middle" :target="'#'+id">
                 {{value}}
         </q-tooltip>
-        <img :src="require('assets/info.svg')" alt="info" />
-    </div>
+
+        <!--<img :src="require('assets/info.svg')" alt="info" />-->
+    </span>
 </template>
 
 <script>
@@ -14,12 +15,12 @@ export default {
     props: {
         classes: {
             type: String,
-            default: 'text-bold text-h4'
+            default: ''
         },
         value: {
-            type: String,
+            type: String | Number,
             default: "0"
-        }
+        },
     },
     computed: {
         output(){
@@ -35,7 +36,7 @@ export default {
 <style>
 [abbreviateNumber]{
     line-height:1;
-    letter-spacing:-2px;
+    letter-spacing:-1px;
 }
 [abbreviateNumber] img{
     width: 15px;

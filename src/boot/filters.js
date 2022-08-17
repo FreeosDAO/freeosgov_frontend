@@ -32,6 +32,8 @@ export default ({ Vue}) => {
         let newValue = parseFloat(value);
         newValue = newValue.toString().split('.')[0].length > 3 ? newValue.toPrecision(3) : newValue.toFixed(2);
 
+        newValue = parseFloat(newValue); //remove trailing 0s
+
         const suffixes = ["", "K", "M", "B","T"];
         let suffixNum = 0;
         while (newValue >= 1000) {
@@ -43,6 +45,27 @@ export default ({ Vue}) => {
         newValue += suffixes[suffixNum];
         return newValue;
     })
+
+    Vue.filter('roundTo4Decimal', function(value){
+        if(value){
+            let newValue = parseFloat(value);
+            return parseFloat(newValue.toFixed(4));
+        }else{
+            return 0;
+        }
+    })
+
+    Vue.filter('roundTo6Decimal', function(value){
+        if(value){
+            let newValue = parseFloat(value);
+            return parseFloat(newValue.toFixed(6));
+        }else{
+            return 0;
+        }
+    })
+
   }
+
+  
 
 
