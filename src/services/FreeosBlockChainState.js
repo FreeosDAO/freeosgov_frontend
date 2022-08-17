@@ -41,7 +41,8 @@ export class FreeosBlockChainState extends EventEmitter {
 
       this.setWalletUser({
         accountName: (auth ? auth.actor : null),
-        walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null
+        walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null,
+        permission: (auth ? auth.permission : null)
       })
 
 
@@ -175,6 +176,7 @@ export class FreeosBlockChainState extends EventEmitter {
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
         {contract: kycContract, table: 'usersinfo', scope: kycContract, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
+        {contract: process.env.FREEOSGOV_CONTRACT, table: 'unvests', scope: user.name, params: {limit: 1}}
       ]
 
 
@@ -182,7 +184,12 @@ export class FreeosBlockChainState extends EventEmitter {
         return await this.getRecord(query.contract, query.table, query.scope, query.params)
       }));
       
-      [ user['record'], user['pointBalance'], user['lockedBalance'], user['freebiBalance'], user['freeosBalance'], user['XPRBalance'], user['XUSDCBalance'], user['preRegistration']  ] = userVars
+      [ 
+        user['record'],
+        user['pointBalance'], user['lockedBalance'], user['freebiBalance'], user['freeosBalance'],
+        user['XPRBalance'], user['XUSDCBalance'], user['preRegistration'] ,
+        user['lastUnlock']
+     ] = userVars
 
       // Filter Balances
       user = this.filterBalances(user)
@@ -341,7 +348,7 @@ export class FreeosBlockChainState extends EventEmitter {
         name: contractName,
         authorization: [{
           actor: accountName,
-          permission: 'active'
+          permission: this.walletUser.permission
         }],
         data: actionData
       }]

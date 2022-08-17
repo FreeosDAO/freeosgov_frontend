@@ -71,8 +71,8 @@ export default {
             }
 
             // if user last unlock is same as this iteration
-            if(this.user.record){
-                if(this.user.record.last_unlock == this.currentIteration){
+            if(this.user.lastUnlock){
+                if(this.user.lastUnlock.iteration_number == this.currentIteration){
                     return false;
                 }
             }
