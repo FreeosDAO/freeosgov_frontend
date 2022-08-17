@@ -56,7 +56,7 @@
                       </div>
                       <div class="col-xs-6 col-sm-8">
 
-                        <q-input v-model="submitData.quantity" type="number" required outlined dense novalidate>
+                        <q-input v-model="submitData.quantity" type="number" step="0.0001" required outlined dense novalidate>
                             <q-btn v-if="submitData.token" @click="maxAmount()" class="max-btn" size="sm" unelevated no-caps outline color="secondary">Max</q-btn>
                         </q-input>
 
@@ -72,7 +72,7 @@
                       </div>
                   </div>
                   <div class="text-center q-mt-lg">
-                    <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!submitData.quantity || !submitData.to  || !submitData.token || submitData.quantity > currentMax" @click="submit()">Send</q-btn>
+                    <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!submitData.quantity || !submitData.to  || !submitData.token || parseFloat(submitData.quantity) > currentMax || parseFloat(submitData.quantity) <= 0" @click="submit()">Send</q-btn>
                   </div>
                 </div>
 
@@ -82,6 +82,8 @@
                   
             </q-card>
 
+
+            <!--RECEIVE-->
             <q-card class="panel q-mt-lg q-pa-lg text-center">
 
                 <div class="text-h4">Receive Tokens</div>
@@ -92,7 +94,7 @@
 
                 <div class="q-mt-md text-center text-h5">@{{accountName}}</div>
 
-                <q-btn @click="protonSwap()" href="https://proton.alcor.exchange/" class="q-mt-lg full-width" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens? Try Alcor</q-btn>
+                <q-btn href="https://proton.alcor.exchange/" target="_blank" class="q-mt-lg full-width" unelevated no-caps outline color="primary" v-if="isAuthenticated">Need Tokens? Try Alcor</q-btn>
 
             </q-card>
 
@@ -113,9 +115,9 @@ import AbbreviateNumber from 'src/components/AbbreviateNumber.vue'
 export default {
     name: 'Transfer',
     components:{
-    CompleteDialog,
-    AbbreviateNumber
-},
+        CompleteDialog,
+        AbbreviateNumber
+    },
     data() {
         return {
             stakeCurrency: process.env.STAKING_CURRENCY,
@@ -165,6 +167,12 @@ export default {
         zeroBalance(){
             let zero = 0;
             return zero.toFixed(process.env.TOKEN_PRECISION)
+        },
+        currentToken(){
+            return this.submitData.token
+        },
+        currentQuantity(){
+            return this.submitData.quantity;
         }
     },
     methods: {
@@ -196,10 +204,21 @@ export default {
                 memo: '',
                 from: null
             }
+        }
+    },
+    watch:{
+        currentToken(val, old){
+            if(val != old){
+                this.submitData.quantity = "";
+            }
         },
-        protonSwap() {
-            window.open("https://proton.alcor.exchange/", '_blank');
-        },
+        currentQuantity(val, old){
+            let split = val.split('.')
+            if(split.length > 1){
+                this.submitData.quantity = parseFloat(val).toFixed(4)
+            }
+            
+        }
     }
 }
 </script>

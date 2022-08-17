@@ -21,7 +21,7 @@
 
           <q-card-actions align="center">
             <q-btn :disabled="!termsCheckbox" unelevated no-caps size="xl" class="full-width q-mb-m" color="primary"
-              @click="register()">Register</q-btn>
+              @click="registerSubmit()">Register</q-btn>
           </q-card-actions>
         </q-card>
       </div>
@@ -69,7 +69,7 @@
             </section>
             <section class="q-py-md bg-info">
                   <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
-            Q4: How long before the FREEOS market changes direction?:
+            Q4: How long before the FREEOS market changes direction?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
                     <li class="highitem">{{parseFloat(surveyRecord['q4average'])}} Months (average)</li>
@@ -707,7 +707,7 @@ export default {
       const el = ref.$refs.target;
       el.scrollIntoView();
     },
-    async register() {
+    async registerSubmit() {
       var result = await this.register();
       console.log('registerResult', result)
       if (!(result instanceof Error)) {
