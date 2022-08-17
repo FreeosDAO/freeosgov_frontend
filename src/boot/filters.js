@@ -43,6 +43,17 @@ export default ({ Vue}) => {
         newValue += suffixes[suffixNum];
         return newValue;
     })
+
+    Vue.filter('roundTo4Decimal', function(value){
+        if(value){
+            let newValue = parseFloat(value);
+            return parseFloat(newValue.toFixed(4));
+        }else{
+            return 0;
+        }
+    })
+    
   }
+
 
 

@@ -52,7 +52,7 @@
           </div>
           <div class="row justify-center q-mb-sm q-pb-xs">
             <div class="col-xs-5 col-sm-6">
-              <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">Amount to Convert:</small><br/><small style="font-style:italic">from your ‘from account’</small></div>
+              <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">Amount to Convert:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
             </div>
             <div class="col-xs-6 col-sm-6">
 
@@ -90,23 +90,23 @@
                       </p>
                     </div>
                     <div class="col-xs-6 col-sm-6">
-                      <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.pointBalance) - parseFloat(sendAmount)}}</p>
+                      <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.pointBalance) - parseFloat(sendAmount)) | roundTo4Decimal}}</p>
                     </div>
                   </div>
 
 
                   <div class="row justify-center">
                     <div class="col-xs-5 col-sm-6">
-                      <p class="q-mt-xs q-mb-none"><small class="text-bold">POINTS balance will be:</small>
+                      <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance will be:</small>
                       </p>
                     </div>
                     <div class="col-xs-6 col-sm-6">
-                      <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.freebiBalance) + parseFloat(sendAmount)}}</p>
+                      <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.freebiBalance) + parseFloat(sendAmount)) | roundTo4Decimal}}</p>
                     </div>
                   </div>
         </div>
           <div style="align-items: center;" class="row justify-center q-mt-lg ">
-            <q-btn @click="submit()" :disabled="!(sendAmount > 0) || sendAmount > user.pointBalance" class="full-width" size="xl" unelevated no-caps :disable="false" color="primary">
+            <q-btn @click="submit()" :disabled="!(parseFloat(sendAmount) > 0) || parseFloat(sendAmount) > parseFloat(user.pointBalance)" class="full-width" size="xl" unelevated no-caps :disable="false" color="primary">
               Convert to FREEBI</q-btn>
           </div>
         </div>
