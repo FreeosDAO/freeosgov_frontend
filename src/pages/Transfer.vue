@@ -12,13 +12,13 @@
                         <p class="q-mb-xs" style="line-height:1;">
                             <small>FREEOS</small>
                         </p>
-                        <AbbreviateNumber :value="user.freeosBalance" />
+                        <AbbreviateNumber classes="text-bold text-h4" :value="user.freeosBalance" />
                     </div>
                     <div class="col col-auto">
                         <p class="q-mb-xs" style="line-height:1;">
                             <small>FREEBI</small>
                         </p>
-                        <AbbreviateNumber :value="user.freebiBalance" />
+                        <AbbreviateNumber classes="text-bold text-h4" :value="user.freebiBalance" />
                     </div>
                 </div>
             </q-card>

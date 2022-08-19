@@ -37,7 +37,6 @@ export class FreeosBlockChainState extends EventEmitter {
 
       const { auth } = await ProtonSDK.restoreSession();
 
-      console.log('Wallet session restored', auth)
 
       this.setWalletUser({
         accountName: (auth ? auth.actor : null),
@@ -270,15 +269,15 @@ export class FreeosBlockChainState extends EventEmitter {
      output['targetPrice'] = exchangeRate && exchangeRate.targetprice ? (exchangeRate.targetprice / 1).toFixed(6) : 0;
 
      const xprContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,XPR', upper_bound: '4,XPR'});
-     console.log('xprContract', xprContract)
+     //console.log('xprContract', xprContract)
      output['xprContract'] = xprContract;
 
      const usdContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '6,XUSDC', upper_bound: '6,XUSDC'});
-     console.log('usdContract', usdContract)
+     //console.log('usdContract', usdContract)
      output['usdContract'] = usdContract;
 
      const freeosContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,FREEOS', upper_bound: '4,FREEOS'});
-     console.log('freeosContract', freeosContract)
+     //console.log('freeosContract', freeosContract)
      output['freeosContract'] = freeosContract;
 
     /**
@@ -291,8 +290,6 @@ export class FreeosBlockChainState extends EventEmitter {
     output['ratifyShare'] =  parseFloat(this.getParameterFromTable('ratifyshare', this.dparametersTable, '')).toFixed(2) * 100;
     output['lockFactor'] =  parseFloat(this.getParameterFromTable('lockfactor', this.dparametersTable, '')).toFixed(2);
     output['mintFeeMin'] = parseFloat(this.getParameterFromTable('mintfeemin', this.dparametersTable, ''));
-    console.log('mintFeeMin', output['mintFeeMin'] )
-
 
     /* Vars calculated via Iterations */
     output['voteClosesIn'] = iterations['voteClosesIn'];
@@ -308,7 +305,7 @@ export class FreeosBlockChainState extends EventEmitter {
     
 
     // Rewards i.e issuance_rate && mint_fee_percent
-    const lastRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 1, reverse: true});
+    const lastRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: iterations.current - 1, upper_bound: iterations.current - 1});
     if(lastRewardsTable) output['rewardsPrevious'] = lastRewardsTable;
 
     const thisRewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'voterecord', process.env.FREEOSGOV_CONTRACT, {limit: 1});
@@ -574,8 +571,6 @@ export class FreeosBlockChainState extends EventEmitter {
     //let cronacle = await this.setupCronacle()
     let actions = [];
 
-    console.log('sendDataArray', sendDataArray)
-
     const _ = this;
 
     sendDataArray.forEach(function (item, index) {
@@ -584,18 +579,17 @@ export class FreeosBlockChainState extends EventEmitter {
       var table = item.mint_fee_currency  ? 'mintfreeos' : 'transfer';
     
       var action = _.createTransaction(contract, table, item);
-      console.log('action', action)
       actions.push(action);
     });
 
-    console.log('mintfreeos', actions)
+    console.log('mintfreeos Action Data', actions)
 
     try {
 
       const result = await ProtonSDK.sendTransaction(actions)
 
 
-      console.log('mintFreeosmintFreeos', result)
+      console.log('mintFreeosmintFreeos Result', result)
       return result
 
 
@@ -778,8 +772,7 @@ export class FreeosBlockChainState extends EventEmitter {
         // make sure it isn't null
         if (value){
           let balance = parseFloat(value.balance.split(' ')[0]);
-          console.log('bal', balance.toLocaleString('en-US'));
-          user[key] = balance
+          user[key] = balance;
         }
         // if null
         else{
@@ -818,8 +811,6 @@ export class FreeosBlockChainState extends EventEmitter {
         iterationsParticipated.push(row)
       }
     }
-
-    console.warn('eligibleToClaim: iterations', iterationsParticipated)
 
     // iterate over participated iterations
     // check if vote has been ratified

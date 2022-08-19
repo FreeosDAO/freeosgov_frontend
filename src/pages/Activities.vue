@@ -156,8 +156,8 @@
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q1average']" class="text-md q-px-lg q-py-md">
                 The Voted Issuance: <strong>{{ parseFloat(rewardsCurrent['q1average']) }}%</strong>
-                  <q-icon v-if="rewardsCurrent['q1average'] >= rewardsPrevious['issuance_rate']" size="xs" name="arrow_upward" />
-                  <q-icon v-if="rewardsCurrent['q1average'] < rewardsPrevious['issuance_rate']" size="xs" name="arrow_downward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q1average']) > parseFloat(rewardsPrevious['issuance_rate'])" size="xs" name="arrow_upward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q1average']) < parseFloat(rewardsPrevious['issuance_rate'])" size="xs" name="arrow_downward" />
               </div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee</div>
@@ -166,8 +166,8 @@
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
                 The Voted Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
-                  <q-icon v-if="rewardsCurrent['q2average'] >= rewardsPrevious['mint_fee_percent']" size="xs" name="arrow_upward" />
-                  <q-icon v-if="rewardsCurrent['q2average'] < rewardsPrevious['mint_fee_percent']" size="xs" name="arrow_downward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q2average']) > parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_upward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q2average']) < parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_downward" />
               </div>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['locking_threshold']" class="text-md bg-info q-px-lg q-py-md">
@@ -175,8 +175,8 @@
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q3average']" class="text-md q-px-lg q-py-md">
                 The Voted Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) }} USD</strong>
-                  <q-icon v-if="rewardsCurrent['q3average'] >= rewardsPrevious['locking_threshold']" size="xs" name="arrow_upward" />
-                  <q-icon v-if="rewardsCurrent['q3average'] < rewardsPrevious['locking_threshold']" size="xs" name="arrow_downward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q3average']) > parseFloat(rewardsPrevious['locking_threshold'])" size="xs" name="arrow_upward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q3average']) < parseFloat(rewardsPrevious['locking_threshold'])" size="xs" name="arrow_downward" />
               </div>
               <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this week's VOTE is appropriate today?</strong></div>
 

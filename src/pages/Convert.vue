@@ -129,7 +129,7 @@
                         <div class="q-field__control-container col relative-position row no-wrap q-anchor--skip"><input
                             v-model="submitData.quantity" tabindex="0" required="required"
                             id="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" type="number" class="q-field__native q-placeholder">
-                          <q-btn :disabled="!submitData.from" class="max-btn" size="sm" unelevated no-caps color="secondary" @click="mintMaxAmount()">Max
+                          <q-btn :disabled="!submitData.from" class="max-btn" size="sm" unelevated no-caps color="secondary" @click="setMintMaxAmount()">Max
                           </q-btn>
 
                         </div>
@@ -158,7 +158,7 @@
                 </div>
               </div>
               <hr />
-              <div v-if="submitData.from && submitData.pay">
+              <div v-if="submitData.from && submitData.pay && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
 
                 <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
                 <div class="row justify-center">
@@ -185,7 +185,7 @@
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{ (user.mffBalance) | roundTo4Decimal}} Points</p>
+                    <p class="q-mt-xs q-mb-none text-bold">{{ user.mffBalance   | roundTo4Decimal}} Points</p>
                   </div>
                 </div>
 
@@ -231,7 +231,7 @@
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{freeosBalance | roundTo4Decimal}} FREEOS</p>
+                    <p class="q-mt-xs q-mb-none text-bold" v-bind:class="{ 'text-negative': freeosBalance < 0 }" text-negative>{{freeosBalance | roundTo4Decimal}} FREEOS</p>
                   </div>
                 </div>
 
@@ -239,8 +239,7 @@
               </div>
               
               <div style="align-items: center;" class="row justify-center q-mt-lg ">
-                <q-btn @click="mintSubmit()" class="full-width"
-                  size="xl" unelevated no-caps color="primary">
+                <q-btn @click="mintSubmit()" class="full-width" :disabled="freeosBalance < 0 || !submitData.from || !submitData.pay || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)" size="xl" unelevated no-caps color="primary">
                   Mint FREEOS</q-btn>
               </div>
             </div>
@@ -249,8 +248,14 @@
 
 
 
-      <!--POINT TO FREEBI-->
 
+
+
+
+
+
+
+      <!--POINT TO FREEBI-->
       <section v-if="!isMintTabSelected">
       <p class="bg-primary text-h5 text-center text-white q-py-md">
         Converting Points to FREEBI
@@ -310,7 +315,7 @@
                     <div class="q-field__control-container col relative-position row no-wrap q-anchor--skip"><input
                         v-model="sendAmount" tabindex="0" required="required"
                         id="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" type="number" class="q-field__native q-placeholder">
-                      <q-btn class="max-btn" size="sm" unelevated no-caps color="secondary" @click="maxAmount()">Max
+                      <q-btn class="max-btn" size="sm" unelevated no-caps color="secondary" @click="freebiMaxAmount()">Max
                       </q-btn>
 
                     </div>
@@ -375,6 +380,7 @@ import {
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 import AbbreviateNumber from 'src/components/AbbreviateNumber.vue'
 import { user } from 'src/store/freeos/getters'
+import { AST_Return } from 'terser'
 
 
 
@@ -414,22 +420,16 @@ export default {
       return result;
     },
     mintFeeInFreeos() {//mintfee_in_freeos
-      return this.mintfeePayable * (this.rewardsPrevious['mint_fee_percent'] / 100);
+      return this.mintfeePayable * (parseFloat(this.rewardsPrevious['mint_fee_percent']) / 100);
     },
     finalMintFeeFreeos() {//final_mintfee_in_freeos & minfee
         var final_mintfee_in_freeos = 0;
-
-        console.log('this.mintFeeInFreeos', this.mintFeeInFreeos);
 
         if(this.mintFeeInFreeos < this.mintFeeMin){
           final_mintfee_in_freeos = this.mintFeeMin;
         }else{
           final_mintfee_in_freeos = this.mintFeeInFreeos;
         }
-
-        console.log('final_mintfee_in_freeos', final_mintfee_in_freeos);
-        console.log('this.submitData.pay', this.submitData.pay);
-
 
         if(this.submitData.pay === 'FREEOS'){
           return final_mintfee_in_freeos;
@@ -458,7 +458,16 @@ export default {
       if(qty >= this.user['mffBalance']){
         return this.user['mffBalance'];
       }else{
-        return qty - this.user['mffBalance'];
+        return qty;
+      }
+    },
+    mintMaxAmount() {
+      if (this.submitData.from === 'POINT') {
+        return this.user.pointBalance
+      }else if(this.submitData.from === 'FREEBI'){
+        return this.user.freebiBalance
+      }else{
+        return 0;
       }
     },
     freeosBalance() {
@@ -492,15 +501,8 @@ export default {
   },
   methods: {
     ...mapActions('freeos', ['mintFreeBI','mintFreeos']),
-    mintMaxAmount() {
-      console.log('mintMaxAmount', this.submitData.from )
-      if (this.submitData.from === 'POINT') {
-        this.submitData.quantity = this.user.pointBalance
-      }else if(this.submitData.from === 'FREEBI'){
-        this.submitData.quantity = this.user.freeBiBalance
-      }else{
-        this.submitData.quantity = 0;
-      }
+    setMintMaxAmount(){
+        this.submitData.quantity = this.mintMaxAmount;
     },
     checkIfDisabled(val){
       if(val){
@@ -508,15 +510,13 @@ export default {
       }
       return true
     },
-    maxAmount() {
+    freebiMaxAmount() {
       if (this.user.pointBalance) {
         this.sendAmount = this.user.pointBalance
       }
     },
-
     async submit() {
       this.convertWatch = true
-      console.log('2');
       var result = await this.mintFreeBI({ owner: this.accountName, quantity: `${parseFloat(this.sendAmount).toFixed(process.env.TOKEN_PRECISION)} ${process.env.TOKEN_CURRENCY_NAME}` })
 
       if (!(result instanceof Error)) {
@@ -531,7 +531,7 @@ export default {
     },
     async mintSubmit() {
       this.convertWatch = true
-      console.log('2');
+      var qty = parseFloat(this.submitData.quantity);
 
       var transactionArray = [];
 
@@ -539,9 +539,8 @@ export default {
           //Transfer FREEBI
             var dataToSubmit = {};
             dataToSubmit.from = this.accountName;
-            dataToSubmit.quantity = `${parseFloat(this.submitData.quantity).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`
-            console.log('dataToSubmit', dataToSubmit)
-            dataToSubmit.memo = 'freeos mint fee';
+            dataToSubmit.quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`
+            dataToSubmit.memo = 'freeos mint credit';
             dataToSubmit.to = process.env.FREEOSGOV_CONTRACT;
             dataToSubmit.contract = process.env.FREEBITOKENS_CONTRACT;
 
@@ -554,9 +553,14 @@ export default {
             //pay Mint fee
             var dataToSubmit = {};
             dataToSubmit.from = this.accountName;
-            console.log('dataToSubmit', dataToSubmit)
+
             dataToSubmit.memo = 'freeos mint fee';
+            //dataToSubmit.memo =  this.mintFeeInFreeos + " " + this.submitData.pay;
             dataToSubmit.to = process.env.FREEOSGOV_CONTRACT;
+
+
+            console.log('mintFeeInFreeos', this.mintFeeInFreeos)
+
 
             if(this.submitData.pay === 'FREEOS'){
               dataToSubmit.contract = this.freeosContract['contract'];
@@ -575,7 +579,7 @@ export default {
       console.log()
       var dataToSubmit = {};
       dataToSubmit.user = this.accountName;
-      dataToSubmit.input_quantity = `${parseFloat(this.submitData.quantity).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
+      dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
 
       if(this.submitData.pay === 'FREEOS'){
           dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
@@ -595,7 +599,7 @@ export default {
 
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo!", subtitle: "You Converted", value: this.sendAmount, currency: 'FREEBI'
+          title: "Woohoo!", subtitle: "You Converted", value: qty, currency: 'FREEOS'
         });
       }
 
