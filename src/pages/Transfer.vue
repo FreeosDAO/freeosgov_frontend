@@ -6,19 +6,15 @@
 
             <!--BALANCES-->
             <q-card class="panel q-mb-lg q-pa-lg">
-                <div class="text-h4 q-mb-lg text-center">Balances</div>
-                <div class="flex justify-between">
-                    <div class="col col-auto">
-                        <p class="q-mb-xs" style="line-height:1;">
-                            <small>FREEOS</small>
-                        </p>
-                        <AbbreviateNumber classes="text-bold text-h4" :value="user.freeosBalance" />
+                <div class="text-primary text-subtitle1 text-bold text-center q-pb-sm">Your current balances:</div>
+                 <div class="balance-list">
+                    <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                        <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freebiBalance" /></div>
+                        <div class="text-bold text-primary">FREEBI</div>
                     </div>
-                    <div class="col col-auto">
-                        <p class="q-mb-xs" style="line-height:1;">
-                            <small>FREEBI</small>
-                        </p>
-                        <AbbreviateNumber classes="text-bold text-h4" :value="user.freebiBalance" />
+                    <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                        <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freeosBalance" /></div>
+                        <div class="text-bold text-primary">FREEOS</div>
                     </div>
                 </div>
             </q-card>
@@ -222,3 +218,19 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.balance-list {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.balance-list>* {
+  flex: 0 0 46%;
+  max-width: 46%;
+  padding: 8px;
+  border-radius: 8px;
+}
+</style>
