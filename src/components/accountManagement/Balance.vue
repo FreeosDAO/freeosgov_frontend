@@ -76,6 +76,11 @@ export default {
                     return false;
                 }
             }
+            
+            // if user does not have points
+            if(!this.user.lockedBalance){
+                return false; 
+            }
 
             return true;
         }
