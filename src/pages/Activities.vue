@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-pa-sm">
     <CompleteDialog ref="complete" />
 
     <div class="q-gutter-y-md q-mx-auto" style="max-width: 600px">
@@ -137,8 +137,8 @@
         <!--THE RATIFICATION-->
         <q-form v-if="!ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
-            <h4 class="text-h4 text-center q-pa-sm" v-if="voteCompleted">Thanks for Voting, please ratify</h4>
-            <h4 class="text-h4 text-center q-pa-sm" v-if="!voteCompleted">You missed the Vote, so you can't ratify this
+            <h4 class="text-h4 text-center" v-if="voteCompleted">Thanks for Voting, please ratify</h4>
+            <h4 class="text-h4 text-center" v-if="!voteCompleted">You missed the Vote, so you can't ratify this
               week</h4>
 
             <div v-if="voteCompleted" class="bg-info text-center q-py-md">Complete for {{ ratifyShare }}% of your weekly
@@ -181,10 +181,10 @@
               <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this week's VOTE is appropriate today?</strong></div>
 
               <div rounded v-if="voteCompleted" style="display:flex;justify-content:center;" class="q-pa-md full-width justify-center q-mb-md ">
-                <q-btn size="xl" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
+                <q-btn size="xl" style="width:100%;" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
                   color="primary">
                   Yes</q-btn>
-                <q-btn size="xl" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
+                <q-btn size="xl" style="width:100%;" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
                   color="primary">
                   No</q-btn>
               </div>

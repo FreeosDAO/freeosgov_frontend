@@ -61,13 +61,12 @@
           <section class="q-ma-md panel">
             <div class="q-mt-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
             <div class="text-h5 text-center q-mt-none q-pt-none"><AbbreviateNumber :value="rewardsPrevious['mint_fee_percent']" />%</div>
-            <div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for FREEBI
-            </div>
+            <!--<div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for Converting To FREEBI</div>-->
             <div class="bg-info text-center">
               <div class="text-primary text-bold q-pt-sm q-pb-none">Minimum Mint Fee</div>
               <div class="text-subtitle1 q-mt-none q-pt-xs"><strong><AbbreviateNumber :value="mintFeeMin" /> FREEOS</strong></div>
               <div class="text-subtitle1 q-mt-none q-pt-xs"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee | roundTo4Decimal}} XPR</strong></div>
-              <div class="text-subtitle1 q-mt-none q-pt-xs q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee | roundTo4Decimal}} XUSDC</strong></div>
+              <div class="text-subtitle1 q-mt-none q-pt-xs q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee | roundTo6Decimal}} XUSDC</strong></div>
             </div>
           </section>
 
@@ -166,8 +165,11 @@
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Total Mint Fee will be:</small>
                     </p>
                   </div>
-                  <div class="col-xs-6 col-sm-6">
+                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay !== 'XUSDC'">
                     <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo4Decimal }} {{submitData.pay}}</p>
+                  </div>
+                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay === 'XUSDC'">
+                    <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}</p>
                   </div>
                 </div>
                 <div class="row justify-center">
