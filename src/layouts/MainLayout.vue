@@ -103,7 +103,7 @@ const menuList = [
     label: 'Mint',
     separator: true,
     route: '/mint',
-    displayCondition: "isVerifiedCheck"
+    displayCondition: "isRegisterVerifiedCheck"
   },
   {
     icon: require('@/assets/proton.svg'),
@@ -141,7 +141,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('freeos', ['user', 'isVerified', 'isAuthenticated', 'stakeRequirement', 'isFreeosEnabled', 'userHasStaked', 'userStake', 'airkeyBalance', 'currentPrice', 'targetPrice', 'priceLabel']),
+    ...mapGetters('freeos', ['user', 'isVerified', 'isRegistered', 'isAuthenticated', 'stakeRequirement', 'isFreeosEnabled', 'userHasStaked', 'userStake', 'airkeyBalance', 'currentPrice', 'targetPrice', 'priceLabel']),
     appVersion: function () {
       return process.env.APP_VERSION
     },
@@ -166,8 +166,8 @@ export default {
     showUserHasStakedORHasAirkey: function () {
        return this.userHasStaked || this.airkeyBalance
     },
-    isVerifiedCheck: function () {
-       return this.isVerified
+    isRegisterVerifiedCheck: function () {
+       return this.isVerified && this.isRegistered
     },
     accountURL (){
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');

@@ -23,7 +23,7 @@
             economic engine to keep the value buoyant. The Mint Fee applies when you convert your ‘Claimed Points’ or FREEBI
             into a tradable token (FREEOS). Only FREEBI and Points are exempt. The Fee will be stewarded by your VOTE when
             it comes available. Minting may be a taxable event. FREEOS is our key trading token in crypto-markets like
-            Alcor, and FREEBI is our internal trading token within the community. More info click here</p>
+            Alcor, and FREEBI is our internal trading token within the community. More info <a target="_blank" title="Minting FREEOS" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1442"> click here</a></p>
 
 
           <section class="q-ma-md panel">
@@ -48,9 +48,9 @@
 
             </div>
             <hr />
-            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Mint Free Points balance:</div>
+            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">Mint Free Points balance:</div>
 
-            <div class="balance-list">
+            <div class="balance-list" v-if="user.mffBalance > 0">
               <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
                 <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.mffBalance" /></div>
                 <div class="text-bold text-primary">of your POINTS</div>
@@ -118,7 +118,7 @@
               <div class="row justify-center q-mb-sm q-pb-xs">
                 <div class="col-xs-5 col-sm-6">
                   <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">2. Amount to
-                      Mint:</small><br /><small style="font-style:italic">from your ‘from account’</small></div>
+                      Mint:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
                 </div>
                 <div class="col-xs-6 col-sm-6">
                   <label data-v-052b630f="" for="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5"
@@ -172,7 +172,7 @@
                     <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}</p>
                   </div>
                 </div>
-                <div class="row justify-center">
+                <div class="row justify-center" v-if="user.mffBalance > 0">
                   <div class="col-xs-5 col-sm-6">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Mint Fee FREE Points used:</small>
                     </p>
@@ -181,7 +181,7 @@
                     <p class="q-mt-xs q-mb-none text-bold">{{ mintFeeFreePointsUsed | roundTo4Decimal }} Points</p>
                   </div>
                 </div>
-                <div class="row justify-center">
+                <div class="row justify-center" v-if="user.mffBalance > 0">
                   <div class="col-xs-5 col-sm-6">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Mint Fee balance to charge:</small>
                     </p>
@@ -216,7 +216,7 @@
                 </div>
 
 
-                <div class="row justify-center">
+                <div class="row justify-center" v-if="user.mffBalance > 0">
                   <div class="col-xs-5 col-sm-6">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Mint Fee FREE Points balance:</small>
                     </p>
