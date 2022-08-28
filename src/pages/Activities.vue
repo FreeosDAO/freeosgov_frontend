@@ -160,15 +160,37 @@
                   <q-icon v-if="parseFloat(rewardsCurrent['q1average']) < parseFloat(rewardsPrevious['issuance_rate'])" size="xs" name="arrow_downward" />
               </div>
 
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">FREEOS Mint Fee</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+                Current FREEOS Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
+                The Voted FREEOS Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average']) > parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average']) < parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_downward" />
               </div>
+
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">XPR Mint Fee</div>
+              <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
+                Current XPR Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
+              </div>
+              <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
+                The Voted XPR Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average_xpr']) }}%</strong>
+                  <q-icon v-if="parseFloat(rewardsCurrent['q2average_xpr']) > parseFloat(rewardsPrevious['mint_fee_percent_xpr'])" size="xs" name="arrow_upward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q2average_xpr']) < parseFloat(rewardsPrevious['mint_fee_percent_xpr'])" size="xs" name="arrow_downward" />
+              </div>
+
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">XUSDC Mint Fee</div>
+              <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
+                Current XUSDC Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
+              </div>
+              <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
+                The Voted XUSDC Mint Fee: <strong>{{ parseFloat(rewardsCurrent['q2average_xusdc']) }}%</strong>
+                  <q-icon v-if="parseFloat(rewardsCurrent['q2average_xusdc']) > parseFloat(rewardsPrevious['mint_fee_percent_xusdc'])" size="xs" name="arrow_upward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q2average_xusdc']) < parseFloat(rewardsPrevious['mint_fee_percent_xusdc'])" size="xs" name="arrow_downward" />
+              </div>
+
+
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['locking_threshold']" class="text-md bg-info q-px-lg q-py-md">
                 Current Locking Threshold: <strong>{{ parseFloat(rewardsPrevious['locking_threshold']) }} USD</strong>
@@ -282,16 +304,16 @@
               </section>
             </article>
 
-            <!--Mint Fee Vote-->
+            <!--FREEOS Mint Fee Vote-->
             <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">FREEOS Mint Fee</div>
               <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+                Current FREEOS Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
-                <p><strong>What should the Mint Fee be this week?</strong></p>
-                <p>The Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+                <p><strong>What should the FREEOS Mint Fee be this week?</strong></p>
+                <p>The FREEOS Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
@@ -306,10 +328,72 @@
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper)">Mint Fee must be between
+                  v-if="validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper)">FREEOS Mint Fee must be between
                   {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
               </section>
             </article>
+
+
+            <!--Mint Fee Vote-->
+            <article>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">XPR Mint Fee</div>
+              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xpr']" class="text-md bg-info q-px-lg q-py-md">
+                Current XPR Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
+              </div>
+
+              <section class="q-pa-lg">
+                <p><strong>What should the XPR Mint Fee be this week?</strong></p>
+                <p>The XPR Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+
+                <div class="q-px-md q-py-sm">
+                  <q-slider v-model="voteq2_xprresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
+                    label :label-always="!!voteq2_xprresponse" :label-value="voteq2_xprresponse+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
+                </div>
+
+                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                  <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-xs-1"></div>
+                  <div class="col-xs-3 col-sm-4">
+                    <q-input v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
+                  </div>
+                </div>
+                <p class="text-center text-negative q-mt-none q-mb-none"
+                  v-if="validateRange(voteq2_xprresponse, voteq2RangeLower, voteq2RangeUpper)">XPR Mint Fee must be between
+                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
+              </section>
+            </article>
+
+
+              <!--Mint Fee Vote-->
+              <article>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">XUSDC Mint Fee</div>
+              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xusdc']" class="text-md bg-info q-px-lg q-py-md">
+                Current Mint Fee: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
+              </div>
+
+              <section class="q-pa-lg">
+                <p><strong>What should the XUSDC Mint Fee be this week?</strong></p>
+                <p>The XUSDC Mint Fee is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+
+                <div class="q-px-md q-py-sm">
+                  <q-slider v-model="voteq2_xusdcresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
+                    label :label-always="!!voteq2_xusdcresponse" :label-value="voteq2_xusdcresponse+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
+                </div>
+
+                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                  <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-xs-1"></div>
+                  <div class="col-xs-3 col-sm-4">
+                    <q-input v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
+                  </div>
+                </div>
+                <p class="text-center text-negative q-mt-none q-mb-none"
+                  v-if="validateRange(voteq2_xusdcresponse, voteq2RangeLower, voteq2RangeUpper)">XUSDC Mint Fee must be between
+                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
+              </section>
+            </article>
+
+
 
             <!--Locking Threshold Vote-->
             <article>
@@ -556,6 +640,8 @@ export default {
       surveyq5choice3: null,
       voteq1response: 0,
       voteq2response: 6,
+      voteq2_xprresponse: 6,
+      voteq2_xusdcresponse: 6,
       voteq3response: 0,
       lockingThresholdVote: 0,
       stakeCurrency: process.env.STAKING_CURRENCY,
@@ -682,6 +768,8 @@ export default {
     this.voteq1response = (this.voteq1RangeUpper + this.voteq1RangeLower) / 2;
     this.voteq2response = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
     this.voteq3response = (this.voteq3RangeUpper() + this.voteq3RangeLower) / 2;
+    this.voteq2_xprresponse = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
+    this.voteq2_xusdcresponse = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
   },
   methods: {
     ...mapActions('freeos', ['register', 'survey', 'vote', 'ratify']),
@@ -700,6 +788,12 @@ export default {
       }
     },
     voteq3RangeUpper() {
+      return this.currentPrice < this.voteq3RangeLower ? Math.floor(parseFloat(this.lockFactor) * this.voteq3RangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
+    },
+    voteq4RangeUpper() {
+      return this.currentPrice < this.voteq3RangeLower ? Math.floor(parseFloat(this.lockFactor) * this.voteq3RangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
+    },
+    voteq5RangeUpper() {
       return this.currentPrice < this.voteq3RangeLower ? Math.floor(parseFloat(this.lockFactor) * this.voteq3RangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
     },
     async onValidationError(ref) {
@@ -744,13 +838,18 @@ export default {
         user: this.accountName,
         q1response: this.voteq1response,
         q2response: this.voteq2response,
+        q2response_xpr: this.voteq2_xprresponse,
+        q2response_xusdc: this.voteq2_xusdcresponse,
         q3response: this.voteq3response,
         q4response: "POOL",
         q5response: 0,
         q6choice1: 1,
         q6choice2: 2,
-        q6choice3: 3
-
+        q6choice3: 3,
+        q7response: "0.0",
+        q8response: "0.0",
+        q9response: "0.0",
+        q10response: 0
       })
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
