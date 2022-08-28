@@ -23,7 +23,7 @@
             economic engine to keep the value buoyant. The Mint Fee applies when you convert your ‘Claimed Points’ or FREEBI
             into a tradable token (FREEOS). Only FREEBI and Points are exempt. The Fee will be stewarded by your VOTE when
             it comes available. Minting may be a taxable event. FREEOS is our key trading token in crypto-markets like
-            Alcor, and FREEBI is our internal trading token within the community. More info <a target="_blank" title="Minting FREEOS" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1442"> click here</a></p>
+            Alcor, and FREEBI is our internal trading token within the community. More info <a target="_blank" title="Minting FREEOS" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1562"> click here</a></p>
 
 
           <section class="q-ma-md panel">
@@ -265,7 +265,7 @@
       <p class="q-py-md q-px-lg">FREEBI is our internal trading token within the community and isn't subject to a Mint
         Fee. The FREEBI tokens exist as a way for participants to have a limited, but tradable, token that can be used
         for Peer-to-Peer activities, while protecting the FREEOS token's circulating supply. More info <a
-          href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1442" target="_blank">click
+          href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1582" target="_blank">click
           here</a></p>
 
 
