@@ -61,7 +61,16 @@ export default {
     computed: {
         ...mapGetters('freeos', ['user', 'systemRow', 'currentIteration', 'accountName']),
         unlockedAmount:function(){
-            var unlockedAmount = this.user.lockedBalance && this.systemRow.unlockpercent ? Math.ceil((this.systemRow.unlockpercent / 100) * this.user.lockedBalance) : 0;
+            var unlockedAmount = 0; 
+            
+            if(this.user.lockedBalance && this.systemRow.unlockpercent){
+
+                unlockedAmount = Math.ceil((this.systemRow.unlockpercent / 100) * this.user.lockedBalance);
+
+                if(unlockedAmount > this.user.lockedBalance){
+                    unlockedAmount = this.user.lockedBalance;
+                }
+            }
             return unlockedAmount;
         },
         canUnlock(){
