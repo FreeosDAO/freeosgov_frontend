@@ -152,12 +152,12 @@
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
               <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
-                Current Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
+                Current Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) * 100 }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q1average']" class="text-md q-px-lg q-py-md">
                 The Voted Issuance: <strong>{{ parseFloat(rewardsCurrent['q1average']) }}%</strong>
-                  <q-icon v-if="parseFloat(rewardsCurrent['q1average']) > parseFloat(rewardsPrevious['issuance_rate'])" size="xs" name="arrow_upward" />
-                  <q-icon v-if="parseFloat(rewardsCurrent['q1average']) < parseFloat(rewardsPrevious['issuance_rate'])" size="xs" name="arrow_downward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q1average']) > parseFloat(rewardsPrevious['issuance_rate']) * 100" size="xs" name="arrow_upward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q1average']) < parseFloat(rewardsPrevious['issuance_rate']) * 100" size="xs" name="arrow_downward" />
               </div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">FREEOS Mint Fee</div>
@@ -275,7 +275,7 @@
             <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
               <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
-                Last week's Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) }}%</strong>
+                Last week's Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) * 100 }}%</strong>
               </div>
 
               <section class="q-pa-lg">
@@ -295,7 +295,7 @@
                   <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-xs-1"></div>
                   <div class="col-xs-3 col-sm-4">
-                    <q-input v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -324,7 +324,7 @@
                   <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-xs-1"></div>
                   <div class="col-xs-3 col-sm-4">
-                    <q-input v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -354,7 +354,7 @@
                   <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-xs-1"></div>
                   <div class="col-xs-3 col-sm-4">
-                    <q-input v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -384,7 +384,7 @@
                   <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-xs-1"></div>
                   <div class="col-xs-3 col-sm-4">
-                    <q-input v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -834,12 +834,13 @@ export default {
       const _ = this;
       console.log(this.surveyPeriodActive, this.surveyCompleted);
       this.surveyResultsDisplay = true;
-      var result = await _.vote({
+
+      var voteRecord = {
         user: this.accountName,
-        q1response: this.voteq1response,
-        q2response: this.voteq2response,
-        q2response_xpr: this.voteq2_xprresponse,
-        q2response_xusdc: this.voteq2_xusdcresponse,
+        q1response: parseInt(this.voteq1response, 10),
+        q2response: parseInt(this.voteq2response, 10),
+        q2response_xpr: parseInt(this.voteq2_xprresponse, 10),
+        q2response_xusdc: parseInt(this.voteq2_xusdcresponse, 10),
         q3response: this.voteq3response,
         q4response: "POOL",
         q5response: 0,
@@ -850,7 +851,9 @@ export default {
         q8response: "0.0",
         q9response: "0.0",
         q10response: 0
-      })
+      };
+      console.log("voteRecord", voteRecord);
+      var result = await _.vote(voteRecord);
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "Thanx for Voting"
