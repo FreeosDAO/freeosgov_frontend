@@ -135,7 +135,7 @@
 
 
         <!--THE RATIFICATION-->
-        <q-form v-if="!ratifyCompleted && !ratifyPeriodActive" class="panel-wrap">
+        <q-form v-if="!ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
             <h4 class="text-h4 text-center" v-if="voteCompleted">Thanks for Voting, please ratify</h4>
             <h4 class="text-h4 text-center" v-if="!voteCompleted">You missed the Vote, so you can't ratify this
