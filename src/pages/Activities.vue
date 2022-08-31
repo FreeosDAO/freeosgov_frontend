@@ -193,12 +193,12 @@
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['locking_threshold']" class="text-md bg-info q-px-lg q-py-md">
-                Current Locking Threshold: <strong>{{ parseFloat(rewardsPrevious['locking_threshold']) }} USD</strong>
+                Current Locking Threshold: <strong>{{ parseFloat(targetPrice) }} USD</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q3average']" class="text-md q-px-lg q-py-md">
                 The Voted Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) }} USD</strong>
-                  <q-icon v-if="parseFloat(rewardsCurrent['q3average']) > parseFloat(rewardsPrevious['locking_threshold'])" size="xs" name="arrow_upward" />
-                  <q-icon v-if="parseFloat(rewardsCurrent['q3average']) < parseFloat(rewardsPrevious['locking_threshold'])" size="xs" name="arrow_downward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q3average']) > parseFloat(targetPrice)" size="xs" name="arrow_upward" />
+                  <q-icon v-if="parseFloat(rewardsCurrent['q3average']) < parseFloat(targetPrice)" size="xs" name="arrow_downward" />
               </div>
               <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this week's VOTE is appropriate today?</strong></div>
 
