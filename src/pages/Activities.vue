@@ -135,7 +135,7 @@
 
 
         <!--THE RATIFICATION-->
-        <q-form v-if="!ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
+        <q-form v-if="!ratifyCompleted && !ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
             <h4 class="text-h4 text-center" v-if="voteCompleted">Thanks for Voting, please ratify</h4>
             <h4 class="text-h4 text-center" v-if="!voteCompleted">You missed the Vote, so you can't ratify this
@@ -193,7 +193,7 @@
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['locking_threshold']" class="text-md bg-info q-px-lg q-py-md">
-                Current Locking Threshold: <strong>{{ parseFloat(targetPrice) }} USD</strong>
+                Current Locking Threshold: <strong>{{ targetPrice }} USD</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q3average']" class="text-md q-px-lg q-py-md">
                 The Voted Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) }} USD</strong>
