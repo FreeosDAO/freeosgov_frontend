@@ -189,7 +189,7 @@
                     <p class="q-mt-xs q-mb-none text-bold">{{ mintFeeFreePointsUsed | roundTo4Decimal }} Points</p>
                   </div>
                 </div>
-                <div class="row justify-center" v-if="user.mffBalance > 0">
+                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM POINT'">
                   <div class="col-xs-5 col-sm-6">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance to charge:</small>
                     </p>
@@ -245,7 +245,7 @@
                 </div>
 
 
-                <div class="row justify-center" v-if="user.mffBalance > 0">
+                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM POINT'">
                   <div class="col-xs-5 col-sm-6">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance:</small>
                     </p>
@@ -258,7 +258,7 @@
 
                 <div class="row justify-center">
                   <div class="col-xs-5 col-sm-6">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEOS Balance:</small>
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEOS balance:</small>
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
