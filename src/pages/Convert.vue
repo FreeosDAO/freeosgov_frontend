@@ -48,7 +48,7 @@
 
             </div>
             <hr />
-            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">Mint Free Points balance:</div>
+            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">AirClaim Points balance:</div>
 
             <div class="balance-list" v-if="user.mffBalance > 0">
               <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
@@ -59,14 +59,24 @@
           </section>
 
           <section class="q-ma-md panel">
-            <div class="q-mt-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
-            <div class="text-h5 text-center q-mt-none q-pt-none"><AbbreviateNumber :value="rewardsPrevious['mint_fee_percent']" />%</div>
+            <div class="q-mt-sm q-mb-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
             <!--<div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for Converting To FREEBI</div>-->
-            <div class="bg-info text-center">
-              <div class="text-primary text-bold q-pt-sm q-pb-none">Minimum Mint Fee</div>
-              <div class="text-subtitle1 q-mt-none q-pt-xs"><strong><AbbreviateNumber :value="mintFeeMin" /> FREEOS</strong></div>
-              <div class="text-subtitle1 q-mt-none q-pt-xs"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee | roundTo4Decimal}} XPR</strong></div>
-              <div class="text-subtitle1 q-mt-none q-pt-xs q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee | roundTo6Decimal}} XUSDC</strong></div>
+            <div class="bg-info text-center q-py-sm">
+              <strong>Pay the Mint Fee with:</strong>
+              <div class="text-subtitle1 q-mt-none q-pt-xs">
+                <strong>FREEOS:</strong> 
+                {{mintFeeInFreeos | roundTo4Decimal}} FREEOS<small class="q-px-xs">or</small>{{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}% *
+              </div>
+              <div class="text-subtitle1 q-mt-none q-pt-xs">
+                <strong>XPR:</strong> 
+                {{xprMinMintfee | roundTo4Decimal}} XPR<small class="q-px-xs">or</small>{{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}% *
+              </div>
+              <div class="text-subtitle1 q-mt-none q-pt-xs">
+                <strong>XUSDC:</strong> 
+                {{usdMinMintfee | roundTo4Decimal}} XPR<small class="q-px-xs">or</small>{{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo6Decimal}}% *
+              </div>
+
+              <small class="q-pb-md">* The Mint Fee will be the Higher of the 2 values</small>
             </div>
           </section>
 
@@ -142,7 +152,7 @@
                       {{ currencyName }} available to transfer</small></p>-->
                 </div>
               </div>
-              <div class="row justify-center q-mb-sm q-pb-xs">
+              <div class="row justify-center q-mb-sm q-pb-xs" v-if="submitData.from !== 'AIRCLAIM POINT'">
                 <div class="col-xs-5 col-sm-6">
                   <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">3. Pay the Mint Fee with:</small>
                   </div>
@@ -157,7 +167,7 @@
                 </div>
               </div>
               <hr />
-              <div v-if="submitData.from && submitData.pay && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
+              <div v-if="submitData.from && (submitData.pay || submitData.from ==='AIRCLAIM POINT') && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
 
                 <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
                 <div class="row justify-center">
@@ -174,7 +184,7 @@
                 </div>
                 <div class="row justify-center" v-if="user.mffBalance > 0">
                   <div class="col-xs-5 col-sm-6">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">Mint Fee FREE Points used:</small>
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points used:</small>
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
@@ -183,7 +193,7 @@
                 </div>
                 <div class="row justify-center" v-if="user.mffBalance > 0">
                   <div class="col-xs-5 col-sm-6">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">Mint Fee balance to charge:</small>
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance to charge:</small>
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
@@ -195,7 +205,7 @@
                 <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
 
 
-                <div class="row justify-center" v-if="submitData.from === 'POINT'">
+                <div class="row justify-center" v-if="submitData.from !== 'FREEBI'">
                   <div class="col-xs-5 col-sm-6">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Points balance:</small>
                     </p>
@@ -218,7 +228,7 @@
 
                 <div class="row justify-center" v-if="user.mffBalance > 0">
                   <div class="col-xs-5 col-sm-6">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">Mint Fee FREE Points balance:</small>
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance:</small>
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
@@ -241,7 +251,7 @@
               </div>
               
               <div style="align-items: center;" class="row justify-center q-mt-lg ">
-                <q-btn @click="mintSubmit()" class="full-width" :disabled="freeosBalance < 0 || !submitData.from || !submitData.pay || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)" size="xl" unelevated no-caps color="primary">
+                <q-btn @click="mintSubmit()" class="full-width" :disabled="freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM POINT') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)" size="xl" unelevated no-caps color="primary">
                   Mint FREEOS</q-btn>
               </div>
             </div>
@@ -415,31 +425,40 @@ export default {
     mintfeePayable() {//mintfee_payable
       var result = 0;
       const qty = parseFloat(this.submitData.quantity);
-      if(this.user['mffBalance'] >= qty){
-      }else{
-        result = qty - this.user['mffBalance'];
-      }
-      return result;
+
+      return qty;
     },
     mintFeeInFreeos() {//mintfee_in_freeos
       return this.mintfeePayable * (parseFloat(this.rewardsPrevious['mint_fee_percent']) / 100);
     },
+    mintFeeInXPR() {//mintfee_in_freeos
+      return this.mintfeePayable * (parseFloat(this.rewardsPrevious['mint_fee_percent_xpr']) / 100);
+    },
+    mintFeeInXUSDC() {//mintfee_in_freeos
+      return this.mintfeePayable * (parseFloat(this.rewardsPrevious['mint_fee_percent_xusdc']) / 100);
+    },
     finalMintFeeFreeos() {//final_mintfee_in_freeos & minfee
-        var final_mintfee_in_freeos = 0;
-
-        if(this.mintFeeInFreeos < this.mintFeeMin){
-          final_mintfee_in_freeos = this.mintFeeMin;
-        }else{
-          final_mintfee_in_freeos = this.mintFeeInFreeos;
-        }
-
         if(this.submitData.pay === 'FREEOS'){
-          return final_mintfee_in_freeos;
+            if(this.mintFeeInFreeos < this.mintFeeMin){
+              return this.mintFeeMin;
+            }else{
+              return this.mintFeeInFreeos;
+            }
         }else if(this.submitData.pay === 'XPR'){
-          return final_mintfee_in_freeos * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) )
+          if(this.mintFeeInXPR < this.mintFeeMin){
+            return  this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) )
+          }else{
+            return this.mintFeeInXPR;
+          }
         }else if(this.submitData.pay === 'XUSDC'){
-          return final_mintfee_in_freeos * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) )
+          if(this.mintFeeInXUSDC < this.mintFeeMin){
+            return this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) )
+          }else{
+            return this.mintFeeInXPR;
+          }
         }
+
+        return 0;
     },
     xprMinMintfee() {
       var result = 0;
@@ -457,10 +476,10 @@ export default {
     },
     mintFeeFreePointsUsed() {
       const qty = parseFloat(this.submitData.quantity);
-      if(qty >= this.user['mffBalance']){
-        return this.user['mffBalance'];
-      }else{
+      if(this.submitData.from === 'AIRCLAIM POINT'){
         return qty;
+      }else{
+        return 0;
       }
     },
     mintMaxAmount() {
@@ -468,6 +487,12 @@ export default {
         return this.user.pointBalance
       }else if(this.submitData.from === 'FREEBI'){
         return this.user.freebiBalance
+      }else if(this.submitData.from === 'AIRCLAIM POINT'){
+        if(this.user.pointBalance > this.user.mffBalance){
+          return this.user.mffBalance;
+        }else{
+          return this.user.pointBalance; //Return pointBalance as Max if less then MFF balance
+        }
       }else{
         return 0;
       }
@@ -477,11 +502,10 @@ export default {
 
       if(this.submitData.pay === 'FREEOS'){
         return this.user.freeosBalance + qty - this.finalMintFeeFreeos;
-      }else if(this.submitData.pay === 'XPR' || this.submitData.pay === 'XUSDC'){
-        return this.user.freeosBalance + qty;
       }else{
-        return 0;
+        return this.user.freeosBalance + qty;
       }
+
     },
     ...mapGetters('freeos', [
       'isFreeosEnabled',
@@ -550,7 +574,7 @@ export default {
             transactionArray.push(dataToSubmit);
             //var result = await this.transfer(dataToSubmit, accountContract);
       }
-
+      console.log('finalMintFeeFreeo', this.finalMintFeeFreeos);
       if(this.finalMintFeeFreeos){
             //pay Mint fee
             var dataToSubmit = {};
@@ -566,7 +590,8 @@ export default {
 
             if(this.submitData.pay === 'FREEOS'){
               dataToSubmit.contract = this.freeosContract['contract'];
-              dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
+              dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} POINT`;
+            
             }else if(this.submitData.pay === 'XPR'){
               dataToSubmit.contract  = this.xprContract['contract'];
               dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
@@ -581,15 +606,25 @@ export default {
       console.log()
       var dataToSubmit = {};
       dataToSubmit.user = this.accountName;
-      dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
 
-      if(this.submitData.pay === 'FREEOS'){
-          dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
-      }else if(this.submitData.pay === 'XPR'){
+      if(this.submitData.from === 'AIRCLAIM POINT'){
+        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} POINT`;
+      }else{
+        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
+      }
+
+
+      //if(this.submitData.pay === 'FREEOS' || this.submitData.from === 'AIRCLAIM POINT')
+          dataToSubmit.mint_fee_currency = '4,FREEOS'; // + this.submitData.pay;
+      
+      if(this.submitData.pay === 'XPR'){
           dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
       }else if(this.submitData.pay === 'XUSDC'){
           dataToSubmit.mint_fee_currency = '6,' + this.submitData.pay;
       }
+
+      dataToSubmit.use_airclaim_points = this.submitData.from === 'AIRCLAIM POINT' ? true : false;
+
       dataToSubmit.contract = process.env.FREEOSGOV_CONTRACT;
       transactionArray.push(dataToSubmit);
 
@@ -615,7 +650,7 @@ export default {
     }
   },
   created(){
-        this.balOptions = [
+      this.balOptions = [
         {
           label: 'Points',
           value: 'POINT',
@@ -627,6 +662,8 @@ export default {
           disabled: this.checkIfDisabled(this.user.freebiBalance)
         }
       ]
+      if(this.user.mffBalance) this.balOptions.unshift({label: 'Airclaim Points', value: 'AIRCLAIM POINT', disabled: false})
+
       this.mintFeeOptions = [
         {
           label: 'FREEOS',
