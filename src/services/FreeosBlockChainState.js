@@ -634,6 +634,22 @@ export class FreeosBlockChainState extends EventEmitter {
   }
 
   /**
+   * Checks if username is valid
+   */
+   async isValidUsername(name) {
+    name = name.toLowerCase()
+    console.log('checking username', name)
+    let res = await rpc.get_account(name).catch(e => false);
+    console.log('user checked', res)
+    if (!res) {
+      //accountname not found
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  /**
    * Gets parameter from parametersTable
    */
   getParameterFromTable(param, table, ifNull = null){

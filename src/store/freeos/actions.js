@@ -118,3 +118,7 @@ export async function ratify({ state }, submitData) {
   console.log('Result of vote', result)
   return result;
 }
+
+export async function isValidUsername(name) {
+  return FreeosBlockChainState.getInstance(name)
+}

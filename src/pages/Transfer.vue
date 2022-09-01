@@ -4,77 +4,146 @@
 
         <div class="panel-wrap">
 
-            <!--BALANCES-->
-            <q-card class="panel q-mb-lg q-pa-lg">
-                <div class="text-primary text-subtitle1 text-bold text-center q-pb-sm">Your current balances:</div>
-                 <div class="balance-list">
-                    <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                        <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freebiBalance" /></div>
-                        <div class="text-bold text-primary">FREEBI</div>
+            <q-card class="panel q-mb-lg">
+
+                <!--BALANCES-->
+                <section class="q-pa-lg">
+                    <div class="text-primary text-subtitle1 text-bold text-center q-pb-sm">Your current balances:</div>
+                    <div class="balance-list">
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freeosBalance" /></div>
+                            <div class="text-bold text-primary">FREEOS</div>
+                        </div>
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freebiBalance" /></div>
+                            <div class="text-bold text-primary">FREEBI</div>
+                        </div>
                     </div>
-                    <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                        <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freeosBalance" /></div>
-                        <div class="text-bold text-primary">FREEOS</div>
+                </section>
+
+                <!--TABS-->
+                <div class="flex justify-center" style="flex-direction:row;">
+                    <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': !isFreeosTabSelected }" outline unelevated no-caps
+                    @click="isFreeosTabSelected = !isFreeosTabSelected">Send FREEOS</q-btn>
+                    <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': isFreeosTabSelected }" outline unelevated no-caps
+                    @click="isFreeosTabSelected = !isFreeosTabSelected">Send FREEBI</q-btn>
+                </div>
+
+                <!--SEND FREEOS-->
+                <section v-if="isFreeosTabSelected" class="q-pa-lg tabform">
+
+                    <div class="text-center q-pb-lg q-px-lg">
+                        For more info on sending Freeos <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
                     </div>
-                </div>
-            </q-card>
 
-            <!--SEND-->
-            <q-card class="panel q-pa-lg">
+                    <div v-if="user.freeosBalance != zeroBalance">
+                        <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                            <div class="col-xs-5 col-sm-4">
+                                <p class="q-mt-sm q-mb-none">To account:</p>
+                            </div>
+                            <div class="col-xs-6 col-sm-8">
+                                <q-input maxlength="12" required v-model="freeosData.to" type="text" outlined dense />
+                                <p class="q-mb-none text-grey"><small>Proton account without "@" symbol</small></p>
+                            </div>
+                        </div>
+                        <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                            <div class="col-xs-5 col-sm-4">
+                                <p class="q-mt-sm q-mb-none">Amount:</p>
+                            </div>
+                            <div class="col-xs-6 col-sm-8">
 
-                <div class="text-h4 text-center">Send Tokens</div>
+                                <q-input v-model="freeosData.quantity" type="number" step="0.0001" required outlined dense novalidate>
+                                    <q-btn @click="maxAmount(false, $event)" class="max-btn" size="sm" unelevated no-caps outline color="secondary">Max</q-btn>
+                                </q-input>
 
-                <div class="text-center q-pb-lg">
-                    <small>For more info <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.</small>
-                </div>
+                                <p class="q-mb-none text-grey"><small>{{currencyAvailable}}</small></p>
+                            </div>
+                        </div>
+                        <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                            <div class="col-xs-5 col-sm-4">
+                                <p class="q-mt-sm q-mb-none">Memo:</p>
+                            </div>
+                            <div class="col-xs-6 col-sm-8">
+                                <q-input maxlength="256" v-model="freeosData.memo" type="text" outlined dense />
+                            </div>
+                        </div>
+                        <div class="text-center q-mt-lg">
+                            <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!freeosData.quantity || !freeosData.to || parseFloat(freeosData.quantity) > currentMax || parseFloat(freeosData.quantity) <= 0" @click="submit()">Send</q-btn>
+                        </div>
+                    </div>
+                    <div v-if="user.freeosBalance == zeroBalance">
+                        <p class="text-center">You don't have any balance to transfer.</p>
+                    </div>
+                </section>
 
-                <div v-if="user.freeosBalance != zeroBalance || user.freebiBalance != zeroBalance">
-                  <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                      <div class="col-xs-5 col-sm-4">
-                          <p class="q-mt-sm q-mb-none">To account:</p>
-                      </div>
-                      <div class="col-xs-6 col-sm-8">
-                          <q-input maxlength="12" required v-model="submitData.to" type="text" outlined dense />
-                          <p class="q-mb-none text-grey"><small>Proton account without "@" symbol</small></p>
-                      </div>
-                  </div>
-                  <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                      <div class="col-xs-5 col-sm-4">
-                          <p class="q-mt-sm q-mb-none">Token:</p>
-                      </div>
-                      <div class="col-xs-6 col-sm-8">
-                          <q-select required dense outlined v-model="submitData.token" :options="tokensSelectOptions" />
-                      </div>
-                  </div>
-                  <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                      <div class="col-xs-5 col-sm-4">
-                          <p class="q-mt-sm q-mb-none">Amount:</p>
-                      </div>
-                      <div class="col-xs-6 col-sm-8">
+                <!--SEND FREEBI-->
+                <section v-if="!isFreeosTabSelected" class="tabform">
 
-                        <q-input v-model="submitData.quantity" type="number" step="0.0001" required outlined dense novalidate>
-                            <q-btn v-if="submitData.token" @click="maxAmount()" class="max-btn" size="sm" unelevated no-caps outline color="secondary">Max</q-btn>
-                        </q-input>
+                    <p class="bg-primary text-center text-white q-py-md">
+                        <b>Freebi transaction fee is currently {{freebixfee}}%</b>
+                    </p>
 
-                          <p class="q-mb-none text-grey"><small>{{currencyAvailable}}</small></p>
-                      </div>
-                  </div>
-                  <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
-                      <div class="col-xs-5 col-sm-4">
-                          <p class="q-mt-sm q-mb-none">Memo:</p>
-                      </div>
-                      <div class="col-xs-6 col-sm-8">
-                          <q-input maxlength="256" v-model="submitData.memo" type="text" outlined dense />
-                      </div>
-                  </div>
-                  <div class="text-center q-mt-lg">
-                    <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!submitData.quantity || !submitData.to  || !submitData.token || parseFloat(submitData.quantity) > currentMax || parseFloat(submitData.quantity) <= 0" @click="submit()">Send</q-btn>
-                  </div>
-                </div>
+                    <div class="text-center q-px-lg">
+                        For more info on sending Freebi <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
+                    </div>
 
-                <div v-if="user.freeosBalance == zeroBalance && user.freebiBalance == zeroBalance">
-                  <p class="text-center">You don't have any balance to transfer.</p>
-                </div>
+                    <div v-if="user.freebiBalance != zeroBalance" class="q-pa-lg">
+                        <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                            <div class="col-xs-5 col-sm-4">
+                                <p class="q-mt-sm q-mb-none">To account:</p>
+                            </div>
+                            <div class="col-xs-6 col-sm-8">
+                                <q-input maxlength="12" required v-model="freebiData.to" type="text" outlined dense />
+                                <p class="q-mb-none text-grey"><small>Proton account without "@" symbol</small></p>
+                            </div>
+                        </div>
+                        <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                            <div class="col-xs-5 col-sm-4">
+                                <p class="q-mt-sm q-mb-none">Transfer Amount:</p>
+                            </div>
+                            <div class="col-xs-6 col-sm-8">
+
+                                <q-input v-model="freebiData.quantity" @input="updateFreebiAmount(false)" @change="updateFreebiAmount(false)" type="number" step="0.0001" required outlined dense novalidate>
+                                    <q-btn @click="maxAmount(false, $event)" class="max-btn" size="sm" unelevated no-caps outline color="secondary">Max</q-btn>
+                                </q-input>
+
+                                <p class="q-mb-none text-grey"><small>{{currencyAvailable}}</small></p>
+                            </div>
+                        </div>
+                        <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                            <div class="col-xs-5 col-sm-4">
+                                <p class="q-mt-sm q-mb-none">Recipient will receive:</p>
+                            </div>
+                            <div class="col-xs-6 col-sm-8">
+
+                                <q-input v-model="freebiRecipientAmount" @input="updateFreebiAmount(true)" @change="updateFreebiAmount(true)" type="number" step="0.0001" required outlined dense novalidate>
+                                    <q-btn @click="maxAmount(true, $event)" class="max-btn" size="sm" unelevated no-caps outline color="secondary">Max</q-btn>
+                                </q-input>
+
+                                <p class="q-mb-none text-grey"><small>Transfer amount minus {{freebixfee}}% tax</small></p>
+                            </div>
+                        </div>
+                        <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
+                            <div class="col-xs-5 col-sm-4">
+                                <p class="q-mt-sm q-mb-none">Memo:</p>
+                            </div>
+                            <div class="col-xs-6 col-sm-8">
+                                <q-input maxlength="256" v-model="freebiData.memo" type="text" outlined dense />
+                            </div>
+                        </div>
+                        <div v-if="canSendFreebi" class="text-center q-mt-lg">
+                            <p class="text-primary text-subtitle1 text-bold text-center q-mb-none">Summary:</p>
+                            <p>You will send {{freebiData.quantity}} {{freebiData.token}}.
+                                <br> @{{freebiData.to}} will receive {{freebiRecipientAmount}} {{freebiData.token}} after {{freebixfee}}% tax.</p>
+                        </div>
+                        <div class="text-center q-mt-lg">
+                            <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!canSendFreebi" @click="submit()">Send</q-btn>
+                        </div>
+                    </div>
+                    <div v-if="user.freebiBalance == zeroBalance" class="q-pa-lg">
+                        <p class="text-center">You don't have any balance to transfer.</p>
+                    </div>
+                </section>
                   
             </q-card>
 
@@ -116,22 +185,31 @@ export default {
     },
     data() {
         return {
+            isFreeosTabSelected: true,
             stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
-            submitData: {
+            freeosData: {
                 to: null,
-                token: null,
+                token: 'FREEOS',
                 quantity: null,
                 memo: '',
                 from: null
             },
+            freebiData: {
+                to: null,
+                token: 'FREEBI',
+                quantity: null,
+                memo: '',
+                from: null
+            },
+            freebiRecipientAmount: null,
             isShowApprovedDialog: false,
             isShowFailedDialog: false,
         }
     },
     computed: {
-        ...mapGetters('freeos', ['accountName', 'user', 'isAuthenticated']),
-        tokensSelectOptions() {
+        ...mapGetters('freeos', ['accountName', 'user', 'isAuthenticated', 'dparametersTable']),
+        /*tokensSelectOptions() {
             const types = []
             if (this.user.freebiBalance > 0) {
                 types.push('FREEBI')
@@ -144,42 +222,77 @@ export default {
         },
         isFormFilled() {
             return !Object.values(this.submitData).some(x => (x === null || x === ''))
-        },
+        },*/
         currencyAvailable(){
-            if (!this.submitData.token){
-                return '';
-            }
-            //let amount = (this.submitData.token == 'FREEOS') ? this.user.freeosBalance : this.user.freebiBalance;
-            return this.currentMax + ' ' + this.submitData.token + ' available to transfer';
+            return this.currentMax + ' ' + this.currentToken + ' available to transfer';
         },
         currentMax(){
-            if(this.submitData.token === 'FREEBI'){
+            if(!this.isFreeosTabSelected){
                 return this.user.freebiBalance
             }
-            else if(this.submitData.token === 'FREEOS'){
+            else if(this.isFreeosTabSelected){
                 return this.user.freeosBalance
             }
+        },
+        currentMaxTaxed(){
+            return this.calcFreebiTaxed(this.user.freebiBalance)
         },
         zeroBalance(){
             let zero = 0;
             return zero.toFixed(process.env.TOKEN_PRECISION)
         },
         currentToken(){
-            return this.submitData.token
+            if(!this.isFreeosTabSelected){
+                return this.freebiData.token
+            }
+            else if(this.isFreeosTabSelected){
+                return this.freeosData.token
+            }
         },
         currentQuantity(){
-            return this.submitData.quantity;
+            if(!this.isFreeosTabSelected){
+                return this.freebiData.quantity
+            }
+            else if(this.isFreeosTabSelected){
+                return this.freeosData.quantity
+            }
+        },
+        freebixfee(){
+            let request = this.dparametersTable.filter(function(row){
+                return row.paramname == 'freebixfee'
+            })
+            request = (request.length) ? parseFloat(request[0].value).toFixed(2) : ''
+            return request
+        },
+        canSendFreebi(){
+            if (!this.freebiData.quantity || !this.freebiData.to || parseFloat(this.freebiData.quantity) > this.currentMax || parseFloat(this.freebiData.quantity) <= 0){
+                return false;
+            }
+            return true;
         }
     },
     methods: {
         ...mapActions('freeos', ['fetch', 'transfer']),
-        maxAmount(){
-            this.submitData.quantity = this.currentMax
+        maxAmount(tax = false, event){
+            if(!this.isFreeosTabSelected & !tax){
+                this.freebiData.quantity = this.currentMax
+            }
+            else if(!this.isFreeosTabSelected & tax){
+                this.freebiRecipientAmount = this.currentMaxTaxed
+            }
+            else if(this.isFreeosTabSelected){
+                this.freeosData.quantity = this.currentMax
+            }
+            // trigger change event on input
+            let input = event.target.closest('.col-xs-6').querySelector('input');
+            if(input){
+                input.dispatchEvent(new Event('change', {bubbles:true}));
+            }
         },
         async submit() {
-            var dataToSubmit = Object.assign({}, this.submitData)
-            dataToSubmit.from = this.accountName;
-            dataToSubmit.quantity = `${parseFloat(this.submitData.quantity).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.token}`
+            var dataToSubmit = (this.isFreeosTabSelected) ? Object.assign({}, this.freeosData) : Object.assign({}, this.freebiData)
+            dataToSubmit.from = this.accountName
+            dataToSubmit.quantity = `${parseFloat(dataToSubmit.quantity).toFixed(process.env.TOKEN_PRECISION)} ${dataToSubmit.token}`
                         console.log('dataToSubmit', dataToSubmit)
             
             var result = await this.transfer(dataToSubmit)
@@ -193,27 +306,58 @@ export default {
 
         },
         resetForm() {
-            this.submitData = {
+            this.freeosData = {
                 to: null,
-                token: null,
+                token: 'FREEOS',
                 quantity: null,
                 memo: '',
                 from: null
             }
+            this.freebiData = {
+                to: null,
+                token: 'FREEBI',
+                quantity: null,
+                memo: '',
+                from: null
+            }
+            this.freebiRecipientAmount = null
+        },
+        updateFreebiAmount(tax = false){
+            if(tax){
+                this.freebiData.quantity = (this.freebiRecipientAmount/90)*100
+            }
+            else{
+                this.freebiRecipientAmount = this.calcFreebiTaxed(this.freebiData.quantity)
+            }
+        },
+        calcFreebiTaxed(val){
+            return (val - (val * this.freebixfee * 0.01) ).toFixed(process.env.TOKEN_PRECISION)
         }
     },
     watch:{
-        currentToken(val, old){
-            if(val != old){
-                this.submitData.quantity = "";
-            }
-        },
         currentQuantity(val, old){
-            let split = val.split('.')
-            if(split.length > 1){
-                this.submitData.quantity = parseFloat(val).toFixed(4)
+            if(typeof(val) == 'number'){
+                val = val.toFixed(process.env.TOKEN_PRECISION)
+            }
+            else if(typeof(val) == 'string'){
+                val = parseFloat(val).toFixed(process.env.TOKEN_PRECISION)
+            }
+
+            if(this.isFreeosTabSelected){
+                this.freeosData.quantity = val
+            } else if(!this.isFreeosTabSelected){
+                this.freebiData.quantity = val
             }
             
+        },
+        freebiRecipientAmount(val, old){
+            if(typeof(val) == 'number'){
+                val = val.toFixed(process.env.TOKEN_PRECISION)
+            }
+            else if(typeof(val) == 'string'){
+                val = parseFloat(val).toFixed(process.env.TOKEN_PRECISION)
+            }
+            this.freebiRecipientAmount = val
         }
     }
 }
@@ -232,5 +376,8 @@ export default {
   max-width: 46%;
   padding: 8px;
   border-radius: 8px;
+}
+.tabform{
+    border-top: 1px solid gray
 }
 </style>

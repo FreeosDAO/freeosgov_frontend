@@ -66,6 +66,8 @@ export const ratifyClosesIn = ({ ratifyClosesIn }) => ratifyClosesIn
 export const rewardsPrevious = ({ rewardsPrevious }) => rewardsPrevious
 export const rewardsCurrent = ({ rewardsCurrent }) => rewardsCurrent
 
+export const dparametersTable = ({ dparametersTable }) => dparametersTable
+
 // Claim
 export const systemRow = ({ systemRow }) => systemRow
 export const nextClaimIn = ({ nextClaimIn }) => nextClaimIn

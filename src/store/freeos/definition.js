@@ -65,6 +65,7 @@ var definition = {
   rewardsCurrent: null,
 
   systemRow: null,
+  dparametersTable: null,
   nextClaimIn: null,
   eligibleToClaim: null,
   nextActivity: null,
