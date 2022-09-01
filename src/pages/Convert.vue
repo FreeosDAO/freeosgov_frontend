@@ -27,7 +27,7 @@
 
 
           <section class="q-ma-md panel">
-            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Your current balances:</div>
+            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Your Current balances:</div>
             <div class="balance-list">
               <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
                 <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.pointBalance" /></div>
@@ -47,7 +47,7 @@
               </div>
 
             </div>
-            <hr />
+            <hr class="q-mb-none" />
             <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">AirClaim Points balance:</div>
 
             <div class="balance-list" v-if="user.mffBalance > 0">
@@ -59,26 +59,24 @@
           </section>
 
           <section class="q-ma-md panel">
-            <div class="q-mt-sm q-mb-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
-            <!--<div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for Converting To FREEBI</div>-->
-            <div class="bg-info text-center q-py-sm">
-              <strong>Pay the Mint Fee with:</strong>
-              <div class="text-subtitle1 q-mt-none q-pt-xs">
-                <strong>FREEOS:</strong> 
-                {{mintFeeInFreeos | roundTo4Decimal}} FREEOS<small class="q-px-xs">or</small>{{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}% *
-              </div>
-              <div class="text-subtitle1 q-mt-none q-pt-xs">
-                <strong>XPR:</strong> 
-                {{xprMinMintfee | roundTo4Decimal}} XPR<small class="q-px-xs">or</small>{{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}% *
-              </div>
-              <div class="text-subtitle1 q-mt-none q-pt-xs">
-                <strong>XUSDC:</strong> 
-                {{usdMinMintfee | roundTo4Decimal}} XPR<small class="q-px-xs">or</small>{{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo6Decimal}}% *
-              </div>
+            <div class="q-mt-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
+            <div class="text-bold text-center q-mt-none q-pt-none q-pb-sm">
+              <span class="q-pr-sm">FREEOS = {{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}%</span>
+              <span class="q-px-xs">XPR = {{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}%</span>
+              <span class="q-pl-sm">XUSDC = {{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo4Decimal}}%</span>
 
-              <small class="q-pb-md">* The Mint Fee will be the Higher of the 2 values</small>
+            </div>
+            <!--<div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for Converting To FREEBI</div>-->
+            <div class="bg-info text-center">
+              <div class="text-primary text-bold q-pt-sm q-pb-none">Minimum Mint Fee</div>
+              <div class="text-subtitle2 q-mt-none q-pt-xs"><strong>{{mintFeeMin  | roundTo4Decimal}} FREEOS</strong></div>
+              <div class="text-subtitle2 q-mt-none"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee | roundTo4Decimal}} XPR</strong></div>
+              <div class="text-subtitle2 q-mt-none q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee | roundTo6Decimal}} XUSDC</strong></div>
             </div>
           </section>
+
+
+
 
 
           <section class="q-ma-md panel">
@@ -222,6 +220,27 @@
                   </div>
                   <div class="col-xs-6 col-sm-6">
                     <p class="q-mt-xs q-mb-none text-bold">{{(user.freebiBalance - parseFloat(submitData.quantity)) | roundTo4Decimal }} FREEBI</p>
+                  </div>
+                </div>
+
+
+                <div class="row justify-center" v-if="submitData.pay === 'XPR'">
+                  <div class="col-xs-5 col-sm-6">
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">XPR balance:</small>
+                    </p>
+                  </div>
+                  <div class="col-xs-6 col-sm-6">
+                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XPRBalance - finalMintFeeFreeos) | roundTo4Decimal }} Points</p>
+                  </div>
+                </div>
+
+                <div class="row justify-center" v-if="submitData.pay === 'XUSDC'">
+                  <div class="col-xs-5 col-sm-6">
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">XUSDC balance:</small>
+                    </p>
+                  </div>
+                  <div class="col-xs-6 col-sm-6">
+                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XUSDCBalance - finalMintFeeFreeos) | roundTo6Decimal }} Points</p>
                   </div>
                 </div>
 
@@ -445,13 +464,13 @@ export default {
               return this.mintFeeInFreeos;
             }
         }else if(this.submitData.pay === 'XPR'){
-          if(this.mintFeeInXPR < this.mintFeeMin){
+          if(this.mintFeeInXPR < this.xprMinMintfee){
             return  this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) )
           }else{
             return this.mintFeeInXPR;
           }
         }else if(this.submitData.pay === 'XUSDC'){
-          if(this.mintFeeInXUSDC < this.mintFeeMin){
+          if(this.mintFeeInXUSDC < this.usdMinMintfee){
             return this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) )
           }else{
             return this.mintFeeInXPR;
