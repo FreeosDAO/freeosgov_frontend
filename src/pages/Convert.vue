@@ -681,21 +681,21 @@ export default {
           disabled: this.checkIfDisabled(this.user.freebiBalance)
         }
       ]
-      if(this.user.mffBalance) this.balOptions.unshift({label: 'Airclaim Points', value: 'AIRCLAIM POINT', disabled: false})
+      if(this.user.mffBalance) this.balOptions.unshift({label: 'Airclaim Points <small>(No mint fee)</small>', value: 'AIRCLAIM POINT', disabled: false})
 
       this.mintFeeOptions = [
         {
-          label: 'FREEOS',
+          label: 'FREEOS <small>('+this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent'])+'%)</small>',
           value: 'FREEOS',
           disabled: this.checkIfDisabled(this.user.freeosBalance)
         },
         {
-          label: 'XPR',
+          label: 'XPR <small>('+this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent_xpr'])+'%)</small>',
           value: 'XPR',
           disabled: this.checkIfDisabled(this.user.XPRBalance)
         },
         {
-          label: 'XUSDC',
+          label: 'XUSDC <small>('+this.$options.filters.roundTo6Decimal(this.rewardsPrevious['mint_fee_percent_xusdc'])+'%)</small>',
           value: 'XUSDC',
           disabled: this.checkIfDisabled(this.user.XUSDCBalance)
         }
