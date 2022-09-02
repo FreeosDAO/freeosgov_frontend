@@ -42,8 +42,13 @@
                                 <p class="q-mt-sm q-mb-none">To account:</p>
                             </div>
                             <div class="col-xs-6 col-sm-8">
-                                <q-input maxlength="12" required v-model="freeosData.to" type="text" outlined dense />
-                                <p class="q-mb-none text-grey"><small>Proton account without "@" symbol</small></p>
+                                <q-input maxlength="20" required v-model="freeosData.to" debounce="500" :rules="[validateUsername()]" type="text" outlined dense>
+                                    <template v-slot:hint>
+                                        <p v-if="toFreeosValidated" class="q-mb-none text-grey">Proton Account is valid</p>
+                                        <p v-if="toFreeosValidated == false" class="q-mb-none text-red">Please use a valid Proton account without "@" symbol</p>
+                                        <p v-if="toFreeosValidated == null" class="q-mb-none text-grey">Proton account without "@" symbol</p>
+                                    </template>
+                                </q-input>
                             </div>
                         </div>
                         <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
@@ -68,7 +73,7 @@
                             </div>
                         </div>
                         <div class="text-center q-mt-lg">
-                            <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!freeosData.quantity || !freeosData.to || parseFloat(freeosData.quantity) > currentMax || parseFloat(freeosData.quantity) <= 0" @click="submit()">Send</q-btn>
+                            <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!canSendFreeos" @click="submit()">Send</q-btn>
                         </div>
                     </div>
                     <div v-if="user.freeosBalance == zeroBalance">
@@ -93,8 +98,13 @@
                                 <p class="q-mt-sm q-mb-none">To account:</p>
                             </div>
                             <div class="col-xs-6 col-sm-8">
-                                <q-input maxlength="12" required v-model="freebiData.to" type="text" outlined dense />
-                                <p class="q-mb-none text-grey"><small>Proton account without "@" symbol</small></p>
+                                <q-input maxlength="20" required v-model="freebiData.to" debounce="500" :rules="[validateUsername()]" type="text" outlined dense>
+                                    <template v-slot:hint>
+                                        <p v-if="toFreebiValidated" class="q-mb-none text-grey">Proton Account is valid</p>
+                                        <p v-if="toFreebiValidated == false" class="q-mb-none text-red">Please use a valid Proton account without "@" symbol</p>
+                                        <p v-if="toFreebiValidated == null" class="q-mb-none text-grey">Proton account without "@" symbol</p>
+                                    </template>
+                                </q-input>
                             </div>
                         </div>
                         <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
@@ -205,6 +215,8 @@ export default {
             freebiRecipientAmount: null,
             isShowApprovedDialog: false,
             isShowFailedDialog: false,
+            toFreebiValidated: null,
+            toFreeosValidated: null
         }
     },
     computed: {
@@ -265,14 +277,20 @@ export default {
             return request
         },
         canSendFreebi(){
-            if (!this.freebiData.quantity || !this.freebiData.to || parseFloat(this.freebiData.quantity) > this.currentMax || parseFloat(this.freebiData.quantity) <= 0){
+            if (!this.toFreebiValidated || !this.freebiData.quantity || !this.freebiData.to || parseFloat(this.freebiData.quantity) > this.currentMax || parseFloat(this.freebiData.quantity) <= 0){
+                return false;
+            }
+            return true;
+        },
+        canSendFreeos(){
+            if (!this.toFreeosValidated || !this.freeosData.quantity || !this.freeosData.to || parseFloat(this.freeosData.quantity) > this.currentMax || parseFloat(this.freeosData.quantity) <= 0){
                 return false;
             }
             return true;
         }
     },
     methods: {
-        ...mapActions('freeos', ['fetch', 'transfer']),
+        ...mapActions('freeos', ['fetch', 'transfer', 'isValidUsername']),
         maxAmount(tax = false, event){
             if(!this.isFreeosTabSelected & !tax){
                 this.freebiData.quantity = this.currentMax
@@ -332,6 +350,27 @@ export default {
         },
         calcFreebiTaxed(val){
             return (val - (val * this.freebixfee * 0.01) ).toFixed(process.env.TOKEN_PRECISION)
+        },
+        async validateUsername(){
+            if(this.isFreeosTabSelected){
+                if(this.freeosData.to){
+                    let res = await this.isValidUsername(this.freeosData.to);
+                    this.toFreeosValidated = (res && this.freeosData.to != this.accountName) ? true : false
+                }
+                else{
+                    this.toFreeosValidated = null
+                }
+            }else{
+                if(this.freebiData.to){
+                    let res = await this.isValidUsername(this.freebiData.to);
+                    this.toFreebiValidated = (res && this.freebiData.to != this.accountName) ? true : false
+                }
+                else{
+                    this.toFreebiValidated = null
+                }
+            }
+            
+            
         }
     },
     watch:{
@@ -379,5 +418,10 @@ export default {
 }
 .tabform{
     border-top: 1px solid gray
+}
+</style>
+<style>
+label.q-field .q-field__bottom{
+    padding-left: 0 !important
 }
 </style>
