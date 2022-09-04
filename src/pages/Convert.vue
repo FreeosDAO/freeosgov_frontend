@@ -609,8 +609,7 @@ export default {
 
             if(this.submitData.pay === 'FREEOS'){
               dataToSubmit.contract = this.freeosContract['contract'];
-              dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} POINT`;
-            
+              dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
             }else if(this.submitData.pay === 'XPR'){
               dataToSubmit.contract  = this.xprContract['contract'];
               dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
