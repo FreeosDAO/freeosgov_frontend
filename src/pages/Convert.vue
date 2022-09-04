@@ -436,8 +436,7 @@ export default {
       sendAmount: 0,
       tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       stakeCurrency: process.env.STAKING_CURRENCY,
-      currencyName: process.env.CURRENCY_NAME,
-      convertWatch: false
+      currencyName: process.env.CURRENCY_NAME
     }
   },
   computed: {
@@ -473,7 +472,7 @@ export default {
           if(this.mintFeeInXUSDC < this.usdMinMintfee){
             return this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) )
           }else{
-            return this.mintFeeInXPR;
+            return this.mintFeeInXUSDC;
           }
         }
 
@@ -561,21 +560,21 @@ export default {
       }
     },
     async submit() {
-      this.convertWatch = true
       var result = await this.mintFreeBI({ owner: this.accountName, quantity: `${parseFloat(this.sendAmount).toFixed(process.env.TOKEN_PRECISION)} ${process.env.TOKEN_CURRENCY_NAME}` })
 
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "You Converted", value: this.sendAmount, currency: 'FREEBI'
         });
+        setTimeout(function(){
+          t.resetForm();
+        },8000)
       }
 
       console.log('resultR', result)
-      this.convertWatch = false
-      this.resetForm()
     },
     async mintSubmit() {
-      this.convertWatch = true
+      const t = this;
       var qty = parseFloat(this.submitData.quantity);
 
       var transactionArray = [];
@@ -656,15 +655,22 @@ export default {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "You Converted", value: qty, currency: 'FREEOS'
         });
+        setTimeout(function(){
+          t.resetForm();
+        },8000)
       }
 
       console.log('resultR', result)
-      this.convertWatch = false
-      this.resetForm()
+
     },
 
     resetForm() {
       this.sendAmount = 0
+      this.submitData = {
+        pay: null,
+        quantity: 0,
+        from: null
+      }
     }
   },
   created(){
