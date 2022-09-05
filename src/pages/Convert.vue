@@ -478,7 +478,7 @@ export default {
 
 
         }else if(this.submitData.pay === 'XUSDC'){
-            var calcXUSDC =  this.mintFeeInXUSDC * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) );
+            var calcXUSDC =  this.mintFeeInXUSDC * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) );
             if(calcXUSDC > this.usdMinMintfee){
               return calcXUSDC;
             }else{
