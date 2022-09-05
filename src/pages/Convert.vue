@@ -45,7 +45,10 @@
                 <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.XPRBalance" /></div>
                 <div class="text-bold text-primary">XPR</div>
               </div>
-
+              <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center" v-if="user.XUSDCBalance">
+                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.XUSDCBalance" /></div>
+                <div class="text-bold text-primary">XUSDC</div>
+              </div>
             </div>
             <hr class="q-mb-none" />
             <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">AirClaim Points balance:</div>
@@ -165,6 +168,7 @@
                 </div>
               </div>
               <hr />
+
               <div v-if="submitData.from && (submitData.pay || submitData.from ==='AIRCLAIM POINT') && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
 
                 <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
@@ -463,17 +467,23 @@ export default {
               return this.mintFeeInFreeos;
             }
         }else if(this.submitData.pay === 'XPR'){
-          if(this.mintFeeInXPR < this.xprMinMintfee){
-            return  this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) )
-          }else{
-            return this.mintFeeInXPR;
-          }
+
+            var calcXPR =  this.mintFeeInXPR * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) );
+            if(calcXPR > this.xprMinMintfee){
+              return calcXPR;
+            }else{
+              return  this.xprMinMintfee;
+            }
+
+
+
         }else if(this.submitData.pay === 'XUSDC'){
-          if(this.mintFeeInXUSDC < this.usdMinMintfee){
-            return this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) )
-          }else{
-            return this.mintFeeInXUSDC;
-          }
+            var calcXUSDC =  this.mintFeeInXUSDC * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) );
+            if(calcXUSDC > this.usdMinMintfee){
+              return calcXUSDC;
+            }else{
+              return  this.usdMinMintfee;
+            }
         }
 
         return 0;
