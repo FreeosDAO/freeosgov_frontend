@@ -30,8 +30,13 @@ export default ({ Vue}) => {
 
     Vue.filter('shortNumber', function(value){
         let newValue = parseFloat(value);
-        newValue = newValue.toString().split('.')[0].length > 3 ? newValue.toPrecision(3) : newValue.toFixed(2);
-
+        if(newValue < 100){
+            newValue = newValue.toFixed(4)
+        }
+        else{
+            newValue = newValue.toString().split('.')[0].length > 3 ? newValue.toPrecision(3) : newValue.toFixed(2);
+        }
+        
         newValue = parseFloat(newValue); //remove trailing 0s
 
         const suffixes = ["", "K", "M", "B","T"];

@@ -122,3 +122,7 @@ export async function ratify({ state }, submitData) {
 export async function isValidUsername({ state }, name) {
   return await FreeosBlockChainState.getInstance().isValidUsername(name)
 }
+
+export async function isValidFreeosUser({ state }, name) {
+  return await FreeosBlockChainState.getInstance().isValidFreeosUser(name)
+}

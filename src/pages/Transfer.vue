@@ -44,9 +44,7 @@
                             <div class="col-xs-6 col-sm-8">
                                 <q-input maxlength="20" required v-model="freeosData.to" debounce="500" :rules="[validateUsername()]" type="text" outlined dense>
                                     <template v-slot:hint>
-                                        <p v-if="toFreeosValidated" class="q-mb-none text-grey">Proton Account is valid</p>
-                                        <p v-if="toFreeosValidated == false" class="q-mb-none text-red">Please use a valid Proton account without "@" symbol</p>
-                                        <p v-if="toFreeosValidated == null" class="q-mb-none text-grey">Proton account without "@" symbol</p>
+                                        <p class="q-mb-none" :class="{'text-grey': toFreeosValidated || toFreeosValidated == null, 'text-red':toFreeosValidated == false }">{{toFreeosMessage}}</p>
                                     </template>
                                 </q-input>
                             </div>
@@ -85,11 +83,11 @@
                 <section v-if="!isFreeosTabSelected" class="tabform">
 
                     <p class="bg-primary text-center text-white q-py-md">
-                        <b>Freebi transaction fee is currently {{freebixfee}}%</b>
+                        <b>FREEBI transfer fee is currently {{freebixfee}}%</b>
                     </p>
 
                     <div class="text-center q-px-lg">
-                        For more info on sending Freebi <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
+                        For more info on sending FREEBI <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
                     </div>
 
                     <div v-if="user.freebiBalance != zeroBalance" class="q-pa-lg">
@@ -98,11 +96,9 @@
                                 <p class="q-mt-sm q-mb-none">To account:</p>
                             </div>
                             <div class="col-xs-6 col-sm-8">
-                                <q-input maxlength="20" required v-model="freebiData.to" debounce="500" :rules="[validateUsername()]" type="text" outlined dense>
+                                <q-input maxlength="20" required v-model="freebiData.to" debounce="500" :rules="[validateFreeosUsername()]" type="text" outlined dense>
                                     <template v-slot:hint>
-                                        <p v-if="toFreebiValidated" class="q-mb-none text-grey">Proton Account is valid</p>
-                                        <p v-if="toFreebiValidated == false" class="q-mb-none text-red">Please use a valid Proton account without "@" symbol</p>
-                                        <p v-if="toFreebiValidated == null" class="q-mb-none text-grey">Proton account without "@" symbol</p>
+                                        <p class="q-mb-none" :class="{'text-grey': toFreebiValidated || toFreebiValidated == null, 'text-red':toFreebiValidated == false }">{{toFreebiMessage}}</p>
                                     </template>
                                 </q-input>
                             </div>
@@ -130,7 +126,7 @@
                                     <q-btn @click="maxAmount(true, $event)" class="max-btn" size="sm" unelevated no-caps outline color="secondary">Max</q-btn>
                                 </q-input>
 
-                                <p class="q-mb-none text-grey"><small>Transfer amount minus {{freebixfee}}% tax</small></p>
+                                <p class="q-mb-none text-grey"><small>Transfer amount minus {{freebixfee}}% transfer fee</small></p>
                             </div>
                         </div>
                         <div class="row justify-center q-mb-md q-pl-md q-pr-md q-ml-md q-mr-md q-pb-xs">
@@ -144,7 +140,7 @@
                         <div v-if="canSendFreebi" class="text-center q-mt-lg">
                             <p class="text-primary text-subtitle1 text-bold text-center q-mb-none">Summary:</p>
                             <p>You will send {{freebiData.quantity}} {{freebiData.token}}.
-                                <br> @{{freebiData.to}} will receive {{freebiRecipientAmount}} {{freebiData.token}} after {{freebixfee}}% tax.</p>
+                                <br> @{{freebiData.to}} will receive {{freebiRecipientAmount}} {{freebiData.token}} after {{freebixfee}}% transfer fee.</p>
                         </div>
                         <div class="text-center q-mt-lg">
                             <q-btn size="lg" class="full-width" unelevated no-caps color="primary" :disable="!canSendFreebi" @click="submit()">Send</q-btn>
@@ -216,7 +212,9 @@ export default {
             isShowApprovedDialog: false,
             isShowFailedDialog: false,
             toFreebiValidated: null,
-            toFreeosValidated: null
+            toFreebiMessage: 'Proton account without "@" symbol',
+            toFreeosValidated: null,
+            toFreeosMessage: 'Proton account without "@" symbol'
         }
     },
     computed: {
@@ -290,7 +288,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('freeos', ['fetch', 'transfer', 'isValidUsername']),
+        ...mapActions('freeos', ['fetch', 'transfer', 'isValidUsername', 'isValidFreeosUser']),
         maxAmount(tax = false, event){
             if(!this.isFreeosTabSelected & !tax){
                 this.freebiData.quantity = this.currentMax
@@ -313,11 +311,12 @@ export default {
             dataToSubmit.quantity = `${parseFloat(dataToSubmit.quantity).toFixed(process.env.TOKEN_PRECISION)} ${dataToSubmit.token}`
                         console.log('dataToSubmit', dataToSubmit)
             
+            var token = dataToSubmit.token;
             var result = await this.transfer(dataToSubmit)
 
             if (!(result instanceof Error)) {
                 this.$refs.complete.openDialog({
-                    title: "Woohoo", subtitle: "Your transfer to "+dataToSubmit.to+" was successful!", value: dataToSubmit.quantity, currency: dataToSubmit.token
+                    title: "Woohoo", subtitle: "Your transfer to "+dataToSubmit.to+" was successful!", value: dataToSubmit.quantity, currency: token
                 });
             }
             this.resetForm()
@@ -339,6 +338,7 @@ export default {
                 from: null
             }
             this.freebiRecipientAmount = null
+            this.toFreebiMessage = this.toFreeosMessage = 'Please use a valid Proton account without "@" symbol'
         },
         updateFreebiAmount(tax = false){
             if(tax){
@@ -352,25 +352,46 @@ export default {
             return (val - (val * this.freebixfee * 0.01) ).toFixed(process.env.TOKEN_PRECISION)
         },
         async validateUsername(){
-            if(this.isFreeosTabSelected){
-                if(this.freeosData.to){
-                    let res = await this.isValidUsername(this.freeosData.to);
-                    this.toFreeosValidated = (res && this.freeosData.to != this.accountName) ? true : false
+            if(this.freeosData.to && this.freeosData.to == this.accountName){
+                this.toFreeosValidated = false;
+                this.toFreeosMessage = 'Cannot transfer to self'
+            }
+            else if(this.freeosData.to){
+                let res = await this.isValidUsername(this.freeosData.to);
+                if(res && this.freeosData.to != this.accountName){
+                    this.toFreeosValidated = true
+                    this.toFreeosMessage = 'Proton Account is valid'
                 }
                 else{
-                    this.toFreeosValidated = null
-                }
-            }else{
-                if(this.freebiData.to){
-                    let res = await this.isValidUsername(this.freebiData.to);
-                    this.toFreebiValidated = (res && this.freebiData.to != this.accountName) ? true : false
-                }
-                else{
-                    this.toFreebiValidated = null
+                    this.toFreeosValidated = false
+                    this.toFreeosMessage = 'Please use a valid Proton account without "@" symbol'
                 }
             }
-            
-            
+            else{
+                this.toFreeosValidated = null
+                this.toFreeosMessage = 'Proton account without "@" symbol'
+            }
+        },
+        async validateFreeosUsername(){
+            if(this.freebiData.to && this.freebiData.to == this.accountName){
+                this.toFreebiValidated = false;
+                this.toFreebiMessage = 'Cannot transfer to self'
+            }
+            else if(this.freebiData.to){
+                let res = await this.isValidFreeosUser(this.freebiData.to);
+                if(res && this.freebiData.to != this.accountName){
+                    this.toFreebiValidated = true
+                    this.toFreebiMessage = 'Proton Account is valid & registered with Freeos'
+                }
+                else{
+                    this.toFreebiValidated = false
+                    this.toFreebiMessage = 'This user is not registered with Freeos'
+                }
+            }
+            else{
+                this.toFreebiValidated = null
+                this.toFreebiMessage = 'Proton account without "@" symbol'
+            }
         }
     },
     watch:{
