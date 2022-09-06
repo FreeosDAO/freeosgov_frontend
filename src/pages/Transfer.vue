@@ -42,7 +42,7 @@
                                 <p class="q-mt-sm q-mb-none">To account:</p>
                             </div>
                             <div class="col-xs-6 col-sm-8">
-                                <q-input maxlength="20" required v-model="freeosData.to" debounce="500" :rules="[validateUsername()]" type="text" outlined dense>
+                                <q-input maxlength="12" required v-model="freeosData.to" debounce="500" :rules="[validateUsername()]" type="text" outlined dense>
                                     <template v-slot:hint>
                                         <p class="q-mb-none" :class="{'text-grey': toFreeosValidated || toFreeosValidated == null, 'text-red':toFreeosValidated == false }">{{toFreeosMessage}}</p>
                                     </template>
@@ -96,7 +96,7 @@
                                 <p class="q-mt-sm q-mb-none">To account:</p>
                             </div>
                             <div class="col-xs-6 col-sm-8">
-                                <q-input maxlength="20" required v-model="freebiData.to" debounce="500" :rules="[validateFreeosUsername()]" type="text" outlined dense>
+                                <q-input maxlength="12" required v-model="freebiData.to" debounce="500" :rules="[validateFreeosUsername()]" type="text" outlined dense>
                                     <template v-slot:hint>
                                         <p class="q-mb-none" :class="{'text-grey': toFreebiValidated || toFreebiValidated == null, 'text-red':toFreebiValidated == false }">{{toFreebiMessage}}</p>
                                     </template>
@@ -312,11 +312,12 @@ export default {
                         console.log('dataToSubmit', dataToSubmit)
             
             var token = dataToSubmit.token;
+            var quantity = (token == 'FREEOS') ? dataToSubmit.quantity : this.freebiRecipientAmount;
             var result = await this.transfer(dataToSubmit)
 
             if (!(result instanceof Error)) {
                 this.$refs.complete.openDialog({
-                    title: "Woohoo", subtitle: "Your transfer to "+dataToSubmit.to+" was successful!", value: dataToSubmit.quantity, currency: token
+                    title: "Woohoo", subtitle: "Your transfer to "+dataToSubmit.to+" was successful!", value: quantity, currency: token
                 });
             }
             this.resetForm()
@@ -352,6 +353,7 @@ export default {
             return (val - (val * this.freebixfee * 0.01) ).toFixed(process.env.TOKEN_PRECISION)
         },
         async validateUsername(){
+            this.freeosData.to = this.cleanUsername(this.freeosData.to)
             if(this.freeosData.to && this.freeosData.to == this.accountName){
                 this.toFreeosValidated = false;
                 this.toFreeosMessage = 'Cannot transfer to self'
@@ -373,6 +375,7 @@ export default {
             }
         },
         async validateFreeosUsername(){
+            this.freebiData.to = this.cleanUsername(this.freebiData.to)
             if(this.freebiData.to && this.freebiData.to == this.accountName){
                 this.toFreebiValidated = false;
                 this.toFreebiMessage = 'Cannot transfer to self'
@@ -392,6 +395,13 @@ export default {
                 this.toFreebiValidated = null
                 this.toFreebiMessage = 'Proton account without "@" symbol'
             }
+        },
+        cleanUsername(name){
+            if(name){
+                var regex = /[\W67890]/g;
+                return name.replace(regex, '').toLowerCase();
+            }
+            return name
         }
     },
     watch:{

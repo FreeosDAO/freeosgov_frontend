@@ -652,7 +652,7 @@ export class FreeosBlockChainState extends EventEmitter {
    */
   async isValidFreeosUser(name){
     name = name.toLowerCase();
-    let res = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'participants', name, {limit: 1})
+    let res = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'participants', name, {limit: 1}).catch(e => false);
     if (!res) {
       //accountname not found
       return false;
