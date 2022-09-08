@@ -90,7 +90,7 @@
 
 
               <div class="row justify-center q-mb-sm q-pb-xs">
-                <div class="col-xs-5 col-sm-6">
+n                <div class="col-xs-6 col-sm-5">
                   <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">1. Choose a balance to Mint
                       from:</small></div>
                 </div>
@@ -107,7 +107,7 @@
 
 
               <div v-if="submitData.from === 'POINT'" class="row justify-center q-mb-md q-pb-xs">
-                <div class="col-xs-5 col-sm-6">
+                <div class="col-xs-6 col-sm-5">
                   <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available Points Balance:</small>
                   </p>
                 </div>
@@ -117,7 +117,7 @@
               </div>
 
               <div v-if="submitData.from === 'FREEBI'" class="row justify-center q-mb-md q-pb-xs">
-                <div class="col-xs-5 col-sm-6">
+                <div class="col-xs-6 col-sm-5">
                   <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available FREEBI Balance:</small>
                   </p>
                 </div>
@@ -127,7 +127,7 @@
               </div>
 
               <div class="row justify-center q-mb-sm q-pb-xs">
-                <div class="col-xs-5 col-sm-6">
+                <div class="col-xs-6 col-sm-5">
                   <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">2. Amount to
                       Mint:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
                 </div>
@@ -154,7 +154,7 @@
                 </div>
               </div>
               <div class="row justify-center q-mb-sm q-pb-xs" v-if="submitData.from !== 'AIRCLAIM POINT'">
-                <div class="col-xs-5 col-sm-6">
+                <div class="col-xs-6 col-sm-5">
                   <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">3. Pay the Mint Fee with:</small>
                   </div>
                 </div>
@@ -173,7 +173,7 @@
 
                 <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
                 <div class="row justify-center">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Total Mint Fee will be:</small>
                     </p>
                   </div>
@@ -185,7 +185,7 @@
                   </div>
                 </div>
                 <div class="row justify-center" v-if="user.mffBalance > 0">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points used:</small>
                     </p>
                   </div>
@@ -194,7 +194,7 @@
                   </div>
                 </div>
                 <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM POINT'">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance to charge:</small>
                     </p>
                   </div>
@@ -208,7 +208,7 @@
 
 
                 <div class="row justify-center" v-if="submitData.from !== 'FREEBI'">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Points balance:</small>
                     </p>
                   </div>
@@ -218,7 +218,7 @@
                 </div>
 
                 <div class="row justify-center" v-if="submitData.from === 'FREEBI'">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance:</small>
                     </p>
                   </div>
@@ -229,7 +229,7 @@
 
 
                 <div class="row justify-center" v-if="submitData.pay === 'XPR'">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">XPR balance:</small>
                     </p>
                   </div>
@@ -239,7 +239,7 @@
                 </div>
 
                 <div class="row justify-center" v-if="submitData.pay === 'XUSDC'">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">XUSDC balance:</small>
                     </p>
                   </div>
@@ -250,7 +250,7 @@
 
 
                 <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM POINT'">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance:</small>
                     </p>
                   </div>
@@ -261,7 +261,7 @@
 
 
                 <div class="row justify-center">
-                  <div class="col-xs-5 col-sm-6">
+                  <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEOS balance:</small>
                     </p>
                   </div>
@@ -327,19 +327,19 @@
 
         <div class="bg-info q-pa-md">
           <div class="row justify-center q-mb-sm q-pb-xs">
-            <div class="col-xs-5 col-sm-6">
+            <div class="col-xs-6 col-sm-5">
               <p class="q-mt-sm q-mb-none"><small class="text-bold text-primary">Your Available Points Balance:</small>
               </p>
             </div>
-            <div class="col-xs-6 col-sm-6">
+            <div class="col-xs-6 col-sm-5">
               <p class="q-mt-sm q-mb-none text-primary text-bold">{{ user.pointBalance }}</p>
             </div>
           </div>
           <div class="row justify-center q-mb-sm q-pb-xs">
-            <div class="col-xs-5 col-sm-6">
+            <div class="col-xs-6 col-sm-5">
               <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">Amount to Convert:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
             </div>
-            <div class="col-xs-6 col-sm-6">
+            <div class="col-xs-6 col-sm-5">
 
 
 
@@ -370,22 +370,22 @@
                 here</small></div>
 
                   <div class="row justify-center">
-                    <div class="col-xs-5 col-sm-6">
+                    <div class="col-xs-6 col-sm-5">
                       <p class="q-mt-xs q-mb-none"><small class="text-bold">POINTS balance will be:</small>
                       </p>
                     </div>
-                    <div class="col-xs-6 col-sm-6">
+                    <div class="col-xs-6 col-sm-5">
                       <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.pointBalance) - parseFloat(sendAmount)) | roundTo4Decimal}}</p>
                     </div>
                   </div>
 
 
                   <div class="row justify-center">
-                    <div class="col-xs-5 col-sm-6">
+                    <div class="col-xs-6 col-sm-5">
                       <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance will be:</small>
                       </p>
                     </div>
-                    <div class="col-xs-6 col-sm-6">
+                    <div class="col-xs-6 col-sm-5">
                       <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.freebiBalance) + parseFloat(sendAmount)) | roundTo4Decimal}}</p>
                     </div>
                   </div>

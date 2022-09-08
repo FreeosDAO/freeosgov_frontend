@@ -103,7 +103,7 @@ const menuList = [
     label: 'Mint',
     separator: true,
     route: '/mint',
-    displayCondition: "isRegisterVerifiedCheck"
+    //displayCondition: "isRegisterVerifiedCheck"
   },
   {
     icon: require('@/assets/proton.svg'),

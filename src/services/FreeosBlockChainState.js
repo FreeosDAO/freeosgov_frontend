@@ -165,6 +165,7 @@ export class FreeosBlockChainState extends EventEmitter {
 
       const kycContract = process.env.KYC_CONTRACT ? process.env.KYC_CONTRACT: 'eosio.proton'
 
+
       // vars setup
       let userQueries = [
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'participants', scope: user.name, params: {limit: 1}},
@@ -176,7 +177,8 @@ export class FreeosBlockChainState extends EventEmitter {
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
         {contract: kycContract, table: 'usersinfo', scope: kycContract, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
-        {contract: process.env.FREEOSGOV_CONTRACT, table: 'unvests', scope: user.name, params: {limit: 1}}
+        {contract: process.env.FREEOSGOV_CONTRACT, table: 'unvests', scope: user.name, params: {limit: 1}},
+        {contract: process.env.DIVIDEND_CONTRACT, table: 'nfts', scope: process.env.DIVIDEND_CONTRACT, params: {limit: 1, index_position: 3, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName, key_type: 'i64'}}
       ]
 
 
@@ -189,8 +191,10 @@ export class FreeosBlockChainState extends EventEmitter {
         user['pointBalance'], user['lockedBalance'], user['freebiBalance'], user['freeosBalance'],
         user['mffBalance'],
         user['XPRBalance'], user['XUSDCBalance'], user['preRegistration'] ,
-        user['lastUnlock']
+        user['lastUnlock'],
+        user['hasNFT']
      ] = userVars
+
 
       // Filter Balances
       user = this.filterBalances(user)
@@ -223,7 +227,7 @@ export class FreeosBlockChainState extends EventEmitter {
       }
       
       output['accountType'] = accountType;
-      output['isVerified'] = accountType === 'v' || accountType === 'b' || accountType === 'c' ? true : false;
+      output['isVerified'] = accountType === 'v' || accountType === 'b' || accountType === 'c' || user['hasNFT'] ? true : false;
 
 
 
@@ -279,6 +283,11 @@ export class FreeosBlockChainState extends EventEmitter {
      const freeosContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,FREEOS', upper_bound: '4,FREEOS'});
      //console.log('freeosContract', freeosContract)
      output['freeosContract'] = freeosContract;
+
+
+
+     //console.log('freeosContract', freeosContract)
+     //output['freeosContract'] = freeosContract;
 
     /**
      * Survey Vars
@@ -710,6 +719,8 @@ export class FreeosBlockChainState extends EventEmitter {
       query.limit = additionalParams.limit
       query.upper_bound = additionalParams.upper_bound
       query.lower_bound = additionalParams.lower_bound
+      query.index_position = additionalParams.index_position
+      query.key_type = additionalParams.key_type
     }
 
     const result = await this.getTableRows(query)
