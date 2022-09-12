@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-pa-sm">
     <CompleteDialog ref="complete" />
 
 
@@ -90,7 +90,7 @@
 
 
               <div class="row justify-center q-mb-sm q-pb-xs">
-n                <div class="col-xs-6 col-sm-5">
+                <div class="col-xs-6 col-sm-5">
                   <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">1. Choose a balance to Mint
                       from:</small></div>
                 </div>

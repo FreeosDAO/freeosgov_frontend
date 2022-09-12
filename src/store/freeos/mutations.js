@@ -132,3 +132,7 @@ export const setxprContract = (state, xprContract) => {
 export const setusdContract = (state, usdContract) => {
   state.usdContract = usdContract
 }
+
+export const setannounceObj = (state, announceObj) => {
+  state.announceObj = announceObj
+}

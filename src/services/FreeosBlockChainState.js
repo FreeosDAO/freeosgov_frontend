@@ -285,10 +285,18 @@ export class FreeosBlockChainState extends EventEmitter {
      output['freeosContract'] = freeosContract;
 
 
-
-     //console.log('freeosContract', freeosContract)
-     //output['freeosContract'] = freeosContract;
-
+    //Announcement Popup
+     var announcetext = this.getParameterFromTable('announcetext', this.parametersTable, '');
+     var announceid = this.getParameterFromTable('announceid', this.parametersTable, '');
+     var announcelink = this.getParameterFromTable('announcelink', this.parametersTable, '');
+     var announceimg = this.getParameterFromTable('announceimg', this.parametersTable, '');
+     output['announceObj'] = {
+       text: announcetext ? announcetext : null,
+       id: announceid ? announceid : null,
+       link: announcelink ? announcelink : null,
+       img: announceimg ? announceimg : null,
+     } 
+ 
     /**
      * Survey Vars
      */
@@ -299,6 +307,7 @@ export class FreeosBlockChainState extends EventEmitter {
     output['ratifyShare'] =  parseFloat(this.getParameterFromTable('ratifyshare', this.dparametersTable, '')).toFixed(2) * 100;
     output['lockFactor'] =  parseFloat(this.getParameterFromTable('lockfactor', this.dparametersTable, '')).toFixed(2);
     output['mintFeeMin'] = parseFloat(this.getParameterFromTable('mintfeemin', this.dparametersTable, ''));
+
 
     /* Vars calculated via Iterations */
     output['voteClosesIn'] = iterations['voteClosesIn'];

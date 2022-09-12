@@ -697,7 +697,6 @@ export default {
     resultq1choice1() {
       const sv = this.surveyRecord
       var result = sv['q1choice1'] / (sv['q1choice1'] + sv['q1choice2'] + sv['q1choice3']) * 100;
-      console.log('rese', result);
       return result ? parseFloat(result.toFixed(2)) : 0;
     },
     resultq1choice2() {
