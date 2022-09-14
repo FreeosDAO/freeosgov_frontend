@@ -234,7 +234,7 @@
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XPRBalance - finalMintFeeFreeos) | roundTo4Decimal }} Points</p>
+                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XPRBalance - finalMintFeeFreeos) | roundTo4Decimal }} XPR</p>
                   </div>
                 </div>
 
@@ -244,7 +244,7 @@
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XUSDCBalance - finalMintFeeFreeos) | roundTo6Decimal }} Points</p>
+                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XUSDCBalance - finalMintFeeFreeos) | roundTo6Decimal }} XUSDC</p>
                   </div>
                 </div>
 
