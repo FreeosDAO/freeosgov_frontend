@@ -51,7 +51,7 @@
               </div>
             </div>
             <hr class="q-mb-none" />
-            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">AirClaim Points balance:</div>
+            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">AirClaim Allowance balance:</div>
 
             <div class="balance-list" v-if="user.mffBalance > 0">
               <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
@@ -153,7 +153,7 @@
                       {{ currencyName }} available to transfer</small></p>-->
                 </div>
               </div>
-              <div class="row justify-center q-mb-sm q-pb-xs" v-if="submitData.from !== 'AIRCLAIM POINT'">
+              <div class="row justify-center q-mb-sm q-pb-xs" v-if="submitData.from !== 'AIRCLAIM ALLOWANCE'">
                 <div class="col-xs-6 col-sm-5">
                   <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">3. Pay the Mint Fee with:</small>
                   </div>
@@ -169,7 +169,7 @@
               </div>
               <hr />
 
-              <div v-if="submitData.from && (submitData.pay || submitData.from ==='AIRCLAIM POINT') && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
+              <div v-if="submitData.from && (submitData.pay || submitData.from ==='AIRCLAIM ALLOWANCE') && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
 
                 <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
                 <div class="row justify-center">
@@ -186,16 +186,16 @@
                 </div>
                 <div class="row justify-center" v-if="user.mffBalance > 0">
                   <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points used:</small>
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance used:</small>
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
                     <p class="q-mt-xs q-mb-none text-bold">{{ mintFeeFreePointsUsed | roundTo4Decimal }} Points</p>
                   </div>
                 </div>
-                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM POINT'">
+                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
                   <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance to charge:</small>
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance balance to charge:</small>
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
@@ -249,9 +249,9 @@
                 </div>
 
 
-                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM POINT'">
+                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
                   <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Points balance:</small>
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance balance:</small>
                     </p>
                   </div>
                   <div class="col-xs-6 col-sm-6">
@@ -272,9 +272,9 @@
 
 
               </div>
-              
+              <div class="text-negative text-center" v-if="submitData.from && submitData.quantity > 0 && (freeosBalance < 0 || submitData.quantity > mintMaxAmount)"><strong>You do not have enough to complete the transaction</strong></div>
               <div style="align-items: center;" class="row justify-center q-mt-lg ">
-                <q-btn @click="mintSubmit()" class="full-width" :disabled="freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM POINT') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)" size="xl" unelevated no-caps color="primary">
+                <q-btn @click="mintSubmit()" class="full-width" :disabled="freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)" size="xl" unelevated no-caps color="primary">
                   Mint FREEOS</q-btn>
               </div>
             </div>
@@ -504,7 +504,7 @@ export default {
     },
     mintFeeFreePointsUsed() {
       const qty = parseFloat(this.submitData.quantity);
-      if(this.submitData.from === 'AIRCLAIM POINT'){
+      if(this.submitData.from === 'AIRCLAIM ALLOWANCE'){
         return qty;
       }else{
         return 0;
@@ -515,7 +515,7 @@ export default {
         return this.user.pointBalance
       }else if(this.submitData.from === 'FREEBI'){
         return this.user.freebiBalance
-      }else if(this.submitData.from === 'AIRCLAIM POINT'){
+      }else if(this.submitData.from === 'AIRCLAIM ALLOWANCE'){
         if(this.user.pointBalance > this.user.mffBalance){
           return this.user.mffBalance;
         }else{
@@ -634,14 +634,14 @@ export default {
       var dataToSubmit = {};
       dataToSubmit.user = this.accountName;
 
-      if(this.submitData.from === 'AIRCLAIM POINT'){
-        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} POINT`;
+      if(this.submitData.from === 'AIRCLAIM ALLOWANCE'){
+        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ALLOWANCE`;
       }else{
         dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
       }
 
 
-      //if(this.submitData.pay === 'FREEOS' || this.submitData.from === 'AIRCLAIM POINT')
+      //if(this.submitData.pay === 'FREEOS' || this.submitData.from === 'AIRCLAIM ALLOWANCE')
           dataToSubmit.mint_fee_currency = '4,FREEOS'; // + this.submitData.pay;
       
       if(this.submitData.pay === 'XPR'){
@@ -650,7 +650,7 @@ export default {
           dataToSubmit.mint_fee_currency = '6,' + this.submitData.pay;
       }
 
-      dataToSubmit.use_airclaim_points = this.submitData.from === 'AIRCLAIM POINT' ? true : false;
+      dataToSubmit.use_airclaim_points = this.submitData.from === 'AIRCLAIM ALLOWANCE' ? true : false;
 
       dataToSubmit.contract = process.env.FREEOSGOV_CONTRACT;
       transactionArray.push(dataToSubmit);
@@ -696,7 +696,7 @@ export default {
           disabled: this.checkIfDisabled(this.user.freebiBalance)
         }
       ]
-      if(this.user.mffBalance) this.balOptions.unshift({label: 'Airclaim Points <small>(No mint fee)</small>', value: 'AIRCLAIM POINT', disabled: false})
+      if(this.user.mffBalance) this.balOptions.unshift({label: 'AirClaim Allowance <small>(No mint fee)</small>', value: 'AIRCLAIM ALLOWANCE', disabled: false})
 
       this.mintFeeOptions = [
         {
