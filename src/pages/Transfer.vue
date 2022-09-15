@@ -343,14 +343,14 @@ export default {
         },
         updateFreebiAmount(tax = false){
             if(tax){
-                this.freebiData.quantity = (this.freebiRecipientAmount/90)*100
+                this.freebiData.quantity = ( this.freebiRecipientAmount / (1 - (this.freebixfee*0.01)) )
             }
             else{
                 this.freebiRecipientAmount = this.calcFreebiTaxed(this.freebiData.quantity)
             }
         },
         calcFreebiTaxed(val){
-            return (val - (val * this.freebixfee * 0.01) ).toFixed(process.env.TOKEN_PRECISION)
+            return (val - this.roundDown(val * (this.freebixfee * 0.01), process.env.TOKEN_PRECISION))//.toFixed(process.env.TOKEN_PRECISION)
         },
         async validateUsername(){
             this.freeosData.to = this.cleanUsername(this.freeosData.to)
@@ -402,15 +402,21 @@ export default {
                 return name.replace(regex, '').toLowerCase();
             }
             return name
+        },
+        roundDown(value, decimals) {
+            return Number( Math.floor( value+'e'+decimals ) + 'e-'+decimals );
+        },
+        round(value, decimals) {
+            return Number( Math.round( value+'e'+decimals ) + 'e-'+decimals );
         }
     },
     watch:{
         currentQuantity(val, old){
             if(typeof(val) == 'number'){
-                val = val.toFixed(process.env.TOKEN_PRECISION)
+                val = this.roundDown(val,process.env.TOKEN_PRECISION) //.toFixed(process.env.TOKEN_PRECISION)
             }
             else if(typeof(val) == 'string'){
-                val = parseFloat(val).toFixed(process.env.TOKEN_PRECISION)
+                val = this.roundDown(parseFloat(val),process.env.TOKEN_PRECISION)//parseFloat(val).toFixed(process.env.TOKEN_PRECISION)
             }
 
             if(this.isFreeosTabSelected){
@@ -422,11 +428,12 @@ export default {
         },
         freebiRecipientAmount(val, old){
             if(typeof(val) == 'number'){
-                val = val.toFixed(process.env.TOKEN_PRECISION)
+                val = this.round(val, process.env.TOKEN_PRECISION).toFixed(process.env.TOKEN_PRECISION)
             }
             else if(typeof(val) == 'string'){
-                val = parseFloat(val).toFixed(process.env.TOKEN_PRECISION)
+                val = this.round(parseFloat(val), process.env.TOKEN_PRECISION).toFixed(process.env.TOKEN_PRECISION)
             }
+            
             this.freebiRecipientAmount = val
         }
     }
