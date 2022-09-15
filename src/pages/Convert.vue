@@ -184,7 +184,7 @@
                     <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}</p>
                   </div>
                 </div>
-                <div class="row justify-center" v-if="user.mffBalance > 0">
+                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
                   <div class="col-xs-6 col-sm-5">
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance used:</small>
                     </p>
@@ -272,9 +272,9 @@
 
 
               </div>
-              <div class="text-negative text-center" v-if="submitData.from && submitData.quantity > 0 && (freeosBalance < 0 || submitData.quantity > mintMaxAmount)"><strong>You do not have enough to complete the transaction</strong></div>
+              <div class="text-negative text-center q-mt-md" v-if="showMintFeeError"><strong>You do not have enough to complete the transaction</strong></div>
               <div style="align-items: center;" class="row justify-center q-mt-lg ">
-                <q-btn @click="mintSubmit()" class="full-width" :disabled="freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)" size="xl" unelevated no-caps color="primary">
+                <q-btn @click="mintSubmit()" class="full-width" :disabled="disableMintFeeButton" size="xl" unelevated no-caps color="primary">
                   Mint FREEOS</q-btn>
               </div>
             </div>
@@ -450,6 +450,33 @@ export default {
 
       return qty;
     },
+    showMintFeeError(){
+      //freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)
+      let isLowerThanMintFee = false;
+      if(this.submitData.pay === 'FREEOS'){
+        if(this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
+      }else if(this.submitData.pay === 'XPR'){
+        if(this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
+      }else if(this.submitData.pay === 'XUSDC'){
+        if(this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
+      }
+
+      return this.submitData.from && this.submitData.quantity > 0 && (this.freeosBalance < 0 || this.submitData.quantity > this.mintMaxAmount) || isLowerThanMintFee
+    },
+    disableMintFeeButton(){
+      //freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)
+      let isLowerThanMintFee = false;
+      if(this.submitData.pay === 'FREEOS'){
+        if(this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
+      }else if(this.submitData.pay === 'XPR'){
+        if(this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
+      }else if(this.submitData.pay === 'XUSDC'){
+        if(this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
+      }
+
+      return this.freeosBalance < 0 || !this.submitData.from || (!this.submitData.pay && this.submitData.from !=='AIRCLAIM ALLOWANCE') || !(this.submitData.quantity > 0 && this.submitData.quantity <= this.mintMaxAmount) || isLowerThanMintFee
+    },
+
     mintFeeInFreeos() {//mintfee_in_freeos
       return this.mintfeePayable * (parseFloat(this.rewardsPrevious['mint_fee_percent']) / 100);
     },
