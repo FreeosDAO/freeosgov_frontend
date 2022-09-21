@@ -5,7 +5,7 @@
 
 
     <div class="panel-wrap panel bg-white" v-if="isFreeosEnabled">
-      <h4 class="q-mb-lg q-mt-lg text-center">Mint or Convert Options</h4>
+      <h4 class="q-mb-lg q-mt-lg text-center">Mint</h4>
 
       <div class="flex justify-center" style="flex-direction:row;">
         <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': !isMintTabSelected }" outline unelevated no-caps
@@ -19,11 +19,8 @@
           <p class="bg-primary text-h5 text-center text-white q-py-md">
             This could be a taxable event in your jurisdiction
           </p>
-          <p class="q-py-md q-px-lg">When Minting FREEOS a Mint Fee is charged which is a key component of the FREEOS
-            economic engine to keep the value buoyant. The Mint Fee applies when you convert your ‘Claimed Points’ or FREEBI
-            into a tradable token (FREEOS). Only FREEBI and Points are exempt. The Fee will be stewarded by your VOTE when
-            it comes available. Minting may be a taxable event. FREEOS is our key trading token in crypto-markets like
-            Alcor, and FREEBI is our internal trading token within the community. More info <a target="_blank" title="Minting FREEOS" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1562"> click here</a></p>
+          <p class="q-py-md q-px-lg">The Mint Fee only applies when you convert your claimed ‘Points” or FREEBI into FREEOS.
+For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1562"> click here.</a></p>
 
 
           <section class="q-ma-md panel">
@@ -50,13 +47,16 @@
                 <div class="text-bold text-primary">XUSDC</div>
               </div>
             </div>
-            <hr class="q-mb-none" />
-            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm" v-if="user.mffBalance > 0">AirClaim Allowance balance:</div>
 
-            <div class="balance-list" v-if="user.mffBalance > 0">
-              <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.mffBalance" /></div>
-                <div class="text-bold text-primary">of your POINTS</div>
+            <div v-if="user.mffBalance > 0">
+              <hr class="q-mb-none" />
+              <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">AirClaim Allowance balance:</div>
+
+              <div class="balance-list">
+                <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                  <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.mffBalance" /></div>
+                  <div class="text-bold text-primary">of your POINTS</div>
+                </div>
               </div>
             </div>
           </section>
@@ -662,7 +662,7 @@ export default {
       dataToSubmit.user = this.accountName;
 
       if(this.submitData.from === 'AIRCLAIM ALLOWANCE'){
-        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ALLOWANCE`;
+        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} POINT`;
       }else{
         dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
       }

@@ -122,9 +122,7 @@
                             </div>
                             <div class="col-xs-6 col-sm-8">
 
-                                <q-input v-model="freebiRecipientAmount" @input="updateFreebiAmount(true)" @change="updateFreebiAmount(true)" type="number" step="0.0001" required outlined dense novalidate>
-                                    <q-btn @click="maxAmount(true, $event)" class="max-btn" size="sm" unelevated no-caps outline color="secondary">Max</q-btn>
-                                </q-input>
+                                <q-input v-model="freebiRecipientAmount" type="number" step="0.0001" required outlined dense novalidate disable filled></q-input>
 
                                 <p class="q-mb-none text-grey"><small>Transfer amount minus {{freebixfee}}% transfer fee</small></p>
                             </div>

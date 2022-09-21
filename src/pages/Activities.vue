@@ -147,7 +147,7 @@
                 v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
             <p class="q-pa-lg q-ma-none" v-if="voteCompleted">Since you voted this week, some market changes might altered to effect the community
               decision. Carefully consider the current market with the links below. The ratification vote enables you to
-              confirm or void this week's vote…for more information click here</p>
+              confirm or void this week's vote. For more information <a target="_blank" title="Ratify" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1642"> click here.</a></p>
             <div class="text-h5 text-center q-pa-lg">This week's Vote Results</div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
@@ -264,7 +264,7 @@
               <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your
                 answers also affect the FREEOS community. The bonus is your participation is rewarded when you ‘Claim’.
                 Initially, it may take some time to understand each economic tool - but that will change. For
-                more info refer to:</p>
+                more info <a target="_blank" title="Voting" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1622"> click here.</a></p>
             </section>
             <div class="text-h5 text-center bg-info q-px-lg q-py-md">
               Ready? to Vote Let’s start
@@ -491,11 +491,7 @@
 
             <div class="bg-primary text-h5 text-center text-white q-py-md">Survey Closes in: <span
                 v-html="$options.filters.secondsToDhms(surveyClosesIn)"></span></div>
-            <p class="text-md text-center q-py-md q-px-md">Thank you for being part of FREEOS community who actively
-              stewards this economy. Besides empowering your
-              own financial freedom, your answers also affect the FREEOS community. The bonus is your participation is
-              rewarded when you ‘Claim’. Initially, it may take some time to understand each economic tool - but
-              that will change. For more info refer to:</p>
+            <p class="text-md text-center q-py-md q-px-md">This Survey helps the community of Freeos participants know what each other is thinking, so they can act in unison. For more info <a target="_blank" title="Survey" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1602"> click here.</a></p>
             <div class="bg-info text-h5 text-center q-py-md q-px-lg">Ready? Let’s start</div>
             <section>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md" style="line-height:1">
@@ -825,7 +821,7 @@ export default {
       })
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo!", subtitle: "Thanx for Submitting the Survey"
+          title: "Woohoo!", subtitle: "Thanks for participating in the Survey"
         });
       }
     },
@@ -855,7 +851,7 @@ export default {
       var result = await _.vote(voteRecord);
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo!", subtitle: "Thanx for Voting"
+          title: "Woohoo!", subtitle: "Thanks for Voting"
         });
       }
     },
@@ -868,7 +864,7 @@ export default {
       })
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo", subtitle: "Thanx for Ratifying"
+          title: "Woohoo", subtitle: "Thanks for Ratifying"
         });
       }
     },
