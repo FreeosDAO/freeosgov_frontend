@@ -3,7 +3,9 @@ const routes = [
     path: '/',
     component: () => import('layouts/IntroLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      // { path: '', component: () => import('pages/Index.vue') }
+      // CHANGE BACK TO INDEX
+      { path: '', component: () => import('layouts/MainLayout.vue') }
     ]
   },
   {
@@ -17,7 +19,7 @@ const routes = [
       { path: '/claim', component: () => import('pages/Claim.vue') },
       { path: '/stake', component: () => import('pages/StakeAndUnstake.vue') },
       { path: '/re-register', component: () => import('pages/Re-register.vue') },
-      { path: '/transfer', component: () => import('pages/Transfer.vue') }, 
+      { path: '/transfer', component: () => import('pages/Transfer.vue') },
       { path: '/mint', component: () => import('pages/Convert.vue') },
       { path: '/info', component: () => import('pages/Info.vue') },
     ]
