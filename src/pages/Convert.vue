@@ -11,7 +11,7 @@
         <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': !isMintTabSelected }" outline unelevated no-caps
           @click="isMintTabSelected = !isMintTabSelected">Mint FREEOS</q-btn>
         <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': isMintTabSelected }" outline unelevated no-caps
-          @click="isMintTabSelected = !isMintTabSelected">Points to FREEBI</q-btn>
+          @click="isMintTabSelected = !isMintTabSelected">Mint FREEBI</q-btn>
       </div>
 
       <!--MINT FREEOS-->
@@ -19,7 +19,7 @@
           <p class="bg-primary text-h5 text-center text-white q-py-md">
             This could be a taxable event in your jurisdiction
           </p>
-          <p class="q-py-md q-px-lg">The Mint Fee only applies when you convert your claimed ‘Points” or FREEBI into FREEOS.
+          <p class="q-py-md q-px-lg">The Mint Fee applies when you mint your ‘Claimed Points’ or FREEBI into a tradable token (FREEOS).
 For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1562"> click here.</a></p>
 
 
@@ -293,13 +293,13 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
       <!--POINT TO FREEBI-->
       <section v-if="!isMintTabSelected">
       <p class="bg-primary text-h5 text-center text-white q-py-md">
-        Converting Points to FREEBI
+        Mint Points to FREEBI
       </p>
       <p class="q-py-md q-px-lg">FREEBI is our internal trading token within the community and isn't subject to a Mint
         Fee. The FREEBI tokens exist as a way for participants to have a limited, but tradable, token that can be used
-        for Peer-to-Peer activities, while protecting the FREEOS token's circulating supply. More info <a
+        for Peer-to-Peer activities, while protecting the FREEOS token's circulating supply. For more info <a
           href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1582" target="_blank">click
-          here</a></p>
+          here.</a></p>
 
 
       <section class="q-ma-md panel">
@@ -321,10 +321,13 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
 
       </section>
 
-      <section class="q-ma-md panel">
-        <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Convert Your Points to FREEBI</div>
+      <section class="q-ma-md">
+        <GetVerified message="You must be verified to mint FREEBI"></GetVerified>
+      </section>
+      
 
-
+      <section class="q-ma-md panel" v-if="isVerified">
+        <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Mint Your Points to FREEBI</div>
         <div class="bg-info q-pa-md">
           <div class="row justify-center q-mb-sm q-pb-xs">
             <div class="col-xs-6 col-sm-5">
@@ -337,7 +340,7 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
           </div>
           <div class="row justify-center q-mb-sm q-pb-xs">
             <div class="col-xs-6 col-sm-5">
-              <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">Amount to Convert:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
+              <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">Amount to Mint:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
             </div>
             <div class="col-xs-6 col-sm-5">
 
@@ -366,8 +369,7 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
           </div>
           <hr />
           <div v-if="sendAmount">
-            <div class="q-mt-md text-primary text-bold"><small>Expected conversion transaction balances will show
-                here</small></div>
+            <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
 
                   <div class="row justify-center">
                     <div class="col-xs-6 col-sm-5">
@@ -392,7 +394,7 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
         </div>
           <div style="align-items: center;" class="row justify-center q-mt-lg ">
             <q-btn @click="submit()" :disabled="!(parseFloat(sendAmount) > 0) || parseFloat(sendAmount) > parseFloat(user.pointBalance)" class="full-width" size="xl" unelevated no-caps :disable="false" color="primary">
-              Convert to FREEBI</q-btn>
+              Mint FREEBI</q-btn>
           </div>
         </div>
       </section>
@@ -416,6 +418,7 @@ import CompleteDialog from 'src/components/CompleteDialog.vue'
 import AbbreviateNumber from 'src/components/AbbreviateNumber.vue'
 import { user } from 'src/store/freeos/getters'
 import { AST_Return } from 'terser'
+import GetVerified from 'src/components/GetVerified.vue'
 
 
 
@@ -424,8 +427,9 @@ export default {
   name: 'Convert',
   components: {
     CompleteDialog,
-    AbbreviateNumber
-  },
+    AbbreviateNumber,
+    GetVerified
+},
   data() {
     return {
       isMintTabSelected: true,
@@ -600,14 +604,12 @@ export default {
       var result = await this.mintFreeBI({ owner: this.accountName, quantity: `${parseFloat(this.sendAmount).toFixed(process.env.TOKEN_PRECISION)} ${process.env.TOKEN_CURRENCY_NAME}` })
 
       if (!(result instanceof Error)) {
+        var amount = this.sendAmount;
         this.$refs.complete.openDialog({
-          title: "Woohoo!", subtitle: "You Converted", value: this.sendAmount, currency: 'FREEBI'
+          title: "Woohoo!", subtitle: "You minted", value: amount, currency: 'FREEBI'
         });
-        setTimeout(function(){
-          t.resetForm();
-        },8000)
+        this.resetForm();
       }
-
       console.log('resultR', result)
     },
     async mintSubmit() {
@@ -690,7 +692,7 @@ export default {
 
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo!", subtitle: "You Converted", value: qty, currency: 'FREEOS'
+          title: "Woohoo!", subtitle: "You minted", value: qty, currency: 'FREEOS'
         });
         setTimeout(function(){
           t.resetForm();
