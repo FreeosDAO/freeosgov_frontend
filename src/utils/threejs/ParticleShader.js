@@ -2,7 +2,9 @@ import * as THREE from 'three'
 import * as utils from './Utils'
 
 var Utils = utils.default
-
+console.log(Utils.loadTextFileInject(
+    "shaders/ParticleShader.vs.glsl"
+),);
 var ParticleShader = {
 
     uniforms: {
@@ -29,7 +31,7 @@ var ParticleShader = {
 var BasicParticleShader = {
 
     defines: {
-        "POINT_SIZE": Utils.isMobile ? "5.0" : "1.0",
+        "POINT_SIZE": Utils.isMobile ? "5.0" : "0.1",
     },
 
     uniforms: {

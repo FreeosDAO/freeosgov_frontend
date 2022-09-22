@@ -9,7 +9,6 @@ var cloneDefines = function (src) {
 };
 
 var createShaderMaterial = function (shader) {
-    console.log(shader);
     return new THREE.ShaderMaterial({
         defines: cloneDefines(shader.defines),
         uniforms: THREE.UniformsUtils.clone(shader.uniforms),
@@ -41,6 +40,7 @@ var ShaderPass = function (shader) {
     uv[2] = 2; uv[3] = 0;
     uv[4] = 0; uv[5] = 2;
     triangle.addAttribute("position", new THREE.BufferAttribute(p, 3));
+
     triangle.addAttribute("uv", new THREE.BufferAttribute(uv, 2));
 
     this.mesh = new THREE.Mesh(triangle, this.material);
@@ -59,5 +59,5 @@ export default {
 
     createShaderMaterial: createShaderMaterial,
     ShaderPass: ShaderPass
-    
+
 };

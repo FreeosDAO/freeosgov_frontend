@@ -29,7 +29,7 @@
     "eosjs": "^21.0.3",
     "quasar": "^1.18.0",
     "stats-js": "^1.0.1",
-    "three": "^0.144.0"
+    "three": "^0.70.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

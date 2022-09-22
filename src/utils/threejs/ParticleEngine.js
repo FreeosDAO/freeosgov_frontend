@@ -1,9 +1,18 @@
 import * as CustomShaderPass from './ShaderPass.js'
+import * as THREE from 'three'
 import SimInitShader from './SimInitShader'
 import BasicParticleShader from './ParticleShader.js'
 
 import Stats from 'stats-js'
 
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
+import UpdateLoop from './UpdateLoop.js'
+import Mouse from './Mouse.js'
+import RenderContext from './RenderContext.js'
+import ParticleSimulation from './ParticleSimulation.js'
+import LeapManager from './LeapManager.js'
+import Utils from './Utils.js'
 
 var ParticleEngine = function (params) {
 
@@ -72,10 +81,11 @@ var ParticleEngine = function (params) {
 
         _canvas = document.querySelector("#webgl-canvas");
 
-        _mouse = new Mouse(_canvas);
-
         _renderer = new RenderContext(_canvas);
         _renderer.init();
+
+        _mouse = new Mouse(_canvas);
+
         _camera = _renderer.getCamera();
         _scene = _renderer.getScene();
     };
@@ -88,9 +98,20 @@ var ParticleEngine = function (params) {
         });
         _scene.add(_sim.getParticleObject());
 
+        // add cube to scene
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+        var mesh = new THREE.Mesh(geometry, material);
+        _scene.add(mesh);
+
+
+
+
+
+
         _camera.position.set(0, 0, 8);
-        _controls = new THREE.OrbitControls(_camera, _canvas);
-        _controls.rotateUp(Math.PI / 6);
+        _controls = new OrbitControls(_camera, _canvas);
+        // _controls.rotateUp(Math.PI / 6);
         _controls.autoRotate = true;
         _controls.autoRotateSpeed = 1.0;
         _controls.noPan = true;
@@ -106,7 +127,7 @@ var ParticleEngine = function (params) {
         _simMat.defines.MULTIPLE_INPUT = "";    // TODO_NOP: at least even hardcode numbers for this in shader
         _simMat.needsUpdate = true;
 
-        _debugBox = document.querySelector("#debug-box");
+        // _debugBox = document.querySelector("#debug-box");
     };
 
     var _mouseUpdate = function () {
@@ -124,8 +145,8 @@ var ParticleEngine = function (params) {
                 );
 
                 // intersect plane
-                var point = _raycaster.ray.intersectPlane(plane);
-
+                var point = new THREE.Vector3()
+                _raycaster.ray.intersectPlane(plane, point);
                 _simMat.uniforms.uInputPos.value[mId].copy(point);
                 _simMat.uniforms.uInputPosAccel.value.setComponent(mId, ms.buttons[0] ? 1.0 : -1.0);
             }
@@ -176,6 +197,7 @@ var ParticleEngine = function (params) {
     // PUBLIC FUNCTIONS
 
     this.start = function () {
+        console.log('STARTING ENGINE!');
         _updateLoop.start();
     };
 
