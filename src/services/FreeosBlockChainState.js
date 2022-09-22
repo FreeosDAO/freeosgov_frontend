@@ -194,7 +194,7 @@ export class FreeosBlockChainState extends EventEmitter {
         user['lastUnlock'],
         user['hasNFT']
      ] = userVars
-
+     
 
       // Filter Balances
       user = this.filterBalances(user)
