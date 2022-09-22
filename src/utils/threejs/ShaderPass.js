@@ -9,6 +9,7 @@ var cloneDefines = function (src) {
 };
 
 var createShaderMaterial = function (shader) {
+    console.log(shader);
     return new THREE.ShaderMaterial({
         defines: cloneDefines(shader.defines),
         uniforms: THREE.UniformsUtils.clone(shader.uniforms),
@@ -55,8 +56,8 @@ ShaderPass.prototype.render = function (renderer, writeBuffer) {
 };
 
 export default {
-    createShaderMaterial: createShaderMaterial,
-    ShaderPass: ShaderPass,
-    cloneDefines: cloneDefines
 
+    createShaderMaterial: createShaderMaterial,
+    ShaderPass: ShaderPass
+    
 };

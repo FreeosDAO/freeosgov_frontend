@@ -28,6 +28,7 @@
     "eos-transit-tokenpocket-provider": "^3.0.1",
     "eosjs": "^21.0.3",
     "quasar": "^1.18.0",
+    "stats-js": "^1.0.1",
     "three": "^0.144.0"
   },
   "devDependencies": {

@@ -18,10 +18,11 @@ import * as dat from 'dat.gui'
 
 import * as ParticleEngine from '../utils/threejs/ParticleEngine.js'
 
-import * as SimShader from '../utils/threejs/SimShader.js'
-import * as ParticleShader from '../utils/threejs/ParticleShader.js'
+import SimShader from '../utils/threejs/SimShader.js'
+import ParticleShader from '../utils/threejs/ParticleShader.js'
 
-console.log(ParticleEngine);
+
+console.log(SimShader.defines);
 var _params = {
     size: 512,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader),

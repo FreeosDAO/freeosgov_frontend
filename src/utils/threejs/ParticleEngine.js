@@ -1,4 +1,8 @@
 import * as CustomShaderPass from './ShaderPass.js'
+import SimInitShader from './SimInitShader'
+import BasicParticleShader from './ParticleShader.js'
+
+import Stats from 'stats-js'
 
 
 var ParticleEngine = function (params) {
@@ -20,9 +24,9 @@ var ParticleEngine = function (params) {
 
     params = params || {};
     _size = params.size || 512;
-    _simMat = params.simMat || CustomShaderPass.default.createShaderMaterialcreateShaderMaterial(BasicSimShader);
-    _initMat = params.initMat || CustomShaderPass.default.createShaderMaterialcreateShaderMaterial(SimInitShader);
-    _drawMat = params.drawMat || CustomShaderPass.default.createShaderMaterialcreateShaderMaterial(BasicParticleShader);
+    _simMat = params.simMat || CustomShaderPass.default.createShaderMaterial(BasicSimShader);
+    _initMat = params.initMat || CustomShaderPass.default.createShaderMaterial(SimInitShader);
+    _drawMat = params.drawMat || CustomShaderPass.default.createShaderMaterial(BasicParticleShader);
     _customUpdate = params.update;
 
 

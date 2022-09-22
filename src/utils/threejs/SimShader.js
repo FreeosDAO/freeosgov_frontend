@@ -51,3 +51,5 @@ var BasicSimShader = {
 
 };
 if (Utils.isMobile) BasicSimShader.defines.MULTIPLE_INPUT = "";
+
+export default SimShader;

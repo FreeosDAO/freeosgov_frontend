@@ -46,3 +46,9 @@ var BasicParticleShader = {
     )
 
 };
+
+export default {
+    ParticleShader: ParticleShader,
+    BasicParticleShader: BasicParticleShader
+
+};
