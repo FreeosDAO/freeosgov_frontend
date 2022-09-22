@@ -73,7 +73,7 @@ var ParticleSimulation = function (renderer, size, params) {
         }
         geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-        _particles = new THREE.PointCloud(geometry, _drawMat);
+        _particles = new THREE.PointCloud(geo, _drawMat);
         _particles.frustumCulled = false;
     };
 

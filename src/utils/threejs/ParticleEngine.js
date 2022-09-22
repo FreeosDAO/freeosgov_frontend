@@ -5,7 +5,7 @@ import BasicParticleShader from './ParticleShader.js'
 
 import Stats from 'stats-js'
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import './OrbitControls'
 
 import UpdateLoop from './UpdateLoop.js'
 import Mouse from './Mouse.js'
@@ -110,8 +110,8 @@ var ParticleEngine = function (params) {
 
 
         _camera.position.set(0, 0, 8);
-        _controls = new OrbitControls(_camera, _canvas);
-        // _controls.rotateUp(Math.PI / 6);
+        _controls = new THREE.OrbitControls(_camera, _canvas);
+        _controls.rotateUp(Math.PI / 6);
         _controls.autoRotate = true;
         _controls.autoRotateSpeed = 1.0;
         _controls.noPan = true;
