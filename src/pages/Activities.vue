@@ -261,13 +261,10 @@
 
 
             <section class="q-pa-lg">
-              <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your
-                answers also affect the FREEOS community. The bonus is your participation is rewarded when you ‘Claim’.
-                Initially, it may take some time to understand each economic tool - but that will change. For
-                more info <a target="_blank" title="Voting" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1622"> click here.</a></p>
+              <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your answers also affect the FREEOS community. For more info <a target="_blank" title="Voting" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1622"> click here.</a></p>
             </section>
             <div class="text-h5 text-center bg-info q-px-lg q-py-md">
-              Ready? to Vote Let’s start
+              Ready to Vote? Let’s start.
             </div>
 
 
@@ -492,7 +489,7 @@
             <div class="bg-primary text-h5 text-center text-white q-py-md">Survey Closes in: <span
                 v-html="$options.filters.secondsToDhms(surveyClosesIn)"></span></div>
             <p class="text-md text-center q-py-md q-px-md">This Survey helps the community of Freeos participants know what each other is thinking, so they can act in unison. For more info <a target="_blank" title="Survey" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1602"> click here.</a></p>
-            <div class="bg-info text-h5 text-center q-py-md q-px-lg">Ready? Let’s start</div>
+            <div class="bg-info text-h5 text-center q-py-md q-px-lg">Ready? Let’s start.</div>
             <section>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md" style="line-height:1">
                 Q1: Wider Crypto Economy Sentiment
