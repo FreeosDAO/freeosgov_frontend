@@ -25,14 +25,14 @@ var Mouse = function (dom) {
 
     var _mouseUpdate = function (e, idx) {
         var ms = _this.getMouse(idx || 0);
-      
-        ms.dx = e.pageX - ms.x;
-        ms.dy = e.pageY - ms.y;
-        ms.x = e.pageX;
-        ms.y = e.pageY;
+
+        ms.dx = e.offsetX - ms.x;
+        ms.dy = e.offsetY - ms.y;
+        ms.x = e.offsetX;
+        ms.y = e.offsetY;
 
         ms.coords.x = ms.x / dom.clientWidth * 2 - 1;
-        ms.coords.y = ms.y / dom.clientHeight * -2 + 1;
+        ms.coords.y = (ms.y) / dom.clientHeight * -2 + 1;
     };
 
     var _onMouseMove = function (e) {

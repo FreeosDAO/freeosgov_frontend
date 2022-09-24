@@ -98,12 +98,6 @@ var ParticleEngine = function (params) {
         });
         _scene.add(_sim.getParticleObject());
 
-        // add cube to scene
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-        var mesh = new THREE.Mesh(geometry, material);
-        _scene.add(mesh);
-
 
 
 

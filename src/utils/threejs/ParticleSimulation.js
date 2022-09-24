@@ -50,7 +50,7 @@ var ParticleSimulation = function (renderer, size, params) {
         );
 
         _drawMat = params.drawMat || createShaderMaterial.createShaderMaterial(ParticleShader.ParticleShader);
-        _drawMat.blending = THREE.AdditiveBlending;
+        _drawMat.blending = THREE.NormalBlending;
         _drawMat.transparent = true;
         _drawMat.depthTest = false;
         _drawMat.depthWrite = false;

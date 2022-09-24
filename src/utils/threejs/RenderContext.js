@@ -25,7 +25,7 @@ var RenderContext = function (canvas) {
 
     var _rendererParams = {
         canvas: _canvas,
-        alpha: false,
+        alpha: true,
         depth: true,
         stencil: false,
         antialias: false,

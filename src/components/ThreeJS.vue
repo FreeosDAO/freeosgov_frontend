@@ -1,6 +1,6 @@
 <template>
     <canvas id="webgl-canvas"
-        style="position: absolute; top: 0; left: 0; width: 100vw; height: 100%; z-index: -1; display: block;"></canvas>
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; display: block;"></canvas>
 </template>
   
 <script>
@@ -132,6 +132,25 @@ export default {
             });
             this._gui.add(this._guiFields, "music").onChange(function (value) {
                 _toggleMusic();
+            });
+
+            var blendingObj = {
+                blending: _params.drawMat.blending
+            }
+
+            var _blendingModes = {
+                "No Blending": THREE.NoBlending,
+                "Normal Blending": THREE.NormalBlending,
+                "Additive Blending": THREE.AdditiveBlending,
+                "Subtractive Blending": THREE.SubtractiveBlending,
+                "Multiply Blending": THREE.MultiplyBlending,
+                "Custom Blending": THREE.CustomBlending
+            };
+
+
+            this._gui.add(blendingObj, 'blending', _blendingModes).onChange(function (value) {
+                _params.drawMat.blending = value;
+                _params.drawMat.needsUpdate = true;
             });
 
             var fAppearance = this._gui.addFolder("Appearance");
