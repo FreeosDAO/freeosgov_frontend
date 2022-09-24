@@ -11,7 +11,7 @@ var cloneDefines = function (src) {
 var createShaderMaterial = function (shader) {
     return new THREE.ShaderMaterial({
         defines: cloneDefines(shader.defines),
-        uniforms: THREE.UniformsUtils.clone(shader.uniforms),
+        uniforms: new THREE.UniformsUtils.clone(shader.uniforms),
         vertexShader: shader.vertexShader,
         fragmentShader: shader.fragmentShader
     });

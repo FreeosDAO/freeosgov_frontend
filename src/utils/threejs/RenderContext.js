@@ -79,6 +79,7 @@ var RenderContext = function (canvas) {
         );
 
         _scene = new THREE.Scene();
+        console.log(_scene);
 
         _scene.background = new THREE.Color('red')
         // _controls = new THREE.TrackballControls(_camera, _canvas);
@@ -138,6 +139,8 @@ var RenderContext = function (canvas) {
     };
 
     this.getScene = function () {
+        console.log(_scene);
+
         return _scene;
     };
 

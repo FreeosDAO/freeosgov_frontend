@@ -37,6 +37,9 @@ var ParticleEngine = function (params) {
     _initMat = params.initMat || CustomShaderPass.default.createShaderMaterial(SimInitShader);
     _drawMat = params.drawMat || CustomShaderPass.default.createShaderMaterial(BasicParticleShader);
     _customUpdate = params.update;
+    _renderer = params.renderer
+    _scene = params.scene
+    _camera = params.camera
 
 
     // EVENTS
@@ -81,13 +84,13 @@ var ParticleEngine = function (params) {
 
         _canvas = document.querySelector("#webgl-canvas");
 
-        _renderer = new RenderContext(_canvas);
-        _renderer.init();
+        // _renderer = new RenderContext(_canvas);
+        // _renderer.init();
 
         _mouse = new Mouse(_canvas);
 
-        _camera = _renderer.getCamera();
-        _scene = _renderer.getScene();
+        // _camera = _renderer.getCamera();
+        // _scene = _renderer.getScene();
     };
 
     var _sceneInit = function () {
@@ -96,6 +99,8 @@ var ParticleEngine = function (params) {
             initMat: _initMat,
             drawMat: _drawMat
         });
+        console.log(_scene);
+
         _scene.add(_sim.getParticleObject());
 
 
@@ -211,7 +216,7 @@ var ParticleEngine = function (params) {
         _controls.enabled = value;
     };
 
-
+    console.log(params);
     // INIT
 
     _init();

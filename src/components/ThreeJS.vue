@@ -1,6 +1,6 @@
 <template>
     <canvas id="webgl-canvas"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; display: block;"></canvas>
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; display: block;"></canvas>
 </template>
   
 <script>
@@ -12,6 +12,9 @@ import MorphAnimMesh from '../utils/threejs/MorphAnimMesh'
 
 import * as CustomShaderPass from '../utils/threejs/ShaderPass.js'
 
+import RenderContext from '../utils/threejs/RenderContext.js'
+
+
 
 
 // import dat.gui
@@ -20,6 +23,7 @@ import * as dat from 'dat.gui'
 import ParticleEngine from 'src/utils/threejs/ParticleEngine'
 
 import SimShader from '../utils/threejs/SimShader.js'
+import SimShader2 from '../utils/threejs/SimShader copy.js'
 import ParticleShader from '../utils/threejs/ParticleShader.js'
 import UVMapAnimator from '../utils/threejs/UVMapAnimator.js'
 
@@ -27,17 +31,34 @@ import Utils from 'src/utils/threejs/Utils'
 
 import 'src/utils/threejs/mousetrap'
 
+
 var _params = {
-    size: 512,
+    size: 250,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    update: undefined,  // defined later in the file
+    color1: new THREE.Color('rgb(0,100,150)'),
+    color2: new THREE.Color('rgb(100,150,205)'),
+    renderer: null,
+    camera: null,
+    scene: null,
+
+};
+
+var _params2 = {
+    size: 111,
+    simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
+    drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
+    color1: new THREE.Color('rgb(100,100,200)'),
+    color2: new THREE.Color('rgb(200,200,255)'),
+    renderer: null,
+    camera: null,
+    scene: null,
+
 };
 
 var _engine;
-var _currPreset = Utils.getParameterByName("shape") || "galaxy"; // initial preset
+var _currPreset = Utils.getParameterByName("shape") || "petals"; // initial preset
 var _currSimMode;
-var _uvAnim;
 var _tourMode = false;
 var _musicElem = document.getElementById("music");
 
@@ -72,7 +93,7 @@ var _presets = {
     "plane": { "user gravity": 4, "shape gravity": 3, _shape: "SIM_PLANE" },
     "sphere": { "user gravity": 4, "shape gravity": 3, _shape: "SIM_SPHERE" },
     "galaxy": { "user gravity": 3, "shape gravity": 1, _shape: "SIM_GALAXY" },
-    "petals": { "user gravity": 3, "shape gravity": 2, _shape: "SIM_ROSE_GALAXY" },
+    "petals": { "user gravity": 3, "shape gravity": 0.5, _shape: "SIM_ROSE_GALAXY" },
     "bear": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.bear },
     "bison": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.bison },
     // "deer":    { "user gravity":3, "shape gravity":5, _shape:_meshes.deer },
@@ -93,6 +114,8 @@ export default {
             renderer: null,
             camera: null,
             _engine: null,
+            _engine2: null,
+            _uvAnim2: null,
             _gui: null,
             _uvAnim: null,
             _guiFields: {}
@@ -101,10 +124,34 @@ export default {
 
     methods: {
         init() {
+            var _canvas = document.getElementById('webgl-canvas')
+
+            var renderer = new RenderContext(_canvas)
+            renderer.init();
+
+            console.log(renderer);
+            var camera = renderer.getCamera();
+            var scene = renderer.getScene();
+
+
+            _params.renderer = renderer
+            _params2.renderer = renderer
+
+            _params.scene = scene
+            _params2.scene = scene
+
+            _params.camera = camera
+            _params2.camera = camera
 
             this._engine = new ParticleEngine(_params);
             this._uvAnim = new UVMapAnimator(this._engine.renderer.getRenderer(), _params.size);
             _params.simMat.uniforms.tTarget = { type: "t", value: this._uvAnim.target };
+
+            this._engine2 = new ParticleEngine(_params2);
+            this._uvAnim2 = new UVMapAnimator(this._engine2.renderer.getRenderer(), _params2.size);
+            _params2.simMat.uniforms.tTarget = { type: "t", value: this._uvAnim2.target };
+
+
         },
         _initUI() {
             this._gui = new dat.GUI();
@@ -119,7 +166,7 @@ export default {
                 "shape gravity": _params.simMat.uniforms.uShapeAccel.value,
                 "shape": _currPreset,
                 "paused": false,
-                "camera rotate": true,
+                "camera rotate": false,
                 "camera control": false,
                 "fullscreen": Utils.toggleFullscreen,
                 "take tour!": _tourMode,
@@ -149,8 +196,11 @@ export default {
 
 
             this._gui.add(blendingObj, 'blending', _blendingModes).onChange(function (value) {
-                _params.drawMat.blending = value;
+                console.log(value);
+                _params.drawMat.blending = parseInt(value);
                 _params.drawMat.needsUpdate = true;
+                console.log(_params.drawMat.blending);
+
             });
 
             var fAppearance = this._gui.addFolder("Appearance");
@@ -204,6 +254,7 @@ export default {
             }).listen();
 
             this._gui.add(this._guiFields, "fullscreen");
+
         },
         _initKeyboard() {
 
@@ -235,14 +286,22 @@ export default {
             if (preset._shape.length >= 0) {
                 this._setSimMode(preset._shape);
                 this._uvAnim.setMesh();  // set no mesh
+                this._uvAnim2.setMesh();  // set no mesh
             }
             else {
                 this._setSimMode("SIM_TEXTURE");
                 this._uvAnim.setMesh(preset._shape.mesh);
+                this._uvAnim2.setMesh(presets['plane']._shape.mesh);
             }
 
             this._guiFields["user gravity"] = _params.simMat.uniforms.uInputAccel.value = preset["user gravity"];
             this._guiFields["shape gravity"] = _params.simMat.uniforms.uShapeAccel.value = preset["shape gravity"];
+
+            // _params2.simMat.uniforms.uInputAccel.value = 0
+            // _params2.simMat.uniforms.uShapeAccel.value = 0
+            // _params.simMat.uniforms.uInputAccel.value = 1
+            // _params.simMat.uniforms.uShapeAccel.value = 1
+            console.log(_params.simMat.uniforms.uInputAccel.value);
         },
         _setSimMode(name) {
             if (name === _currSimMode)
@@ -251,10 +310,14 @@ export default {
 
             _simModes.forEach(function (s) {
                 delete _params.simMat.defines[s];
+                delete _params2.simMat.defines[s];
             });
-            if (name)
+            if (name) {
                 _params.simMat.defines[name] = "";
+                _params2.simMat.defines[name] = "";
+            }
             _params.simMat.needsUpdate = true;
+            _params2.simMat.needsUpdate = true;
         },
 
         loadMeshes() {
@@ -272,8 +335,11 @@ export default {
                     _meshes[k].mesh = mesh;
 
                     // refresh mesh if same name as preset
-                    if (_currPreset === k)
+                    if (_currPreset === k) {
                         _this._uvAnim.setMesh(mesh);
+                        _this._uvAnim2.setMesh(mesh);
+                    }
+
                 });
             });
         },
@@ -281,10 +347,31 @@ export default {
         initThree() {
             this.loadMeshes();
             this.init();
-            this._initUI();
+            if (this._gui == null) {
+                this._initUI();
+            }
+            _params.drawMat.uniforms.uColor1.value.x = _params.color1.r
+            _params.drawMat.uniforms.uColor1.value.y = _params.color1.g
+            _params.drawMat.uniforms.uColor1.value.z = _params.color1.b
+
+            _params.drawMat.uniforms.uColor2.value.x = _params.color2.r
+            _params.drawMat.uniforms.uColor2.value.y = _params.color2.g
+            _params.drawMat.uniforms.uColor2.value.z = _params.color2.b
+
+
+            _params2.drawMat.uniforms.uColor1.value.x = _params2.color1.r
+            _params2.drawMat.uniforms.uColor1.value.y = _params2.color1.g
+            _params2.drawMat.uniforms.uColor1.value.z = _params2.color1.b
+
+            _params2.drawMat.uniforms.uColor2.value.x = _params2.color2.r
+            _params2.drawMat.uniforms.uColor2.value.y = _params2.color2.g
+            _params2.drawMat.uniforms.uColor2.value.z = _params2.color2.b
+
+
             this._initKeyboard();
             this._setPreset(_currPreset);
             this._engine.start();
+            this._engine2.start()
             // add resize listener
             window.addEventListener('resize', this.onResize);
         },
