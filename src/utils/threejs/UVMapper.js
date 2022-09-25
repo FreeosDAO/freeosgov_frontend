@@ -22,6 +22,7 @@ var UVMapper = function (renderer) {
     this.render = function (mesh, target) {
         // might need to make geo, so don't steal from its original parent
         _scene.add(mesh);
+        console.log('rendering');
         _renderer.render(_scene, _camera, target, true);
         _scene.remove(mesh);
     };

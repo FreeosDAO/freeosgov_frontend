@@ -1,6 +1,6 @@
 <template>
     <canvas id="webgl-canvas"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; display: block;"></canvas>
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; display: block; pointer-events: all;"></canvas>
 </template>
   
 <script>
@@ -24,6 +24,7 @@ import ParticleEngine from 'src/utils/threejs/ParticleEngine'
 
 import SimShader from '../utils/threejs/SimShader.js'
 import SimShader2 from '../utils/threejs/SimShader copy.js'
+import SimShader3 from '../utils/threejs/SimShader copy 2.js'
 import ParticleShader from '../utils/threejs/ParticleShader.js'
 import UVMapAnimator from '../utils/threejs/UVMapAnimator.js'
 
@@ -33,31 +34,46 @@ import 'src/utils/threejs/mousetrap'
 
 
 var _params = {
-    size: 250,
+    size: 170,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0,100,150)'),
-    color2: new THREE.Color('rgb(100,150,205)'),
+    color1: new THREE.Color('rgb(0,253,255)'),
+    color2: new THREE.Color('rgb(1,253,255)'),
     renderer: null,
     camera: null,
     scene: null,
-
 };
 
 var _params2 = {
-    size: 111,
+    size: 170,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(100,100,200)'),
-    color2: new THREE.Color('rgb(200,200,255)'),
+    color1: new THREE.Color('rgb(26,186,119)'),
+    color2: new THREE.Color('rgb(26,186,119)'),
     renderer: null,
     camera: null,
     scene: null,
 
 };
 
+var _params3 = {
+    size: 170,
+    simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
+    drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
+    color1: new THREE.Color('rgb(0,100,255)'),
+    color2: new THREE.Color('rgb(0,100,255)'),
+    renderer: null,
+    camera: null,
+    scene: null,
+
+};
+
+var paramsList = [_params, _params2, _params3];
+var engineList = []
+var uvAnimList = []
+
 var _engine;
-var _currPreset = Utils.getParameterByName("shape") || "petals"; // initial preset
+var _currPreset = Utils.getParameterByName("shape") || "plane"; // initial preset
 var _currSimMode;
 var _tourMode = false;
 var _musicElem = document.getElementById("music");
@@ -129,27 +145,32 @@ export default {
             var renderer = new RenderContext(_canvas)
             renderer.init();
 
-            console.log(renderer);
             var camera = renderer.getCamera();
             var scene = renderer.getScene();
 
+            // for all params
+            for (var i = 0; i < paramsList.length; i++) {
+                var params = paramsList[i];
+                params.renderer = renderer;
+                params.camera = camera;
+                params.scene = scene;
 
-            _params.renderer = renderer
-            _params2.renderer = renderer
+                var engine = new ParticleEngine(params);
+                engineList.push(engine);
+                var uvAnim = new UVMapAnimator(engine.renderer.getRenderer(), params.size)
+                uvAnimList.push(uvAnim);
+                params.simMat.uniforms.tTarget = { type: "t", value: uvAnim.target };
 
-            _params.scene = scene
-            _params2.scene = scene
+            }
 
-            _params.camera = camera
-            _params2.camera = camera
 
-            this._engine = new ParticleEngine(_params);
-            this._uvAnim = new UVMapAnimator(this._engine.renderer.getRenderer(), _params.size);
-            _params.simMat.uniforms.tTarget = { type: "t", value: this._uvAnim.target };
+            // this._engine = new ParticleEngine(_params);
+            // this._uvAnim = new UVMapAnimator(this._engine.renderer.getRenderer(), _params.size);
+            // _params.simMat.uniforms.tTarget = { type: "t", value: this._uvAnim.target };
 
-            this._engine2 = new ParticleEngine(_params2);
-            this._uvAnim2 = new UVMapAnimator(this._engine2.renderer.getRenderer(), _params2.size);
-            _params2.simMat.uniforms.tTarget = { type: "t", value: this._uvAnim2.target };
+            // this._engine2 = new ParticleEngine(_params2);
+            // this._uvAnim2 = new UVMapAnimator(this._engine2.renderer.getRenderer(), _params2.size);
+            // _params2.simMat.uniforms.tTarget = { type: "t", value: this._uvAnim2.target };
 
 
         },
@@ -197,37 +218,50 @@ export default {
 
             this._gui.add(blendingObj, 'blending', _blendingModes).onChange(function (value) {
                 console.log(value);
-                _params.drawMat.blending = parseInt(value);
-                _params.drawMat.needsUpdate = true;
-                console.log(_params.drawMat.blending);
+                for (var i = 0; i < paramsList.length; i++) {
+                    paramsList[i].drawMat.blending = parseInt(value);
+                }
 
             });
 
             var fAppearance = this._gui.addFolder("Appearance");
-            fAppearance.addColor(this._guiFields, "color1").onChange(function (value) {
-                if (value[0] === "#") value = Utils.hexToRgb(value);
-                _params.drawMat.uniforms.uColor1.value.x = value[0] / 255.0;
-                _params.drawMat.uniforms.uColor1.value.y = value[1] / 255.0;
-                _params.drawMat.uniforms.uColor1.value.z = value[2] / 255.0;
-            });
-            fAppearance.addColor(this._guiFields, "color2").onChange(function (value) {
-                if (value[0] === "#") value = Utils.hexToRgb(value);
-                _params.drawMat.uniforms.uColor2.value.x = value[0] / 255.0;
-                _params.drawMat.uniforms.uColor2.value.y = value[1] / 255.0;
-                _params.drawMat.uniforms.uColor2.value.z = value[2] / 255.0;
-            });
-            fAppearance.add(this._guiFields, "alpha", 0, 1).onChange(function (value) {
-                _params.drawMat.uniforms.uAlpha.value = value;
-            });
-            fAppearance.add(this._guiFields, "color speed", -10, 10).onChange(function (value) {
-                _params.drawMat.uniforms.uColorSpeed.value = value;
-            });
-            fAppearance.add(this._guiFields, "color freq", 0, 5).onChange(function (value) {
-                _params.drawMat.uniforms.uColorFreq.value = value;
-            });
-            fAppearance.add(this._guiFields, "point size", 1, 10).onChange(function (value) {
-                _params.drawMat.uniforms.uPointSize.value = value;
-            });
+            // loop through paramsList
+
+            for (var i = 0; i < paramsList.length; i++) {
+                var currentEngineFolder = fAppearance.addFolder(i)
+                currentEngineFolder.addColor(this._guiFields, "color1").name(i.toString() + "-color1").onChange(function (value) {
+                    console.log(this.name().name().name().name());
+                    paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uColor1.value = new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
+                });
+                currentEngineFolder.addColor(this._guiFields, "color2").onChange(function (value) {
+                    paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uColor2.value = new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
+                });
+                currentEngineFolder.add(this._guiFields, "alpha", 0, 1).onChange(function (value) {
+                    paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uAlpha.value = value;
+                });
+                currentEngineFolder.add(this._guiFields, "color speed", -10, 10).onChange(function (value) {
+                    paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uColorSpeed.value = value;
+                });
+                currentEngineFolder.add(this._guiFields, "color freq", 0, 5).onChange(function (value) {
+                    paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uColorFreq.value = value;
+                });
+                currentEngineFolder.add(this._guiFields, "point size", 1, 10).onChange(function (value) {
+                    paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uPointSize.value = value;
+                });
+
+            }
+            // fAppearance.addColor(this._guiFields, "color1").onChange(function (value) {
+            //     if (value[0] === "#") value = Utils.hexToRgb(value);
+            //     _params.drawMat.uniforms.uColor1.value.x = value[0] / 255.0;
+            //     _params.drawMat.uniforms.uColor1.value.y = value[1] / 255.0;
+            //     _params.drawMat.uniforms.uColor1.value.z = value[2] / 255.0;
+            // });
+            // fAppearance.addColor(this._guiFields, "color2").onChange(function (value) {
+            //     if (value[0] === "#") value = Utils.hexToRgb(value);
+            //     _params.drawMat.uniforms.uColor2.value.x = value[0] / 255.0;
+            //     _params.drawMat.uniforms.uColor2.value.y = value[1] / 255.0;
+            //     _params.drawMat.uniforms.uColor2.value.z = value[2] / 255.0;
+            // });
 
             var fPhysics = this._gui.addFolder("Physics");
             fPhysics.add(this._guiFields, "user gravity", 0, 10)
@@ -244,13 +278,24 @@ export default {
             var fControls = this._gui.addFolder("Controls");
             var _ = this
             fControls.add(this._guiFields, "paused").onChange(function (value) {
-                _._engine.pauseSimulation(value);
+                // for all engines
+                engineList.forEach(function (engine) {
+                    engine.pauseSimulation(value);
+                });
             }).listen();
             fControls.add(this._guiFields, "camera rotate").onChange(function (value) {
-                _._engine.enableCameraAutoRotate(value);
+                engineList.forEach(function (engine) {
+
+                    engine.enableCameraAutoRotate(value);
+                }
+                );
             });
             fControls.add(this._guiFields, "camera control").onChange(function (value) {
-                _._engine.enableCameraControl(value);
+                engineList.forEach(function (engine) {
+
+                    engine.enableCameraControl(value);
+                }
+                );
             }).listen();
 
             this._gui.add(this._guiFields, "fullscreen");
@@ -285,13 +330,16 @@ export default {
             // set shape
             if (preset._shape.length >= 0) {
                 this._setSimMode(preset._shape);
-                this._uvAnim.setMesh();  // set no mesh
-                this._uvAnim2.setMesh();  // set no mesh
+                for (var i = 0; i < uvAnimList.length; i++) {
+                    uvAnimList[i].setMesh()
+                }
+
             }
             else {
                 this._setSimMode("SIM_TEXTURE");
-                this._uvAnim.setMesh(preset._shape.mesh);
-                this._uvAnim2.setMesh(presets['plane']._shape.mesh);
+                for (var i = 0; i < uvAnimList.length; i++) {
+                    uvAnimList[i].setMesh(preset._shape.mesh)
+                }
             }
 
             this._guiFields["user gravity"] = _params.simMat.uniforms.uInputAccel.value = preset["user gravity"];
@@ -309,15 +357,20 @@ export default {
             _currSimMode = name;  // cache mode, prevent shader recompile
 
             _simModes.forEach(function (s) {
-                delete _params.simMat.defines[s];
-                delete _params2.simMat.defines[s];
+                for (var i = 0; i < paramsList.length; i++) {
+                    delete paramsList[i].simMat.defines[s];
+                }
             });
             if (name) {
-                _params.simMat.defines[name] = "";
-                _params2.simMat.defines[name] = "";
+                for (var i = 0; i < paramsList.length; i++) {
+
+                    paramsList[i].simMat.defines[name] = "";
+                }
             }
-            _params.simMat.needsUpdate = true;
-            _params2.simMat.needsUpdate = true;
+            for (var i = 0; i < paramsList.length; i++) {
+
+                paramsList[i].simMat.needsUpdate = true
+            }
         },
 
         loadMeshes() {
@@ -336,8 +389,9 @@ export default {
 
                     // refresh mesh if same name as preset
                     if (_currPreset === k) {
-                        _this._uvAnim.setMesh(mesh);
-                        _this._uvAnim2.setMesh(mesh);
+                        for (var i = 0; i < uvAnimList.length; i++) {
+                            uvAnimList[i].setMesh(mesh);
+                        }
                     }
 
                 });
@@ -350,28 +404,28 @@ export default {
             if (this._gui == null) {
                 this._initUI();
             }
-            _params.drawMat.uniforms.uColor1.value.x = _params.color1.r
-            _params.drawMat.uniforms.uColor1.value.y = _params.color1.g
-            _params.drawMat.uniforms.uColor1.value.z = _params.color1.b
-
-            _params.drawMat.uniforms.uColor2.value.x = _params.color2.r
-            _params.drawMat.uniforms.uColor2.value.y = _params.color2.g
-            _params.drawMat.uniforms.uColor2.value.z = _params.color2.b
 
 
-            _params2.drawMat.uniforms.uColor1.value.x = _params2.color1.r
-            _params2.drawMat.uniforms.uColor1.value.y = _params2.color1.g
-            _params2.drawMat.uniforms.uColor1.value.z = _params2.color1.b
+            for (var i = 0; i < paramsList.length; i++) {
+                paramsList[i].drawMat.uniforms.uColor1.value.x = paramsList[i].color1.r
+                paramsList[i].drawMat.uniforms.uColor1.value.y = paramsList[i].color1.g
+                paramsList[i].drawMat.uniforms.uColor1.value.z = paramsList[i].color1.b
 
-            _params2.drawMat.uniforms.uColor2.value.x = _params2.color2.r
-            _params2.drawMat.uniforms.uColor2.value.y = _params2.color2.g
-            _params2.drawMat.uniforms.uColor2.value.z = _params2.color2.b
+                paramsList[i].drawMat.uniforms.uColor2.value.x = paramsList[i].color2.r
+                paramsList[i].drawMat.uniforms.uColor2.value.y = paramsList[i].color2.g
+                paramsList[i].drawMat.uniforms.uColor2.value.z = paramsList[i].color2.b
+            }
 
 
             this._initKeyboard();
             this._setPreset(_currPreset);
-            this._engine.start();
-            this._engine2.start()
+
+            // loop through engines
+            for (var i = 0; i < engineList.length; i++) {
+                engineList[i].start()
+            }
+
+
             // add resize listener
             window.addEventListener('resize', this.onResize);
         },

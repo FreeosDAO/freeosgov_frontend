@@ -1,5 +1,6 @@
 <template>
   <q-layout view="hHh Lpr fFf" class="page">
+
     <q-header reveal elevated height-hint="98" style="background-color: #00a1ed">
       <q-toolbar style="justify-content: space-between;">
         <q-btn class="burger-menu" :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')"
@@ -46,10 +47,10 @@
     </q-drawer>
     <CompleteDialog ref="complete" />
     <q-page-container class="page-container page-container-main">
-      <ThreeJS />
 
 
-      <div class="flex justify-center text-center" style="width: 80px; height: 80px; margin: 20px auto 0px auto">
+      <div class="flex justify-center text-center"
+        style="width: 80px; height: 80px; margin: 20px auto 0px auto; z-index: 1; position: relative;">
 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84"
           class="freeos-logo-icon inline-block fill-current text-primary header-logoicon">
@@ -58,7 +59,7 @@
           </path>
         </svg>
       </div>
-      <div v-if="isAuthenticated">
+      <div v-if="isAuthenticated" style="z-index: 1; position: relative;">
         <p class="text-body3 q-mb-xs text-center q-pa-md">
           {{ priceLabel }}{{ currentPrice }}
           <q-icon v-if="currentPrice >= targetPrice" size="xs" name="arrow_upward" />
@@ -66,7 +67,9 @@
         </p>
         <router-view />
       </div>
-      <Loading v-if="!isAuthenticated" />
+      <Loading v-if="!isAuthenticated" style="z-index: 1;position: relative; user-select: none;" />
+      <ThreeJS />
+
     </q-page-container>
 
     <!-- <q-footer bordered class="bg-dark text-white">
@@ -89,7 +92,7 @@ import Loading from 'src/components/Loading.vue'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 
 import * as THREE from 'three'
-import ThreeJS from '../components/ThreeJS.vue'
+import ThreeJS from 'src/components/ThreeJS.vue'
 
 
 
@@ -164,7 +167,7 @@ export default {
   components: {
     Loading,
     CompleteDialog,
-    ThreeJS,
+    ThreeJS
   },
   methods: {
     announceMsg() {

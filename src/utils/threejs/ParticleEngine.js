@@ -99,7 +99,6 @@ var ParticleEngine = function (params) {
             initMat: _initMat,
             drawMat: _drawMat
         });
-        console.log(_scene);
 
         _scene.add(_sim.getParticleObject());
 
@@ -108,10 +107,10 @@ var ParticleEngine = function (params) {
 
 
 
-        _camera.position.set(0, 0, 8);
+        _camera.position.set(0, 2, 7);
         _controls = new THREE.OrbitControls(_camera, _canvas);
-        _controls.rotateUp(Math.PI / 6);
-        _controls.autoRotate = true;
+        // _controls.rotateUp(Math.PI / 6);
+        _controls.autoRotate = false;
         _controls.autoRotateSpeed = 1.0;
         _controls.noPan = true;
         _controls.enabled = false;  // disable user input
@@ -216,7 +215,6 @@ var ParticleEngine = function (params) {
         _controls.enabled = value;
     };
 
-    console.log(params);
     // INIT
 
     _init();

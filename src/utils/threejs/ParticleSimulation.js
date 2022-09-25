@@ -31,7 +31,6 @@ var ParticleSimulation = function (renderer, size, params) {
                 pos[ATTR_WIDTH * idx + 1] = (y + 0.5) / size * 1;
                 pos[ATTR_WIDTH * idx + 2] = idx / (size * size) * 1;    // extra: normalized id
             }
-        console.log(pos[0]);
         geo.addAttribute("position", new THREE.BufferAttribute(pos, ATTR_WIDTH));
 
         return geo;
@@ -59,19 +58,7 @@ var ParticleSimulation = function (renderer, size, params) {
 
         var geo = _createParticleGeometry(_size);
 
-        // add 100 particles to buffergeometry
-        var geometry = new THREE.BufferGeometry();
-        var positions = new Float32Array(100 * 3); // 3 vertices per point
-        // add 100
-        for (var i = 0; i < 100; i++) {
-            var x = Math.random() * 2 - 1;
-            var y = Math.random() * 2 - 1;
-            var z = Math.random() * 2 - 1;
-            positions[i * 3] = x;
-            positions[i * 3 + 1] = y;
-            positions[i * 3 + 2] = z;
-        }
-        geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+
 
         _particles = new THREE.PointCloud(geo, _drawMat);
         _particles.frustumCulled = false;

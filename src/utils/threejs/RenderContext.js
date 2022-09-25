@@ -79,7 +79,6 @@ var RenderContext = function (canvas) {
         );
 
         _scene = new THREE.Scene();
-        console.log(_scene);
 
         _scene.background = new THREE.Color('red')
         // _controls = new THREE.TrackballControls(_camera, _canvas);
@@ -114,6 +113,17 @@ var RenderContext = function (canvas) {
         // _renderer.autoClear = true
         for (var i = 0; i < _updateFuncs.length; i++)
             _updateFuncs[i](dt);
+
+        var points = _scene.children[0]
+        var positions = points.geometry.attributes.position.array
+
+        for (var i = 0; i < positions.length; i += 3) {
+            positions[i] = Math.random()
+            positions[i + 1] = Math.random()
+            positions[i + 2] = Math.random()
+        }
+        // needs up date
+        points.geometry.attributes.position.needsUpdate = true
 
         _renderer.render(_scene, _camera);
         // console.log(_scene.children[0].geometry.attributes.position.array[0]);

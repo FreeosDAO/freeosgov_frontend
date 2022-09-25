@@ -1,7 +1,13 @@
-{
+//#pragma glslify: snoise3 = require(glsl-noise/simplex/3d) // include some noise!!!
+
+
 #ifdef SIM_PLANE
+    float x = vUv.x;
+    float y = vUv.y;
     vec2 coords = vUv * 2.0 - 1.0;
-    vec3 targetPos = vec3(coords.x, 0.0, coords.y);
+    float height = (sin((coords.x * 4.0 + uTime) * 0.9)) * 0.1 + (sin((coords.y * 4.0 + uTime) * 0.9)) * 0.1;
+
+    vec3 targetPos = vec3(coords.x,height, coords.y);
     targetPos *= 3.0;
 #endif
 
@@ -58,7 +64,9 @@
     if (!EQUALSZERO(toTargetLength))
         accel += uShapeAccel * toTarget/toTargetLength;
 #endif
-}
+
+
+
 
 #ifdef SIM_NOISE
     accel += 0.2 * uShapeAccel * curlNoise(currPos);

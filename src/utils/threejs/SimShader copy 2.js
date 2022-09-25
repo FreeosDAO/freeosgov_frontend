@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import * as utils from './Utils'
 
 var Utils = utils.default
-var SimShader = {
+var SimShader3 = {
 
     defines: {
         "K_VEL_DECAY": "0.99",
@@ -15,8 +15,8 @@ var SimShader = {
         "uTime": { type: "f", value: 0.0 },
         "uInputPos": { type: "v3v", value: [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()] },
         "uInputPosAccel": { type: "v4", value: new THREE.Vector4(0, 0, 0, 0) },
-        "uInputAccel": { type: "f", value: 1.0 },
-        "uShapeAccel": { type: "f", value: 0.9 },
+        "uInputAccel": { type: "f", value: 1.5 },
+        "uShapeAccel": { type: "f", value: 1.1 },
     },
 
     vertexShader: Utils.loadTextFile("shaders/Basic.vs.glsl"),
@@ -52,4 +52,4 @@ var BasicSimShader = {
 };
 if (Utils.isMobile) BasicSimShader.defines.MULTIPLE_INPUT = "";
 
-export default SimShader;
+export default SimShader3;
