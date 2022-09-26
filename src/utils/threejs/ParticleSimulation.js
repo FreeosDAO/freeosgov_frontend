@@ -27,9 +27,9 @@ var ParticleSimulation = function (renderer, size, params) {
         for (var x = 0; x < size; x++)
             for (var y = 0; y < size; y++) {
                 var idx = x + y * size;
-                pos[ATTR_WIDTH * idx] = (x + 0.5) / size * 1;       // +0.5 to be at center of texel
+                pos[ATTR_WIDTH * idx] = (x + 0.5) / size;       // +0.5 to be at center of texel
                 pos[ATTR_WIDTH * idx + 1] = (y + 0.5) / size * 1;
-                pos[ATTR_WIDTH * idx + 2] = idx / (size * size) * 1;    // extra: normalized id
+                pos[ATTR_WIDTH * idx + 2] = idx / (size * size) * 100;    // extra: normalized id
             }
         geo.addAttribute("position", new THREE.BufferAttribute(pos, ATTR_WIDTH));
 

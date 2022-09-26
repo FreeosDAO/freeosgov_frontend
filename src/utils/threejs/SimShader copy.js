@@ -15,8 +15,8 @@ var SimShader2 = {
         "uTime": { type: "f", value: 0.0 },
         "uInputPos": { type: "v3v", value: [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()] },
         "uInputPosAccel": { type: "v4", value: new THREE.Vector4(0, 0, 0, 0) },
-        "uInputAccel": { type: "f", value: 1.0 },
-        "uShapeAccel": { type: "f", value: 1.0},
+        "uInputAccel": { type: "f", value: 1.5 },
+        "uShapeAccel": { type: "f", value: 0.7 },
     },
 
     vertexShader: Utils.loadTextFile("shaders/Basic.vs.glsl"),

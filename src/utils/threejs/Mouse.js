@@ -108,6 +108,7 @@ var Mouse = function (dom) {
     dom.addEventListener("touchend", _onTouchUp, false);
     dom.addEventListener("touchleave", _onTouchUp, false);
     dom.addEventListener("touchcancel", _onTouchUp, false);
+    console.log('ADDING EVENT LISTENER');
 };
 
 export default Mouse;

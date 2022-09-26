@@ -3,6 +3,7 @@
 #inject shaders/chunks/NoiseFuncs.glsl
 
 
+
 varying vec2 vUv;
 
 uniform sampler2D tPrev;
@@ -17,6 +18,8 @@ uniform float uShapeAccel;
 #ifdef SIM_TEXTURE
 uniform sampler2D tTarget;
 #endif
+
+
 
 void main() {
 

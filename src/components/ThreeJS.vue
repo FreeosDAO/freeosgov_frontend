@@ -10,6 +10,10 @@ import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import MorphAnimMesh from '../utils/threejs/MorphAnimMesh'
 
+import Mouse from '../utils/threejs/Mouse.js'
+import UpdateLoop from '../utils/threejs/UpdateLoop.js'
+
+
 import * as CustomShaderPass from '../utils/threejs/ShaderPass.js'
 
 import RenderContext from '../utils/threejs/RenderContext.js'
@@ -27,6 +31,8 @@ import SimShader2 from '../utils/threejs/SimShader copy.js'
 import SimShader3 from '../utils/threejs/SimShader copy 2.js'
 import ParticleShader from '../utils/threejs/ParticleShader.js'
 import UVMapAnimator from '../utils/threejs/UVMapAnimator.js'
+import LeapManager from '../utils/threejs/LeapManager.js'
+
 
 import Utils from 'src/utils/threejs/Utils'
 
@@ -57,7 +63,7 @@ var _params2 = {
 };
 
 var _params3 = {
-    size: 170,
+    size: 100,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
     color1: new THREE.Color('rgb(0,100,255)'),
@@ -121,6 +127,10 @@ var _presets = {
     "wolf": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.wolf },
 };
 
+var
+    _pauseSim = false;
+
+
 export default {
     name: 'ThreeJS',
 
@@ -134,27 +144,155 @@ export default {
             _uvAnim2: null,
             _gui: null,
             _uvAnim: null,
+            _leapMan: null,
+            _controls: null,
+            mouse: null,
+            raycaster: null,
             _guiFields: {}
         }
     },
 
     methods: {
+        _leapUpdate() {
+            var K_PULL = 1.0;   // in grabStrength
+            var K_PUSH = 100.0; // in sphereRadius
+
+            this._leapMan.update();
+            for (var j = 0; i < paramsList.length; j++) {
+                var _simMat = paramsList[j].simMat;
+                for (var i = 0; i < this._leapMan.activeHandCount; i++) {
+                    var inputIdx = 3 - i; // iterate backwards on input, so mouse can interact at same time
+                    if (this._leapMan.frame.hands[i].grabStrength === K_PULL) {
+                        _simMat.uniforms.uInputPos.value[inputIdx].copy(this._leapMan.palmPositions[i]);
+                        _simMat.uniforms.uInputPosAccel.value.setComponent(inputIdx, 1.0);
+                    }
+                    else if (this._leapMan.frame.hands[i].sphereRadius >= K_PUSH) {
+                        _simMat.uniforms.uInputPos.value[inputIdx].copy(this._leapMan.palmPositions[i]);
+                        _simMat.uniforms.uInputPosAccel.value.setComponent(inputIdx, -1.0);
+                    }
+                }
+            }
+
+
+
+            // _debugBox.innerHTML =
+            //     "hand1: " + (_leapMan.frame.hands[0] ? _leapMan.frame.hands[0].sphereRadius : "") + " " +
+            //     "hand2: " + (_leapMan.frame.hands[1] ? _leapMan.frame.hands[1].sphereRadius : "") +
+            //     "";
+        },
+        _mouseUpdate() {
+            var mIdMax = Utils.isMobile ? 4 : 1;
+            // for all paramslist
+            for (var j = 0; j < paramsList.length; j++) {
+                var _simMat = paramsList[j].simMat;
+                for (var mId = 0; mId < mIdMax; mId++) {
+                    var ms = this.mouse.getMouse(mId);
+                    if (ms.buttons[0] || (mId === 0 && ms.buttons[2])) {
+                        this.raycaster.setFromCamera(ms.coords, this.camera);
+
+                        // from target point to camera
+                        var pos = this._controls.target;
+                        var nor = pos.clone().sub(this.camera.position).normalize();
+                        var plane = new THREE.Plane(
+                            nor, -nor.x * pos.x - nor.y * pos.y - nor.z * pos.z
+                        );
+
+                        // intersect plane
+                        var point = new THREE.Vector3()
+                        this.raycaster.ray.intersectPlane(plane, point);
+                        _simMat.uniforms.uInputPos.value[mId].copy(point);
+                        _simMat.uniforms.uInputPosAccel.value.setComponent(mId, ms.buttons[0] ? 1.0 : -1.0);
+                    }
+                    else {
+                        _simMat.uniforms.uInputPosAccel.value.setComponent(mId, 0);
+                    }
+                }
+            }
+
+
+            // _debugBox.innerHTML +=
+            //     "<br>"+_simMat.uniforms.uInputPosAccel.value.x.toFixed(2)
+            //     +" "+_simMat.uniforms.uInputPosAccel.value.y.toFixed(2)
+            //     +" "+_simMat.uniforms.uInputPosAccel.value.z.toFixed(2)
+            //     +" "+_simMat.uniforms.uInputPosAccel.value.w.toFixed(2);
+        },
+
+        _inputUpdate() {
+            // reset input accels
+            for (var j = 0; j < paramsList.length; j++) {
+                var _simMat = paramsList[j].simMat;
+                _simMat.uniforms.uInputPosAccel.value.set(0, 0, 0, 0);
+            }
+            if (!this._controls.enabled) this._mouseUpdate();
+            this._leapUpdate();
+        },
+        _onFrameUpdate(dt, t) {
+            // _stats.begin();
+
+            this._leapUpdate();
+
+            this._inputUpdate();
+
+            if (!this._controls.enabled) this._controls.update();
+
+            if (paramsList[0].update) paramsList[0].update(dt, t);
+
+            this.renderer.update(dt);
+            this._leapMan.render();
+
+            // _stats.end();
+        },
+
+        _onFixedUpdate(dt, t) {
+            if (!_pauseSim) {
+                for (var i = 0; i < engineList.length; i++) {
+                    engineList[i].update(dt, t);
+                }
+            }
+        },
         init() {
             var _canvas = document.getElementById('webgl-canvas')
 
-            var renderer = new RenderContext(_canvas)
-            renderer.init();
+            this.renderer = new RenderContext(_canvas)
+            this.renderer.init();
 
-            var camera = renderer.getCamera();
-            var scene = renderer.getScene();
+            this.camera = this.renderer.getCamera();
+            var scene = this.renderer.getScene();
+            this.raycaster = new THREE.Raycaster();
+
+
+            var _canvas = document.querySelector("#webgl-canvas");
+
+            this.mouse = new Mouse(_canvas);
+
+            var _updateLoop = new UpdateLoop();
+
+            _updateLoop.frameCallback = this._onFrameUpdate;
+            _updateLoop.fixedCallback = this._onFixedUpdate;
+
+            var tmat = (new THREE.Matrix4()).compose(
+                new THREE.Vector3(0.0, -3.0, -this.camera.position.z),
+                new THREE.Quaternion(),
+                new THREE.Vector3(0.015, 0.015, 0.015));
+
+            this._leapMan = new LeapManager(this.renderer.getRenderer(), this.camera, tmat);
+
+            this._controls = new THREE.OrbitControls(this.camera, _canvas);
+            this._controls.autoRotate = false;
+            this._controls.autoRotateSpeed = 1.0;
+            this._controls.noPan = true;
+            this._controls.enabled = false;  // disable user input
+
 
             // for all params
             for (var i = 0; i < paramsList.length; i++) {
                 var params = paramsList[i];
-                params.renderer = renderer;
-                params.camera = camera;
+                params.renderer = this.renderer;
+                params.camera = this.camera;
                 params.scene = scene;
-
+                params.mouse = this.mouse
+                params.updateLoop = _updateLoop
+                params.controls = this._controls
                 var engine = new ParticleEngine(params);
                 engineList.push(engine);
                 var uvAnim = new UVMapAnimator(engine.renderer.getRenderer(), params.size)
@@ -162,6 +300,7 @@ export default {
                 params.simMat.uniforms.tTarget = { type: "t", value: uvAnim.target };
 
             }
+
 
 
             // this._engine = new ParticleEngine(_params);
@@ -420,9 +559,10 @@ export default {
             this._initKeyboard();
             this._setPreset(_currPreset);
 
+
             // loop through engines
             for (var i = 0; i < engineList.length; i++) {
-                engineList[i].start()
+                engineList[i].start();
             }
 
 
