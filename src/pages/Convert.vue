@@ -76,6 +76,10 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
               <div class="text-subtitle2 q-mt-none"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee | roundTo4Decimal}} XPR</strong></div>
               <div class="text-subtitle2 q-mt-none q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee | roundTo6Decimal}} XUSDC</strong></div>
             </div>
+            <div v-if="this.user.hasNFT" class="bg-primary text-center text-white q-py-md">
+              <div class="text-bold q-pb-none">You have a FREEDAO NFT</div>
+              <div class="text-subtitle2 q-mt-none"><strong>No mint fee is required.</strong></div>
+            </div>
           </section>
 
 
@@ -171,17 +175,19 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
 
               <div v-if="submitData.from && (submitData.pay || submitData.from ==='AIRCLAIM ALLOWANCE') && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
 
-                <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
-                <div class="row justify-center">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">Total Mint Fee will be:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay !== 'XUSDC'">
-                    <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo4Decimal }} {{submitData.pay}}</p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay === 'XUSDC'">
-                    <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}</p>
+                <div v-if="!this.user.hasNFT">
+                  <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
+                  <div class="row justify-center">
+                    <div class="col-xs-6 col-sm-5">
+                      <p class="q-mt-xs q-mb-none"><small class="text-bold">Total Mint Fee will be:</small>
+                      </p>
+                    </div>
+                    <div class="col-xs-6 col-sm-6" v-if="submitData.pay !== 'XUSDC'">
+                      <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo4Decimal }} {{submitData.pay}}</p>
+                    </div>
+                    <div class="col-xs-6 col-sm-6" v-if="submitData.pay === 'XUSDC'">
+                      <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}</p>
+                    </div>
                   </div>
                 </div>
                 <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
@@ -671,7 +677,7 @@ export default {
 
 
       //if(this.submitData.pay === 'FREEOS' || this.submitData.from === 'AIRCLAIM ALLOWANCE')
-          dataToSubmit.mint_fee_currency = '4,FREEOS'; // + this.submitData.pay;
+      dataToSubmit.mint_fee_currency = '4,FREEOS'; // + this.submitData.pay;
       
       if(this.submitData.pay === 'XPR'){
           dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
@@ -744,6 +750,14 @@ export default {
           disabled: this.checkIfDisabled(this.user.XUSDCBalance)
         }
       ]
+      if(this.user.hasNFT){
+        this.mintFeeOptions =[{
+          label: 'NFT <small>(Zero Mint Fee)</small>',
+          value: 'NFT',
+          disabled: this.checkIfDisabled(this.user.hasNFT)
+        }];
+        this.submitData.pay = 'NFT'
+      }
   }
 
 }
