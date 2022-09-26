@@ -52,7 +52,7 @@ var _params = {
 
 var _params2 = {
     size: 170,
-    simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
+    simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
     color1: new THREE.Color('rgb(26,186,119)'),
     color2: new THREE.Color('rgb(26,186,119)'),
@@ -64,7 +64,7 @@ var _params2 = {
 
 var _params3 = {
     size: 100,
-    simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
+    simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
     color1: new THREE.Color('rgb(0,100,255)'),
     color2: new THREE.Color('rgb(0,100,255)'),
@@ -112,7 +112,7 @@ var _meshes = {
 var _presets = {
     "none": { "user gravity": 3, "shape gravity": 1, _shape: "" },
     // "noise":   { "user gravity":3, "shape gravity":1, _shape:"SIM_NOISE" },
-    "plane": { "user gravity": 4, "shape gravity": 3, _shape: "SIM_PLANE" },
+    "plane": { "user gravity": 2, "shape gravity": 3, _shape: "SIM_PLANE" },
     "sphere": { "user gravity": 4, "shape gravity": 3, _shape: "SIM_SPHERE" },
     "galaxy": { "user gravity": 3, "shape gravity": 1, _shape: "SIM_GALAXY" },
     "petals": { "user gravity": 3, "shape gravity": 0.5, _shape: "SIM_ROSE_GALAXY" },
@@ -201,7 +201,7 @@ export default {
                         var point = new THREE.Vector3()
                         this.raycaster.ray.intersectPlane(plane, point);
                         _simMat.uniforms.uInputPos.value[mId].copy(point);
-                        _simMat.uniforms.uInputPosAccel.value.setComponent(mId, ms.buttons[0] ? 1.0 : -1.0);
+                        _simMat.uniforms.uInputPosAccel.value.setComponent(mId, ms.buttons[0] ? 1.0 : -2.0);
                     }
                     else {
                         _simMat.uniforms.uInputPosAccel.value.setComponent(mId, 0);
@@ -481,8 +481,13 @@ export default {
                 }
             }
 
-            this._guiFields["user gravity"] = _params.simMat.uniforms.uInputAccel.value = preset["user gravity"];
-            this._guiFields["shape gravity"] = _params.simMat.uniforms.uShapeAccel.value = preset["shape gravity"];
+            for (var i = 0; i < paramsList.length; i++) {
+                var parameters = paramsList[i]
+
+                this._guiFields["user gravity"] = parameters.simMat.uniforms.uInputAccel.value = preset["user gravity"];
+                this._guiFields["shape gravity"] = parameters.simMat.uniforms.uShapeAccel.value = preset["shape gravity"];
+            }
+
 
             // _params2.simMat.uniforms.uInputAccel.value = 0
             // _params2.simMat.uniforms.uShapeAccel.value = 0

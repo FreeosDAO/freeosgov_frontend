@@ -3,9 +3,10 @@
     float x = vUv.x;
     float y = vUv.y;
     vec2 coords = vUv * 2.0 - 1.0;
-    float height = (sin((coords.x * 4.0 + uTime) * 0.9)) * 0.1 + (sin((coords.y * 4.0 + uTime) * 0.9)) * 0.1;
 
-    vec3 targetPos = vec3(coords.x + rand(vec2(coords.x))/ 1000.0 + rand(vec2(height)) / 5.0,height + rand(vec2(height)) / 15.0, y / 1.5);
+    float height = (sin(((coords.x + abs(coords.y)) * 4.0 + uTime) * 1.)) * 0.1 + (sin((coords.y * 4.0 + uTime) * 0.9)) * 0.1;
+
+    vec3 targetPos = vec3(coords.x  * 1.5 + rand(vec2(coords.x))/ 1000.0 + rand(vec2(height)) / 5.0,height + rand(vec2(height)) / 15.0, y / 1.5);
     targetPos *= 3.0;
 #endif
 

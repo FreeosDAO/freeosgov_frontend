@@ -106,8 +106,8 @@ var ParticleEngine = function (params) {
 
         _updateLoop.start();
     };
-    
-    this.update = function (dt,t) {
+
+    this.update = function (dt, t) {
         _sim.update(dt, t);
         _stats.update();
     };
