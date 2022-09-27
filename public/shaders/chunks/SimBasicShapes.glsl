@@ -6,7 +6,7 @@
 
     float height = (sin(((coords.x + abs(coords.y)) * 4.0 + uTime) * 1.)) * 0.1 + (sin((coords.y * 4.0 + uTime) * 0.9)) * 0.1;
 
-    vec3 targetPos = vec3(coords.x  * 1.5 + rand(vec2(coords.x))/ 1000.0 + rand(vec2(height)) / 5.0,height + rand(vec2(height)) / 15.0, y / 1.5);
+    vec3 targetPos = vec3(coords.x  * 1.5 + rand(vec2(coords.x))/ 1000.0 + rand(vec2(height)) / 5.0,height + rand(vec2(height)) / 11.0, y / 1.2);
     targetPos *= 3.0;
 #endif
 

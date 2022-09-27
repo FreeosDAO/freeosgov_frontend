@@ -45,7 +45,8 @@ var ParticleSimulation = function (renderer, size, params) {
             renderer,
             _simMat,
             _initMat,
-            _size
+            _size, 
+            params.index
         );
 
         _drawMat = params.drawMat || createShaderMaterial.createShaderMaterial(ParticleShader.ParticleShader);
@@ -61,6 +62,9 @@ var ParticleSimulation = function (renderer, size, params) {
 
 
         _particles = new THREE.PointCloud(geo, _drawMat);
+        console.log(params.index);
+        // _particles.position.z = params.index
+        _particles.position.y = params.index / 2 - 0.5
         _particles.frustumCulled = false;
     };
 

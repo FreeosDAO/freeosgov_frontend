@@ -71,7 +71,8 @@ var ParticleEngine = function (params) {
         _sim = new ParticleSimulation(_renderer.getRenderer(), _size, {
             simMat: _simMat,
             initMat: _initMat,
-            drawMat: _drawMat
+            drawMat: _drawMat,
+            index: params.index
         });
 
         _scene.add(_sim.getParticleObject());

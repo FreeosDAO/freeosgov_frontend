@@ -5,7 +5,7 @@ var Utils = utils.default
 var SimShader2 = {
 
     defines: {
-        "K_VEL_DECAY": "0.99",
+        "K_VEL_DECAY": "0.985",
     },
 
     uniforms: {

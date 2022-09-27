@@ -47,6 +47,7 @@
     </q-drawer>
     <CompleteDialog ref="complete" />
     <q-page-container class="page-container page-container-main">
+      <ThreeJS></ThreeJS>
 
 
       <div class="flex justify-center text-center"
@@ -68,7 +69,6 @@
         <router-view />
       </div>
       <Loading v-if="!isAuthenticated" style="z-index: 1;position: relative; user-select: none;" />
-      <ThreeJS />
 
     </q-page-container>
 
@@ -168,7 +168,7 @@ export default {
     Loading,
     CompleteDialog,
     ThreeJS
-  },
+},
   methods: {
     announceMsg() {
       const _ = this;

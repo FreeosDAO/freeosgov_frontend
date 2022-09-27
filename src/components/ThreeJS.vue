@@ -5,10 +5,6 @@
   
 <script>
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
-import MorphAnimMesh from '../utils/threejs/MorphAnimMesh'
 
 import Mouse from '../utils/threejs/Mouse.js'
 import UpdateLoop from '../utils/threejs/UpdateLoop.js'
@@ -43,35 +39,36 @@ var _params = {
     size: 170,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0,253,255)'),
-    color2: new THREE.Color('rgb(1,253,255)'),
+    color1: new THREE.Color('rgb(0,119,70)'),
+    color2: new THREE.Color('rgb(1,132,68)'),
     renderer: null,
     camera: null,
     scene: null,
+    index: 0,
 };
 
 var _params2 = {
     size: 170,
-    simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
+    simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(26,186,119)'),
-    color2: new THREE.Color('rgb(26,186,119)'),
+    color1: new THREE.Color('rgb(98,80,206)'),
+    color2: new THREE.Color('rgb(77,77,173)'),
     renderer: null,
     camera: null,
     scene: null,
-
+    index: 1,
 };
 
 var _params3 = {
     size: 100,
-    simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
+    simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0,100,255)'),
-    color2: new THREE.Color('rgb(0,100,255)'),
+    color1: new THREE.Color('rgb(0,81,96)'),
+    color2: new THREE.Color('rgb(0,100,114)'),
     renderer: null,
     camera: null,
     scene: null,
-
+    index: 2,
 };
 
 var paramsList = [_params, _params2, _params3];
@@ -191,15 +188,20 @@ export default {
                         this.raycaster.setFromCamera(ms.coords, this.camera);
 
                         // from target point to camera
-                        var pos = this._controls.target;
+                        var pos = new THREE.Vector3().copy(this._controls.target)
+                        pos.y += j / 2 + 0.5 - 2/2
+
+                        // update depending on location y
                         var nor = pos.clone().sub(this.camera.position).normalize();
                         var plane = new THREE.Plane(
                             nor, -nor.x * pos.x - nor.y * pos.y - nor.z * pos.z
                         );
 
                         // intersect plane
-                        var point = new THREE.Vector3()
+                        var point = new THREE.Vector3(0, 0, 0)
                         this.raycaster.ray.intersectPlane(plane, point);
+                        // update point depending on location y
+                        point.y -= j / 2 + 0.5 - 2/2
                         _simMat.uniforms.uInputPos.value[mId].copy(point);
                         _simMat.uniforms.uInputPosAccel.value.setComponent(mId, ms.buttons[0] ? 1.0 : -2.0);
                     }
@@ -236,7 +238,6 @@ export default {
             if (!this._controls.enabled) this._controls.update();
 
             if (paramsList[0].update) paramsList[0].update(dt, t);
-
             this.renderer.update(dt);
             this._leapMan.render();
 
@@ -257,7 +258,7 @@ export default {
             this.renderer.init();
 
             this.camera = this.renderer.getCamera();
-            var scene = this.renderer.getScene();
+            this.scene = this.renderer.getScene();
             this.raycaster = new THREE.Raycaster();
 
 
@@ -289,7 +290,7 @@ export default {
                 var params = paramsList[i];
                 params.renderer = this.renderer;
                 params.camera = this.camera;
-                params.scene = scene;
+                params.scene = this.scene;
                 params.mouse = this.mouse
                 params.updateLoop = _updateLoop
                 params.controls = this._controls
@@ -316,8 +317,18 @@ export default {
         _initUI() {
             this._gui = new dat.GUI();
             this._guiFields = {
-                "color1": [_params.drawMat.uniforms.uColor1.value.x * 255, _params.drawMat.uniforms.uColor1.value.y * 255, _params.drawMat.uniforms.uColor1.value.z * 255],
+                "colors": [
+                    {
+                        "color1": [_params.drawMat.uniforms.uColor1.value.x * 255, _params.drawMat.uniforms.uColor1.value.y * 255, _params.drawMat.uniforms.uColor1.value.z * 255],
                 "color2": [_params.drawMat.uniforms.uColor2.value.x * 255, _params.drawMat.uniforms.uColor2.value.y * 255, _params.drawMat.uniforms.uColor2.value.z * 255],
+                    }, {
+                        "color1": [_params2.drawMat.uniforms.uColor1.value.x * 255, _params2.drawMat.uniforms.uColor1.value.y * 255, _params2.drawMat.uniforms.uColor1.value.z * 255],
+                "color2": [_params2.drawMat.uniforms.uColor2.value.x * 255, _params2.drawMat.uniforms.uColor2.value.y * 255, _params2.drawMat.uniforms.uColor2.value.z * 255],
+                    }, {
+                        "color1": [_params3.drawMat.uniforms.uColor1.value.x * 255, _params3.drawMat.uniforms.uColor1.value.y * 255, _params3.drawMat.uniforms.uColor1.value.z * 255],
+                "color2": [_params3.drawMat.uniforms.uColor2.value.x * 255, _params3.drawMat.uniforms.uColor2.value.y * 255, _params3.drawMat.uniforms.uColor2.value.z * 255],
+                    },
+                ],
                 "alpha": _params.drawMat.uniforms.uAlpha.value,
                 "color speed": _params.drawMat.uniforms.uColorSpeed.value,
                 "color freq": _params.drawMat.uniforms.uColorFreq.value,
@@ -345,10 +356,11 @@ export default {
                 blending: _params.drawMat.blending
             }
 
+
             var _blendingModes = {
                 "No Blending": THREE.NoBlending,
                 "Normal Blending": THREE.NormalBlending,
-                "Additive Blending": THREE.AdditiveBlending,
+                "Additive (for dark BG)": THREE.AdditiveBlending,
                 "Subtractive Blending": THREE.SubtractiveBlending,
                 "Multiply Blending": THREE.MultiplyBlending,
                 "Custom Blending": THREE.CustomBlending
@@ -367,12 +379,12 @@ export default {
             // loop through paramsList
 
             for (var i = 0; i < paramsList.length; i++) {
-                var currentEngineFolder = fAppearance.addFolder(i)
-                currentEngineFolder.addColor(this._guiFields, "color1").name(i.toString() + "-color1").onChange(function (value) {
-                    console.log(this.name().name().name().name());
+                const currentEngineFolder = fAppearance.addFolder(i)
+                currentEngineFolder.addColor(this._guiFields['colors'][i], "color1").onChange(function (value) {
+                    console.log(parseInt(currentEngineFolder.name));
                     paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uColor1.value = new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
                 });
-                currentEngineFolder.addColor(this._guiFields, "color2").onChange(function (value) {
+                currentEngineFolder.addColor(this._guiFields['colors'][i], "color2").onChange(function (value) {
                     paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uColor2.value = new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
                 });
                 currentEngineFolder.add(this._guiFields, "alpha", 0, 1).onChange(function (value) {
@@ -388,7 +400,17 @@ export default {
                     paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uPointSize.value = value;
                 });
 
+                currentEngineFolder.add(this._guiFields, "user gravity", 0, 10)
+                .onChange(function (value) {
+                    paramsList[parseInt(currentEngineFolder.name)].simMat.uniforms.uInputAccel.value = value;
+                });
+                currentEngineFolder.add(this._guiFields, "shape gravity", 0, 10)
+                .onChange(function (value) {
+                    paramsList[parseInt(currentEngineFolder.name)].simMat.uniforms.uShapeAccel.value = value;
+                });
             }
+
+
             // fAppearance.addColor(this._guiFields, "color1").onChange(function (value) {
             //     if (value[0] === "#") value = Utils.hexToRgb(value);
             //     _params.drawMat.uniforms.uColor1.value.x = value[0] / 255.0;
@@ -402,17 +424,7 @@ export default {
             //     _params.drawMat.uniforms.uColor2.value.z = value[2] / 255.0;
             // });
 
-            var fPhysics = this._gui.addFolder("Physics");
-            fPhysics.add(this._guiFields, "user gravity", 0, 10)
-                .listen()
-                .onChange(function (value) {
-                    _params.simMat.uniforms.uInputAccel.value = value;
-                });
-            fPhysics.add(this._guiFields, "shape gravity", 0, 10)
-                .listen()
-                .onChange(function (value) {
-                    _params.simMat.uniforms.uShapeAccel.value = value;
-                });
+          
 
             var fControls = this._gui.addFolder("Controls");
             var _ = this
@@ -543,11 +555,8 @@ export default {
         },
 
         initThree() {
-            this.loadMeshes();
-            this.init();
-            if (this._gui == null) {
-                this._initUI();
-            }
+            // this.loadMeshes();
+         
 
 
             for (var i = 0; i < paramsList.length; i++) {
@@ -559,7 +568,10 @@ export default {
                 paramsList[i].drawMat.uniforms.uColor2.value.y = paramsList[i].color2.g
                 paramsList[i].drawMat.uniforms.uColor2.value.z = paramsList[i].color2.b
             }
-
+            this.init();
+            if (this._gui == null) {
+                this._initUI();
+            }
 
             this._initKeyboard();
             this._setPreset(_currPreset);

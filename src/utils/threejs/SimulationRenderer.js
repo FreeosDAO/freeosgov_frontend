@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import * as CustomShaderPass from './ShaderPass'
 
-var SimulationRenderer = function (renderer, simMat, initMat, size) {
+var SimulationRenderer = function (renderer, simMat, initMat, size, index) {
 
     // PRIVATE VARS
 
@@ -58,7 +58,7 @@ var SimulationRenderer = function (renderer, simMat, initMat, size) {
 
     this.update = function (dt, t) {
         _simPass.material.uniforms.uDeltaT.value = dt;
-        _simPass.material.uniforms.uTime.value = t;
+        _simPass.material.uniforms.uTime.value = t/ 2  + index * 777;
         if (_currUpdateTarget === 1) {
             _simPass.material.uniforms.tPrev.value = _target2;
             _simPass.material.uniforms.tCurr.value = _target3;
