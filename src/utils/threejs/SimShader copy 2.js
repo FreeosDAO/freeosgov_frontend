@@ -16,7 +16,7 @@ var SimShader3 = {
         "uInputPos": { type: "v3v", value: [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()] },
         "uInputPosAccel": { type: "v4", value: new THREE.Vector4(0, 0, 0, 0) },
         "uInputAccel": { type: "f", value: 1.5 },
-        "uShapeAccel": { type: "f", value: 2.5 },
+        "uShapeAccel": { type: "f", value: 2.3 },
     },
 
     vertexShader: Utils.loadTextFile("shaders/Basic.vs.glsl"),
@@ -26,7 +26,7 @@ var SimShader3 = {
     )
 
 };
-if (Utils.isMobile) SimShader.defines.MULTIPLE_INPUT = "";
+if (Utils.isMobile) SimShader3.defines.MULTIPLE_INPUT = "";
 
 var BasicSimShader = {
 

@@ -58,7 +58,7 @@ var SimulationRenderer = function (renderer, simMat, initMat, size, index) {
 
     this.update = function (dt, t) {
         _simPass.material.uniforms.uDeltaT.value = dt;
-        _simPass.material.uniforms.uTime.value = t/ 2  + index * 777;
+        _simPass.material.uniforms.uTime.value = t / 2 + index * 12345;
         if (_currUpdateTarget === 1) {
             _simPass.material.uniforms.tPrev.value = _target2;
             _simPass.material.uniforms.tCurr.value = _target3;

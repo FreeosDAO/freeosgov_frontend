@@ -80,7 +80,7 @@ var RenderContext = function (canvas) {
 
         _scene = new THREE.Scene();
 
-        _scene.background = new THREE.Color('red')
+        // _scene.background = new THREE.Color('red')
         // _controls = new THREE.TrackballControls(_camera, _canvas);
         // _controls.rotateSpeed = 1.0;
         // _controls.zoomSpeed = 1.2;
@@ -114,16 +114,7 @@ var RenderContext = function (canvas) {
         for (var i = 0; i < _updateFuncs.length; i++)
             _updateFuncs[i](dt);
 
-        var points = _scene.children[0]
-        var positions = points.geometry.attributes.position.array
 
-        for (var i = 0; i < positions.length; i += 3) {
-            positions[i] = Math.random()
-            positions[i + 1] = Math.random()
-            positions[i + 2] = Math.random()
-        }
-        // needs up date
-        points.geometry.attributes.position.needsUpdate = true
 
         _renderer.render(_scene, _camera);
         // console.log(_scene.children[0].geometry.attributes.position.array[0]);

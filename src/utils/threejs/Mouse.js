@@ -26,13 +26,23 @@ var Mouse = function (dom) {
     var _mouseUpdate = function (e, idx) {
         var ms = _this.getMouse(idx || 0);
 
-        ms.dx = e.offsetX - ms.x;
-        ms.dy = e.offsetY - ms.y;
-        ms.x = e.offsetX;
-        ms.y = e.offsetY;
+
+        var r = e.target.getBoundingClientRect();
+        var mobileOffsetX = e.pageX - r.left;
+        var mobileOffsetY = e.pageY - r.top;
+
+        var x = e.offsetX || mobileOffsetX;
+        var y = e.offsetY || mobileOffsetY;
+
+
+        ms.dx = x - ms.x;
+        ms.dy = y - ms.y;
+        ms.x = x;
+        ms.y = y;
 
         ms.coords.x = ms.x / dom.clientWidth * 2 - 1;
         ms.coords.y = (ms.y) / dom.clientHeight * -2 + 1;
+
     };
 
     var _onMouseMove = function (e) {
@@ -56,9 +66,11 @@ var Mouse = function (dom) {
     // TOUCH
 
     var _onTouchMove = function (e) {
+        console.log('moving');
         var touches = e.changedTouches;
         for (var i = 0; i < touches.length; i++) {
             _mouseUpdate(touches[i], touches[i].identifier);
+
         }
         e.preventDefault();
     };

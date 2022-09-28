@@ -18,275 +18,309 @@
 
       <!--MINT FREEOS-->
       <section v-if="isMintTabSelected">
-          <p class="bg-primary text-h5 text-center text-white q-py-md">
-            This could be a taxable event in your jurisdiction
-          </p>
-          <p class="q-py-md q-px-lg">The Mint Fee applies when you mint your ‘Claimed Points’ or FREEBI into a tradable token (FREEOS).
-For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1562"> click here.</a></p>
+        <p class="bg-primary text-h5 text-center text-white q-py-md">
+          This could be a taxable event in your jurisdiction
+        </p>
+        <p class="q-py-md q-px-lg">The Mint Fee applies when you mint your ‘Claimed Points’ or FREEBI into a tradable
+          token (FREEOS).
+          For more info <a target="_blank" title="Minting FREEOS"
+            href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1562"> click here.</a></p>
 
 
-          <section class="q-ma-md panel">
-            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Your Current balances:</div>
+        <section class="q-ma-md panel">
+          <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Your Current balances:</div>
+          <div class="balance-list">
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.pointBalance" />
+              </div>
+              <div class="text-bold text-primary">POINTS</div>
+            </div>
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.freebiBalance" />
+              </div>
+              <div class="text-bold text-primary">FREEBI</div>
+            </div>
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.freeosBalance" />
+              </div>
+              <div class="text-bold text-primary">FREEOS</div>
+            </div>
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.XPRBalance" />
+              </div>
+              <div class="text-bold text-primary">XPR</div>
+            </div>
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center" v-if="user.XUSDCBalance">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.XUSDCBalance" />
+              </div>
+              <div class="text-bold text-primary">XUSDC</div>
+            </div>
+          </div>
+
+          <div v-if="user.mffBalance > 0">
+            <hr class="q-mb-none" />
+            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">AirClaim Allowance balance:</div>
+
             <div class="balance-list">
               <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.pointBalance" /></div>
-                <div class="text-bold text-primary">POINTS</div>
-              </div>
-              <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freebiBalance" /></div>
-                <div class="text-bold text-primary">FREEBI</div>
-              </div>
-              <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freeosBalance" /></div>
-                <div class="text-bold text-primary">FREEOS</div>
-              </div>
-              <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.XPRBalance" /></div>
-                <div class="text-bold text-primary">XPR</div>
-              </div>
-              <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center" v-if="user.XUSDCBalance">
-                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.XUSDCBalance" /></div>
-                <div class="text-bold text-primary">XUSDC</div>
-              </div>
-            </div>
-
-            <div v-if="user.mffBalance > 0">
-              <hr class="q-mb-none" />
-              <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">AirClaim Allowance balance:</div>
-
-              <div class="balance-list">
-                <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-                  <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.mffBalance" /></div>
-                  <div class="text-bold text-primary">of your POINTS</div>
+                <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                  <AbbreviateNumber :value="user.mffBalance" />
                 </div>
+                <div class="text-bold text-primary">of your POINTS</div>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="q-ma-md panel">
-            <div class="q-mt-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
-            <div class="text-bold text-center q-mt-none q-pt-none q-pb-sm">
-              <span class="q-pr-sm">FREEOS = {{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}%</span>
-              <span class="q-px-xs">XPR = {{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}%</span>
-              <span class="q-pl-sm">XUSDC = {{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo4Decimal}}%</span>
+        <section class="q-ma-md panel">
+          <div class="q-mt-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
+          <div class="text-bold text-center q-mt-none q-pt-none q-pb-sm">
+            <span class="q-pr-sm">FREEOS = {{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}%</span>
+            <span class="q-px-xs">XPR = {{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}%</span>
+            <span class="q-pl-sm">XUSDC = {{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo4Decimal}}%</span>
 
-            </div>
-            <!--<div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for Converting To FREEBI</div>-->
-            <div class="bg-info text-center">
-              <div class="text-primary text-bold q-pt-sm q-pb-none">Minimum Mint Fee</div>
-              <div class="text-subtitle2 q-mt-none q-pt-xs"><strong>{{mintFeeMin  | roundTo4Decimal}} FREEOS</strong></div>
-              <div class="text-subtitle2 q-mt-none"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee | roundTo4Decimal}} XPR</strong></div>
-              <div class="text-subtitle2 q-mt-none q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee | roundTo6Decimal}} XUSDC</strong></div>
-            </div>
-            <div v-if="this.user.hasNFT" class="bg-primary text-center text-white q-py-md">
-              <div class="text-bold q-pb-none">You have a FREEDAO NFT</div>
-              <div class="text-subtitle2 q-mt-none"><strong>No mint fee is required.</strong></div>
-            </div>
-          </section>
-
-
-
-
-
-          <section class="q-ma-md panel">
-            <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Create a MINT Transaction</div>
+          </div>
+          <!--<div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for Converting To FREEBI</div>-->
+          <div class="bg-info text-center">
+            <div class="text-primary text-bold q-pt-sm q-pb-none">Minimum Mint Fee</div>
+            <div class="text-subtitle2 q-mt-none q-pt-xs"><strong>{{mintFeeMin | roundTo4Decimal}} FREEOS</strong></div>
+            <div class="text-subtitle2 q-mt-none"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee |
+            roundTo4Decimal}} XPR</strong></div>
+            <div class="text-subtitle2 q-mt-none q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee |
+            roundTo6Decimal}} XUSDC</strong></div>
+          </div>
+          <div v-if="this.user.hasNFT" class="bg-primary text-center text-white q-py-md">
+            <div class="text-bold q-pb-none">You have a FREEDAO NFT</div>
+            <div class="text-subtitle2 q-mt-none"><strong>No mint fee is required.</strong></div>
+          </div>
+        </section>
 
 
-            <div class="bg-info q-pa-md">
 
 
-              <div class="row justify-center q-mb-sm q-pb-xs">
-                <div class="col-xs-6 col-sm-5">
-                  <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">1. Choose a balance to Mint
-                      from:</small></div>
-                </div>
-                <div class="col-xs-6 col-sm-6">
 
-                  <q-select label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value required dense outlined v-model="submitData.from" :options="balOptions" />
+        <section class="q-ma-md panel">
+          <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Create a MINT Transaction</div>
 
-                  <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
+
+          <div class="bg-info q-pa-md">
+
+
+            <div class="row justify-center q-mb-sm q-pb-xs">
+              <div class="col-xs-6 col-sm-5">
+                <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">1. Choose a balance to Mint
+                    from:</small></div>
+              </div>
+              <div class="col-xs-6 col-sm-6">
+
+                <q-select label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value
+                  required dense outlined v-model="submitData.from" :options="balOptions" />
+
+                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
                       {{ stakeCurrency }} available to transfer</small></p>
                   <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
                       {{ currencyName }} available to transfer</small></p>-->
+              </div>
+            </div>
+
+
+            <div v-if="submitData.from === 'POINT'" class="row justify-center q-mb-md q-pb-xs">
+              <div class="col-xs-6 col-sm-5">
+                <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available Points
+                    Balance:</small>
+                </p>
+              </div>
+              <div class="col-xs-6 col-sm-6">
+                <p class="q-mt-none q-mb-none text-primary text-bold">{{ user.pointBalance }}</p>
+              </div>
+            </div>
+
+            <div v-if="submitData.from === 'FREEBI'" class="row justify-center q-mb-md q-pb-xs">
+              <div class="col-xs-6 col-sm-5">
+                <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available FREEBI
+                    Balance:</small>
+                </p>
+              </div>
+              <div class="col-xs-6 col-sm-6">
+                <p class="q-mt-none q-mb-none text-primary text-bold">{{user.freebiBalance}}</p>
+              </div>
+            </div>
+
+            <div class="row justify-center q-mb-sm q-pb-xs">
+              <div class="col-xs-6 col-sm-5">
+                <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">2. Amount to
+                    Mint:</small><br /><small style="font-style:italic">from account '{{this.accountName}}'</small>
                 </div>
               </div>
+              <div class="col-xs-6 col-sm-6">
+                <label data-v-052b630f="" for="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5"
+                  class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
+                  <div class="q-field__inner relative-position col self-stretch">
+                    <div tabindex="-1" class="q-field__control relative-position row no-wrap">
+                      <div class="q-field__control-container col relative-position row no-wrap q-anchor--skip"><input
+                          v-model="submitData.quantity" tabindex="0" required="required"
+                          id="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" type="number"
+                          class="q-field__native q-placeholder">
+                        <q-btn :disabled="!submitData.from" class="max-btn" size="sm" unelevated no-caps
+                          color="secondary" @click="setMintMaxAmount()">Max
+                        </q-btn>
 
-
-              <div v-if="submitData.from === 'POINT'" class="row justify-center q-mb-md q-pb-xs">
-                <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available Points Balance:</small>
-                  </p>
-                </div>
-                <div class="col-xs-6 col-sm-6">
-                  <p class="q-mt-none q-mb-none text-primary text-bold">{{ user.pointBalance }}</p>
-                </div>
-              </div>
-
-              <div v-if="submitData.from === 'FREEBI'" class="row justify-center q-mb-md q-pb-xs">
-                <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available FREEBI Balance:</small>
-                  </p>
-                </div>
-                <div class="col-xs-6 col-sm-6">
-                  <p class="q-mt-none q-mb-none text-primary text-bold">{{user.freebiBalance}}</p>
-                </div>
-              </div>
-
-              <div class="row justify-center q-mb-sm q-pb-xs">
-                <div class="col-xs-6 col-sm-5">
-                  <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">2. Amount to
-                      Mint:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
-                </div>
-                <div class="col-xs-6 col-sm-6">
-                  <label data-v-052b630f="" for="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5"
-                    class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
-                    <div class="q-field__inner relative-position col self-stretch">
-                      <div tabindex="-1" class="q-field__control relative-position row no-wrap">
-                        <div class="q-field__control-container col relative-position row no-wrap q-anchor--skip"><input
-                            v-model="submitData.quantity" tabindex="0" required="required"
-                            id="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" type="number" class="q-field__native q-placeholder">
-                          <q-btn :disabled="!submitData.from" class="max-btn" size="sm" unelevated no-caps color="secondary" @click="setMintMaxAmount()">Max
-                          </q-btn>
-
-                        </div>
                       </div>
                     </div>
-                  </label>
+                  </div>
+                </label>
 
-                  <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
+                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
                       {{ stakeCurrency }} available to transfer</small></p>
                   <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
                       {{ currencyName }} available to transfer</small></p>-->
-                </div>
-              </div>
-              <div class="row justify-center q-mb-sm q-pb-xs" v-if="submitData.from !== 'AIRCLAIM ALLOWANCE'">
-                <div class="col-xs-6 col-sm-5">
-                  <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">3. Pay the Mint Fee with:</small>
-                  </div>
-                </div>
-                <div class="col-xs-6 col-sm-6">
-                  <q-select label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value required dense outlined v-model="submitData.pay" :options="mintFeeOptions" />
-
-                  <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
-                      {{ stakeCurrency }} available to transfer</small></p>
-                  <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
-                      {{ currencyName }} available to transfer</small></p>-->
-                </div>
-              </div>
-              <hr />
-
-              <div v-if="submitData.from && (submitData.pay || submitData.from ==='AIRCLAIM ALLOWANCE') && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
-
-                <div v-if="!this.user.hasNFT">
-                  <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
-                  <div class="row justify-center">
-                    <div class="col-xs-6 col-sm-5">
-                      <p class="q-mt-xs q-mb-none"><small class="text-bold">Total Mint Fee will be:</small>
-                      </p>
-                    </div>
-                    <div class="col-xs-6 col-sm-6" v-if="submitData.pay !== 'XUSDC'">
-                      <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo4Decimal }} {{submitData.pay}}</p>
-                    </div>
-                    <div class="col-xs-6 col-sm-6" v-if="submitData.pay === 'XUSDC'">
-                      <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance used:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{ mintFeeFreePointsUsed | roundTo4Decimal }} Points</p>
-                  </div>
-                </div>
-                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance balance to charge:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{ user.mffBalance   | roundTo4Decimal}} Points</p>
-                  </div>
-                </div>
-
-
-                <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
-
-
-                <div class="row justify-center" v-if="submitData.from !== 'FREEBI'">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">Points balance:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{(user.pointBalance - parseFloat(submitData.quantity)) | roundTo4Decimal }} Points</p>
-                  </div>
-                </div>
-
-                <div class="row justify-center" v-if="submitData.from === 'FREEBI'">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{(user.freebiBalance - parseFloat(submitData.quantity)) | roundTo4Decimal }} FREEBI</p>
-                  </div>
-                </div>
-
-
-                <div class="row justify-center" v-if="submitData.pay === 'XPR'">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">XPR balance:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XPRBalance - finalMintFeeFreeos) | roundTo4Decimal }} XPR</p>
-                  </div>
-                </div>
-
-                <div class="row justify-center" v-if="submitData.pay === 'XUSDC'">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">XUSDC balance:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XUSDCBalance - finalMintFeeFreeos) | roundTo6Decimal }} XUSDC</p>
-                  </div>
-                </div>
-
-
-                <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance balance:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.mffBalance - mintFeeFreePointsUsed) | roundTo4Decimal}} Points</p>
-                  </div>
-                </div>
-
-
-                <div class="row justify-center">
-                  <div class="col-xs-6 col-sm-5">
-                    <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEOS balance:</small>
-                    </p>
-                  </div>
-                  <div class="col-xs-6 col-sm-6">
-                    <p class="q-mt-xs q-mb-none text-bold" v-bind:class="{ 'text-negative': freeosBalance < 0 }" text-negative>{{freeosBalance | roundTo4Decimal}} FREEOS</p>
-                  </div>
-                </div>
-
-
-              </div>
-              <div class="text-negative text-center q-mt-md" v-if="showMintFeeError"><strong>You do not have enough to complete the transaction</strong></div>
-              <div style="align-items: center;" class="row justify-center q-mt-lg ">
-                <q-btn @click="mintSubmit()" class="full-width" :disabled="disableMintFeeButton" size="xl" unelevated no-caps color="primary">
-                  Mint FREEOS</q-btn>
               </div>
             </div>
-          </section>
+            <div class="row justify-center q-mb-sm q-pb-xs" v-if="submitData.from !== 'AIRCLAIM ALLOWANCE'">
+              <div class="col-xs-6 col-sm-5">
+                <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">3. Pay the Mint Fee with:</small>
+                </div>
+              </div>
+              <div class="col-xs-6 col-sm-6">
+                <q-select label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value
+                  required dense outlined v-model="submitData.pay" :options="mintFeeOptions" />
+
+                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
+                      {{ stakeCurrency }} available to transfer</small></p>
+                  <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
+                      {{ currencyName }} available to transfer</small></p>-->
+              </div>
+            </div>
+            <hr />
+
+            <div
+              v-if="submitData.from && (submitData.pay || submitData.from ==='AIRCLAIM ALLOWANCE') && submitData.quantity > 0 && submitData.quantity <= mintMaxAmount">
+
+              <div v-if="!this.user.hasNFT">
+                <div class="q-mt-md text-primary text-bold"><small>Transaction Mint Fee Charge:</small></div>
+                <div class="row justify-center">
+                  <div class="col-xs-6 col-sm-5">
+                    <p class="q-mt-xs q-mb-none"><small class="text-bold">Total Mint Fee will be:</small>
+                    </p>
+                  </div>
+                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay !== 'XUSDC'">
+                    <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo4Decimal }} {{submitData.pay}}
+                    </p>
+                  </div>
+                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay === 'XUSDC'">
+                    <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance used:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold">{{ mintFeeFreePointsUsed | roundTo4Decimal }} Points</p>
+                </div>
+              </div>
+              <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance balance to charge:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold">{{ user.mffBalance | roundTo4Decimal}} Points</p>
+                </div>
+              </div>
+
+
+              <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
+
+
+              <div class="row justify-center" v-if="submitData.from !== 'FREEBI'">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">Points balance:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold">{{(user.pointBalance - parseFloat(submitData.quantity)) |
+                  roundTo4Decimal }} Points</p>
+                </div>
+              </div>
+
+              <div class="row justify-center" v-if="submitData.from === 'FREEBI'">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold">{{(user.freebiBalance - parseFloat(submitData.quantity)) |
+                  roundTo4Decimal }} FREEBI</p>
+                </div>
+              </div>
+
+
+              <div class="row justify-center" v-if="submitData.pay === 'XPR'">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">XPR balance:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XPRBalance - finalMintFeeFreeos) |
+                  roundTo4Decimal }} XPR</p>
+                </div>
+              </div>
+
+              <div class="row justify-center" v-if="submitData.pay === 'XUSDC'">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">XUSDC balance:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XUSDCBalance - finalMintFeeFreeos) |
+                  roundTo6Decimal }} XUSDC</p>
+                </div>
+              </div>
+
+
+              <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance balance:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.mffBalance - mintFeeFreePointsUsed) |
+                  roundTo4Decimal}} Points</p>
+                </div>
+              </div>
+
+
+              <div class="row justify-center">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEOS balance:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                  <p class="q-mt-xs q-mb-none text-bold" v-bind:class="{ 'text-negative': freeosBalance < 0 }"
+                    text-negative>{{freeosBalance | roundTo4Decimal}} FREEOS</p>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="text-negative text-center q-mt-md" v-if="showMintFeeError"><strong>You do not have enough to
+                complete the transaction</strong></div>
+            <div style="align-items: center;" class="row justify-center q-mt-lg ">
+              <q-btn @click="mintSubmit()" class="full-width" :disabled="disableMintFeeButton" size="xl" unelevated
+                no-caps color="primary">
+                Mint FREEOS</q-btn>
+            </div>
+          </div>
+        </section>
       </section>
 
 
@@ -300,113 +334,127 @@ For more info <a target="_blank" title="Minting FREEOS" href="https://docs.freeo
 
       <!--POINT TO FREEBI-->
       <section v-if="!isMintTabSelected">
-      <p class="bg-primary text-h5 text-center text-white q-py-md">
-        Mint Points to FREEBI
-      </p>
-      <p class="q-py-md q-px-lg">FREEBI is our internal trading token within the community and isn't subject to a Mint
-        Fee. The FREEBI tokens exist as a way for participants to have a limited, but tradable, token that can be used
-        for Peer-to-Peer activities, while protecting the FREEOS token's circulating supply. For more info <a
-          href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1582" target="_blank">click
-          here.</a></p>
+        <p class="bg-primary text-h5 text-center text-white q-py-md">
+          Mint Points to FREEBI
+        </p>
+        <p class="q-py-md q-px-lg">FREEBI is our internal trading token within the community and isn't subject to a Mint
+          Fee. The FREEBI tokens exist as a way for participants to have a limited, but tradable, token that can be used
+          for Peer-to-Peer activities, while protecting the FREEOS token's circulating supply. For more info <a
+            href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1582" target="_blank">click
+            here.</a></p>
 
 
-      <section class="q-ma-md panel">
-        <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Your current balances:</div>
-        <div class="balance-list">
-          <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.pointBalance" /></div>
-            <div class="text-bold text-primary">POINTS</div>
-          </div>
-          <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freebiBalance" /></div>
-            <div class="text-bold text-primary">FREEBI</div>
-          </div>
-          <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
-            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freeosBalance" /></div>
-            <div class="text-bold text-primary">FREEOS</div>
-          </div>
-        </div>
-
-      </section>
-
-      <section class="q-ma-md">
-        <GetVerified message="You must be verified to mint FREEBI"></GetVerified>
-      </section>
-      
-
-      <section class="q-ma-md panel" v-if="isVerified">
-        <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Mint Your Points to FREEBI</div>
-        <div class="bg-info q-pa-md">
-          <div class="row justify-center q-mb-sm q-pb-xs">
-            <div class="col-xs-6 col-sm-5">
-              <p class="q-mt-sm q-mb-none"><small class="text-bold text-primary">Your Available Points Balance:</small>
-              </p>
+        <section class="q-ma-md panel">
+          <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Your current balances:</div>
+          <div class="balance-list">
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.pointBalance" />
+              </div>
+              <div class="text-bold text-primary">POINTS</div>
             </div>
-            <div class="col-xs-6 col-sm-5">
-              <p class="q-mt-sm q-mb-none text-primary text-bold">{{ user.pointBalance }}</p>
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.freebiBalance" />
+              </div>
+              <div class="text-bold text-primary">FREEBI</div>
+            </div>
+            <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+              <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
+                <AbbreviateNumber :value="user.freeosBalance" />
+              </div>
+              <div class="text-bold text-primary">FREEOS</div>
             </div>
           </div>
-          <div class="row justify-center q-mb-sm q-pb-xs">
-            <div class="col-xs-6 col-sm-5">
-              <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">Amount to Mint:</small><br/><small style="font-style:italic">from account '{{this.accountName}}'</small></div>
+
+        </section>
+
+        <section class="q-ma-md">
+          <GetVerified message="You must be verified to mint FREEBI"></GetVerified>
+        </section>
+
+
+        <section class="q-ma-md panel" v-if="isVerified">
+          <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Mint Your Points to FREEBI</div>
+          <div class="bg-info q-pa-md">
+            <div class="row justify-center q-mb-sm q-pb-xs">
+              <div class="col-xs-6 col-sm-5">
+                <p class="q-mt-sm q-mb-none"><small class="text-bold text-primary">Your Available Points
+                    Balance:</small>
+                </p>
+              </div>
+              <div class="col-xs-6 col-sm-5">
+                <p class="q-mt-sm q-mb-none text-primary text-bold">{{ user.pointBalance }}</p>
+              </div>
             </div>
-            <div class="col-xs-6 col-sm-5">
+            <div class="row justify-center q-mb-sm q-pb-xs">
+              <div class="col-xs-6 col-sm-5">
+                <div class="q-mt-xs" style="line-height:1;"><small class="text-bold">Amount to Mint:</small><br /><small
+                    style="font-style:italic">from account '{{this.accountName}}'</small></div>
+              </div>
+              <div class="col-xs-6 col-sm-5">
 
 
 
-              <label data-v-052b630f="" for="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5"
-                class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
-                <div class="q-field__inner relative-position col self-stretch">
-                  <div tabindex="-1" class="q-field__control relative-position row no-wrap">
-                    <div class="q-field__control-container col relative-position row no-wrap q-anchor--skip"><input
-                        v-model="sendAmount" tabindex="0" required="required"
-                        id="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" type="number" class="q-field__native q-placeholder">
-                      <q-btn class="max-btn" size="sm" unelevated no-caps color="secondary" @click="freebiMaxAmount()">Max
-                      </q-btn>
+                <label data-v-052b630f="" for="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5"
+                  class="q-field row no-wrap items-start q-input q-field--outlined q-field--dense q-validation-component">
+                  <div class="q-field__inner relative-position col self-stretch">
+                    <div tabindex="-1" class="q-field__control relative-position row no-wrap">
+                      <div class="q-field__control-container col relative-position row no-wrap q-anchor--skip"><input
+                          v-model="sendAmount" tabindex="0" required="required"
+                          id="f_8b8778e2-d74d-4d9f-8e69-cd43d21fcac5" type="number"
+                          class="q-field__native q-placeholder">
+                        <q-btn class="max-btn" size="sm" unelevated no-caps color="secondary"
+                          @click="freebiMaxAmount()">Max
+                        </q-btn>
 
+                      </div>
                     </div>
                   </div>
-                </div>
-              </label>
+                </label>
 
-              <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
+                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
                   {{ stakeCurrency }} available to transfer</small></p>
               <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
                   {{ currencyName }} available to transfer</small></p>-->
+              </div>
+            </div>
+            <hr />
+            <div v-if="sendAmount">
+              <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
+
+              <div class="row justify-center">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">POINTS balance will be:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.pointBalance) - parseFloat(sendAmount)) |
+                  roundTo4Decimal}}</p>
+                </div>
+              </div>
+
+
+              <div class="row justify-center">
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance will be:</small>
+                  </p>
+                </div>
+                <div class="col-xs-6 col-sm-5">
+                  <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.freebiBalance) + parseFloat(sendAmount)) |
+                  roundTo4Decimal}}</p>
+                </div>
+              </div>
+            </div>
+            <div style="align-items: center;" class="row justify-center q-mt-lg ">
+              <q-btn @click="submit()"
+                :disabled="!(parseFloat(sendAmount) > 0) || parseFloat(sendAmount) > parseFloat(user.pointBalance)"
+                class="full-width" size="xl" unelevated no-caps :disable="false" color="primary">
+                Mint FREEBI</q-btn>
             </div>
           </div>
-          <hr />
-          <div v-if="sendAmount">
-            <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
-
-                  <div class="row justify-center">
-                    <div class="col-xs-6 col-sm-5">
-                      <p class="q-mt-xs q-mb-none"><small class="text-bold">POINTS balance will be:</small>
-                      </p>
-                    </div>
-                    <div class="col-xs-6 col-sm-5">
-                      <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.pointBalance) - parseFloat(sendAmount)) | roundTo4Decimal}}</p>
-                    </div>
-                  </div>
-
-
-                  <div class="row justify-center">
-                    <div class="col-xs-6 col-sm-5">
-                      <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance will be:</small>
-                      </p>
-                    </div>
-                    <div class="col-xs-6 col-sm-5">
-                      <p class="q-mt-xs q-mb-none text-bold">{{(parseFloat(user.freebiBalance) + parseFloat(sendAmount)) | roundTo4Decimal}}</p>
-                    </div>
-                  </div>
-        </div>
-          <div style="align-items: center;" class="row justify-center q-mt-lg ">
-            <q-btn @click="submit()" :disabled="!(parseFloat(sendAmount) > 0) || parseFloat(sendAmount) > parseFloat(user.pointBalance)" class="full-width" size="xl" unelevated no-caps :disable="false" color="primary">
-              Mint FREEBI</q-btn>
-          </div>
-        </div>
+        </section>
       </section>
-    </section>
 
     </div>
 
@@ -439,7 +487,7 @@ export default {
     AbbreviateNumber,
     GetVerified,
     ThreeJS,
-},
+  },
   data() {
     return {
       isMintTabSelected: true,
@@ -464,31 +512,31 @@ export default {
 
       return qty;
     },
-    showMintFeeError(){
+    showMintFeeError() {
       //freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)
       let isLowerThanMintFee = false;
-      if(this.submitData.pay === 'FREEOS'){
-        if(this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
-      }else if(this.submitData.pay === 'XPR'){
-        if(this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
-      }else if(this.submitData.pay === 'XUSDC'){
-        if(this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
+      if (this.submitData.pay === 'FREEOS') {
+        if (this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
+      } else if (this.submitData.pay === 'XPR') {
+        if (this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
+      } else if (this.submitData.pay === 'XUSDC') {
+        if (this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
       }
 
       return this.submitData.from && this.submitData.quantity > 0 && (this.freeosBalance < 0 || this.submitData.quantity > this.mintMaxAmount) || isLowerThanMintFee
     },
-    disableMintFeeButton(){
+    disableMintFeeButton() {
       //freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)
       let isLowerThanMintFee = false;
-      if(this.submitData.pay === 'FREEOS'){
-        if(this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
-      }else if(this.submitData.pay === 'XPR'){
-        if(this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
-      }else if(this.submitData.pay === 'XUSDC'){
-        if(this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
+      if (this.submitData.pay === 'FREEOS') {
+        if (this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
+      } else if (this.submitData.pay === 'XPR') {
+        if (this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
+      } else if (this.submitData.pay === 'XUSDC') {
+        if (this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
       }
 
-      return this.freeosBalance < 0 || !this.submitData.from || (!this.submitData.pay && this.submitData.from !=='AIRCLAIM ALLOWANCE') || !(this.submitData.quantity > 0 && this.submitData.quantity <= this.mintMaxAmount) || isLowerThanMintFee
+      return this.freeosBalance < 0 || !this.submitData.from || (!this.submitData.pay && this.submitData.from !== 'AIRCLAIM ALLOWANCE') || !(this.submitData.quantity > 0 && this.submitData.quantity <= this.mintMaxAmount) || isLowerThanMintFee
     },
 
     mintFeeInFreeos() {//mintfee_in_freeos
@@ -501,77 +549,77 @@ export default {
       return this.mintfeePayable * (parseFloat(this.rewardsPrevious['mint_fee_percent_xusdc']) / 100);
     },
     finalMintFeeFreeos() {//final_mintfee_in_freeos & minfee
-        if(this.submitData.pay === 'FREEOS'){
-            if(this.mintFeeInFreeos < this.mintFeeMin){
-              return this.mintFeeMin;
-            }else{
-              return this.mintFeeInFreeos;
-            }
-        }else if(this.submitData.pay === 'XPR'){
+      if (this.submitData.pay === 'FREEOS') {
+        if (this.mintFeeInFreeos < this.mintFeeMin) {
+          return this.mintFeeMin;
+        } else {
+          return this.mintFeeInFreeos;
+        }
+      } else if (this.submitData.pay === 'XPR') {
 
-            var calcXPR =  this.mintFeeInXPR * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) );
-            if(calcXPR > this.xprMinMintfee){
-              return calcXPR;
-            }else{
-              return  this.xprMinMintfee;
-            }
-
-
-
-        }else if(this.submitData.pay === 'XUSDC'){
-            var calcXUSDC =  this.mintFeeInXUSDC * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) );
-            if(calcXUSDC > this.usdMinMintfee){
-              return calcXUSDC;
-            }else{
-              return  this.usdMinMintfee;
-            }
+        var calcXPR = this.mintFeeInXPR * (parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']));
+        if (calcXPR > this.xprMinMintfee) {
+          return calcXPR;
+        } else {
+          return this.xprMinMintfee;
         }
 
-        return 0;
+
+
+      } else if (this.submitData.pay === 'XUSDC') {
+        var calcXUSDC = this.mintFeeInXUSDC * (parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']));
+        if (calcXUSDC > this.usdMinMintfee) {
+          return calcXUSDC;
+        } else {
+          return this.usdMinMintfee;
+        }
+      }
+
+      return 0;
     },
     xprMinMintfee() {
       var result = 0;
-      if(this.mintFeeMin && this.xprContract && this.freeosContract['usdrate']){
-        result = this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']) )
+      if (this.mintFeeMin && this.xprContract && this.freeosContract['usdrate']) {
+        result = this.mintFeeMin * (parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']))
       }
       return result;
     },
     usdMinMintfee() {
       var result = 0;
-      if(this.mintFeeMin && this.usdContract && this.freeosContract['usdrate']){
-        result = this.mintFeeMin * ( parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']) )
+      if (this.mintFeeMin && this.usdContract && this.freeosContract['usdrate']) {
+        result = this.mintFeeMin * (parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']))
       }
       return result;
     },
     mintFeeFreePointsUsed() {
       const qty = parseFloat(this.submitData.quantity);
-      if(this.submitData.from === 'AIRCLAIM ALLOWANCE'){
+      if (this.submitData.from === 'AIRCLAIM ALLOWANCE') {
         return qty;
-      }else{
+      } else {
         return 0;
       }
     },
     mintMaxAmount() {
       if (this.submitData.from === 'POINT') {
         return this.user.pointBalance
-      }else if(this.submitData.from === 'FREEBI'){
+      } else if (this.submitData.from === 'FREEBI') {
         return this.user.freebiBalance
-      }else if(this.submitData.from === 'AIRCLAIM ALLOWANCE'){
-        if(this.user.pointBalance > this.user.mffBalance){
+      } else if (this.submitData.from === 'AIRCLAIM ALLOWANCE') {
+        if (this.user.pointBalance > this.user.mffBalance) {
           return this.user.mffBalance;
-        }else{
+        } else {
           return this.user.pointBalance; //Return pointBalance as Max if less then MFF balance
         }
-      }else{
+      } else {
         return 0;
       }
     },
     freeosBalance() {
       const qty = parseFloat(this.submitData.quantity);
 
-      if(this.submitData.pay === 'FREEOS'){
+      if (this.submitData.pay === 'FREEOS') {
         return this.user.freeosBalance + qty - this.finalMintFeeFreeos;
-      }else{
+      } else {
         return this.user.freeosBalance + qty;
       }
 
@@ -586,8 +634,8 @@ export default {
       'eligibleToClaim',
       'nextActivity',
       'accountName',
-      'mintFeeMin', 
-      'rewardsPrevious', 
+      'mintFeeMin',
+      'rewardsPrevious',
       'dparametersTable',
       'xprContract',
       'usdContract',
@@ -595,12 +643,12 @@ export default {
     ])
   },
   methods: {
-    ...mapActions('freeos', ['mintFreeBI','mintFreeos']),
-    setMintMaxAmount(){
-        this.submitData.quantity = this.mintMaxAmount;
+    ...mapActions('freeos', ['mintFreeBI', 'mintFreeos']),
+    setMintMaxAmount() {
+      this.submitData.quantity = this.mintMaxAmount;
     },
-    checkIfDisabled(val){
-      if(val){
+    checkIfDisabled(val) {
+      if (val) {
         return false;
       }
       return true
@@ -628,65 +676,65 @@ export default {
 
       var transactionArray = [];
 
-      if(this.submitData.from === 'FREEBI'){
-          //Transfer FREEBI
-            var dataToSubmit = {};
-            dataToSubmit.from = this.accountName;
-            dataToSubmit.quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`
-            dataToSubmit.memo = 'freeos mint credit';
-            dataToSubmit.to = process.env.FREEOSGOV_CONTRACT;
-            dataToSubmit.contract = process.env.FREEBITOKENS_CONTRACT;
+      if (this.submitData.from === 'FREEBI') {
+        //Transfer FREEBI
+        var dataToSubmit = {};
+        dataToSubmit.from = this.accountName;
+        dataToSubmit.quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`
+        dataToSubmit.memo = 'freeos mint credit';
+        dataToSubmit.to = process.env.FREEOSGOV_CONTRACT;
+        dataToSubmit.contract = process.env.FREEBITOKENS_CONTRACT;
 
 
-            transactionArray.push(dataToSubmit);
-            //var result = await this.transfer(dataToSubmit, accountContract);
+        transactionArray.push(dataToSubmit);
+        //var result = await this.transfer(dataToSubmit, accountContract);
       }
       console.log('finalMintFeeFreeo', this.finalMintFeeFreeos);
-      if(this.finalMintFeeFreeos){
-            //pay Mint fee
-            var dataToSubmit = {};
-            dataToSubmit.from = this.accountName;
+      if (this.finalMintFeeFreeos) {
+        //pay Mint fee
+        var dataToSubmit = {};
+        dataToSubmit.from = this.accountName;
 
-            dataToSubmit.memo = 'freeos mint fee';
-            //dataToSubmit.memo =  this.mintFeeInFreeos + " " + this.submitData.pay;
-            dataToSubmit.to = process.env.FREEOSGOV_CONTRACT;
-
-
-            console.log('mintFeeInFreeos', this.mintFeeInFreeos)
+        dataToSubmit.memo = 'freeos mint fee';
+        //dataToSubmit.memo =  this.mintFeeInFreeos + " " + this.submitData.pay;
+        dataToSubmit.to = process.env.FREEOSGOV_CONTRACT;
 
 
-            if(this.submitData.pay === 'FREEOS'){
-              dataToSubmit.contract = this.freeosContract['contract'];
-              dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
-            }else if(this.submitData.pay === 'XPR'){
-              dataToSubmit.contract  = this.xprContract['contract'];
-              dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
-            }else if(this.submitData.pay === 'XUSDC'){
-              dataToSubmit.contract  = this.usdContract['contract'];
-              dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(6)} ${this.submitData.pay}`;
-            }
-            transactionArray.push(dataToSubmit);
-            //var result = await this.transfer(dataToSubmit, accountContract);
+        console.log('mintFeeInFreeos', this.mintFeeInFreeos)
+
+
+        if (this.submitData.pay === 'FREEOS') {
+          dataToSubmit.contract = this.freeosContract['contract'];
+          dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
+        } else if (this.submitData.pay === 'XPR') {
+          dataToSubmit.contract = this.xprContract['contract'];
+          dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
+        } else if (this.submitData.pay === 'XUSDC') {
+          dataToSubmit.contract = this.usdContract['contract'];
+          dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(6)} ${this.submitData.pay}`;
+        }
+        transactionArray.push(dataToSubmit);
+        //var result = await this.transfer(dataToSubmit, accountContract);
       }
 
       console.log()
       var dataToSubmit = {};
       dataToSubmit.user = this.accountName;
 
-      if(this.submitData.from === 'AIRCLAIM ALLOWANCE'){
+      if (this.submitData.from === 'AIRCLAIM ALLOWANCE') {
         dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} POINT`;
-      }else{
+      } else {
         dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
       }
 
 
       //if(this.submitData.pay === 'FREEOS' || this.submitData.from === 'AIRCLAIM ALLOWANCE')
       dataToSubmit.mint_fee_currency = '4,FREEOS'; // + this.submitData.pay;
-      
-      if(this.submitData.pay === 'XPR'){
-          dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
-      }else if(this.submitData.pay === 'XUSDC'){
-          dataToSubmit.mint_fee_currency = '6,' + this.submitData.pay;
+
+      if (this.submitData.pay === 'XPR') {
+        dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
+      } else if (this.submitData.pay === 'XUSDC') {
+        dataToSubmit.mint_fee_currency = '6,' + this.submitData.pay;
       }
 
       dataToSubmit.use_airclaim_points = this.submitData.from === 'AIRCLAIM ALLOWANCE' ? true : false;
@@ -704,9 +752,9 @@ export default {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "You minted", value: qty, currency: 'FREEOS'
         });
-        setTimeout(function(){
+        setTimeout(function () {
           t.resetForm();
-        },8000)
+        }, 8000)
       }
 
       console.log('resultR', result)
@@ -722,46 +770,46 @@ export default {
       }
     }
   },
-  created(){
-      this.balOptions = [
-        {
-          label: 'Points',
-          value: 'POINT',
-          disabled: this.checkIfDisabled(this.user.pointBalance)
-        },
-        {
-          label: 'FREEBI',
-          value: 'FREEBI',
-          disabled: this.checkIfDisabled(this.user.freebiBalance)
-        }
-      ]
-      if(this.user.mffBalance) this.balOptions.unshift({label: 'AirClaim Allowance <small>(No mint fee)</small>', value: 'AIRCLAIM ALLOWANCE', disabled: false})
-
-      this.mintFeeOptions = [
-        {
-          label: 'FREEOS <small>('+this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent'])+'%)</small>',
-          value: 'FREEOS',
-          disabled: this.checkIfDisabled(this.user.freeosBalance)
-        },
-        {
-          label: 'XPR <small>('+this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent_xpr'])+'%)</small>',
-          value: 'XPR',
-          disabled: this.checkIfDisabled(this.user.XPRBalance)
-        },
-        {
-          label: 'XUSDC <small>('+this.$options.filters.roundTo6Decimal(this.rewardsPrevious['mint_fee_percent_xusdc'])+'%)</small>',
-          value: 'XUSDC',
-          disabled: this.checkIfDisabled(this.user.XUSDCBalance)
-        }
-      ]
-      if(this.user.hasNFT){
-        this.mintFeeOptions =[{
-          label: 'NFT <small>(Zero Mint Fee)</small>',
-          value: 'NFT',
-          disabled: this.checkIfDisabled(this.user.hasNFT)
-        }];
-        this.submitData.pay = 'NFT'
+  created() {
+    this.balOptions = [
+      {
+        label: 'Points',
+        value: 'POINT',
+        disabled: this.checkIfDisabled(this.user.pointBalance)
+      },
+      {
+        label: 'FREEBI',
+        value: 'FREEBI',
+        disabled: this.checkIfDisabled(this.user.freebiBalance)
       }
+    ]
+    if (this.user.mffBalance) this.balOptions.unshift({ label: 'AirClaim Allowance <small>(No mint fee)</small>', value: 'AIRCLAIM ALLOWANCE', disabled: false })
+
+    this.mintFeeOptions = [
+      {
+        label: 'FREEOS <small>(' + this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent']) + '%)</small>',
+        value: 'FREEOS',
+        disabled: this.checkIfDisabled(this.user.freeosBalance)
+      },
+      {
+        label: 'XPR <small>(' + this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent_xpr']) + '%)</small>',
+        value: 'XPR',
+        disabled: this.checkIfDisabled(this.user.XPRBalance)
+      },
+      {
+        label: 'XUSDC <small>(' + this.$options.filters.roundTo6Decimal(this.rewardsPrevious['mint_fee_percent_xusdc']) + '%)</small>',
+        value: 'XUSDC',
+        disabled: this.checkIfDisabled(this.user.XUSDCBalance)
+      }
+    ]
+    if (this.user.hasNFT) {
+      this.mintFeeOptions = [{
+        label: 'NFT <small>(Zero Mint Fee)</small>',
+        value: 'NFT',
+        disabled: this.checkIfDisabled(this.user.hasNFT)
+      }];
+      this.submitData.pay = 'NFT'
+    }
   }
 
 }

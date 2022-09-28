@@ -15,7 +15,7 @@ var SimShader2 = {
         "uTime": { type: "f", value: 0.0 },
         "uInputPos": { type: "v3v", value: [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()] },
         "uInputPosAccel": { type: "v4", value: new THREE.Vector4(0, 0, 0, 0) },
-        "uInputAccel": { type: "f", value: 1.5 },
+        "uInputAccel": { type: "f", value: 1.3 },
         "uShapeAccel": { type: "f", value: 2.7 },
     },
 
@@ -26,7 +26,7 @@ var SimShader2 = {
     )
 
 };
-if (Utils.isMobile) SimShader.defines.MULTIPLE_INPUT = "";
+if (Utils.isMobile) SimShader2.defines.MULTIPLE_INPUT = "";
 
 var BasicSimShader = {
 

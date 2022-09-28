@@ -5,7 +5,7 @@ const routes = [
     children: [
       // { path: '', component: () => import('pages/Index.vue') }
       // CHANGE BACK TO INDEX
-      { path: '', component: () => import('layouts/MainLayout.vue') }
+      { path: '', component: () => import('pages/Convert.vue') }
     ]
   },
   {

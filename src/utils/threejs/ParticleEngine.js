@@ -3,7 +3,6 @@ import * as THREE from 'three'
 import SimInitShader from './SimInitShader'
 import BasicParticleShader from './ParticleShader.js'
 
-import Stats from 'stats-js'
 
 import './OrbitControls'
 
@@ -40,6 +39,7 @@ var ParticleEngine = function (params) {
     _mouse = params.mouse
     _updateLoop = params.updateLoop
     _controls = params.controls
+    _stats = params.stats
 
 
     // EVENTS
@@ -56,8 +56,7 @@ var ParticleEngine = function (params) {
     var _init = function () {
         window.addEventListener("resize", _onWindowResize, false);
 
-        _stats = new Stats();
-        document.body.appendChild(_stats.domElement);
+
 
 
 
@@ -110,7 +109,7 @@ var ParticleEngine = function (params) {
 
     this.update = function (dt, t) {
         _sim.update(dt, t);
-        _stats.update();
+        // _stats.update();
     };
 
     this.stop = function () {

@@ -1,26 +1,28 @@
 <template>
-<div class="intro-info text-center q-pa-sm">
-    <div class="text-h4 text-weight-medium q-mb-none">Welcome to the</div>
-    <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos Governance App</div>
+    <div class="intro-info text-center q-pa-sm">
+        <div class="text-h4 text-weight-medium q-mb-none">Welcome to the</div>
+        <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos Governance App</div>
 
-    <div v-if="!connecting">
-        <div class="text-weight-regular">
-            <div class="text-h5 q-mb-md q-mt-lg">
-                Access the Freeos Economic System here:
+        <div v-if="!connecting">
+            <div class="text-weight-regular">
+                <div class="text-h5 q-mb-md q-mt-lg">
+                    Access the Freeos Economic System here:
+                </div>
+            </div>
+            <div class="q-mt-md q-mb-lg">
+                <q-btn style="max-width:350px;" class="full-width" unelevated no-caps size="xl" outline color="primary"
+                    @click="connectWallet('anchor')">Connect Wallet</q-btn>
+            </div>
+            <div class="text-h6 q-mt-md text-weight-medium q-mb-none">For more info visit <a target="_blank"
+                    href="https://freeos.io/">freeos.io</a></div>
+            <div class="q-mt-lg" style="">
+                <img src="../assets/join-screen-image.svg" alt="">
             </div>
         </div>
-        <div class="q-mt-md q-mb-lg">
-            <q-btn style="max-width:350px;" class="full-width" unelevated no-caps size="xl" outline color="primary" @click="connectWallet('anchor')">Connect Wallet</q-btn>
-        </div>
-        <div class="text-h6 q-mt-md text-weight-medium q-mb-none">For more info visit <a target="_blank" href="https://freeos.io/">freeos.io</a></div>
-        <div class="q-mt-lg" style="">
-            <img src="../assets/join-screen-image.svg" alt="">
-        </div>
-    </div>
 
-    <Loading v-if="connecting && !isAuthenticated" />
+        <Loading v-if="connecting && !isAuthenticated" />
 
-   <!-- <div v-if="airclaimStatus === 'Running'">
+        <!-- <div v-if="airclaimStatus === 'Running'">
         <div class="text-h4 text-weight-medium q-mb-none">Welcome to the</div>
         <div class="text-h3 text-weight-medium text-primary q-mb-md">Freeos Governance App</div>
 
@@ -57,7 +59,7 @@
                 <h4 class="text-white">The AirClaim is unavailable at this time, please try later </h4>
             </div>
     </div>-->
-</div>
+    </div>
 
 </template>
 
@@ -77,7 +79,7 @@ export default {
         Loading
     },
     computed: {
-        ...mapGetters('freeos', ['isFreeosEnabled', 'isAuthenticated', 'currentIteration', 'nextIteration','airclaimStatus']),
+        ...mapGetters('freeos', ['isFreeosEnabled', 'isAuthenticated', 'currentIteration', 'nextIteration', 'airclaimStatus']),
         ...mapGetters('account', ['connecting'])
     },
     methods: {
@@ -109,9 +111,10 @@ export default {
 </script>
 
 <style>
-body.index{
+body.index {
     background-color: #d5f2ff
 }
+
 .q-focus-helper {
     display: none;
 }

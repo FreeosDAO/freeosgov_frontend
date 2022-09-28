@@ -31,6 +31,7 @@ import LeapManager from '../utils/threejs/LeapManager.js'
 
 
 import Utils from 'src/utils/threejs/Utils'
+import Stats from 'stats-js'
 
 import 'src/utils/threejs/mousetrap'
 
@@ -39,8 +40,8 @@ var _params = {
     size: 170,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0,119,70)'),
-    color2: new THREE.Color('rgb(1,132,68)'),
+    color1: new THREE.Color('rgb(0,112,160)'),
+    color2: new THREE.Color('rgb(1,116,160)'),
     renderer: null,
     camera: null,
     scene: null,
@@ -51,8 +52,8 @@ var _params2 = {
     size: 170,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(98,80,206)'),
-    color2: new THREE.Color('rgb(77,77,173)'),
+    color1: new THREE.Color('rgb(0, 161, 237)'),
+    color2: new THREE.Color('rgb(0, 161, 237)'),
     renderer: null,
     camera: null,
     scene: null,
@@ -60,11 +61,11 @@ var _params2 = {
 };
 
 var _params3 = {
-    size: 100,
+    size: 170,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0,81,96)'),
-    color2: new THREE.Color('rgb(0,100,114)'),
+    color1: new THREE.Color('rgb(84,160,190)'),
+    color2: new THREE.Color('rgb(88,160,190)'),
     renderer: null,
     camera: null,
     scene: null,
@@ -145,6 +146,7 @@ export default {
             _controls: null,
             mouse: null,
             raycaster: null,
+            _stats: null,
             _guiFields: {}
         }
     },
@@ -183,13 +185,14 @@ export default {
             for (var j = 0; j < paramsList.length; j++) {
                 var _simMat = paramsList[j].simMat;
                 for (var mId = 0; mId < mIdMax; mId++) {
+
                     var ms = this.mouse.getMouse(mId);
                     if (ms.buttons[0] || (mId === 0 && ms.buttons[2])) {
                         this.raycaster.setFromCamera(ms.coords, this.camera);
 
                         // from target point to camera
                         var pos = new THREE.Vector3().copy(this._controls.target)
-                        pos.y += j / 2 + 0.5 - 2/2
+                        pos.y += j / 2 + 0.5 - 2 / 2
 
                         // update depending on location y
                         var nor = pos.clone().sub(this.camera.position).normalize();
@@ -201,9 +204,10 @@ export default {
                         var point = new THREE.Vector3(0, 0, 0)
                         this.raycaster.ray.intersectPlane(plane, point);
                         // update point depending on location y
-                        point.y -= j / 2 + 0.5 - 2/2
+                        point.y -= j / 2 + 0.5 - 2 / 2
                         _simMat.uniforms.uInputPos.value[mId].copy(point);
                         _simMat.uniforms.uInputPosAccel.value.setComponent(mId, ms.buttons[0] ? 1.0 : -2.0);
+
                     }
                     else {
                         _simMat.uniforms.uInputPosAccel.value.setComponent(mId, 0);
@@ -229,7 +233,7 @@ export default {
             this._leapUpdate();
         },
         _onFrameUpdate(dt, t) {
-            // _stats.begin();
+            this._stats.begin();
 
             this._leapUpdate();
 
@@ -241,7 +245,7 @@ export default {
             this.renderer.update(dt);
             this._leapMan.render();
 
-            // _stats.end();
+            this._stats.end();
         },
 
         _onFixedUpdate(dt, t) {
@@ -283,7 +287,8 @@ export default {
             this._controls.autoRotateSpeed = 1.0;
             this._controls.noPan = true;
             this._controls.enabled = false;  // disable user input
-
+            this._stats = new Stats();
+            // document.body.appendChild(this._stats.domElement);
 
             // for all params
             for (var i = 0; i < paramsList.length; i++) {
@@ -294,6 +299,7 @@ export default {
                 params.mouse = this.mouse
                 params.updateLoop = _updateLoop
                 params.controls = this._controls
+                params.stats = this._stats
                 var engine = new ParticleEngine(params);
                 engineList.push(engine);
                 var uvAnim = new UVMapAnimator(engine.renderer.getRenderer(), params.size)
@@ -320,13 +326,13 @@ export default {
                 "colors": [
                     {
                         "color1": [_params.drawMat.uniforms.uColor1.value.x * 255, _params.drawMat.uniforms.uColor1.value.y * 255, _params.drawMat.uniforms.uColor1.value.z * 255],
-                "color2": [_params.drawMat.uniforms.uColor2.value.x * 255, _params.drawMat.uniforms.uColor2.value.y * 255, _params.drawMat.uniforms.uColor2.value.z * 255],
+                        "color2": [_params.drawMat.uniforms.uColor2.value.x * 255, _params.drawMat.uniforms.uColor2.value.y * 255, _params.drawMat.uniforms.uColor2.value.z * 255],
                     }, {
                         "color1": [_params2.drawMat.uniforms.uColor1.value.x * 255, _params2.drawMat.uniforms.uColor1.value.y * 255, _params2.drawMat.uniforms.uColor1.value.z * 255],
-                "color2": [_params2.drawMat.uniforms.uColor2.value.x * 255, _params2.drawMat.uniforms.uColor2.value.y * 255, _params2.drawMat.uniforms.uColor2.value.z * 255],
+                        "color2": [_params2.drawMat.uniforms.uColor2.value.x * 255, _params2.drawMat.uniforms.uColor2.value.y * 255, _params2.drawMat.uniforms.uColor2.value.z * 255],
                     }, {
                         "color1": [_params3.drawMat.uniforms.uColor1.value.x * 255, _params3.drawMat.uniforms.uColor1.value.y * 255, _params3.drawMat.uniforms.uColor1.value.z * 255],
-                "color2": [_params3.drawMat.uniforms.uColor2.value.x * 255, _params3.drawMat.uniforms.uColor2.value.y * 255, _params3.drawMat.uniforms.uColor2.value.z * 255],
+                        "color2": [_params3.drawMat.uniforms.uColor2.value.x * 255, _params3.drawMat.uniforms.uColor2.value.y * 255, _params3.drawMat.uniforms.uColor2.value.z * 255],
                     },
                 ],
                 "alpha": _params.drawMat.uniforms.uAlpha.value,
@@ -401,13 +407,13 @@ export default {
                 });
 
                 currentEngineFolder.add(this._guiFields, "user gravity", 0, 10)
-                .onChange(function (value) {
-                    paramsList[parseInt(currentEngineFolder.name)].simMat.uniforms.uInputAccel.value = value;
-                });
+                    .onChange(function (value) {
+                        paramsList[parseInt(currentEngineFolder.name)].simMat.uniforms.uInputAccel.value = value;
+                    });
                 currentEngineFolder.add(this._guiFields, "shape gravity", 0, 10)
-                .onChange(function (value) {
-                    paramsList[parseInt(currentEngineFolder.name)].simMat.uniforms.uShapeAccel.value = value;
-                });
+                    .onChange(function (value) {
+                        paramsList[parseInt(currentEngineFolder.name)].simMat.uniforms.uShapeAccel.value = value;
+                    });
             }
 
 
@@ -424,7 +430,7 @@ export default {
             //     _params.drawMat.uniforms.uColor2.value.z = value[2] / 255.0;
             // });
 
-          
+
 
             var fControls = this._gui.addFolder("Controls");
             var _ = this
@@ -556,7 +562,7 @@ export default {
 
         initThree() {
             // this.loadMeshes();
-         
+
 
 
             for (var i = 0; i < paramsList.length; i++) {

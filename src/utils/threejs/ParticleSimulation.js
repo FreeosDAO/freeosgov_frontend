@@ -45,7 +45,7 @@ var ParticleSimulation = function (renderer, size, params) {
             renderer,
             _simMat,
             _initMat,
-            _size, 
+            _size,
             params.index
         );
 
