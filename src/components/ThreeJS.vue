@@ -186,7 +186,9 @@ export default {
                 var _simMat = paramsList[j].simMat;
                 for (var mId = 0; mId < mIdMax; mId++) {
 
+
                     var ms = this.mouse.getMouse(mId);
+
                     if (ms.buttons[0] || (mId === 0 && ms.buttons[2])) {
                         this.raycaster.setFromCamera(ms.coords, this.camera);
 

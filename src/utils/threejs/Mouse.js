@@ -66,20 +66,21 @@ var Mouse = function (dom) {
     // TOUCH
 
     var _onTouchMove = function (e) {
-        console.log('moving');
         var touches = e.changedTouches;
         for (var i = 0; i < touches.length; i++) {
-            _mouseUpdate(touches[i], touches[i].identifier);
+            _mouseUpdate(touches[i], 0);
 
         }
         e.preventDefault();
     };
 
     var _onTouchDown = function (e) {
-        var touches = e.changedTouches;
+        var touches = e.touches;
+        console.log(touches[0].identifier);
         for (var i = 0; i < touches.length; i++) {
-            _mouseUpdate(touches[i], touches[i].identifier);
-            _this.getMouse(touches[i].identifier).buttons[0] = true;
+            _mouseUpdate(touches[i], 0);
+            _this.getMouse(0).buttons[0] = true;
+            console.log("touch down", touches[i].identifier);
         }
         e.preventDefault();
     };
@@ -87,8 +88,8 @@ var Mouse = function (dom) {
     var _onTouchUp = function (e) {
         var touches = e.changedTouches;
         for (var i = 0; i < touches.length; i++) {
-            _mouseUpdate(touches[i], touches[i].identifier);
-            _this.getMouse(touches[i].identifier).buttons[0] = false;
+            _mouseUpdate(touches[i], 0);
+            _this.getMouse(0).buttons[0] = false;
         }
         e.preventDefault();
     };
