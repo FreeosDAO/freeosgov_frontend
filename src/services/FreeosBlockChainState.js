@@ -236,6 +236,10 @@ export class FreeosBlockChainState extends EventEmitter {
       output['surveyCompleted'] = false;
       output['ratifyCompleted'] = false;
       const svrsTable = await this.getUserRecord(process.env.FREEOSGOV_CONTRACT, 'svrs', {limit: 1});
+
+      console.log('iterations.current', iterations.current)
+
+      console.log('this.systemRow.init', this.systemRow.iteration)
       for (const item in svrsTable) {
         if(svrsTable[item]===iterations.current){
           if(item.indexOf("vote") >= 0) output['voteCompleted'] = true;
@@ -753,14 +757,9 @@ export class FreeosBlockChainState extends EventEmitter {
   getCurrentAndNextIteration() {
 
     // Gather vars
-    let init = new Date(this.systemRow.init);
-    var date = new Date(); //Current timestamp
-    date = date.toUTCString(); //Convert to UTC/GMT
-    date = new Date(date); //will convert to present timestamp offset
-    var now = (new Date().getTime()) + (date.getTimezoneOffset() * 60 * 1000);  //GET UTC TimeZone Offset and add to Current Local Timestamp
+    let init = new Date(this.systemRow.init + "Z");
+    var now = new Date().getTime();  //GET UTC TimeZone Offset and add to Current Local Timestamp
 
-
-    //let now = new Date(new Date().toUTCString()).getTime()
     let iterationsec = parseInt(this.getParameterFromTable('iterationsec', this.parametersTable, 3600),10);
     let surveystart = parseInt(this.getParameterFromTable('surveystart', this.parametersTable, 3600),10);
     let surveyend = parseInt(this.getParameterFromTable('surveyend', this.parametersTable, 3600),10);
@@ -774,11 +773,9 @@ export class FreeosBlockChainState extends EventEmitter {
     // Get current iteration
     let currentIteration = Math.floor( (elapsed_seconds / iterationsec) + 1 )
     let nextIteration = currentIteration + 1
-   
-    
+
     let elapsedFromIteration = elapsed_seconds % iterationsec;
     let nextClaimIn = iterationsec - elapsedFromIteration
-
 
     // Set active period
     let surveyPeriodActive = elapsedFromIteration >= surveystart && elapsedFromIteration <= surveyend ? true : false;
