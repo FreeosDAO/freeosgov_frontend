@@ -47,7 +47,6 @@
     </q-drawer>
     <CompleteDialog ref="complete" />
     <q-page-container class="page-container page-container-main">
-      <ThreeJS></ThreeJS>
 
 
       <div class="flex justify-center text-center"
@@ -92,7 +91,6 @@ import Loading from 'src/components/Loading.vue'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 
 import * as THREE from 'three'
-import ThreeJS from 'src/components/ThreeJS.vue'
 
 
 
@@ -167,8 +165,7 @@ export default {
   components: {
     Loading,
     CompleteDialog,
-    ThreeJS
-},
+  },
   methods: {
     announceMsg() {
       const _ = this;

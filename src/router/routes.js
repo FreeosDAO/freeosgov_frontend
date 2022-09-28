@@ -3,9 +3,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/IntroLayout.vue'),
     children: [
-      // { path: '', component: () => import('pages/Index.vue') }
-      // CHANGE BACK TO INDEX
-      { path: '', component: () => import('pages/Convert.vue') }
+      { path: '', component: () => import('pages/Index.vue') }
     ]
   },
   {
