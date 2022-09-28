@@ -4,7 +4,7 @@ Application to claim your Freeos tokens
 
 # Clone the repository
 ```bash
-git clone https://github.com/LLAMA-Code-LLC/jerome_k_fork
+git clone https://github.com/FreeosDAO/freeosgov_frontend.git
 ```
 
 ## Install the dependencies
