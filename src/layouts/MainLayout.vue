@@ -1,45 +1,44 @@
 <template>
   <q-layout view="hHh Lpr fFf" class="page">
-    <q-header reveal elevated  height-hint="98" style="background-color: #00a1ed">
+
+    <q-header reveal elevated height-hint="98" style="background-color: #00a1ed">
       <q-toolbar style="justify-content: space-between;">
-        <q-btn class="burger-menu" :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')" @click="drawer = !drawer">
+        <q-btn class="burger-menu" :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')"
+          @click="drawer = !drawer">
           <div></div>
           <div style="margin-left: -10px;"></div>
           <div></div>
         </q-btn>
         <!--<div>Freeos Governance dApp</div>-->
         <div style="display: flex; align-items: center;margin-top:-3px;">
-          <span class="q-mr-sm">v{{appVersion}}</span><q-btn style="margin-right:-6px;margin-left:-6px;" no-caps @click="accountURL()"  v-if="isAuthenticated">{{user.name}}</q-btn><span style="height:10px;border-right:1px solid #eee;"></span><q-btn style="margin-right:-6px;margin-left:-6px;" no-caps v-if="isAuthenticated" @click="logoutSubmit()">Logout</q-btn>
+          <span class="q-mr-sm">v{{appVersion}}</span>
+          <q-btn style="margin-right:-6px;margin-left:-6px;" no-caps @click="accountURL()" v-if="isAuthenticated">
+            {{user.name}}</q-btn><span style="height:10px;border-right:1px solid #eee;"></span>
+          <q-btn style="margin-right:-6px;margin-left:-6px;" no-caps v-if="isAuthenticated" @click="logoutSubmit()">
+            Logout</q-btn>
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="drawer"
-      :persistent="isPersist"
-      :width="220"
-      show-if-above
-      bordered
-      overlay
-      content-class="bg-grey-0"
-    >
-      <q-scroll-area class="fit"
-        style="box-shadow: 5px 5px #000;"
-      >
-      <div class="flex justify-end q-pr-md q-pt-sm q-pb-sm">
-        <q-icon class="cursor-pointer" style="font-size:2rem" name="close" @click="drawer = !drawer"/>
-      </div>
+    <q-drawer v-model="drawer" :persistent="isPersist" :width="220" show-if-above bordered overlay
+      content-class="bg-grey-0">
+      <q-scroll-area class="fit" style="box-shadow: 5px 5px #000;">
+        <div class="flex justify-end q-pr-md q-pt-sm q-pb-sm">
+          <q-icon class="cursor-pointer" style="font-size:2rem" name="close" @click="drawer = !drawer" />
+        </div>
         <q-list>
-         <q-separator />
+          <q-separator />
           <template v-for="(menuItem, index) in menuList">
-            <q-item v-if="handleFunctionCall(menuItem.displayCondition)" :key="index" clickable :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple @click="onSelectMenu(menuItem)">
-                <q-item-section avatar style="    align-items: center;">
-                  <!-- <q-icon :name="menuItem.icon" /> -->
-                  <img :src="menuItem.icon" alt="menu-icon" class="menu-icon">
-                </q-item-section>
-                <q-item-section class="text-subtitle1 lhs">
-                   <strong>{{ menuItem.label }}</strong>
-                </q-item-section>
+            <q-item v-if="handleFunctionCall(menuItem.displayCondition)" :key="index" clickable
+              :active="selectedItemLabel === menuItem.label" active-class="bg-grey-4" v-ripple
+              @click="onSelectMenu(menuItem)">
+              <q-item-section avatar style="    align-items: center;">
+                <!-- <q-icon :name="menuItem.icon" /> -->
+                <img :src="menuItem.icon" alt="menu-icon" class="menu-icon">
+              </q-item-section>
+              <q-item-section class="text-subtitle1 lhs">
+                <strong>{{ menuItem.label }}</strong>
+              </q-item-section>
             </q-item>
             <q-separator :key="'sep' + index" v-if="menuItem.separator" />
           </template>
@@ -48,10 +47,19 @@
     </q-drawer>
     <CompleteDialog ref="complete" />
     <q-page-container class="page-container page-container-main">
-      <div class="flex justify-center text-center" style="width: 80px; height: 80px; margin: 20px auto 0px auto">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84" class="freeos-logo-icon inline-block fill-current text-primary header-logoicon"><path fill="#00a1ed" d="M41.7 0C18.7 0 0 18.7 0 41.7c0 23 18.7 41.7 41.7 41.7 23 0 41.7-18.7 41.7-41.7C83.4 18.7 64.8 0 41.7 0zM26.9 68.6c-2.7 0-5.3-1-7.3-2.8-13.3-12.2-14.2-32.9-2-46.3C23.8 12.8 32.6 9 41.7 9c1.7 0 3.4.1 5.1.4h.2c-5.6 2.3-9.7 7.5-10.6 13.5-.1.6-.2 1.3-.2 1.9V26c-.1 4.1.1 8.2.6 12.3l-10.6 3.9c-.7.3-1.1 1.1-.8 1.8l.5 1.2c1.4 4 5.8 6 9.8 4.6.4-.2.9-.4 1.3-.6l1-.6.3-.2v.4c.2 3 .1 6-.2 9H38c0 .3 0 .6-.1 1-.1.6-.2 1.2-.4 1.8-1.4 4.8-5.7 8-10.6 8zm14.8 5.9c-1.8 0-3.7-.2-5.5-.5 6-2.5 10.1-8 10.8-14.5.7-5.4.7-10.9-.1-16.3l10.8-6.4c1.2-.7 1.7-2.2 1.2-3.5l-.1-.3c-.5-1.4-2-2.1-3.4-1.6L45.9 35l-.2.1V35c-.4-2.8-.5-5.7-.4-8.5.4-8.3 5.3-11.7 11.3-11.6 2.5.1 4.8.9 6.8 2.4.5.4.9.8 1.4 1.3 12.8 12.6 12.9 33.3.2 46.2-6.2 6.2-14.5 9.7-23.3 9.7z"></path></svg>
-        </div>
-      <div v-if="isAuthenticated">
+
+
+      <div class="flex justify-center text-center"
+        style="width: 80px; height: 80px; margin: 20px auto 0px auto; z-index: 1; position: relative;">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 84"
+          class="freeos-logo-icon inline-block fill-current text-primary header-logoicon">
+          <path fill="#00a1ed"
+            d="M41.7 0C18.7 0 0 18.7 0 41.7c0 23 18.7 41.7 41.7 41.7 23 0 41.7-18.7 41.7-41.7C83.4 18.7 64.8 0 41.7 0zM26.9 68.6c-2.7 0-5.3-1-7.3-2.8-13.3-12.2-14.2-32.9-2-46.3C23.8 12.8 32.6 9 41.7 9c1.7 0 3.4.1 5.1.4h.2c-5.6 2.3-9.7 7.5-10.6 13.5-.1.6-.2 1.3-.2 1.9V26c-.1 4.1.1 8.2.6 12.3l-10.6 3.9c-.7.3-1.1 1.1-.8 1.8l.5 1.2c1.4 4 5.8 6 9.8 4.6.4-.2.9-.4 1.3-.6l1-.6.3-.2v.4c.2 3 .1 6-.2 9H38c0 .3 0 .6-.1 1-.1.6-.2 1.2-.4 1.8-1.4 4.8-5.7 8-10.6 8zm14.8 5.9c-1.8 0-3.7-.2-5.5-.5 6-2.5 10.1-8 10.8-14.5.7-5.4.7-10.9-.1-16.3l10.8-6.4c1.2-.7 1.7-2.2 1.2-3.5l-.1-.3c-.5-1.4-2-2.1-3.4-1.6L45.9 35l-.2.1V35c-.4-2.8-.5-5.7-.4-8.5.4-8.3 5.3-11.7 11.3-11.6 2.5.1 4.8.9 6.8 2.4.5.4.9.8 1.4 1.3 12.8 12.6 12.9 33.3.2 46.2-6.2 6.2-14.5 9.7-23.3 9.7z">
+          </path>
+        </svg>
+      </div>
+      <div v-if="isAuthenticated" style="z-index: 1; position: relative;">
         <p class="text-body3 q-mb-xs text-center q-pa-md">
           {{ priceLabel }}{{ currentPrice }}
           <q-icon v-if="currentPrice >= targetPrice" size="xs" name="arrow_upward" />
@@ -59,7 +67,8 @@
         </p>
         <router-view />
       </div>
-      <Loading v-if="!isAuthenticated" />
+      <Loading v-if="!isAuthenticated" style="z-index: 1;position: relative; user-select: none;" />
+
     </q-page-container>
 
     <!-- <q-footer bordered class="bg-dark text-white">
@@ -81,8 +90,12 @@ import Loading from 'src/components/Loading.vue'
 // import dollar from '../assets/dollar-icon.svg'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 
+import * as THREE from 'three'
+
+
+
 const menuList = [
-    {
+  {
     icon: require('@/assets/vote-icon.svg'),
     label: 'Activities',
     separator: true,
@@ -114,13 +127,13 @@ const menuList = [
     separator: true,
     route: 'https://proton.alcor.exchange/'
   },
-    {
+  {
     icon: require('@/assets/auction-icon.svg?v=2'),
     label: 'Auctions',
     separator: true,
     route: 'https://auction.freeos.io'
   },
-    {
+  {
     icon: require('@/assets/snipcoins.svg'),
     label: 'Snipcoins Community',
     separator: true,
@@ -134,12 +147,12 @@ const menuList = [
   }
 ]
 export default {
-  data () {
+  data() {
     return {
       isShowDrawerButton: false,
       drawer: false,
       selectedItemLabel: null,
-      isPersist: this.$q.screen.width < 1023?false:true,
+      isPersist: this.$q.screen.width < 1023 ? false : true,
       menuList
     }
   },
@@ -151,97 +164,103 @@ export default {
   },
   components: {
     Loading,
-    CompleteDialog
+    CompleteDialog,
   },
-   methods: {
+  methods: {
     announceMsg() {
-            const _ = this;
-            if (_.announceObj && _.announceObj.text) {
-                var storedAnnounceTextId = localStorage.getItem('announceTextId');
-                if (!storedAnnounceTextId || storedAnnounceTextId !== _.announceObj.id) {
-                    var announceText = _.announceObj.text;
-                    if (_.announceObj.link && _.announceObj.link !== '') {
-                        announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
-                    }
-                    _.$refs.complete.openDialog({
-                        title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, img: _.announceImg, closeFunc: function () {
-                            localStorage.setItem('announceTextId', _.announceObj.id);
-                        }
-                    });
-                }
+      const _ = this;
+      if (_.announceObj && _.announceObj.text) {
+        var storedAnnounceTextId = localStorage.getItem('announceTextId');
+        if (!storedAnnounceTextId || storedAnnounceTextId !== _.announceObj.id) {
+          var announceText = _.announceObj.text;
+          if (_.announceObj.link && _.announceObj.link !== '') {
+            announceText += "<br /><a target='_blank' href='" + _.announceObj.link + "'>More Info Here</a>";
+          }
+          _.$refs.complete.openDialog({
+            title: null, subtitle: 'Announcement', text: announceText, value: null, currency: null, time: null, img: _.announceImg, closeFunc: function () {
+              localStorage.setItem('announceTextId', _.announceObj.id);
             }
+          });
+        }
+      }
     },
     ...mapActions('freeos', ['monitorBlockChain']),
-    async logoutSubmit(){
+    async logoutSubmit() {
       await this.logout();
     },
     handleFunctionCall(functionName) {
-        if(functionName)
-          return this[functionName]()
-        else
-          return true
+      if (functionName)
+        return this[functionName]()
+      else
+        return true
     },
     showStake: function () {
-       return (!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0
+      return (!this.userHasStaked && !this.airkeyBalance) || this.userStake > 0
     },
     showUserHasStakedORHasAirkey: function () {
-       return this.userHasStaked || this.airkeyBalance
+      return this.userHasStaked || this.airkeyBalance
     },
     isRegisterVerifiedCheck: function () {
-       return this.isVerified && this.isRegistered
+      return this.isVerified && this.isRegistered
     },
-    accountURL (){
+    accountURL() {
       window.open(process.env.ACCOUNT_URL + this.accountName, '_blank');
     },
-    onSigninFinish (event) {
+    onSigninFinish(event) {
       if (event.isFinished) {
         this.isShowDrawerButton = true
         this.drawer = true
         this.onSelectMenu(menuList[0])
       }
     },
-    onSelectMenu (menuItem) {
-      if(!menuItem.route.startsWith("http")){
+    onSelectMenu(menuItem) {
+      if (!menuItem.route.startsWith("http")) {
         (this.$route.path !== menuItem.route) && this.$router.push(menuItem.route)
-      }else{
+      } else {
         window.open(menuItem.route, '_blank');
       }
     },
+
     ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
     ...mapActions('calendar', ['getClaimCalendar'])
   },
-  created () {
+  created() {
     // this.getClaimCalendar()
     this.monitorBlockChain();
+
   },
-  mounted(){
+
+  mounted() {
     document.body.classList.remove('index')
     this.announceMsg();
+
+
   },
+
   watch: {
     isFreeosEnabled: {
       immediate: true,
-      handler: function(val, oldVal) {
-          if(val===false){
-            this.$router.push({path:'/'})
-          }
+      handler: function (val, oldVal) {
+        if (val === false) {
+          this.$router.push({ path: '/' })
+        }
       },
     },
     isAuthenticated: {
-      handler: function(val, oldVal) {
-          if(val===false){
-            this.$router.push({path:'/'})
-          }
+      handler: function (val, oldVal) {
+        if (val === false) {
+          this.$router.push({ path: '/' })
+        }
       },
     },
-    $route(to, from){
-      let item = menuList.filter((menuItem)=>{
+    $route(to, from) {
+      let item = menuList.filter((menuItem) => {
         return menuItem.route == to.path;
       })
-      if(item.length){
+      if (item.length) {
         this.selectedItemLabel = item[0].label
       }
-      
+
     }
   }
 }
@@ -251,94 +270,100 @@ export default {
 $panel-border-radius: 8px;
 $panel-width: 450px;
 
-  .page .page-container{
-    background-image: url('../assets/bluebg.svg');
-    background-size: 130vw;
-    background-position: center 25vh;
-    background-repeat: no-repeat;
-    padding-bottom:100px;
-  }
-  .lhs{
-    line-height: 1.1 !important
-  } 
-  .page-container-main{
-    min-height: 100vh
+.page .page-container {
+  // background-image: url('../assets/bluebg.svg');
+  background-size: 130vw;
+  background-position: center 25vh;
+  background-repeat: no-repeat;
+  padding-bottom: 100px;
+}
+
+.lhs {
+  line-height: 1.1 !important
+}
+
+.page-container-main {
+  min-height: 100vh
+}
+
+.q-btn__wrapper::before {
+  display: none;
+}
+
+.burger-menu {
+  background: none !important;
+
+  div {
+    width: 35px;
+    height: 2px;
+    background-color: #fff;
+    margin: 3px 0;
   }
 
-  .q-btn__wrapper::before {
-    display: none;
+  div:nth-child(2) {
+    width: 25px;
   }
-  .burger-menu {
-    background: none !important;
-    div {
-      width: 35px;
-      height: 2px;
-      background-color: #fff;
-      margin: 3px 0;
-    }
-    div:nth-child(2) {
-      width: 25px;
-    }
-  }
-  .q-btn__content {
-    flex-direction: column;
-    /* align-items: baseline; */
-  }
-  .q-separator {
-      border: 0;
-      background: rgba(0, 0, 0, 0.05);
-  }
+}
+
+.q-btn__content {
+  flex-direction: column;
+  /* align-items: baseline; */
+}
+
+.q-separator {
+  border: 0;
+  background: rgba(0, 0, 0, 0.05);
+}
 
 
 .hide {
-    display: none !important;
+  display: none !important;
 }
 
 .panel-wrap {
-    max-width: $panel-width;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: $panel-width;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .panel {
-    border: 1px solid var(--q-color-primary) !important;
-    border-radius: $panel-border-radius !important;
-    box-shadow: none;
+  border: 1px solid var(--q-color-primary) !important;
+  border-radius: $panel-border-radius !important;
+  box-shadow: none;
 }
 
 .panel-strong {
-    border: 2px solid #555 !important;
+  border: 2px solid #555 !important;
 }
 
 .panel-info {
-    border: 2px solid var(--q-color-primary) !important;
+  border: 2px solid var(--q-color-primary) !important;
 }
 
 .panel-primary {
-    color:white;
-    background: var(--q-color-primary);
-    a{
-      color:white;
-    }
+  color: white;
+  background: var(--q-color-primary);
+
+  a {
+    color: white;
+  }
 }
 
 
 .panel-warning {
-    border: 2px solid var(--q-color-warning) !important;
+  border: 2px solid var(--q-color-warning) !important;
 }
 
 .panel-top-total {
-    border: 2px solid var(--q-color-primary);
-    border-radius: $panel-border-radius;
-    padding-bottom: 45px;
-    margin-bottom: -20px;
-    margin-top: 4px;
+  border: 2px solid var(--q-color-primary);
+  border-radius: $panel-border-radius;
+  padding-bottom: 45px;
+  margin-bottom: -20px;
+  margin-top: 4px;
 }
 
-.menu-icon{
-  width:34px;
+.menu-icon {
+  width: 34px;
 }
-
-
 </style>
