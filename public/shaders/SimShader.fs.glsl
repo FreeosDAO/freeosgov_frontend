@@ -33,9 +33,6 @@ void main() {
     vec3 accel = vec3(0.0);
 
     #inject shaders/chunks/SimBasicShapes.glsl
-    #inject shaders/chunks/SimRoseGalaxy.glsl
-    #inject shaders/chunks/SimGalaxy.glsl
-    #inject shaders/chunks/SimTextureTarget.glsl
 
     #inject shaders/chunks/SimInputPos.glsl
 

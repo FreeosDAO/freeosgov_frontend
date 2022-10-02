@@ -1,47 +1,34 @@
 <template>
     <canvas id="webgl-canvas"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; display: block; pointer-events: all;"></canvas>
+        style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; display: block; pointer-events: all;"
+    ></canvas>
 </template>
   
 <script>
 import * as THREE from 'three'
-
 import Mouse from '../utils/threejs/Mouse.js'
 import UpdateLoop from '../utils/threejs/UpdateLoop.js'
-
-
 import * as CustomShaderPass from '../utils/threejs/ShaderPass.js'
-
 import RenderContext from '../utils/threejs/RenderContext.js'
 
-
-
-
-// import dat.gui
 import * as dat from 'dat.gui'
-
 import ParticleEngine from 'src/utils/threejs/ParticleEngine'
-
 import SimShader from '../utils/threejs/SimShader.js'
-import SimShader2 from '../utils/threejs/SimShader copy.js'
-import SimShader3 from '../utils/threejs/SimShader copy 2.js'
+import SimShader2 from '../utils/threejs/SimShader2.js'
+import SimShader3 from '../utils/threejs/SimShader3.js'
 import ParticleShader from '../utils/threejs/ParticleShader.js'
 import UVMapAnimator from '../utils/threejs/UVMapAnimator.js'
 import LeapManager from '../utils/threejs/LeapManager.js'
-
-
 import Utils from 'src/utils/threejs/Utils'
 import Stats from 'stats-js'
-
 import 'src/utils/threejs/mousetrap'
 
-
 var _params = {
-    size: 170,
+    size: 350,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0,112,160)'),
-    color2: new THREE.Color('rgb(1,116,160)'),
+    color1: new THREE.Color('rgb(3,87,127)'),
+    color2: new THREE.Color('rgb(3,87,127)'),
     renderer: null,
     camera: null,
     scene: null,
@@ -49,7 +36,7 @@ var _params = {
 };
 
 var _params2 = {
-    size: 170,
+    size: 350,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
     color1: new THREE.Color('rgb(0, 161, 237)'),
@@ -61,11 +48,11 @@ var _params2 = {
 };
 
 var _params3 = {
-    size: 170,
+    size: 350,
     simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
     drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(84,160,190)'),
-    color2: new THREE.Color('rgb(88,160,190)'),
+    color1: new THREE.Color('rgb(0,200,200)'),
+    color2: new THREE.Color('rgb(0,200,200)'),
     renderer: null,
     camera: null,
     scene: null,
@@ -73,6 +60,7 @@ var _params3 = {
 };
 
 var paramsList = [_params, _params2, _params3];
+
 var engineList = []
 var uvAnimList = []
 
@@ -83,50 +71,14 @@ var _tourMode = false;
 var _musicElem = document.getElementById("music");
 
 var _simModes = [
-    "SIM_PLANE",
-    "SIM_CUBE",
-    "SIM_DISC",
-    "SIM_SPHERE",
-    "SIM_BALL",
-    "SIM_ROSE_GALAXY",
-    "SIM_GALAXY",
-    "SIM_NOISE",
-    "SIM_TEXTURE"
+    "SIM_PLANE"
 ];
 
-// must have same name as preset, for async loading to work properly
-var _meshes = {
-    bear: { scale: 0.023, yOffset: -2.30, speed: 0.05, url: "models/bear.json" },
-    // bison: { scale: 0.020, yOffset: -2.00, speed: 0.10, url: "models/bison.json" },
-    // // deer:      { scale:0.040, yOffset:-2.00, speed:0.10, url:"models/deer.json" },
-    // // dog:       { scale:0.040, yOffset:-1.65, speed:0.10, url:"models/retriever.json" },
-    // // fox:       { scale:0.070, yOffset:-1.50, speed:0.10, url:"models/fox.json" },
-    // horse: { scale: 0.022, yOffset: -2.30, speed: 0.08, url: "models/horse.json" },
-    // panther: { scale: 0.030, yOffset: -1.70, speed: 0.10, url: "models/panther.json" },
-    // // rabbit:    { scale:0.040, yOffset:-1.00, speed:0.05, url:"models/rabbit.json" },
-    // wolf: { scale: 0.040, yOffset: -1.70, speed: 0.10, url: "models/wolf.json" },
-};
-
 var _presets = {
-    "none": { "user gravity": 3, "shape gravity": 1, _shape: "" },
-    // "noise":   { "user gravity":3, "shape gravity":1, _shape:"SIM_NOISE" },
-    "plane": { "user gravity": 2, "shape gravity": 3, _shape: "SIM_PLANE" },
-    "sphere": { "user gravity": 4, "shape gravity": 3, _shape: "SIM_SPHERE" },
-    "galaxy": { "user gravity": 3, "shape gravity": 1, _shape: "SIM_GALAXY" },
-    "petals": { "user gravity": 3, "shape gravity": 0.5, _shape: "SIM_ROSE_GALAXY" },
-    "bear": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.bear },
-    "bison": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.bison },
-    // "deer":    { "user gravity":3, "shape gravity":5, _shape:_meshes.deer },
-    // "dog":     { "user gravity":3, "shape gravity":5, _shape:_meshes.dog },
-    // "fox":     { "user gravity":3, "shape gravity":5, _shape:_meshes.fox },
-    "horse": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.horse },
-    "panther": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.panther },
-    // "rabbit":  { "user gravity":3, "shape gravity":5, _shape:_meshes.rabbit },
-    "wolf": { "user gravity": 3, "shape gravity": 5, _shape: _meshes.wolf },
+    "plane": { "user gravity": 5, "shape gravity": 1, _shape: "SIM_PLANE" },
 };
 
-var
-    _pauseSim = false;
+var _pauseSim = false;
 
 
 export default {
@@ -194,7 +146,7 @@ export default {
 
                         // from target point to camera
                         var pos = new THREE.Vector3().copy(this._controls.target)
-                        pos.y += j / 2 + 0.5 - 2 / 2
+                        pos.y += j / 4 + 0.5 - 2 / 2
 
                         // update depending on location y
                         var nor = pos.clone().sub(this.camera.position).normalize();
@@ -206,7 +158,7 @@ export default {
                         var point = new THREE.Vector3(0, 0, 0)
                         this.raycaster.ray.intersectPlane(plane, point);
                         // update point depending on location y
-                        point.y -= j / 2 + 0.5 - 2 / 2
+                        point.y -= j / 4 + 0.5 - 2 / 2
                         _simMat.uniforms.uInputPos.value[mId].copy(point);
                         _simMat.uniforms.uInputPosAccel.value.setComponent(mId, ms.buttons[0] ? 1.0 : -2.0);
 
@@ -268,7 +220,7 @@ export default {
             this.raycaster = new THREE.Raycaster();
 
 
-            var _canvas = document.querySelector("#webgl-canvas");
+            //var _canvas = document.querySelector("#webgl-canvas");
 
             this.mouse = new Mouse(_canvas);
 
@@ -282,7 +234,7 @@ export default {
                 new THREE.Quaternion(),
                 new THREE.Vector3(0.015, 0.015, 0.015));
 
-            this._leapMan = new LeapManager(this.renderer.getRenderer(), this.camera, tmat);
+            this._leapMan = new LeapManager(this.renderer.getRenderer(), this.camera, tmat)
 
             this._controls = new THREE.OrbitControls(this.camera, _canvas);
             this._controls.autoRotate = false;
@@ -376,7 +328,7 @@ export default {
 
 
             this._gui.add(blendingObj, 'blending', _blendingModes).onChange(function (value) {
-                console.log(value);
+                //console.log(value);
                 for (var i = 0; i < paramsList.length; i++) {
                     paramsList[i].drawMat.blending = parseInt(value);
                 }
@@ -389,7 +341,7 @@ export default {
             for (var i = 0; i < paramsList.length; i++) {
                 const currentEngineFolder = fAppearance.addFolder(i)
                 currentEngineFolder.addColor(this._guiFields['colors'][i], "color1").onChange(function (value) {
-                    console.log(parseInt(currentEngineFolder.name));
+                    //console.log(parseInt(currentEngineFolder.name));
                     paramsList[parseInt(currentEngineFolder.name)].drawMat.uniforms.uColor1.value = new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
                 });
                 currentEngineFolder.addColor(this._guiFields['colors'][i], "color2").onChange(function (value) {
@@ -513,7 +465,7 @@ export default {
             // _params2.simMat.uniforms.uShapeAccel.value = 0
             // _params.simMat.uniforms.uInputAccel.value = 1
             // _params.simMat.uniforms.uShapeAccel.value = 1
-            console.log(_params.simMat.uniforms.uInputAccel.value);
+            //console.log(_params.simMat.uniforms.uInputAccel.value);
         },
         _setSimMode(name) {
             if (name === _currSimMode)
@@ -537,35 +489,7 @@ export default {
             }
         },
 
-        loadMeshes() {
-            var loader = new THREE.JSONLoader();
-            var _this = this;
-            Object.keys(_meshes).forEach(function (k) {
-                loader.load(_meshes[k].url, function (geometry) {
-                    // console.log(geometry);
-                    var mesh = new THREE.MorphAnimMesh(geometry);
-                    // no material
-                    mesh.scale.set(_meshes[k].scale, _meshes[k].scale, _meshes[k].scale);
-                    mesh.position.y = _meshes[k].yOffset;
-                    mesh.duration = 1000 / _meshes[k].speed;
-                    mesh.name = k; // for debugging
-                    _meshes[k].mesh = mesh;
-
-                    // refresh mesh if same name as preset
-                    if (_currPreset === k) {
-                        for (var i = 0; i < uvAnimList.length; i++) {
-                            uvAnimList[i].setMesh(mesh);
-                        }
-                    }
-
-                });
-            });
-        },
-
         initThree() {
-            // this.loadMeshes();
-
-
 
             for (var i = 0; i < paramsList.length; i++) {
                 paramsList[i].drawMat.uniforms.uColor1.value.x = paramsList[i].color1.r
@@ -587,7 +511,8 @@ export default {
 
             // loop through engines
             for (var i = 0; i < engineList.length; i++) {
-                engineList[i].start();
+                let engine = engineList[i];
+                engine.start();
             }
 
 
@@ -600,10 +525,23 @@ export default {
             this.renderer.setSize(width, height);
             this.camera.aspect = width / height;
             this.camera.updateProjectionMatrix();
+        },
+        start(){
+            for (const engine of engineList) {
+                engine.start()
+            }
+        },
+        stop(){
+            for (const engine of engineList) {
+                engine.stop()
+            }
         }
     },
     mounted() {
         this.initThree()
+    },
+    destroyed(){
+        this._gui.destroy()
     }
 
 }

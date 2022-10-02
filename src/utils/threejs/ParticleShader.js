@@ -2,16 +2,16 @@ import * as THREE from 'three'
 import * as utils from './Utils'
 
 var Utils = utils.default
-console.log(Utils.loadTextFileInject(
+/*console.log(Utils.loadTextFileInject(
     "shaders/ParticleShader.vs.glsl"
-),);
+),);*/
 var ParticleShader = {
 
     uniforms: {
         "tPos": { type: "t", value: null },
         "uTime": { type: "f", value: 0.0 },
-        "uPointSize": { type: "f", value: 3 },
-        "uAlpha": { type: "f", value: 0.15 },
+        "uPointSize": { type: "f", value: 3.5 },
+        "uAlpha": { type: "f", value: 0.05 },
         "uColor1": { type: "v3", value: new THREE.Vector3(0.2, 0.7, 0.9) },
         "uColor2": { type: "v3", value: new THREE.Vector3(0.2, 0.4, 1.0) },
         "uColorFreq": { type: "f", value: 1.0 },

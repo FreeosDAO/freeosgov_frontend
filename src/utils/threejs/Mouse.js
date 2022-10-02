@@ -76,11 +76,11 @@ var Mouse = function (dom) {
 
     var _onTouchDown = function (e) {
         var touches = e.touches;
-        console.log(touches[0].identifier);
+        //console.log(touches[0].identifier);
         for (var i = 0; i < touches.length; i++) {
             _mouseUpdate(touches[i], 0);
             _this.getMouse(0).buttons[0] = true;
-            console.log("touch down", touches[i].identifier);
+            //console.log("touch down", touches[i].identifier);
         }
         e.preventDefault();
     };
@@ -121,7 +121,7 @@ var Mouse = function (dom) {
     dom.addEventListener("touchend", _onTouchUp, false);
     dom.addEventListener("touchleave", _onTouchUp, false);
     dom.addEventListener("touchcancel", _onTouchUp, false);
-    console.log('ADDING EVENT LISTENER');
+    //console.log('ADDING EVENT LISTENER');
 };
 
 export default Mouse;

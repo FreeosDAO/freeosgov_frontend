@@ -140,7 +140,7 @@ var RenderContext = function (canvas) {
     };
 
     this.getScene = function () {
-        console.log(_scene);
+        //console.log(_scene);
 
         return _scene;
     };

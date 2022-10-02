@@ -15,11 +15,11 @@ const routes = [
     children: [
       { path: '/activities', component: () => import('pages/Activities.vue') },
       { path: '/claim', component: () => import('pages/Claim.vue') },
-      { path: '/stake', component: () => import('pages/StakeAndUnstake.vue') },
-      { path: '/re-register', component: () => import('pages/Re-register.vue') },
+      //{ path: '/stake', component: () => import('pages/StakeAndUnstake.vue') },
+      //{ path: '/re-register', component: () => import('pages/Re-register.vue') },
       { path: '/transfer', component: () => import('pages/Transfer.vue') },
       { path: '/mint', component: () => import('pages/Convert.vue') },
-      { path: '/info', component: () => import('pages/Info.vue') },
+      //{ path: '/info', component: () => import('pages/Info.vue') },
     ]
   },
 

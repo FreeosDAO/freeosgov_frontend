@@ -62,9 +62,9 @@ var ParticleSimulation = function (renderer, size, params) {
 
 
         _particles = new THREE.PointCloud(geo, _drawMat);
-        console.log(params.index);
+        //console.log(params.index);
         // _particles.position.z = params.index
-        _particles.position.y = params.index / 2 - 0.5
+        _particles.position.y = params.index / 4 - 0.5
         _particles.frustumCulled = false;
     };
 

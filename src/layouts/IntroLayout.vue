@@ -1,8 +1,5 @@
 <template>
   <q-layout view="hHh Lpr fFf">
-
-
-
     <q-page-container class="page-container">
 
       <div class="flex justify-center text-center" style="width: 110px; height: 110px; margin: 80px auto 0px auto">
@@ -32,7 +29,6 @@
 <script>
 // import WalletLoginDialog from 'components/accountManagement/WalletLoginDialog'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import ThreeJS from '../components/ThreeJS.vue'
 
 // import dollar from '../assets/dollar-icon.svg'
 const menuList = [
@@ -91,9 +87,6 @@ export default {
     appVersion: function () {
       return process.env.APP_VERSION
     }
-  },
-  components: {
-    ThreeJS
   },
   created() {
     // this.getClaimCalendar()

@@ -1,9 +1,6 @@
 <template>
   <div class="q-pa-sm">
-    <ThreeJS></ThreeJS>
     <CompleteDialog ref="complete" />
-
-
 
     <div class="panel-wrap panel bg-white" v-if="isFreeosEnabled">
 
@@ -475,7 +472,6 @@ import AbbreviateNumber from 'src/components/AbbreviateNumber.vue'
 import { user } from 'src/store/freeos/getters'
 import { AST_Return } from 'terser'
 import GetVerified from 'src/components/GetVerified.vue'
-import ThreeJS from 'src/components/ThreeJS.vue'
 
 
 
@@ -486,7 +482,6 @@ export default {
     CompleteDialog,
     AbbreviateNumber,
     GetVerified,
-    ThreeJS,
   },
   data() {
     return {

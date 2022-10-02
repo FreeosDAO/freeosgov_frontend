@@ -1,6 +1,5 @@
 <template>
   <q-layout view="hHh Lpr fFf" class="page">
-
     <q-header reveal elevated height-hint="98" style="background-color: #00a1ed">
       <q-toolbar style="justify-content: space-between;">
         <q-btn class="burger-menu" :style="'visibility: ' + (isAuthenticated ? 'visible' : 'hidden')"
@@ -42,13 +41,14 @@
             </q-item>
             <q-separator :key="'sep' + index" v-if="menuItem.separator" />
           </template>
+          <q-toggle class="q-mt-lg q-px-md" v-model="ThreeJSToggle" label="Wave Animation" color="primary" />
         </q-list>
       </q-scroll-area>
     </q-drawer>
     <CompleteDialog ref="complete" />
     <q-page-container class="page-container page-container-main">
 
-
+      <ThreeJS ref="ThreeJsEl"></ThreeJS>
       <div class="flex justify-center text-center"
         style="width: 80px; height: 80px; margin: 20px auto 0px auto; z-index: 1; position: relative;">
 
@@ -59,7 +59,7 @@
           </path>
         </svg>
       </div>
-      <div v-if="isAuthenticated" style="z-index: 1; position: relative;">
+      <div v-if="isAuthenticated" style="z-index: 1; position: relative;" class="f-content">
         <p class="text-body3 q-mb-xs text-center q-pa-md">
           {{ priceLabel }}{{ currentPrice }}
           <q-icon v-if="currentPrice >= targetPrice" size="xs" name="arrow_upward" />
@@ -89,8 +89,7 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import Loading from 'src/components/Loading.vue'
 // import dollar from '../assets/dollar-icon.svg'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
-
-import * as THREE from 'three'
+import ThreeJS from 'src/components/ThreeJS.vue'
 
 
 
@@ -153,7 +152,8 @@ export default {
       drawer: false,
       selectedItemLabel: null,
       isPersist: this.$q.screen.width < 1023 ? false : true,
-      menuList
+      menuList,
+      ThreeJSToggle: true
     }
   },
   computed: {
@@ -165,6 +165,7 @@ export default {
   components: {
     Loading,
     CompleteDialog,
+    ThreeJS
   },
   methods: {
     announceMsg() {
@@ -261,6 +262,14 @@ export default {
         this.selectedItemLabel = item[0].label
       }
 
+    },
+    ThreeJSToggle(val, oldVal){
+      if(val){
+        this.$refs.ThreeJsEl.start()
+      }
+      else{
+        this.$refs.ThreeJsEl.stop()
+      }
     }
   }
 }
@@ -365,5 +374,17 @@ $panel-width: 450px;
 
 .menu-icon {
   width: 34px;
+}
+.dg.ac{
+  z-index: 99999999;
+  //display:none !important
+}
+.f-content, .f-content > div{
+  pointer-events: none;
+  max-width: 600px;
+  margin: 0 auto !important
+}
+.f-content > div *{
+  pointer-events: all;
 }
 </style>
