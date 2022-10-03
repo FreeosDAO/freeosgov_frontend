@@ -1,7 +1,5 @@
 <template>
-    <canvas id="webgl-canvas"
-        style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; display: block; pointer-events: all;"
-    ></canvas>
+    <canvas id="webgl-canvas"></canvas>
 </template>
   
 <script>
@@ -23,43 +21,10 @@ import Utils from 'src/utils/threejs/Utils'
 import Stats from 'stats-js'
 import 'src/utils/threejs/mousetrap'
 
-var _params = {
-    size: 350,
-    simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
-    drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(3,87,127)'),
-    color2: new THREE.Color('rgb(3,87,127)'),
-    renderer: null,
-    camera: null,
-    scene: null,
-    index: 0,
-};
-
-var _params2 = {
-    size: 350,
-    simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
-    drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0, 161, 237)'),
-    color2: new THREE.Color('rgb(0, 161, 237)'),
-    renderer: null,
-    camera: null,
-    scene: null,
-    index: 1,
-};
-
-var _params3 = {
-    size: 350,
-    simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
-    drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
-    color1: new THREE.Color('rgb(0,200,200)'),
-    color2: new THREE.Color('rgb(0,200,200)'),
-    renderer: null,
-    camera: null,
-    scene: null,
-    index: 2,
-};
-
-var paramsList = [_params, _params2, _params3];
+var _params = {};
+var _params2 = {};
+var _params3 = {};
+var paramsList = [];
 
 var engineList = []
 var uvAnimList = []
@@ -68,14 +33,14 @@ var _engine;
 var _currPreset = Utils.getParameterByName("shape") || "plane"; // initial preset
 var _currSimMode;
 var _tourMode = false;
-var _musicElem = document.getElementById("music");
+//var _musicElem = document.getElementById("music");
 
 var _simModes = [
     "SIM_PLANE"
 ];
 
 var _presets = {
-    "plane": { "user gravity": 5, "shape gravity": 1, _shape: "SIM_PLANE" },
+    "plane": { "user gravity": 5, "shape gravity": 2, _shape: "SIM_PLANE" },
 };
 
 var _pauseSim = false;
@@ -99,7 +64,8 @@ export default {
             mouse: null,
             raycaster: null,
             _stats: null,
-            _guiFields: {}
+            _guiFields: {},
+            visible: true
         }
     },
 
@@ -456,8 +422,10 @@ export default {
             for (var i = 0; i < paramsList.length; i++) {
                 var parameters = paramsList[i]
 
-                this._guiFields["user gravity"] = parameters.simMat.uniforms.uInputAccel.value = preset["user gravity"];
-                this._guiFields["shape gravity"] = parameters.simMat.uniforms.uShapeAccel.value = preset["shape gravity"];
+                //this._guiFields["user gravity"] = parameters.simMat.uniforms.uInputAccel.value = preset["user gravity"];
+                //this._guiFields["shape gravity"] = parameters.simMat.uniforms.uShapeAccel.value = preset["shape gravity"];
+                parameters.simMat.uniforms.uInputAccel.value = preset["user gravity"];
+                parameters.simMat.uniforms.uShapeAccel.value = preset["shape gravity"];
             }
 
 
@@ -501,9 +469,9 @@ export default {
                 paramsList[i].drawMat.uniforms.uColor2.value.z = paramsList[i].color2.b
             }
             this.init();
-            if (this._gui == null) {
+            /*if (this._gui == null) {
                 this._initUI();
-            }
+            }*/
 
             this._initKeyboard();
             this._setPreset(_currPreset);
@@ -512,7 +480,12 @@ export default {
             // loop through engines
             for (var i = 0; i < engineList.length; i++) {
                 let engine = engineList[i];
+                let params = paramsList[i];
                 engine.start();
+                setTimeout(()=>{
+                    params.simMat.uniforms.uShapeAccel.value = 0.25
+                }, 4000)
+                
             }
 
 
@@ -538,12 +511,59 @@ export default {
         }
     },
     mounted() {
+        _params = {
+            size: 150,
+            simMat: CustomShaderPass.default.createShaderMaterial(SimShader),
+            drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
+            color1: new THREE.Color('rgb(6,116,247)'),
+            color2: new THREE.Color('rgb(0,168,155)'),
+            renderer: null,
+            camera: null,
+            scene: null,
+            index: 0,
+        };
+
+        _params2 = {
+            size: 150,
+            simMat: CustomShaderPass.default.createShaderMaterial(SimShader2),
+            drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
+            color1: new THREE.Color('rgb(0, 161, 237)'),
+            color2: new THREE.Color('rgb(0, 123, 237)'),
+            renderer: null,
+            camera: null,
+            scene: null,
+            index: 1,
+        };
+
+        _params3 = {
+            size: 150,
+            simMat: CustomShaderPass.default.createShaderMaterial(SimShader3),
+            drawMat: CustomShaderPass.default.createShaderMaterial(ParticleShader.ParticleShader),
+            color1: new THREE.Color('rgb(4,200,255)'),
+            color2: new THREE.Color('rgb(0,200,200)'),
+            renderer: null,
+            camera: null,
+            scene: null,
+            index: 2,
+        };
+        paramsList = [_params, _params2, _params3]
+        engineList = []
+        uvAnimList = []
+        _engine = _currSimMode = null
         this.initThree()
     },
     destroyed(){
-        this._gui.destroy()
+        console.log('destroyed')
+        if(this._gui){
+            this._gui.destroy()
+        }
     }
 
 }
 </script>
-  
+ 
+<style scoped>
+#webgl-canvas{
+    position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; display: block; pointer-events: all;
+}
+</style>

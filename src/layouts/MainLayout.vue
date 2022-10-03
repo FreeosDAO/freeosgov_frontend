@@ -41,14 +41,15 @@
             </q-item>
             <q-separator :key="'sep' + index" v-if="menuItem.separator" />
           </template>
-          <q-toggle class="q-mt-lg q-px-md" v-model="ThreeJSToggle" label="Wave Animation" color="primary" />
+          <q-toggle class="q-mt-lg q-px-md" v-model="ThreeJSToggle" label="Enable Animation" color="primary" />
         </q-list>
       </q-scroll-area>
     </q-drawer>
     <CompleteDialog ref="complete" />
     <q-page-container class="page-container page-container-main">
 
-      <ThreeJS ref="ThreeJsEl"></ThreeJS>
+      <ThreeJS v-if="ThreeJSToggle" ref="ThreeJsEl"></ThreeJS>
+      <MainBackground v-if="!ThreeJSToggle" />
       <div class="flex justify-center text-center"
         style="width: 80px; height: 80px; margin: 20px auto 0px auto; z-index: 1; position: relative;">
 
@@ -89,8 +90,14 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import Loading from 'src/components/Loading.vue'
 // import dollar from '../assets/dollar-icon.svg'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
-import ThreeJS from 'src/components/ThreeJS.vue'
+//import ThreeJS from 'src/components/ThreeJS.vue'
+import MainBackground from '../components/MainBackground.vue'
 
+const ThreeJS = () => ({
+  component: import('src/components/ThreeJS.vue'),
+  loading: MainBackground,
+  delay: 0
+});
 
 
 const menuList = [
@@ -153,7 +160,7 @@ export default {
       selectedItemLabel: null,
       isPersist: this.$q.screen.width < 1023 ? false : true,
       menuList,
-      ThreeJSToggle: true
+      ThreeJSToggle: false
     }
   },
   computed: {
@@ -165,8 +172,9 @@ export default {
   components: {
     Loading,
     CompleteDialog,
-    ThreeJS
-  },
+    ThreeJS,
+    MainBackground
+},
   methods: {
     announceMsg() {
       const _ = this;
@@ -230,12 +238,15 @@ export default {
     this.monitorBlockChain();
 
   },
-
+  beforeMount(){
+    let animation = window.localStorage.getItem('freeos-anim')
+    if(animation == 'true'){
+      this.ThreeJSToggle = true
+    }
+  },
   mounted() {
     document.body.classList.remove('index')
     this.announceMsg();
-
-
   },
 
   watch: {
@@ -264,12 +275,7 @@ export default {
 
     },
     ThreeJSToggle(val, oldVal){
-      if(val){
-        this.$refs.ThreeJsEl.start()
-      }
-      else{
-        this.$refs.ThreeJsEl.stop()
-      }
+      window.localStorage.setItem('freeos-anim', val)
     }
   }
 }
@@ -280,10 +286,10 @@ $panel-border-radius: 8px;
 $panel-width: 450px;
 
 .page .page-container {
-  // background-image: url('../assets/bluebg.svg');
+  /*background-image: url('../assets/bluebg.svg');
   background-size: 130vw;
   background-position: center 25vh;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat;*/
   padding-bottom: 100px;
 }
 

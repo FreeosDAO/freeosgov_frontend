@@ -18,6 +18,7 @@
             <div class="q-mt-lg" style="">
                 <img src="../assets/join-screen-image.svg" alt="">
             </div>
+            <q-toggle class="q-mt-lg q-px-md" v-model="ThreeJSToggle" label="Enable Animation" color="primary" />
         </div>
 
         <Loading v-if="connecting && !isAuthenticated" />
@@ -78,6 +79,11 @@ export default {
         Countdown,
         Loading
     },
+    data(){
+        return{
+            ThreeJSToggle: true
+        }
+    },
     computed: {
         ...mapGetters('freeos', ['isFreeosEnabled', 'isAuthenticated', 'currentIteration', 'nextIteration', 'airclaimStatus']),
         ...mapGetters('account', ['connecting'])
@@ -103,9 +109,19 @@ export default {
                 }
             },
         },
+        ThreeJSToggle(val, oldVal){
+            window.localStorage.setItem('freeos-anim', val)
+        }
     },
     mounted() {
         document.body.classList.add('index')
+
+        let anim = window.localStorage.getItem('freeos-anim')
+        if(anim == 'false'){
+            this.ThreeJSToggle = false
+        } else{
+            window.localStorage.setItem('freeos-anim', 'true')
+        }
     }
 }
 </script>
