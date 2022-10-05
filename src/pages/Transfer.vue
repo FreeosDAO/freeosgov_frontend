@@ -12,11 +12,11 @@
                     <div class="balance-list">
                         <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
                             <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freeosBalance" /></div>
-                            <div class="text-bold text-primary">FREEOS</div>
+                            <div class="text-bold text-primary">{{currencies.freeos}}</div>
                         </div>
                         <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
                             <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="user.freebiBalance" /></div>
-                            <div class="text-bold text-primary">FREEBI</div>
+                            <div class="text-bold text-primary">{{currencies.freebi}}</div>
                         </div>
                     </div>
                 </section>
@@ -24,16 +24,16 @@
                 <!--TABS-->
                 <div class="flex justify-center" style="flex-direction:row;">
                     <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': !isFreeosTabSelected }" outline unelevated no-caps
-                    @click="isFreeosTabSelected = !isFreeosTabSelected">Send FREEOS</q-btn>
+                    @click="isFreeosTabSelected = !isFreeosTabSelected">Send {{currencies.freeos}}</q-btn>
                     <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': isFreeosTabSelected }" outline unelevated no-caps
-                    @click="isFreeosTabSelected = !isFreeosTabSelected">Send FREEBI</q-btn>
+                    @click="isFreeosTabSelected = !isFreeosTabSelected">Send {{currencies.freebi}}</q-btn>
                 </div>
 
                 <!--SEND FREEOS-->
                 <section v-if="isFreeosTabSelected" class="q-pa-lg tabform">
 
                     <div class="text-center q-pb-lg q-px-lg">
-                        For more info on sending Freeos <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
+                        For more info on sending {{currencies.freeos}} <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
                     </div>
 
                     <div v-if="user.freeosBalance != zeroBalance">
@@ -83,11 +83,11 @@
                 <section v-if="!isFreeosTabSelected" class="tabform">
 
                     <p class="bg-primary text-center text-white q-py-md">
-                        <b>FREEBI transfer fee is currently {{freebixfee}}%</b>
+                        <b>{{currencies.freebi}} transfer fee is currently {{freebixfee}}%</b>
                     </p>
 
                     <div class="text-center q-px-lg">
-                        For more info on sending FREEBI <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
+                        For more info on sending {{currencies.freebi}} <a target="_blank" title="Info on transfers" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1402">click here</a>.
                     </div>
 
                     <div v-if="user.freebiBalance != zeroBalance" class="q-pa-lg">
@@ -190,18 +190,17 @@ export default {
     data() {
         return {
             isFreeosTabSelected: true,
-            stakeCurrency: process.env.STAKING_CURRENCY,
             currencyName: process.env.CURRENCY_NAME,
             freeosData: {
                 to: null,
-                token: 'FREEOS',
+                token: process.env.CURRENCY_NAME,
                 quantity: null,
                 memo: '',
                 from: null
             },
             freebiData: {
                 to: null,
-                token: 'FREEBI',
+                token: process.env.FREEBI_CURRENCY_NAME,
                 quantity: null,
                 memo: '',
                 from: null
@@ -216,21 +215,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('freeos', ['accountName', 'user', 'isAuthenticated', 'dparametersTable']),
-        /*tokensSelectOptions() {
-            const types = []
-            if (this.user.freebiBalance > 0) {
-                types.push('FREEBI')
-            }
-            if (this.user.freeosBalance > 0) {
-                types.unshift('FREEOS')
-            }
-            this.submitData.token = (this.submitData.token) ? this.submitData.token : types[0]
-            return types
-        },
-        isFormFilled() {
-            return !Object.values(this.submitData).some(x => (x === null || x === ''))
-        },*/
+        ...mapGetters('freeos', ['accountName', 'user', 'isAuthenticated', 'dparametersTable', 'currencies']),
         currencyAvailable(){
             return this.currentMax + ' ' + this.currentToken + ' available to transfer';
         },
@@ -310,7 +295,7 @@ export default {
                         console.log('dataToSubmit', dataToSubmit)
             
             var token = dataToSubmit.token;
-            var quantity = (token == 'FREEOS') ? dataToSubmit.quantity : this.freebiRecipientAmount;
+            var quantity = (token == this.currencies.freeos) ? dataToSubmit.quantity : this.freebiRecipientAmount;
             var result = await this.transfer(dataToSubmit)
 
             if (!(result instanceof Error)) {
@@ -324,14 +309,14 @@ export default {
         resetForm() {
             this.freeosData = {
                 to: null,
-                token: 'FREEOS',
+                token: this.currencies.freeos,
                 quantity: null,
                 memo: '',
                 from: null
             }
             this.freebiData = {
                 to: null,
-                token: 'FREEBI',
+                token: this.currencies.freebi,
                 quantity: null,
                 memo: '',
                 from: null

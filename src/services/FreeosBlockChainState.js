@@ -114,6 +114,15 @@ export class FreeosBlockChainState extends EventEmitter {
     output['isAuthenticated'] = false
 
     /**
+     * Currency Names
+     */
+    output['currencies'] = {
+      'freeos': process.env.CURRENCY_NAME,
+      'point': process.env.TOKEN_CURRENCY_NAME,
+      'freebi': process.env.FREEBI_CURRENCY_NAME
+    }
+
+    /**
      * Get Contract Tables
      */
 
@@ -169,10 +178,10 @@ export class FreeosBlockChainState extends EventEmitter {
       // vars setup
       let userQueries = [
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'participants', scope: user.name, params: {limit: 1}},
-        {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
-        {contract: process.env.FREEOSGOV_CONTRACT, table: 'vestaccounts', scope: user.name, params: {limit: 1, lower_bound: 'POINT', upper_bound: 'POINT'}},
-        {contract: process.env.FREEBITOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEBI', upper_bound: 'FREEBI'}},
-        {contract: process.env.FREEOSTOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'FREEOS', upper_bound: 'FREEOS'}},
+        {contract: process.env.FREEOSGOV_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.point, upper_bound: output.currencies.point}},
+        {contract: process.env.FREEOSGOV_CONTRACT, table: 'vestaccounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.point, upper_bound: output.currencies.point}},
+        {contract: process.env.FREEBITOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.freebi, upper_bound: output.currencies.freebi}},
+        {contract: process.env.FREEOSTOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.freeos, upper_bound: output.currencies.freeos}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'mintfeefree', scope: user.name, params: {limit: 1}},
         {contract: 'eosio.token', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XPR', upper_bound: 'XPR'}},
         {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: 'XUSDC', upper_bound: 'XUSDC'}},
@@ -252,15 +261,15 @@ export class FreeosBlockChainState extends EventEmitter {
       let nextActivity = {type: false, message: ''};
       if(iterations.surveyPeriodActive && !output['surveyCompleted']){
         nextActivity.type = 'Survey'
-        nextActivity.message = 'Earn Points, participate in the Survey'
+        nextActivity.message = 'Earn '+output.currencies.point+'S, participate in the Survey'
       } 
       else if(iterations.votePeriodActive && !output['voteCompleted']){
         nextActivity.type = 'Vote'
-        nextActivity.message = 'Earn Points, participate in the Vote'
+        nextActivity.message = 'Earn '+output.currencies.point+'S, participate in the Vote'
       } 
       else if(iterations.ratifyPeriodActive && !output['ratifyCompleted']){
         nextActivity.type = 'Ratify'
-        nextActivity.message = 'Earn Points, Ratify the Vote'
+        nextActivity.message = 'Earn '+output.currencies.point+'S, Ratify the Vote'
       }
       output['nextActivity'] = nextActivity
 
@@ -284,7 +293,7 @@ export class FreeosBlockChainState extends EventEmitter {
      //console.log('usdContract', usdContract)
      output['usdContract'] = usdContract;
 
-     const freeosContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,FREEOS', upper_bound: '4,FREEOS'});
+     const freeosContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,'+output.currencies.freeos, upper_bound: '4,'+output.currencies.freeos});
      //console.log('freeosContract', freeosContract)
      output['freeosContract'] = freeosContract;
 
@@ -545,23 +554,19 @@ export class FreeosBlockChainState extends EventEmitter {
    * Transaction functions
    */
   async register() {
-    /* TO DO */
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'reguser')
   }
 
   async reregister() {
-    /* TO DO */
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'reregister')
   }
 
   async mintFreeBI(sendData) {
-    /* TO DO */
     //let cronacle = await this.setupCronacle()
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'mintfreebi', sendData)
   }
 
   async claim() {
-    /* TO DO */
     //let cronacle = await this.setupCronacle()
     return this.sendTransaction(process.env.FREEOSGOV_CONTRACT, 'claim')
   }
@@ -577,7 +582,7 @@ export class FreeosBlockChainState extends EventEmitter {
       contract = contractAccountName;
     }else{
       var contract = process.env.FREEOSTOKENS_CONTRACT
-      if (sendData.token === 'FREEBI') {
+      if (sendData.token === process.env.FREEBI_CURRENCY_NAME) {
         contract = process.env.FREEBITOKENS_CONTRACT
       }
     }

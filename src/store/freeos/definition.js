@@ -33,8 +33,7 @@ var definition = {
   allIterations: null,
   unstakingIteration: null,
 
-  currencyName: null,
-  stakeCurrency: null,
+  currencies: null,
   unvestPercentage: null, 
   airclaimStatus: null, 
   currentPrice: null,

@@ -7,6 +7,9 @@ export const setdparametersTable = (state, dparametersTable) => {
 export const setsystemRow = (state, systemRow) => {
   state.systemRow = systemRow
 }
+export const setcurrencies = (state, currencies) => {
+  state.currencies = currencies
+}
 
 export const setmasterSwitch = (state, masterSwitch) => {
   state.masterSwitch = masterSwitch

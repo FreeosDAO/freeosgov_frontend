@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import account from './account'
-import claim from './claim'
-import stake from './stake'
-import unstake from './unstake'
-import transfer from './transfer'
-import vest from './vest'
-import calendar from './calendar'
+// import claim from './claim'
+// import stake from './stake'
+// import unstake from './unstake'
+// import transfer from './transfer'
+// import vest from './vest'
+// import calendar from './calendar'
 import freeos from './freeos'
 Vue.use(Vuex)
 
@@ -24,12 +24,12 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       account,
-      claim,
-      stake,
-      unstake,
-      transfer,
-      vest,
-      calendar,
+      // claim,
+      // stake,
+      // unstake,
+      // transfer,
+      // vest,
+      // calendar,
       freeos
     },
 

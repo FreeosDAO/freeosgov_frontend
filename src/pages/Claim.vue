@@ -14,12 +14,12 @@
                 <div class="row">
                     <div class="col text-left">
                         <p class="q-mb-xs" style="line-height:1;">
-                           <small>POINTS</small>
+                           <small>{{currencies.point}}</small>
                         </p>
                         <AbbreviateNumber classes="text-bold text-h4" :value="user.pointBalance" />
 
                         <p class="q-mb-xs q-mt-lg" style="line-height:1;">
-                            <small>FREEBI</small>
+                            <small>{{currencies.freebi}}</small>
                         </p>
                         <AbbreviateNumber classes="text-bold text-h4" :value="user.freebiBalance" />
 
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col text-right">
                         <p class="q-mb-xs" style="line-height:1;">
-                            <small>FREEOS</small>
+                            <small>{{currencies.freeos}}</small>
                         </p>
                         <AbbreviateNumber classes="text-bold text-h4" :value="user.freeosBalance" />
                     </div>
@@ -110,7 +110,7 @@
                                     <small style="font-size:90%;">
                                         Your Freeos
                                         <br />
-                                        Points
+                                        {{currencies.point}}S
                                     </small>
                                 </p>
                             </div>
@@ -172,7 +172,7 @@ import {
     mapActions,
     mapGetters
 } from 'vuex'
-import Balance from 'components/accountManagement/Balance'
+import Balance from 'components/Balance'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 import GetVerified from 'src/components/GetVerified.vue'
 import AbbreviateNumber from 'src/components/AbbreviateNumber.vue'
@@ -200,7 +200,8 @@ export default {
             'currentIteration',
             'eligibleToClaim',
             'nextActivity',
-            'accountName'
+            'accountName',
+            'currencies'
             ]),
     },
     methods: {
@@ -238,11 +239,6 @@ export default {
             }
         }
 
-    },
-    mounted(){
-        /*setInterval(()=>{
-            console.warn('nextClaimIn', this.$options.filters.secondsToDhms(this.nextClaimIn))
-        }, 5000)*/
     }
 }
 </script>
@@ -446,11 +442,6 @@ export default {
 .q-focus-helper {
     display: none;
 }
-
-/* remove padding-right */
-/* .q-btn__wrapper {
-  padding-right: 0;
-} */
 
 .q-ripple {
     display: none;

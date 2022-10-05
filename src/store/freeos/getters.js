@@ -31,8 +31,7 @@ export const accountName = ({ accountName }) => accountName
 export const allIterations = ({ allIterations }) => allIterations
 export const unstakingIteration = ({ unstakingIteration }) => unstakingIteration
 
-export const stakeCurrency = ({ stakeCurrency }) => stakeCurrency
-export const currencyName = ({ currencyName }) => currencyName
+export const currencies = ({ currencies }) => currencies
 export const unvestPercentage = ({ unvestPercentage }) => unvestPercentage
 export const airclaimStatus = ({ airclaimStatus }) => airclaimStatus
 export const currentPrice = ({ currentPrice }) => currentPrice

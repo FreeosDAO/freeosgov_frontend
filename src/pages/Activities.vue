@@ -59,7 +59,7 @@
             </section>
             <section class="q-py-md" >
                   <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
-            Q3: Where do you feel the FREEOS market is heading?
+            Q3: Where do you feel the {{currencies.freeos}} market is heading?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
                     <li :class="{highitem: resultq3Highest === surveyRecord['q3choice1']}">{{resultq3choice1}}% Growing (Bull Market)</li>
@@ -69,7 +69,7 @@
             </section>
             <section class="q-py-md bg-info">
                   <p class="text-subtitle1 text-primary q-mx-lg q-mt-xs"><strong>
-            Q4: How long before the FREEOS market changes direction?
+            Q4: How long before the {{currencies.freeos}} market changes direction?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
                     <li class="highitem">{{parseFloat(surveyRecord['q4average'])}} Months (average)</li>
@@ -160,12 +160,12 @@
                   <q-icon v-if="parseFloat(rewardsCurrent['q1average']) < parseFloat(rewardsPrevious['issuance_rate']) * 100" size="xs" name="arrow_downward" />
               </div>
 
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in FREEOS</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.freeos}}</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in FREEOS: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee, paid in FREEOS: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
+                The Voted Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average']) > parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average']) < parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_downward" />
               </div>
@@ -241,8 +241,7 @@
 
 
             <div class="bg-primary text-subtitle2 text-white text-center q-py-md q-px-lg">Completing the ratification
-              vote
-              enables you to claim an additional {{ ratifyShare }}% of your weekly claim potential </div>
+              vote enables you to claim an additional {{ ratifyShare }}% of your weekly claim potential </div>
             <div class="text-h5 text-center q-ma-lg">See you soon for the Ratification Vote</div>
           </q-card>
         </div>
@@ -277,7 +276,7 @@
 
               <section class="q-pa-lg">
                 <p><strong>What percentage of the issuance should be minted this week?</strong></p>
-                <p>Issuance is the amount of Points issued weekly. Minimising the issuance reduces the supply of FREEOS
+                <p>Issuance is the amount of {{currencies.point}}S issued weekly. Minimising the issuance reduces the supply of {{currencies.freeos}}
                   tokens that can be minted. Restricting supply can increase the price when there is suitable demand.
                 </p>
 
@@ -303,14 +302,14 @@
 
             <!--FREEOS Mint Fee Vote-->
             <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in FREEOS</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.freeos}}</div>
               <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in FREEOS: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
-                <p><strong>What should the Mint Fee, paid in FREEOS be this week?</strong></p>
-                <p>The Mint Fee, paid in FREEOS is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+                <p><strong>What should the Mint Fee, paid in {{currencies.freeos}} be this week?</strong></p>
+                <p>The Mint Fee, paid in {{currencies.freeos}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
@@ -325,7 +324,7 @@
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper)">Mint Fee, paid in FREEOS must be between
+                  v-if="validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper)">Mint Fee, paid in {{currencies.freeos}} must be between
                   {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
               </section>
             </article>
@@ -340,7 +339,7 @@
 
               <section class="q-pa-lg">
                 <p><strong>What should the Mint Fee, paid in XPR be this week?</strong></p>
-                <p>The Mint Fee, paid in XPR is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+                <p>The Mint Fee, paid in XPR is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2_xprresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
@@ -370,7 +369,7 @@
 
               <section class="q-pa-lg">
                 <p><strong>What should the Mint Fee, paid in XUSDC be this week?</strong></p>
-                <p>The Mint Fee, paid in XUSDC is required to mint Points into FREEOS, and may increase the demand for FREEOS tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+                <p>The Mint Fee, paid in XUSDC is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2_xusdcresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
@@ -401,7 +400,7 @@
 
               <section class="q-pa-lg">
                 <p><strong>What price should the Locking Threshold be this week?</strong></p>
-                <p>The Locking Threshold makes the community to receive locked Points when the price is low and lowers the supply of FREEOS that can be minted. Locked Points are saved to be unlocked when the price is above the community’s agreed Locking Threshold value. This acts as a way to save value for a time when the economy is healthier.</p>
+                <p>The Locking Threshold makes the community to receive locked {{currencies.point}}S when the price is low and lowers the supply of {{currencies.freeos}} that can be minted. Locked {{currencies.point}}S are saved to be unlocked when the price is above the community’s agreed Locking Threshold value. This acts as a way to save value for a time when the economy is healthier.</p>
 
 
 
@@ -525,10 +524,10 @@
               </div>
             </section>
             <section>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md" style="line-height:1">Q3: FREEOS Economy
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md" style="line-height:1">Q3: {{currencies.freeos}} Economy
                 Sentiment</div>
 
-              <p class="text-lg q-py-md q-mb-none q-px-lg">Do you feel the Freeos economy is a growing (bull market),
+              <p class="text-lg q-py-md q-mb-none q-px-lg">Do you feel the {{currencies.freeos}} economy is a growing (bull market),
                 shrinking (bear market) or neither (going
                 sideways)?</p>
 
@@ -543,10 +542,10 @@
             </section>
             <section>
 
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md" style="line-height:1">Q4: FREEOS Change of
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md" style="line-height:1">Q4: {{currencies.freeos}} Change of
                 Direction</div>
 
-              <p class="text-lg q-py-md q-mb-xs q-px-lg">How long will the above Freeos market last before it changes
+              <p class="text-lg q-py-md q-mb-xs q-px-lg">How long will the above {{currencies.freeos}} market last before it changes
                 direction?</p>
               <div class="q-px-md q-py-sm">
                 <q-slider v-model="surveyq4response" :min="surveythresholdRangeLower" :max="surveythresholdRangeUpper"
@@ -637,7 +636,6 @@ export default {
       voteq2_xusdcresponse: 6,
       voteq3response: 0,
       lockingThresholdVote: 0,
-      stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME,
       tokenCurrencyName: "XPR",//this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       surveythresholdRangeLower: 1,
@@ -657,6 +655,7 @@ export default {
 },
   computed: {
     ...mapGetters('freeos', [
+      'currencies',
       'currentPrice',
       'targetPrice',
       'priceLabel',

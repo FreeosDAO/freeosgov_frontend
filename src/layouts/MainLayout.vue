@@ -72,27 +72,15 @@
 
     </q-page-container>
 
-    <!-- <q-footer bordered class="bg-dark text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar >
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer> -->
   </q-layout>
 </template>
 <script>
 import { stakeRequirement } from 'src/store/freeos/getters'
-// import WalletLoginDialog from 'components/accountManagement/WalletLoginDialog'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import Loading from 'src/components/Loading.vue'
-// import dollar from '../assets/dollar-icon.svg'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
-//import ThreeJS from 'src/components/ThreeJS.vue'
-import MainBackground from '../components/MainBackground.vue'
 
+import MainBackground from '../components/MainBackground.vue'
 const ThreeJS = () => ({
   component: import('src/components/ThreeJS.vue'),
   loading: MainBackground,
@@ -230,8 +218,7 @@ export default {
       }
     },
 
-    ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
-    ...mapActions('calendar', ['getClaimCalendar'])
+    ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo'])
   },
   created() {
     // this.getClaimCalendar()
@@ -286,10 +273,6 @@ $panel-border-radius: 8px;
 $panel-width: 450px;
 
 .page .page-container {
-  /*background-image: url('../assets/bluebg.svg');
-  background-size: 130vw;
-  background-position: center 25vh;
-  background-repeat: no-repeat;*/
   padding-bottom: 100px;
 }
 
@@ -322,7 +305,6 @@ $panel-width: 450px;
 
 .q-btn__content {
   flex-direction: column;
-  /* align-items: baseline; */
 }
 
 .q-separator {
@@ -383,7 +365,6 @@ $panel-width: 450px;
 }
 .dg.ac{
   z-index: 99999999;
-  //display:none !important
 }
 .f-content, .f-content > div{
   pointer-events: none;

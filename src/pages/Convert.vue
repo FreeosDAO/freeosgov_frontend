@@ -8,9 +8,9 @@
 
       <div class="flex justify-center" style="flex-direction:row;">
         <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': !isMintTabSelected }" outline unelevated no-caps
-          @click="isMintTabSelected = !isMintTabSelected">Mint FREEOS</q-btn>
+          @click="isMintTabSelected = !isMintTabSelected">Mint {{currencies.freeos}}</q-btn>
         <q-btn class="tab-btn" v-bind:class="{ 'tab-btn--unselected': isMintTabSelected }" outline unelevated no-caps
-          @click="isMintTabSelected = !isMintTabSelected">Mint FREEBI</q-btn>
+          @click="isMintTabSelected = !isMintTabSelected">Mint {{currencies.freebi}}</q-btn>
       </div>
 
       <!--MINT FREEOS-->
@@ -18,8 +18,8 @@
         <p class="bg-primary text-h5 text-center text-white q-py-md">
           This could be a taxable event in your jurisdiction
         </p>
-        <p class="q-py-md q-px-lg">The Mint Fee applies when you mint your ‘Claimed Points’ or FREEBI into a tradable
-          token (FREEOS).
+        <p class="q-py-md q-px-lg">The Mint Fee applies when you mint your ‘Claimed {{currencies.point}}S’ or {{currencies.freebi}} into a tradable
+          token ({{currencies.freeos}}).
           For more info <a target="_blank" title="Minting FREEOS"
             href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1562"> click here.</a></p>
 
@@ -31,19 +31,19 @@
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.pointBalance" />
               </div>
-              <div class="text-bold text-primary">POINTS</div>
+              <div class="text-bold text-primary">{{currencies.point}}</div>
             </div>
             <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.freebiBalance" />
               </div>
-              <div class="text-bold text-primary">FREEBI</div>
+              <div class="text-bold text-primary">{{currencies.freebi}}</div>
             </div>
             <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.freeosBalance" />
               </div>
-              <div class="text-bold text-primary">FREEOS</div>
+              <div class="text-bold text-primary">{{currencies.freeos}}</div>
             </div>
             <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
@@ -68,7 +68,7 @@
                 <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                   <AbbreviateNumber :value="user.mffBalance" />
                 </div>
-                <div class="text-bold text-primary">of your POINTS</div>
+                <div class="text-bold text-primary">of your {{currencies.point}}S</div>
               </div>
             </div>
           </div>
@@ -77,15 +77,15 @@
         <section class="q-ma-md panel">
           <div class="q-mt-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
           <div class="text-bold text-center q-mt-none q-pt-none q-pb-sm">
-            <span class="q-pr-sm">FREEOS = {{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}%</span>
+            <span class="q-pr-sm">{{currencies.freeos}} = {{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}%</span>
             <span class="q-px-xs">XPR = {{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}%</span>
             <span class="q-pl-sm">XUSDC = {{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo4Decimal}}%</span>
 
           </div>
-          <!--<div class="bg-primary text-sm text-center text-white q-py-sm q-mt-sm">*Note there is NO Mint Fee for Converting To FREEBI</div>-->
+          
           <div class="bg-info text-center">
             <div class="text-primary text-bold q-pt-sm q-pb-none">Minimum Mint Fee</div>
-            <div class="text-subtitle2 q-mt-none q-pt-xs"><strong>{{mintFeeMin | roundTo4Decimal}} FREEOS</strong></div>
+            <div class="text-subtitle2 q-mt-none q-pt-xs"><strong>{{mintFeeMin | roundTo4Decimal}} {{currencies.freeos}}</strong></div>
             <div class="text-subtitle2 q-mt-none"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee |
             roundTo4Decimal}} XPR</strong></div>
             <div class="text-subtitle2 q-mt-none q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee |
@@ -117,18 +117,13 @@
 
                 <q-select label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value
                   required dense outlined v-model="submitData.from" :options="balOptions" />
-
-                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
-                      {{ stakeCurrency }} available to transfer</small></p>
-                  <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
-                      {{ currencyName }} available to transfer</small></p>-->
               </div>
             </div>
 
 
-            <div v-if="submitData.from === 'POINT'" class="row justify-center q-mb-md q-pb-xs">
+            <div v-if="submitData.from === currencies.point" class="row justify-center q-mb-md q-pb-xs">
               <div class="col-xs-6 col-sm-5">
-                <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available Points
+                <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available {{currencies.point}}S
                     Balance:</small>
                 </p>
               </div>
@@ -137,9 +132,9 @@
               </div>
             </div>
 
-            <div v-if="submitData.from === 'FREEBI'" class="row justify-center q-mb-md q-pb-xs">
+            <div v-if="submitData.from === currencies.freebi" class="row justify-center q-mb-md q-pb-xs">
               <div class="col-xs-6 col-sm-5">
-                <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available FREEBI
+                <p class="q-mt-none q-mb-none"><small class="text-bold text-primary">Your Available {{currencies.freebi}}
                     Balance:</small>
                 </p>
               </div>
@@ -171,11 +166,6 @@
                     </div>
                   </div>
                 </label>
-
-                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
-                      {{ stakeCurrency }} available to transfer</small></p>
-                  <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
-                      {{ currencyName }} available to transfer</small></p>-->
               </div>
             </div>
             <div class="row justify-center q-mb-sm q-pb-xs" v-if="submitData.from !== 'AIRCLAIM ALLOWANCE'">
@@ -186,11 +176,6 @@
               <div class="col-xs-6 col-sm-6">
                 <q-select label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value
                   required dense outlined v-model="submitData.pay" :options="mintFeeOptions" />
-
-                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
-                      {{ stakeCurrency }} available to transfer</small></p>
-                  <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
-                      {{ currencyName }} available to transfer</small></p>-->
               </div>
             </div>
             <hr />
@@ -221,7 +206,7 @@
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-6">
-                  <p class="q-mt-xs q-mb-none text-bold">{{ mintFeeFreePointsUsed | roundTo4Decimal }} Points</p>
+                  <p class="q-mt-xs q-mb-none text-bold">{{ mintFeeFreePointsUsed | roundTo4Decimal }} {{currencies.point}}S</p>
                 </div>
               </div>
               <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
@@ -230,7 +215,7 @@
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-6">
-                  <p class="q-mt-xs q-mb-none text-bold">{{ user.mffBalance | roundTo4Decimal}} Points</p>
+                  <p class="q-mt-xs q-mb-none text-bold">{{ user.mffBalance | roundTo4Decimal}} {{currencies.point}}S</p>
                 </div>
               </div>
 
@@ -238,25 +223,25 @@
               <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
 
 
-              <div class="row justify-center" v-if="submitData.from !== 'FREEBI'">
+              <div class="row justify-center" v-if="submitData.from !== currencies.freebi">
                 <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-xs q-mb-none"><small class="text-bold">Points balance:</small>
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.point}}S balance:</small>
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-6">
                   <p class="q-mt-xs q-mb-none text-bold">{{(user.pointBalance - parseFloat(submitData.quantity)) |
-                  roundTo4Decimal }} Points</p>
+                  roundTo4Decimal }} {{currencies.point}}S</p>
                 </div>
               </div>
 
-              <div class="row justify-center" v-if="submitData.from === 'FREEBI'">
+              <div class="row justify-center" v-if="submitData.from === currencies.freebi">
                 <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance:</small>
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.freebi}} balance:</small>
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-6">
                   <p class="q-mt-xs q-mb-none text-bold">{{(user.freebiBalance - parseFloat(submitData.quantity)) |
-                  roundTo4Decimal }} FREEBI</p>
+                  roundTo4Decimal }} {{currencies.freebi}}</p>
                 </div>
               </div>
 
@@ -291,19 +276,19 @@
                 </div>
                 <div class="col-xs-6 col-sm-6">
                   <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.mffBalance - mintFeeFreePointsUsed) |
-                  roundTo4Decimal}} Points</p>
+                  roundTo4Decimal}} {{currencies.point}}S</p>
                 </div>
               </div>
 
 
               <div class="row justify-center">
                 <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEOS balance:</small>
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.freeos}} balance:</small>
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-6">
                   <p class="q-mt-xs q-mb-none text-bold" v-bind:class="{ 'text-negative': freeosBalance < 0 }"
-                    text-negative>{{freeosBalance | roundTo4Decimal}} FREEOS</p>
+                    text-negative>{{freeosBalance | roundTo4Decimal}} {{currencies.freeos}}</p>
                 </div>
               </div>
 
@@ -314,7 +299,7 @@
             <div style="align-items: center;" class="row justify-center q-mt-lg ">
               <q-btn @click="mintSubmit()" class="full-width" :disabled="disableMintFeeButton" size="xl" unelevated
                 no-caps color="primary">
-                Mint FREEOS</q-btn>
+                Mint {{currencies.freeos}}</q-btn>
             </div>
           </div>
         </section>
@@ -332,11 +317,11 @@
       <!--POINT TO FREEBI-->
       <section v-if="!isMintTabSelected">
         <p class="bg-primary text-h5 text-center text-white q-py-md">
-          Mint Points to FREEBI
+          Mint {{currencies.point}}S to {{currencies.freebi}}
         </p>
-        <p class="q-py-md q-px-lg">FREEBI is our internal trading token within the community and isn't subject to a Mint
-          Fee. The FREEBI tokens exist as a way for participants to have a limited, but tradable, token that can be used
-          for Peer-to-Peer activities, while protecting the FREEOS token's circulating supply. For more info <a
+        <p class="q-py-md q-px-lg">{{currencies.freebi}} is our internal trading token within the community and isn't subject to a Mint
+          Fee. The {{currencies.freebi}} tokens exist as a way for participants to have a limited, but tradable, token that can be used
+          for Peer-to-Peer activities, while protecting the {{currencies.freeos}} token's circulating supply. For more info <a
             href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1582" target="_blank">click
             here.</a></p>
 
@@ -348,19 +333,19 @@
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.pointBalance" />
               </div>
-              <div class="text-bold text-primary">POINTS</div>
+              <div class="text-bold text-primary">{{currencies.point}}</div>
             </div>
             <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.freebiBalance" />
               </div>
-              <div class="text-bold text-primary">FREEBI</div>
+              <div class="text-bold text-primary">{{currencies.freebi}}</div>
             </div>
             <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.freeosBalance" />
               </div>
-              <div class="text-bold text-primary">FREEOS</div>
+              <div class="text-bold text-primary">{{currencies.freeos}}</div>
             </div>
           </div>
 
@@ -372,11 +357,11 @@
 
 
         <section class="q-ma-md panel" v-if="isVerified">
-          <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Mint Your Points to FREEBI</div>
+          <div class="text-primary text-subtitle1 text-bold text-center q-pa-sm">Mint Your {{currencies.point}}S to {{currencies.freebi}}</div>
           <div class="bg-info q-pa-md">
             <div class="row justify-center q-mb-sm q-pb-xs">
               <div class="col-xs-6 col-sm-5">
-                <p class="q-mt-sm q-mb-none"><small class="text-bold text-primary">Your Available Points
+                <p class="q-mt-sm q-mb-none"><small class="text-bold text-primary">Your Available {{currencies.point}}S
                     Balance:</small>
                 </p>
               </div>
@@ -409,11 +394,6 @@
                     </div>
                   </div>
                 </label>
-
-                <!-- <p class="q-mb-none text-grey" v-if="submitData.token === stakeCurrency"><small>{{ XPRBalance }}
-                  {{ stakeCurrency }} available to transfer</small></p>
-              <p class="q-mb-none text-grey" v-if="submitData.token === currencyName"><small>{{ liquidFreeos }}
-                  {{ currencyName }} available to transfer</small></p>-->
               </div>
             </div>
             <hr />
@@ -422,7 +402,7 @@
 
               <div class="row justify-center">
                 <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-xs q-mb-none"><small class="text-bold">POINTS balance will be:</small>
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.point}}S balance will be:</small>
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-5">
@@ -434,7 +414,7 @@
 
               <div class="row justify-center">
                 <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-xs q-mb-none"><small class="text-bold">FREEBI balance will be:</small>
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.freebi}} balance will be:</small>
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-5">
@@ -447,7 +427,7 @@
               <q-btn @click="submit()"
                 :disabled="!(parseFloat(sendAmount) > 0) || parseFloat(sendAmount) > parseFloat(user.pointBalance)"
                 class="full-width" size="xl" unelevated no-caps :disable="false" color="primary">
-                Mint FREEBI</q-btn>
+                Mint {{currencies.freebi}}</q-btn>
             </div>
           </div>
         </section>
@@ -496,7 +476,6 @@ export default {
       isMintTab: true,
       sendAmount: 0,
       tokenCurrencyName: this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
-      stakeCurrency: process.env.STAKING_CURRENCY,
       currencyName: process.env.CURRENCY_NAME
     }
   },
@@ -510,7 +489,7 @@ export default {
     showMintFeeError() {
       //freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)
       let isLowerThanMintFee = false;
-      if (this.submitData.pay === 'FREEOS') {
+      if (this.submitData.pay === this.currencies.freeos) {
         if (this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
       } else if (this.submitData.pay === 'XPR') {
         if (this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
@@ -523,7 +502,7 @@ export default {
     disableMintFeeButton() {
       //freeosBalance < 0 || !submitData.from || (!submitData.pay && submitData.from !=='AIRCLAIM ALLOWANCE') || !(submitData.quantity > 0 && submitData.quantity <= mintMaxAmount)
       let isLowerThanMintFee = false;
-      if (this.submitData.pay === 'FREEOS') {
+      if (this.submitData.pay === this.currencies.freeos) {
         if (this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
       } else if (this.submitData.pay === 'XPR') {
         if (this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
@@ -544,7 +523,7 @@ export default {
       return this.mintfeePayable * (parseFloat(this.rewardsPrevious['mint_fee_percent_xusdc']) / 100);
     },
     finalMintFeeFreeos() {//final_mintfee_in_freeos & minfee
-      if (this.submitData.pay === 'FREEOS') {
+      if (this.submitData.pay === this.currencies.freeos) {
         if (this.mintFeeInFreeos < this.mintFeeMin) {
           return this.mintFeeMin;
         } else {
@@ -595,9 +574,9 @@ export default {
       }
     },
     mintMaxAmount() {
-      if (this.submitData.from === 'POINT') {
+      if (this.submitData.from === this.currencies.point) {
         return this.user.pointBalance
-      } else if (this.submitData.from === 'FREEBI') {
+      } else if (this.submitData.from === this.currencies.freebi) {
         return this.user.freebiBalance
       } else if (this.submitData.from === 'AIRCLAIM ALLOWANCE') {
         if (this.user.pointBalance > this.user.mffBalance) {
@@ -612,7 +591,7 @@ export default {
     freeosBalance() {
       const qty = parseFloat(this.submitData.quantity);
 
-      if (this.submitData.pay === 'FREEOS') {
+      if (this.submitData.pay === this.currencies.freeos) {
         return this.user.freeosBalance + qty - this.finalMintFeeFreeos;
       } else {
         return this.user.freeosBalance + qty;
@@ -634,7 +613,8 @@ export default {
       'dparametersTable',
       'xprContract',
       'usdContract',
-      'freeosContract'
+      'freeosContract',
+      'currencies'
     ])
   },
   methods: {
@@ -659,7 +639,7 @@ export default {
       if (!(result instanceof Error)) {
         var amount = this.sendAmount;
         this.$refs.complete.openDialog({
-          title: "Woohoo!", subtitle: "You minted", value: amount, currency: 'FREEBI'
+          title: "Woohoo!", subtitle: "You minted", value: amount, currency: this.currencies.freebi
         });
         this.resetForm();
       }
@@ -671,7 +651,7 @@ export default {
 
       var transactionArray = [];
 
-      if (this.submitData.from === 'FREEBI') {
+      if (this.submitData.from === this.currencies.freebi) {
         //Transfer FREEBI
         var dataToSubmit = {};
         dataToSubmit.from = this.accountName;
@@ -698,7 +678,7 @@ export default {
         console.log('mintFeeInFreeos', this.mintFeeInFreeos)
 
 
-        if (this.submitData.pay === 'FREEOS') {
+        if (this.submitData.pay === this.currencies.freeos) {
           dataToSubmit.contract = this.freeosContract['contract'];
           dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
         } else if (this.submitData.pay === 'XPR') {
@@ -717,14 +697,14 @@ export default {
       dataToSubmit.user = this.accountName;
 
       if (this.submitData.from === 'AIRCLAIM ALLOWANCE') {
-        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} POINT`;
+        dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.currencies.point}`;
       } else {
         dataToSubmit.input_quantity = `${qty.toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.from}`;
       }
 
 
       //if(this.submitData.pay === 'FREEOS' || this.submitData.from === 'AIRCLAIM ALLOWANCE')
-      dataToSubmit.mint_fee_currency = '4,FREEOS'; // + this.submitData.pay;
+      dataToSubmit.mint_fee_currency = '4,'+this.currencies.freeos; // + this.submitData.pay;
 
       if (this.submitData.pay === 'XPR') {
         dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
@@ -745,7 +725,7 @@ export default {
 
       if (!(result instanceof Error)) {
         this.$refs.complete.openDialog({
-          title: "Woohoo!", subtitle: "You minted", value: qty, currency: 'FREEOS'
+          title: "Woohoo!", subtitle: "You minted", value: qty, currency: this.currencies.freeos
         });
         setTimeout(function () {
           t.resetForm();
@@ -768,13 +748,13 @@ export default {
   created() {
     this.balOptions = [
       {
-        label: 'Points',
-        value: 'POINT',
+        label: this.currencies.point+'S',
+        value: this.currencies.point,
         disabled: this.checkIfDisabled(this.user.pointBalance)
       },
       {
-        label: 'FREEBI',
-        value: 'FREEBI',
+        label: this.currencies.freebi,
+        value: this.currencies.freebi,
         disabled: this.checkIfDisabled(this.user.freebiBalance)
       }
     ]
@@ -782,8 +762,8 @@ export default {
 
     this.mintFeeOptions = [
       {
-        label: 'FREEOS <small>(' + this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent']) + '%)</small>',
-        value: 'FREEOS',
+        label: this.currencies.freeos+' <small>(' + this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent']) + '%)</small>',
+        value: this.currencies.freeos,
         disabled: this.checkIfDisabled(this.user.freeosBalance)
       },
       {

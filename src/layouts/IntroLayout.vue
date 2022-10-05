@@ -27,10 +27,9 @@
   </q-layout>
 </template>
 <script>
-// import WalletLoginDialog from 'components/accountManagement/WalletLoginDialog'
+
 import { mapState, mapActions, mapGetters } from 'vuex'
 
-// import dollar from '../assets/dollar-icon.svg'
 const menuList = [
   {
     icon: require('@/assets/dollar-icon.svg'),
@@ -89,7 +88,6 @@ export default {
     }
   },
   created() {
-    // this.getClaimCalendar()
     this.monitorBlockChain()
   },
   methods: {
@@ -105,8 +103,7 @@ export default {
       (this.$route.path !== menuItem.route) && this.$router.push(menuItem.route)
       this.selectedItemLabel = menuItem.label
     },
-    ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo']),
-    ...mapActions('calendar', ['getClaimCalendar'])
+    ...mapActions('account', ['checkIfLoggedIn', 'connectWallet', 'logout', 'getAccountInfo', 'getClaimDetailInfo'])
   },
   watch: {
 
