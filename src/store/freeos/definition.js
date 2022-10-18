@@ -44,6 +44,7 @@ var definition = {
 
   priceLabel: null,
   userHasVoted: null,
+  airclaimStatus: null,
 
   surveyShare: null,
   voteShare: null,

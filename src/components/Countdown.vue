@@ -39,7 +39,7 @@
 export default {
   components: {},
   props: {
-    startDate: Number,
+    startDate: String,
   },
   data() {
     return {
@@ -66,7 +66,8 @@ export default {
       hours = 0,
       days = 0;
 
-    let countDown = this.startDate * 1000;
+
+    let countDown = new Date(this.startDate + "Z").getTime();
       //countDown = new Date(birthday).getTime();
     console.log(countDown, new Date().getTime())
 

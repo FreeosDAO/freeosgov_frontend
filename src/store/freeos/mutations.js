@@ -14,6 +14,11 @@ export const setcurrencies = (state, currencies) => {
 export const setmasterSwitch = (state, masterSwitch) => {
   state.masterSwitch = masterSwitch
 }
+
+export const setairclaimStatus = (state, airclaimStatus) => {
+  state.airclaimStatus = airclaimStatus
+}
+
 export const setiterations = (state, iterations) => {
   state.iterations = iterations
 }

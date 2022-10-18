@@ -159,6 +159,9 @@ export class FreeosBlockChainState extends EventEmitter {
 
 
     output['isFreeosEnabled'] = masterSwitch === '1' ? true : false
+
+
+
     /**
      * Grab User Vars
      */
@@ -333,6 +336,7 @@ export class FreeosBlockChainState extends EventEmitter {
     output['ratifyClosesIn'] = iterations['ratifyClosesIn'];
     output['nextClaimIn'] = iterations['nextClaimIn'];
     output['currentIteration'] = iterations['current'];
+    output['airclaimStatus'] = iterations['airclaimStatus'];
     
 
     // Rewards i.e issuance_rate && mint_fee_percent
@@ -762,8 +766,14 @@ export class FreeosBlockChainState extends EventEmitter {
   getCurrentAndNextIteration() {
 
     // Gather vars
-    let init = new Date(this.systemRow.init + "Z");
-    var now = new Date().getTime();  //GET UTC TimeZone Offset and add to Current Local Timestamp
+    let init = new Date(this.systemRow.init + "Z").getTime();
+    let now = new Date().getTime();  //GET UTC TimeZone Offset and add to Current Local Timestamp
+    let airclaimStatus = "";
+    if (now < init) {
+      airclaimStatus = "Pending"
+    } else {
+      airclaimStatus = "Running"
+    }
 
     let iterationsec = parseInt(this.getParameterFromTable('iterationsec', this.parametersTable, 3600),10);
     let surveystart = parseInt(this.getParameterFromTable('surveystart', this.parametersTable, 3600),10);
@@ -799,7 +809,8 @@ export class FreeosBlockChainState extends EventEmitter {
       ratifyPeriodActive: ratifyPeriodActive,
       current: currentIteration,
       next: nextIteration,
-      nextClaimIn: nextClaimIn
+      nextClaimIn: nextClaimIn,
+      airclaimStatus: airclaimStatus
     }
   }
 
