@@ -189,7 +189,7 @@ export class FreeosBlockChainState extends EventEmitter {
         {contract: process.env.FREEOSTOKENS_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.freeos, upper_bound: output.currencies.freeos}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'mintfeefree', scope: user.name, params: {limit: 1}},
         {contract: process.env.XPR_CURRENCY_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.xpr, upper_bound: output.currencies.xpr}},
-        {contract: 'xtokens', table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.xusdc, upper_bound: output.currencies.xusdc}},
+        {contract: process.env.XUSDC_CURRENCY_CONTRACT, table: 'accounts', scope: user.name, params: {limit: 1, lower_bound: output.currencies.xusdc, upper_bound: output.currencies.xusdc}},
         {contract: kycContract, table: 'usersinfo', scope: kycContract, params: {limit: 1, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName}},
         {contract: process.env.FREEOSGOV_CONTRACT, table: 'unvests', scope: user.name, params: {limit: 1}},
         {contract: process.env.DIVIDEND_CONTRACT, table: 'nfts', scope: process.env.DIVIDEND_CONTRACT, params: {limit: 1, index_position: 3, upper_bound: this.walletUser.accountName, lower_bound: this.walletUser.accountName, key_type: 'i64'}}
@@ -290,15 +290,15 @@ export class FreeosBlockChainState extends EventEmitter {
      output['currentPrice'] = exchangeRate && exchangeRate.currentprice ? (exchangeRate.currentprice / 1).toFixed(6) : 0;
      output['targetPrice'] = exchangeRate && exchangeRate.targetprice ? (exchangeRate.targetprice / 1).toFixed(6) : 0;
 
-     const xprContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,'+output.currencies.xpr, upper_bound: '4,'+output.currencies.xpr});
-     //console.log('xprContract', xprContract)
+     const xprContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: process.env.XPR_CURRENCY_PRECISION + ','+output.currencies.xpr, upper_bound: process.env.XPR_CURRENCY_PRECISION + ','+output.currencies.xpr});
+     console.log('xprContract', xprContract)
      output['xprContract'] = xprContract;
 
-     const usdContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '6,'+output.currencies.xusdc, upper_bound: '6,'+output.currencies.xusdc});
-     //console.log('usdContract', usdContract)
+     const usdContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: process.env.XUSDC_CURRENCY_PRECISION + ','+output.currencies.xusdc, upper_bound: process.env.XUSDC_CURRENCY_PRECISION + ','+output.currencies.xusdc});
+     console.log('usdContract', usdContract)
      output['usdContract'] = usdContract;
 
-     const freeosContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: '4,'+output.currencies.freeos, upper_bound: '4,'+output.currencies.freeos});
+     const freeosContract = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'currencies', process.env.FREEOSGOV_CONTRACT, {limit: 1, lower_bound: process.env.TOKEN_PRECISION + ','+output.currencies.freeos, upper_bound: process.env.TOKEN_PRECISION + ','+output.currencies.freeos});
      //console.log('freeosContract', freeosContract)
      output['freeosContract'] = freeosContract;
 
@@ -761,7 +761,7 @@ export class FreeosBlockChainState extends EventEmitter {
     }
     return null
   }
-  
+
   /**
    * Gets current and next iteration count
    */

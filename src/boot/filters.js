@@ -54,7 +54,7 @@ export default ({ Vue}) => {
     Vue.filter('roundTo4Decimal', function(value){
         if(value){
             let newValue = parseFloat(value);
-            return Math.round(newValue * 10000) / 10000;
+            return Math.round(newValue * 10) / 10000;
         }else{
             return 0;
         }
@@ -64,6 +64,17 @@ export default ({ Vue}) => {
         if(value){
             let newValue = parseFloat(value);
             return Math.round(newValue * 1000000) / 1000000;
+        }else{
+            return 0;
+        }
+    })
+
+    Vue.filter('roundToDecimal', function(value, precision){
+        precision ? precision : 4;
+        let pw = 10 ** precision;
+        if(value){
+            let newValue = parseFloat(value);
+            return Math.round(newValue * pw) / pw;
         }else{
             return 0;
         }

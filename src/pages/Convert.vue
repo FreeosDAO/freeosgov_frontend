@@ -683,10 +683,10 @@ export default {
           dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
         } else if (this.submitData.pay === this.currencies.xpr) {
           dataToSubmit.contract = this.xprContract['contract'];
-          dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
+          dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.XPR_CURRENCY_PRECISION)} ${this.submitData.pay}`;
         } else if (this.submitData.pay === this.currencies.xusdc) {
           dataToSubmit.contract = this.usdContract['contract'];
-          dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(6)} ${this.submitData.pay}`;
+          dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.XUSDC_CURRENCY_PRECISION)} ${this.submitData.pay}`;
         }
         transactionArray.push(dataToSubmit);
         //var result = await this.transfer(dataToSubmit, accountContract);
@@ -707,9 +707,9 @@ export default {
       dataToSubmit.mint_fee_currency = '4,'+this.currencies.freeos; // + this.submitData.pay;
 
       if (this.submitData.pay === this.currencies.xpr) {
-        dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
+        dataToSubmit.mint_fee_currency = process.env.XPR_CURRENCY_PRECISION + ',' + this.submitData.pay;
       } else if (this.submitData.pay === this.currencies.xusdc) {
-        dataToSubmit.mint_fee_currency = '6,' + this.submitData.pay;
+        dataToSubmit.mint_fee_currency = process.env.XUSDC_CURRENCY_PRECISION + ',' + this.submitData.pay;
       }
 
       dataToSubmit.use_airclaim_points = this.submitData.from === 'AIRCLAIM ALLOWANCE' ? true : false;
