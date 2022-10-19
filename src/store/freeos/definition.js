@@ -23,7 +23,7 @@ var definition = {
   userMeetsStakeRequirement: null,
   totalHolding: null,
   canClaim: null,
-  isFreeosEnabled: null,
+  isFreeosEnabled: true,
   reasonCannotClaim: null,
 
   accountName: null,
@@ -35,7 +35,7 @@ var definition = {
 
   currencies: null,
   unvestPercentage: null, 
-  airclaimStatus: null, 
+  airclaimStatus: "", 
   currentPrice: null,
   targetPrice: null,
   announceObj: null,
@@ -44,7 +44,6 @@ var definition = {
 
   priceLabel: null,
   userHasVoted: null,
-  airclaimStatus: null,
 
   surveyShare: null,
   voteShare: null,
