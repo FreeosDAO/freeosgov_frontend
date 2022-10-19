@@ -39,7 +39,7 @@
                 <div class="text-h6 q-mt-md text-weight-medium q-mb-none">For more info visit <a target="_blank"
                         href="https://freeos.io/">freeos.io</a></div>
             </div>
-            <div v-if="!airclaimStatus || !isFreeosEnabled">
+            <div v-if="!airclaimStatus || !isFreeosEnabled" style="display:none;">
                 <div class="q-pa-md  bg-negative" style="max-width:600px;margin:0 auto;">
                     <h4 class="text-white">The Governance is unavailable at this time, please try later </h4>
                 </div>
