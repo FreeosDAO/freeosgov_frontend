@@ -170,22 +170,22 @@
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average']) < parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_downward" />
               </div>
 
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in XPR</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xpr}}</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in XPR: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee, paid in XPR: <strong>{{ parseFloat(rewardsCurrent['q2average_xpr']) }}%</strong>
+                The Voted Mint Fee, paid in {{currencies.xpr}}: <strong>{{ parseFloat(rewardsCurrent['q2average_xpr']) }}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xpr']) > parseFloat(rewardsPrevious['mint_fee_percent_xpr'])" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xpr']) < parseFloat(rewardsPrevious['mint_fee_percent_xpr'])" size="xs" name="arrow_downward" />
               </div>
 
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in XUSDC</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xusdc}}</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in XUSDC: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee, paid in XUSDC: <strong>{{ parseFloat(rewardsCurrent['q2average_xusdc']) }}%</strong>
+                The Voted Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ parseFloat(rewardsCurrent['q2average_xusdc']) }}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xusdc']) > parseFloat(rewardsPrevious['mint_fee_percent_xusdc'])" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xusdc']) < parseFloat(rewardsPrevious['mint_fee_percent_xusdc'])" size="xs" name="arrow_downward" />
               </div>
@@ -332,14 +332,14 @@
 
             <!--Mint Fee Vote-->
             <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in XPR</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xpr}}</div>
               <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xpr']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in XPR: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
-                <p><strong>What should the Mint Fee, paid in XPR be this week?</strong></p>
-                <p>The Mint Fee, paid in XPR is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+                <p><strong>What should the Mint Fee, paid in {{currencies.xpr}} be this week?</strong></p>
+                <p>The Mint Fee, paid in {{currencies.xpr}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2_xprresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
@@ -354,7 +354,7 @@
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq2_xprresponse, voteq2RangeLower, voteq2RangeUpper)">XPR Mint Fee must be between
+                  v-if="validateRange(voteq2_xprresponse, voteq2RangeLower, voteq2RangeUpper)">{{currencies.xpr}} Mint Fee must be between
                   {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
               </section>
             </article>
@@ -362,14 +362,14 @@
 
               <!--Mint Fee Vote-->
               <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in XUSDC</div>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xusdc}}</div>
               <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xusdc']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in XUSDC: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
-                <p><strong>What should the Mint Fee, paid in XUSDC be this week?</strong></p>
-                <p>The Mint Fee, paid in XUSDC is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+                <p><strong>What should the Mint Fee, paid in {{currencies.xusdc}} be this week?</strong></p>
+                <p>The Mint Fee, paid in {{currencies.xusdc}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
 
                 <div class="q-px-md q-py-sm">
                   <q-slider v-model="voteq2_xusdcresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
@@ -384,7 +384,7 @@
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq2_xusdcresponse, voteq2RangeLower, voteq2RangeUpper)">XUSDC Mint Fee must be between
+                  v-if="validateRange(voteq2_xusdcresponse, voteq2RangeLower, voteq2RangeUpper)">{{currencies.xusdc}} Mint Fee must be between
                   {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
               </section>
             </article>
@@ -637,7 +637,6 @@ export default {
       voteq3response: 0,
       lockingThresholdVote: 0,
       currencyName: process.env.CURRENCY_NAME,
-      tokenCurrencyName: "XPR",//this.$options.filters.capitalize(process.env.TOKEN_CURRENCY_NAME),
       surveythresholdRangeLower: 1,
       surveythresholdRangeUpper: 24,
       voteq3RangeLower: parseFloat(process.env.VOTETHRESHOLDLOWER),

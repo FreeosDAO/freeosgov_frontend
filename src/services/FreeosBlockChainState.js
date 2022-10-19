@@ -119,7 +119,9 @@ export class FreeosBlockChainState extends EventEmitter {
     output['currencies'] = {
       'freeos': process.env.CURRENCY_NAME,
       'point': process.env.TOKEN_CURRENCY_NAME,
-      'freebi': process.env.FREEBI_CURRENCY_NAME
+      'freebi': process.env.FREEBI_CURRENCY_NAME,
+      'xpr': process.env.XPR_CURRENCY_NAME,
+      'xusdc': process.env.XUSDC_CURRENCY_NAME,
     }
 
     /**

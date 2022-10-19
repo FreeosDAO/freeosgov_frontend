@@ -49,13 +49,13 @@
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.XPRBalance" />
               </div>
-              <div class="text-bold text-primary">XPR</div>
+              <div class="text-bold text-primary">{{currencies.xpr}}</div>
             </div>
             <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center" v-if="user.XUSDCBalance">
               <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">
                 <AbbreviateNumber :value="user.XUSDCBalance" />
               </div>
-              <div class="text-bold text-primary">XUSDC</div>
+              <div class="text-bold text-primary">{{currencies.xusdc}}</div>
             </div>
           </div>
 
@@ -78,8 +78,8 @@
           <div class="q-mt-sm text-primary text-subtitle1 text-bold text-center v q-pb-none">Mint Fee Details:</div>
           <div class="text-bold text-center q-mt-none q-pt-none q-pb-sm">
             <span class="q-pr-sm">{{currencies.freeos}} = {{rewardsPrevious['mint_fee_percent'] | roundTo4Decimal}}%</span>
-            <span class="q-px-xs">XPR = {{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}%</span>
-            <span class="q-pl-sm">XUSDC = {{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo4Decimal}}%</span>
+            <span class="q-px-xs">{{currencies.xpr}} = {{rewardsPrevious['mint_fee_percent_xpr'] | roundTo4Decimal}}%</span>
+            <span class="q-pl-sm">{{currencies.xusdc}} = {{rewardsPrevious['mint_fee_percent_xusdc'] | roundTo4Decimal}}%</span>
 
           </div>
           
@@ -87,9 +87,9 @@
             <div class="text-primary text-bold q-pt-sm q-pb-none">Minimum Mint Fee</div>
             <div class="text-subtitle2 q-mt-none q-pt-xs"><strong>{{mintFeeMin | roundTo4Decimal}} {{currencies.freeos}}</strong></div>
             <div class="text-subtitle2 q-mt-none"><small class="q-pr-sm">or</small><strong>{{xprMinMintfee |
-            roundTo4Decimal}} XPR</strong></div>
+            roundTo4Decimal}} {{currencies.xpr}}</strong></div>
             <div class="text-subtitle2 q-mt-none q-pb-md"><small class="q-pr-sm">or</small><strong>{{usdMinMintfee |
-            roundTo6Decimal}} XUSDC</strong></div>
+            roundTo6Decimal}} {{currencies.xusdc}}</strong></div>
           </div>
           <div v-if="this.user.hasNFT" class="bg-primary text-center text-white q-py-md">
             <div class="text-bold q-pb-none">You have a FREEDAO NFT</div>
@@ -190,11 +190,11 @@
                     <p class="q-mt-xs q-mb-none"><small class="text-bold">Total Mint Fee will be:</small>
                     </p>
                   </div>
-                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay !== 'XUSDC'">
+                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay !== currencies.xusdc">
                     <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo4Decimal }} {{submitData.pay}}
                     </p>
                   </div>
-                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay === 'XUSDC'">
+                  <div class="col-xs-6 col-sm-6" v-if="submitData.pay === currencies.xusdc">
                     <p class="q-mt-xs q-mb-none text-bold">{{ finalMintFeeFreeos | roundTo6Decimal }} {{submitData.pay}}
                     </p>
                   </div>
@@ -246,25 +246,25 @@
               </div>
 
 
-              <div class="row justify-center" v-if="submitData.pay === 'XPR'">
+              <div class="row justify-center" v-if="submitData.pay === currencies.xpr">
                 <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-xs q-mb-none"><small class="text-bold">XPR balance:</small>
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.xpr}} balance:</small>
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-6">
                   <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XPRBalance - finalMintFeeFreeos) |
-                  roundTo4Decimal }} XPR</p>
+                  roundTo4Decimal }} {{currencies.xpr}}</p>
                 </div>
               </div>
 
-              <div class="row justify-center" v-if="submitData.pay === 'XUSDC'">
+              <div class="row justify-center" v-if="submitData.pay === currencies.xusdc">
                 <div class="col-xs-6 col-sm-5">
-                  <p class="q-mt-xs q-mb-none"><small class="text-bold">XUSDC balance:</small>
+                  <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.xusdc}} balance:</small>
                   </p>
                 </div>
                 <div class="col-xs-6 col-sm-6">
                   <p class="q-mt-xs q-mb-none text-bold">{{parseFloat(user.XUSDCBalance - finalMintFeeFreeos) |
-                  roundTo6Decimal }} XUSDC</p>
+                  roundTo6Decimal }} {{currencies.xusdc}}</p>
                 </div>
               </div>
 
@@ -491,9 +491,9 @@ export default {
       let isLowerThanMintFee = false;
       if (this.submitData.pay === this.currencies.freeos) {
         if (this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
-      } else if (this.submitData.pay === 'XPR') {
+      } else if (this.submitData.pay === this.currencies.xpr) {
         if (this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
-      } else if (this.submitData.pay === 'XUSDC') {
+      } else if (this.submitData.pay === this.currencies.xusdc) {
         if (this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
       }
 
@@ -504,9 +504,9 @@ export default {
       let isLowerThanMintFee = false;
       if (this.submitData.pay === this.currencies.freeos) {
         if (this.finalMintFeeFreeos > this.user.freeosBalance) isLowerThanMintFee = true;
-      } else if (this.submitData.pay === 'XPR') {
+      } else if (this.submitData.pay === this.currencies.xpr) {
         if (this.finalMintFeeFreeos > this.user.XPRBalance) isLowerThanMintFee = true;
-      } else if (this.submitData.pay === 'XUSDC') {
+      } else if (this.submitData.pay === this.currencies.xusdc) {
         if (this.finalMintFeeFreeos > this.user.XUSDCBalance) isLowerThanMintFee = true;
       }
 
@@ -529,7 +529,7 @@ export default {
         } else {
           return this.mintFeeInFreeos;
         }
-      } else if (this.submitData.pay === 'XPR') {
+      } else if (this.submitData.pay === this.currencies.xpr) {
 
         var calcXPR = this.mintFeeInXPR * (parseFloat(this.freeosContract['usdrate']) / parseFloat(this.xprContract['usdrate']));
         if (calcXPR > this.xprMinMintfee) {
@@ -540,7 +540,7 @@ export default {
 
 
 
-      } else if (this.submitData.pay === 'XUSDC') {
+      } else if (this.submitData.pay === this.currencies.xusdc) {
         var calcXUSDC = this.mintFeeInXUSDC * (parseFloat(this.freeosContract['usdrate']) / parseFloat(this.usdContract['usdrate']));
         if (calcXUSDC > this.usdMinMintfee) {
           return calcXUSDC;
@@ -681,10 +681,10 @@ export default {
         if (this.submitData.pay === this.currencies.freeos) {
           dataToSubmit.contract = this.freeosContract['contract'];
           dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
-        } else if (this.submitData.pay === 'XPR') {
+        } else if (this.submitData.pay === this.currencies.xpr) {
           dataToSubmit.contract = this.xprContract['contract'];
           dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(process.env.TOKEN_PRECISION)} ${this.submitData.pay}`;
-        } else if (this.submitData.pay === 'XUSDC') {
+        } else if (this.submitData.pay === this.currencies.xusdc) {
           dataToSubmit.contract = this.usdContract['contract'];
           dataToSubmit.quantity = `${parseFloat(this.finalMintFeeFreeos).toFixed(6)} ${this.submitData.pay}`;
         }
@@ -706,9 +706,9 @@ export default {
       //if(this.submitData.pay === 'FREEOS' || this.submitData.from === 'AIRCLAIM ALLOWANCE')
       dataToSubmit.mint_fee_currency = '4,'+this.currencies.freeos; // + this.submitData.pay;
 
-      if (this.submitData.pay === 'XPR') {
+      if (this.submitData.pay === this.currencies.xpr) {
         dataToSubmit.mint_fee_currency = '4,' + this.submitData.pay;
-      } else if (this.submitData.pay === 'XUSDC') {
+      } else if (this.submitData.pay === this.currencies.xusdc) {
         dataToSubmit.mint_fee_currency = '6,' + this.submitData.pay;
       }
 
@@ -767,13 +767,13 @@ export default {
         disabled: this.checkIfDisabled(this.user.freeosBalance)
       },
       {
-        label: 'XPR <small>(' + this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent_xpr']) + '%)</small>',
-        value: 'XPR',
+        label: this.currencies.xpr + ' <small>(' + this.$options.filters.roundTo4Decimal(this.rewardsPrevious['mint_fee_percent_xpr']) + '%)</small>',
+        value: this.currencies.xpr,
         disabled: this.checkIfDisabled(this.user.XPRBalance)
       },
       {
-        label: 'XUSDC <small>(' + this.$options.filters.roundTo6Decimal(this.rewardsPrevious['mint_fee_percent_xusdc']) + '%)</small>',
-        value: 'XUSDC',
+        label: this.currencies.xusdc + ' <small>(' + this.$options.filters.roundTo6Decimal(this.rewardsPrevious['mint_fee_percent_xusdc']) + '%)</small>',
+        value: this.currencies.xusdc,
         disabled: this.checkIfDisabled(this.user.XUSDCBalance)
       }
     ]
