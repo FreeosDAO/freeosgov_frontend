@@ -152,40 +152,40 @@
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
               <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
-                Current Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) * 100 }}%</strong>
+                Current Issuance: <strong>{{ rewardsPrevious['issuance_rate'] * 100  | roundToDecimal(2) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q1average']" class="text-md q-px-lg q-py-md">
-                The Voted Issuance: <strong>{{ parseFloat(rewardsCurrent['q1average']) }}%</strong>
+                The Voted Issuance: <strong>{{ rewardsCurrent['q1average'] | roundToDecimal(2) }}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q1average']) > parseFloat(rewardsPrevious['issuance_rate']) * 100" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q1average']) < parseFloat(rewardsPrevious['issuance_rate']) * 100" size="xs" name="arrow_downward" />
               </div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.freeos}}</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ rewardsPrevious['mint_fee_percent'] | roundToDecimal(2) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsCurrent['q2average']) }}%</strong>
+                The Voted Mint Fee, paid in {{currencies.freeos}}: <strong>{{ rewardsCurrent['q2average'] | roundToDecimal(2) }}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average']) > parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average']) < parseFloat(rewardsPrevious['mint_fee_percent'])" size="xs" name="arrow_downward" />
               </div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xpr}}</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ rewardsPrevious['mint_fee_percent_xpr'] | roundToDecimal(2) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee, paid in {{currencies.xpr}}: <strong>{{ parseFloat(rewardsCurrent['q2average_xpr']) }}%</strong>
+                The Voted Mint Fee, paid in {{currencies.xpr }}: <strong>{{ rewardsCurrent['q2average_xpr'] | roundToDecimal(2) }}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xpr']) > parseFloat(rewardsPrevious['mint_fee_percent_xpr'])" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xpr']) < parseFloat(rewardsPrevious['mint_fee_percent_xpr'])" size="xs" name="arrow_downward" />
               </div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xusdc}}</div>
               <div  v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ rewardsPrevious['mint_fee_percent_xusdc'] | roundToDecimal(2) }}%</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q2average']" class="text-md q-px-lg q-py-md">
-                The Voted Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ parseFloat(rewardsCurrent['q2average_xusdc']) }}%</strong>
+                The Voted Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ rewardsCurrent['q2average_xusdc'] | roundToDecimal(2)}}%</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xusdc']) > parseFloat(rewardsPrevious['mint_fee_percent_xusdc'])" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q2average_xusdc']) < parseFloat(rewardsPrevious['mint_fee_percent_xusdc'])" size="xs" name="arrow_downward" />
               </div>
@@ -334,7 +334,7 @@
             <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xpr}}</div>
               <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xpr']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xpr']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ rewardsPrevious['mint_fee_percent_xpr']  | roundToDecimal(2) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
@@ -364,7 +364,7 @@
               <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xusdc}}</div>
               <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xusdc']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent_xusdc']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ rewardsPrevious['mint_fee_percent_xusdc'] | roundToDecimal(2) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
