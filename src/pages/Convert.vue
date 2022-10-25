@@ -727,9 +727,7 @@ export default {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "You minted", value: qty, currency: this.currencies.freeos
         });
-        setTimeout(function () {
-          t.resetForm();
-        }, 8000)
+        t.resetForm();
       }
 
       console.log('resultR', result)
