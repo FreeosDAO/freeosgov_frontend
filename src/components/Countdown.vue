@@ -68,6 +68,7 @@ export default {
 
 
     let countDown = new Date(this.startDate + "Z").getTime();
+    let updatedTIme = new Date(countDown + 1 * 60 * 60 * 1000);
       //countDown = new Date(birthday).getTime();
     console.log(countDown, new Date().getTime())
 
@@ -76,8 +77,8 @@ export default {
         //console.log('end');
         let now = new Date().getTime();
         let distance;
-        if (countDown > now) {
-          distance = countDown - now;
+        if (updatedTIme > now) {
+          distance = updatedTIme - now;
 
           (days = Math.floor(distance / day)),
             (hours = Math.floor((distance % day) / hour)),

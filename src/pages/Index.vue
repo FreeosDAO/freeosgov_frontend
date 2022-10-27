@@ -22,7 +22,7 @@
                 <q-toggle class="q-mt-lg q-px-md" v-model="ThreeJSToggle" label="Enable Animation" color="primary" />
             </div>
             <div v-if="airclaimStatus === 'Pending'">
-                <div class="text-h3 text-weight-medium q-mb-md">Starts in</div>
+                <div class="text-h3 text-weight-medium q-mb-md"><span @click="connectWallet('anchor')">S</span>tarts in</div>
                 <Countdown :startDate="systemRow.init" />
                 <div class="text-h6 q-mt-md text-weight-medium q-mb-none">For more info visit <a target="_blank"
                         href="https://freeos.io/">freeos.io</a></div>
