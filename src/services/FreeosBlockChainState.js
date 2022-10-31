@@ -770,7 +770,7 @@ export class FreeosBlockChainState extends EventEmitter {
     // Gather vars
     let init = new Date(this.systemRow.init + "Z").getTime();
     let now = new Date().getTime();  //GET UTC TimeZone Offset and add to Current Local Timestamp
-    let nowHourLater = new Date(now + 1 * 60 * 60 * 1000).getTime();
+    let nowHourLater = new Date(now + 2 * 60 * 60 * 1000).getTime();
     let airclaimStatus = null;
 
 console.log('now', now);

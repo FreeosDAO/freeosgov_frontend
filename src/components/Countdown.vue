@@ -68,7 +68,7 @@ export default {
 
 
     let countDown = new Date(this.startDate + "Z").getTime();
-    let updatedTIme = new Date(countDown + 1 * 60 * 60 * 1000);
+    let updatedTIme = new Date(countDown + 2 * 60 * 60 * 1000);
       //countDown = new Date(birthday).getTime();
     console.log(countDown, new Date().getTime())
 
