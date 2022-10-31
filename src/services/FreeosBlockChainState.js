@@ -770,9 +770,13 @@ export class FreeosBlockChainState extends EventEmitter {
     // Gather vars
     let init = new Date(this.systemRow.init + "Z").getTime();
     let now = new Date().getTime();  //GET UTC TimeZone Offset and add to Current Local Timestamp
-    let updatedTIme = new Date(now + 1 * 60 * 60 * 1000);
+    let nowHourLater = new Date(now + 1 * 60 * 60 * 1000).getTime();
     let airclaimStatus = null;
-    if (now < updatedTIme) {
+
+console.log('now', now);
+
+
+    if (nowHourLater < init) {
       airclaimStatus = "Pending"
     } else {
       airclaimStatus = "Running"
