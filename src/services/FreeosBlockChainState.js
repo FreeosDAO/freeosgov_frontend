@@ -7,6 +7,11 @@ const { JsonRpc } = require('eosjs')
 // Setup Proton RPC Client
 const rpc = new JsonRpc('https://' + process.env.NETWORK_HOST + ':' + process.env.NETWORK_PORT, {fetch})
 
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + (h*60*60*1000));
+  return this;
+}
+
 // FreeosBlockChainState class
 export class FreeosBlockChainState extends EventEmitter {
 
@@ -768,15 +773,15 @@ export class FreeosBlockChainState extends EventEmitter {
   getCurrentAndNextIteration() {
 
     // Gather vars
-    let init = new Date(this.systemRow.init + "Z").getTime();
-    let now = new Date().getTime();  //GET UTC TimeZone Offset and add to Current Local Timestamp
-    let nowHourLater = new Date(now + 2 * 60 * 60 * 1000).getTime();
+   let now = new Date().getTime();
+   let init =  new Date(this.systemRow.init + "Z").getTime();
+  let updatedTime = new Date(this.systemRow.init + "Z")
+
+   updatedTime.addHours(process.env.SYSTEM_INIT_DELAY);
+
     let airclaimStatus = null;
 
-console.log('now', now);
-
-
-    if (nowHourLater < init) {
+    if (updatedTime > now) {
       airclaimStatus = "Pending"
     } else {
       airclaimStatus = "Running"
