@@ -11,6 +11,11 @@ Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + (h*60*60*1000));
   return this;
 }
+Date.prototype.addMinutes = function(m) {
+  this.setTime(this.getTime() + (m*60*1000));
+  return this;
+}
+
 
 // FreeosBlockChainState class
 export class FreeosBlockChainState extends EventEmitter {
@@ -777,7 +782,7 @@ export class FreeosBlockChainState extends EventEmitter {
    let init =  new Date(this.systemRow.init + "Z").getTime();
   let updatedTime = new Date(this.systemRow.init + "Z")
 
-   updatedTime.addHours(process.env.SYSTEM_INIT_DELAY);
+   updatedTime.addMinutes(process.env.SYSTEM_INIT_DELAY);
 
     let airclaimStatus = null;
 
