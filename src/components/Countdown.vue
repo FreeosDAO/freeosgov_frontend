@@ -67,7 +67,7 @@ export default {
       days = 0;
 
     let updatedTime = Date(this.startDate + "Z");
-    updatedTime.addHours(process.env.SYSTEM_INIT_DELAY);
+    updatedTime.addMinutes(process.env.SYSTEM_INIT_DELAY);
 
     this.x = setInterval(
       function () {
