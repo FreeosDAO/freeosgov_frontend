@@ -471,7 +471,6 @@ export default {
         quantity: 0,
         from: null
       },
-      balOptions: [],
       mintFeeOptions: [],
       isMintTab: true,
       sendAmount: 0,
@@ -480,6 +479,23 @@ export default {
     }
   },
   computed: {
+    balOptions() {
+        var balOptions = [
+        {
+          label: this.currencies.point+'S',
+          value: this.currencies.point,
+          disabled: this.checkIfDisabled(this.user.pointBalance)
+        },
+        {
+          label: this.currencies.freebi,
+          value: this.currencies.freebi,
+          disabled: this.checkIfDisabled(this.user.freebiBalance)
+        }
+      ]
+      if (this.user.mffBalance) balOptions.unshift({ label: 'AirClaim Allowance <small>(No mint fee)</small>', value: 'AIRCLAIM ALLOWANCE', disabled: false })
+
+      return balOptions
+    },
     mintfeePayable() {//mintfee_payable
       var result = 0;
       const qty = parseFloat(this.submitData.quantity);
@@ -744,19 +760,7 @@ export default {
     }
   },
   created() {
-    this.balOptions = [
-      {
-        label: this.currencies.point+'S',
-        value: this.currencies.point,
-        disabled: this.checkIfDisabled(this.user.pointBalance)
-      },
-      {
-        label: this.currencies.freebi,
-        value: this.currencies.freebi,
-        disabled: this.checkIfDisabled(this.user.freebiBalance)
-      }
-    ]
-    if (this.user.mffBalance) this.balOptions.unshift({ label: 'AirClaim Allowance <small>(No mint fee)</small>', value: 'AIRCLAIM ALLOWANCE', disabled: false })
+
 
     this.mintFeeOptions = [
       {
