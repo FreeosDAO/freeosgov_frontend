@@ -210,6 +210,10 @@
                   color="primary">
                   No</q-btn>
               </div>
+
+
+              <p class="text-negative q-px-lg q-pb-md">IMPORTANT: If the majority votes "No", the next Claim will not process any POINTs for this iteration.</p>
+
           </q-card>
         </q-form>
 
