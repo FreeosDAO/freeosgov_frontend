@@ -161,6 +161,46 @@
                     </div>
                 </div>
             </div>
+
+            <!--REWARDS-->
+            <div v-if="rewardsPrevious" class="bg-white panel-wrap panel-top-total q-pa-lg q-mt-lg">
+                <div class="text-center text-h5 text-primary">
+                    Iteration {{rewardsPrevious.iteration}} Result
+                </div>
+                <div v-if="rewardsPrevious.ratified" class="text-center">
+                    <div class="text-subtitle1 text-bold q-mb-md">The vote was not ratified.</div> 
+                    <p>This means there are no points to claim for the last iteration.<br><a title="Claim Info" target="_blank" href="https://docs.freeos.io/6915043/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1422">Click here for more info.</a></p>
+                </div>
+                <div v-if="!rewardsPrevious.ratified" class="text-center">
+                    <div class="text-subtitle1 text-bold q-mb-md">The vote was ratified.</div>
+                    <div class="balance-list">
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;">{{rewardsPrevious.participants}}</div>
+                            <div class="text-bold text-primary">Participants</div>
+                        </div>
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="rewardsPrevious.iteration_issuance.split(' ')[0]" /></div>
+                            <div class="text-bold text-primary">Total {{currencies.point}}s Issued</div>
+                        </div>
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="rewardsPrevious.participant_issuance.split(' ')[0]" /></div>
+                            <div class="text-bold text-primary">User {{currencies.point}}s Issuance</div>
+                        </div>
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="rewardsPrevious.participant_issuance.split(' ')[0] * shares.surveyshare | roundTo4Decimal" /></div>
+                            <div class="text-bold text-primary">{{currencies.point}}s for Survey</div>
+                        </div>
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="rewardsPrevious.participant_issuance.split(' ')[0] * shares.voteshare | roundTo4Decimal" /></div>
+                            <div class="text-bold text-primary">{{currencies.point}}s for Vote</div>
+                        </div>
+                        <div class="q-mb-sm q-mr-xs q-ml-xs bg-info text-center">
+                            <div class="text-bold text-subtitle1 font-bold" style="line-height:1;"><AbbreviateNumber :value="rewardsPrevious.participant_issuance.split(' ')[0] * shares.ratifyshare | roundTo4Decimal" /></div>
+                            <div class="text-bold text-primary">{{currencies.point}}s for Ratify</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <balance />
        
@@ -176,6 +216,7 @@ import Balance from 'components/Balance'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 import GetVerified from 'src/components/GetVerified.vue'
 import AbbreviateNumber from 'src/components/AbbreviateNumber.vue'
+import { dparametersTable } from 'src/store/freeos/getters'
 
 export default {
     name: 'Claim',
@@ -201,8 +242,25 @@ export default {
             'eligibleToClaim',
             'nextActivity',
             'accountName',
-            'currencies'
+            'currencies',
+            'rewardsPrevious',
+            'dparametersTable'
             ]),
+        
+        shares(){
+            let shares = {'surveyshare': 0, 'voteshare': 0, 'ratifyshare': 0}
+            
+            for (const key in shares) {
+                let request = this.dparametersTable.filter(function(row){
+                    return row.paramname == key
+                })
+                shares[key] = (request.length) ? request[0].value : 0
+            }
+
+            console.log('shares', shares)
+            
+            return shares;
+        }
     },
     methods: {
         ...mapActions('freeos', ['fetch', 'claim']),
@@ -257,6 +315,20 @@ export default {
     &:hover {
         opacity: 1;
     }
+}
+
+.balance-list {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.balance-list>* {
+  flex: 0 0 46%;
+  max-width: 46%;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .social-icon{

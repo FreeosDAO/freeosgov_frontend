@@ -359,7 +359,9 @@ $panel-width: 450px;
   margin-bottom: -20px;
   margin-top: 4px;
 }
-
+.panel-top-total.q-mt-lg {
+    margin-top: 45px;
+}
 .menu-icon {
   width: 34px;
 }
