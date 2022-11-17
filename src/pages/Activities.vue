@@ -54,7 +54,7 @@
             Q2: How long before the crypto market changes direction?
                   </strong></p>
                   <ul v-if="surveyRecord" class="resultlist q-mb-sm">
-                    <li class="highitem">{{parseFloat(surveyRecord['q2average'])}} Months (average)</li>
+                    <li class="highitem">{{parseFloat(surveyRecord['q2average']) | roundToDecimal(0)}} Months (average)</li>
                   </ul>
             </section>
             <section class="q-py-md" >
@@ -72,7 +72,7 @@
             Q4: How long before the {{currencies.freeos}} market changes direction?
                   </strong></p>
                   <ul class="resultlist q-mb-sm">
-                    <li class="highitem">{{parseFloat(surveyRecord['q4average'])}} Months (average)</li>
+                    <li class="highitem">{{parseFloat(surveyRecord['q4average']) | roundToDecimal(0)}} Months (average)</li>
                   </ul>
             </section>
             <section class="q-py-md">
@@ -275,7 +275,7 @@
             <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
               <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
-                Last week's Issuance: <strong>{{ parseFloat(rewardsPrevious['issuance_rate']) * 100 }}%</strong>
+                Last week's Issuance: <strong>{{ (parseFloat(rewardsPrevious['issuance_rate']) * 100) | roundToDecimal(2) }}%</strong>
               </div>
 
               <section class="q-pa-lg">
@@ -308,7 +308,7 @@
             <article>
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.freeos}}</div>
               <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) }}%</strong>
+                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) | roundToDecimal(2)}}%</strong>
               </div>
 
               <section class="q-pa-lg">
