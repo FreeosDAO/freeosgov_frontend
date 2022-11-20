@@ -252,7 +252,7 @@
 
 
         <!--THE VOTE-->
-        <q-form ref="myForm"  class="panel-wrap" @submit="submitVote()"
+        <q-form ref="myForm" v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay" class="panel-wrap" @submit="submitVote()"
           novalidate>
           <q-card class="panel">
             <div class="cursor-pointer text-subtitle2 q-pa-md text-primary" @click="surveyResultsDisplay = true">&lt; Back to survey results</div>
