@@ -115,7 +115,7 @@
               </div>
               <div class="col-xs-6 col-sm-6">
 
-                <q-select @input="submitData.quantity = 0"  label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value
+                <q-select @input="submitData.quantity = 0;submitData.pay = null"  label="Select" option-value="value" option-label="label" option-disable="disabled" emit-value
                   required dense outlined v-model="submitData.from" :options="balOptions" />
               </div>
             </div>
