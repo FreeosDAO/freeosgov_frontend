@@ -220,10 +220,10 @@
               </div>
 
 
-              <div class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
+              <div v-if="!showMintFeeError" class="q-mt-md text-primary text-bold"><small>Expected Transaction Balances:</small></div>
 
 
-              <div class="row justify-center" v-if="submitData.from !== currencies.freebi">
+              <div class="row justify-center" v-if="!showMintFeeError && submitData.from !== currencies.freebi">
                 <div class="col-xs-6 col-sm-5">
                   <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.point}}S balance:</small>
                   </p>
@@ -234,7 +234,7 @@
                 </div>
               </div>
 
-              <div class="row justify-center" v-if="submitData.from === currencies.freebi">
+              <div class="row justify-center" v-if="!showMintFeeError && submitData.from === currencies.freebi">
                 <div class="col-xs-6 col-sm-5">
                   <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.freebi}} balance:</small>
                   </p>
@@ -246,7 +246,7 @@
               </div>
 
 
-              <div class="row justify-center" v-if="submitData.pay === currencies.xpr">
+              <div class="row justify-center" v-if="!showMintFeeError && submitData.pay === currencies.xpr">
                 <div class="col-xs-6 col-sm-5">
                   <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.xpr}} balance:</small>
                   </p>
@@ -257,7 +257,7 @@
                 </div>
               </div>
 
-              <div class="row justify-center" v-if="submitData.pay === currencies.xusdc">
+              <div class="row justify-center" v-if="!showMintFeeError && submitData.pay === currencies.xusdc">
                 <div class="col-xs-6 col-sm-5">
                   <p class="q-mt-xs q-mb-none"><small class="text-bold">{{currencies.xusdc}} balance:</small>
                   </p>
@@ -269,7 +269,7 @@
               </div>
 
 
-              <div class="row justify-center" v-if="user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
+              <div class="row justify-center" v-if="!showMintFeeError && user.mffBalance > 0 && submitData.pay === 'AIRCLAIM ALLOWANCE'">
                 <div class="col-xs-6 col-sm-5">
                   <p class="q-mt-xs q-mb-none"><small class="text-bold">AirClaim Allowance balance:</small>
                   </p>
