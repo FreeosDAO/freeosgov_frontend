@@ -146,9 +146,9 @@
             <div class="bg-primary text-h5 text-center text-white q-py-md">Ratify Closes in: <span
                 v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
             <p class="q-pa-lg q-ma-none" v-if="voteCompleted">Since you voted this week, some market changes might altered to effect the community
-              decision. Carefully consider the current market with the links below. The ratification vote enables you to
+              decision. Carefully consider the current market. The ratification vote enables you to
               confirm or void this week's vote. For more information <a target="_blank" title="Ratify" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1642"> click here.</a></p>
-            <div class="text-h5 text-center q-pa-lg">This week's Vote Results</div>
+            <div class="text-h5 text-center q-pb-lg q-pt-sm">This week's Vote Results</div>
 
               <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
               <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
@@ -196,7 +196,7 @@
                 Current Locking Threshold: <strong>{{ targetPrice }} USD</strong>
               </div>
               <div v-if="rewardsCurrent && rewardsCurrent['q3average']" class="text-md q-px-lg q-py-md">
-                The Voted Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) }} USD</strong>
+                The Voted Locking Threshold: <strong>{{ parseFloat(rewardsCurrent['q3average']) | roundToDecimal(2) }} USD</strong>
                   <q-icon v-if="parseFloat(rewardsCurrent['q3average']) > parseFloat(targetPrice)" size="xs" name="arrow_upward" />
                   <q-icon v-if="parseFloat(rewardsCurrent['q3average']) < parseFloat(targetPrice)" size="xs" name="arrow_downward" />
               </div>
@@ -252,7 +252,7 @@
 
 
         <!--THE VOTE-->
-        <q-form ref="myForm" v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay" class="panel-wrap" @submit="submitVote()"
+        <q-form ref="myForm"  class="panel-wrap" @submit="submitVote()"
           novalidate>
           <q-card class="panel">
             <div class="cursor-pointer text-subtitle2 q-pa-md text-primary" @click="surveyResultsDisplay = true">&lt; Back to survey results</div>
@@ -292,15 +292,14 @@
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-xs-1"></div>
-                  <div class="col-xs-3 col-sm-4">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
                     <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper)">Issuance must be between
-                  {{ voteq1RangeLower }} and {{ voteq1RangeUpper }}</p>
+                  v-if="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper)">Issuance must be between{{ voteq1RangeLower }} and {{ voteq1RangeUpper }}</p>
               </section>
             </article>
 
@@ -321,9 +320,9 @@
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-xs-1"></div>
-                  <div class="col-xs-3 col-sm-4">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
                     <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
@@ -351,9 +350,9 @@
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-xs-1"></div>
-                  <div class="col-xs-3 col-sm-4">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
                     <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
@@ -381,9 +380,9 @@
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-xs-1"></div>
-                  <div class="col-xs-3 col-sm-4">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
                     <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
@@ -415,9 +414,9 @@
                 </div>
 
                 <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-xs-8 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-xs-1"></div>
-                  <div class="col-xs-3 col-sm-4">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
                     <q-input v-model="voteq3response" suffix="USD" outlined dense novalidate></q-input>
                   </div>
                 </div>
@@ -761,7 +760,7 @@ export default {
     this.surveyq4response = this.surveythresholdRangeUpper / 2;
     this.voteq1response = (this.voteq1RangeUpper + this.voteq1RangeLower) / 2;
     this.voteq2response = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
-    this.voteq3response = (this.voteq3RangeUpper() + this.voteq3RangeLower) / 2;
+    this.voteq3response = this.$options.filters.roundToDecimal((this.voteq3RangeUpper() + this.voteq3RangeLower) / 2, 4);
     this.voteq2_xprresponse = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
     this.voteq2_xusdcresponse = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
   },
