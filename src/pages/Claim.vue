@@ -162,7 +162,7 @@
                 </div>
             </div>
 
-            <!--REWARDS-->
+            <!--REWARDS
             <div v-if="rewardsPrevious" class="bg-white panel-wrap panel-top-total q-pa-lg q-mt-lg">
                 <div class="text-center text-h5 text-primary">
                     Iteration {{rewardsPrevious.iteration}} Result
@@ -200,7 +200,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
         <balance />
        
