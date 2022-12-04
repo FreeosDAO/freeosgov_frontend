@@ -27,6 +27,203 @@
       </div>
 
 
+
+
+        <!--THE VOTE v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay"-->
+        <q-form  v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay" ref="myForm" class="panel-wrap"  @submit="submitVote()"
+          novalidate>
+          <q-card class="panel">
+            <div class="cursor-pointer text-subtitle2 q-pa-md text-primary" @click="surveyResultsDisplay = true">&lt; Back to survey results</div>
+            <div class="text-h4 text-center q-px-lg q-pb-lg">Welcome to the Vote</div>
+            <div class="bg-info text-center q-py-md">Complete for {{ voteShare }}% of your weekly Claim</div>
+
+            <div class="bg-primary text-h5 text-center text-white q-py-md">Vote Closes in: <span
+                v-html="$options.filters.secondsToDhms(voteClosesIn)"></span></div>
+
+
+            <section class="q-pa-lg">
+              <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your answers also affect the FREEOS community. For more info <a target="_blank" title="Voting" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1622"> click here.</a></p>
+            </section>
+            <div class="text-h5 text-center bg-info q-px-lg q-py-md">
+              Ready to Vote? Let’s start.
+            </div>
+
+
+            <!--Issuance Vote-->
+            <article>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
+              <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
+                Last week's Issuance: <strong>{{ (parseFloat(rewardsPrevious['issuance_rate']) * 100) | roundToDecimal(2) }}%</strong>
+              </div>
+
+              <section class="q-pa-lg">
+                <p><strong>What percentage of the issuance should be minted this week?</strong></p>
+                <p>Issuance is the amount of {{currencies.point}}S issued weekly. Minimising the issuance reduces the supply of {{currencies.freeos}}
+                  tokens that can be minted. Restricting supply can increase the price when there is suitable demand.
+                </p>
+
+
+
+                <div class="q-px-md q-py-sm">
+                  <q-slider v-model="voteq1response" :min="voteq1RangeLower" :max="voteq1RangeUpper" :step="1"
+                    label :label-always="true" :label-value="voteq1response+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
+                </div>
+
+                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
+                  </div>
+                </div>
+                <p class="text-center text-negative q-mt-none q-mb-none"
+                  v-if="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper)">Issuance must be between{{ voteq1RangeLower }} and {{ voteq1RangeUpper }}</p>
+              </section>
+            </article>
+
+            <!--FREEOS Mint Fee Vote-->
+            <article>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.freeos}}</div>
+              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
+                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) | roundToDecimal(2)}}%</strong>
+              </div>
+
+              <section class="q-pa-lg">
+                <p><strong>What should the Mint Fee, paid in {{currencies.freeos}} be this week?</strong></p>
+                <p>The Mint Fee, paid in {{currencies.freeos}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+
+                <div class="q-px-md q-py-sm">
+                  <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
+                    label :label-always="!!voteq2response" :label-value="voteq2response+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
+                </div>
+
+                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
+                  </div>
+                </div>
+                <p class="text-center text-negative q-mt-none q-mb-none"
+                  v-if="validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper)">Mint Fee, paid in {{currencies.freeos}} must be between
+                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
+              </section>
+            </article>
+
+
+            <!--Mint Fee Vote-->
+            <article>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xpr}}</div>
+              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xpr']" class="text-md bg-info q-px-lg q-py-md">
+                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ rewardsPrevious['mint_fee_percent_xpr']  | roundToDecimal(2) }}%</strong>
+              </div>
+
+              <section class="q-pa-lg">
+                <p><strong>What should the Mint Fee, paid in {{currencies.xpr}} be this week?</strong></p>
+                <p>The Mint Fee, paid in {{currencies.xpr}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+
+                <div class="q-px-md q-py-sm">
+                  <q-slider v-model="voteq2_xprresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
+                    label :label-always="!!voteq2_xprresponse" :label-value="voteq2_xprresponse+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
+                </div>
+
+                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
+                  </div>
+                </div>
+                <p class="text-center text-negative q-mt-none q-mb-none"
+                  v-if="validateRange(voteq2_xprresponse, voteq2RangeLower, voteq2RangeUpper)">{{currencies.xpr}} Mint Fee must be between
+                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
+              </section>
+            </article>
+
+
+              <!--Mint Fee Vote-->
+              <article>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xusdc}}</div>
+              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xusdc']" class="text-md bg-info q-px-lg q-py-md">
+                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ rewardsPrevious['mint_fee_percent_xusdc'] | roundToDecimal(2) }}%</strong>
+              </div>
+
+              <section class="q-pa-lg">
+                <p><strong>What should the Mint Fee, paid in {{currencies.xusdc}} be this week?</strong></p>
+                <p>The Mint Fee, paid in {{currencies.xusdc}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
+
+                <div class="q-px-md q-py-sm">
+                  <q-slider v-model="voteq2_xusdcresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
+                    label :label-always="!!voteq2_xusdcresponse" :label-value="voteq2_xusdcresponse+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
+                </div>
+
+                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
+                  </div>
+                </div>
+                <p class="text-center text-negative q-mt-none q-mb-none"
+                  v-if="validateRange(voteq2_xusdcresponse, voteq2RangeLower, voteq2RangeUpper)">{{currencies.xusdc}} Mint Fee must be between
+                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
+              </section>
+            </article>
+
+
+
+            <!--Locking Threshold Vote-->
+            <article>
+              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
+              <div class="text-md bg-info q-px-lg q-py-md">
+                Current Locking Threshold: <strong>{{ targetPrice }} USD</strong>
+              </div>
+
+              <section class="q-pa-lg">
+                <p><strong>What price should the Locking Threshold be this week?</strong></p>
+                <p>The Locking Threshold makes the community to receive locked {{currencies.point}}S when the price is low and lowers the supply of {{currencies.freeos}} that can be minted. Locked {{currencies.point}}S are saved to be unlocked when the price is above the community’s agreed Locking Threshold value. This acts as a way to save value for a time when the economy is healthier.</p>
+
+
+
+                <div class="q-px-md q-py-sm">
+                  <q-slider required v-model="voteq3response" :min="voteq3RangeLower" :max="voteq3RangeUpper()"
+                    :step="0.000001" label :label-always="!!voteq3response" :marker-labels="val => markerLabels(val, ' USD')" track-size="7px"
+                    thumb-size="35px" />
+                </div>
+
+                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
+                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
+                  <div class="col-1"></div>
+                  <div class="col-5 col-sm-4">
+                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".000001" v-model="voteq3response" suffix="USD" outlined dense novalidate></q-input>
+                  </div>
+                </div>
+                <p class="text-center text-negative q-mt-none q-mb-none"
+                  v-if="validateRange(voteq3response, voteq3RangeLower, voteq3RangeUpper())">Locking Threshold must be
+                  between
+                  {{ voteq3RangeLower }} and {{ voteq3RangeUpper() }}</p>
+              </section>
+            </article>
+
+            <div class="text-white bg-primary q-pa-lg text-bold text-center">
+              Almost done - Just check and <br/>‘submit your vote’.
+            </div>
+
+
+            <div class="q-pa-lg justify-center q-mb-sm">
+              <q-btn class="full-width" size="xl" unelevated no-caps
+                :disable="voteCompleted || validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper) || validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper) || validateRange(voteq3response, voteq3RangeLower, voteq3RangeUpper())"
+                color="primary" type="submit">
+                Submit Vote</q-btn>
+            </div>
+
+          </q-card>
+        </q-form>
+
+
+
+
+
       <div v-if="isVerified && isRegistered">
 
 
@@ -203,10 +400,10 @@
               <div v-if="voteCompleted" class="q-mt-md text-subtitle1 bg-primary text-white q-px-lg q-py-md text-center"><strong>Do you agree that this week's VOTE is appropriate today?</strong></div>
 
               <div rounded v-if="voteCompleted" style="display:flex;justify-content:center;" class="q-pa-md full-width justify-center q-mb-md ">
-                <q-btn size="xl" style="width:100%;" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
+                <q-btn size="xl" :disable="ratifyCompleted" style="width:100%;" class="q-mr-sm" unelevated no-caps  @click="submitRatify(true)"
                   color="primary">
                   Yes</q-btn>
-                <q-btn size="xl" style="width:100%;" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
+                <q-btn size="xl" :disable="ratifyCompleted" style="width:100%;" class="q-ml-sm" unelevated no-caps  @click="submitRatify(false)"
                   color="primary">
                   No</q-btn>
               </div>
@@ -249,199 +446,6 @@
             <div class="text-h5 text-center q-ma-lg">See you soon for the Ratification Vote</div>
           </q-card>
         </div>
-
-
-        <!--THE VOTE-->
-        <q-form ref="myForm" v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay" class="panel-wrap" @submit="submitVote()"
-          novalidate>
-          <q-card class="panel">
-            <div class="cursor-pointer text-subtitle2 q-pa-md text-primary" @click="surveyResultsDisplay = true">&lt; Back to survey results</div>
-            <div class="text-h4 text-center q-px-lg q-pb-lg">Welcome to the Vote</div>
-            <div class="bg-info text-center q-py-md">Complete for {{ voteShare }}% of your weekly Claim</div>
-
-            <div class="bg-primary text-h5 text-center text-white q-py-md">Vote Closes in: <span
-                v-html="$options.filters.secondsToDhms(voteClosesIn)"></span></div>
-
-
-            <section class="q-pa-lg">
-              <p>Thanks for being active in stewarding this economy. Besides empowering your own financial freedom, your answers also affect the FREEOS community. For more info <a target="_blank" title="Voting" href="https://docs.freeos.io/d/h/6k0z3-408/43bbcca7c54387a/6k0z3-1622"> click here.</a></p>
-            </section>
-            <div class="text-h5 text-center bg-info q-px-lg q-py-md">
-              Ready to Vote? Let’s start.
-            </div>
-
-
-            <!--Issuance Vote-->
-            <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Issuance</div>
-              <div v-if="rewardsPrevious && rewardsPrevious['issuance_rate']" class="text-md bg-info q-px-lg q-py-md">
-                Last week's Issuance: <strong>{{ (parseFloat(rewardsPrevious['issuance_rate']) * 100) | roundToDecimal(2) }}%</strong>
-              </div>
-
-              <section class="q-pa-lg">
-                <p><strong>What percentage of the issuance should be minted this week?</strong></p>
-                <p>Issuance is the amount of {{currencies.point}}S issued weekly. Minimising the issuance reduces the supply of {{currencies.freeos}}
-                  tokens that can be minted. Restricting supply can increase the price when there is suitable demand.
-                </p>
-
-
-
-                <div class="q-px-md q-py-sm">
-                  <q-slider v-model="voteq1response" :min="voteq1RangeLower" :max="voteq1RangeUpper" :step="1"
-                    label :label-always="true" :label-value="voteq1response+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
-                </div>
-
-                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-1"></div>
-                  <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
-                  </div>
-                </div>
-                <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper)">Issuance must be between{{ voteq1RangeLower }} and {{ voteq1RangeUpper }}</p>
-              </section>
-            </article>
-
-            <!--FREEOS Mint Fee Vote-->
-            <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.freeos}}</div>
-              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.freeos}}: <strong>{{ parseFloat(rewardsPrevious['mint_fee_percent']) | roundToDecimal(2)}}%</strong>
-              </div>
-
-              <section class="q-pa-lg">
-                <p><strong>What should the Mint Fee, paid in {{currencies.freeos}} be this week?</strong></p>
-                <p>The Mint Fee, paid in {{currencies.freeos}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
-
-                <div class="q-px-md q-py-sm">
-                  <q-slider v-model="voteq2response" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
-                    label :label-always="!!voteq2response" :label-value="voteq2response+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
-                </div>
-
-                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-1"></div>
-                  <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
-                  </div>
-                </div>
-                <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper)">Mint Fee, paid in {{currencies.freeos}} must be between
-                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
-              </section>
-            </article>
-
-
-            <!--Mint Fee Vote-->
-            <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xpr}}</div>
-              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xpr']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.xpr}}: <strong>{{ rewardsPrevious['mint_fee_percent_xpr']  | roundToDecimal(2) }}%</strong>
-              </div>
-
-              <section class="q-pa-lg">
-                <p><strong>What should the Mint Fee, paid in {{currencies.xpr}} be this week?</strong></p>
-                <p>The Mint Fee, paid in {{currencies.xpr}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
-
-                <div class="q-px-md q-py-sm">
-                  <q-slider v-model="voteq2_xprresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
-                    label :label-always="!!voteq2_xprresponse" :label-value="voteq2_xprresponse+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
-                </div>
-
-                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-1"></div>
-                  <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
-                  </div>
-                </div>
-                <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq2_xprresponse, voteq2RangeLower, voteq2RangeUpper)">{{currencies.xpr}} Mint Fee must be between
-                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
-              </section>
-            </article>
-
-
-              <!--Mint Fee Vote-->
-              <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Mint Fee, paid in {{currencies.xusdc}}</div>
-              <div v-if="rewardsPrevious && rewardsPrevious['mint_fee_percent_xusdc']" class="text-md bg-info q-px-lg q-py-md">
-                Current Mint Fee, paid in {{currencies.xusdc}}: <strong>{{ rewardsPrevious['mint_fee_percent_xusdc'] | roundToDecimal(2) }}%</strong>
-              </div>
-
-              <section class="q-pa-lg">
-                <p><strong>What should the Mint Fee, paid in {{currencies.xusdc}} be this week?</strong></p>
-                <p>The Mint Fee, paid in {{currencies.xusdc}} is required to mint Points into {{currencies.freeos}}, and may increase the demand for {{currencies.freeos}} tokens, which can increase the price if the demand is strong—especially if the supply is also reduced.</p>
-
-                <div class="q-px-md q-py-sm">
-                  <q-slider v-model="voteq2_xusdcresponse" :min="voteq2RangeLower" :max="voteq2RangeUpper" :step="1"
-                    label :label-always="!!voteq2_xusdcresponse" :label-value="voteq2_xusdcresponse+'%'" :marker-labels="val => markerLabels(val, '%')" track-size="7px" thumb-size="35px" />
-                </div>
-
-                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-1"></div>
-                  <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="number" v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
-                  </div>
-                </div>
-                <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq2_xusdcresponse, voteq2RangeLower, voteq2RangeUpper)">{{currencies.xusdc}} Mint Fee must be between
-                  {{ voteq2RangeLower }} and {{ voteq2RangeUpper }}</p>
-              </section>
-            </article>
-
-
-
-            <!--Locking Threshold Vote-->
-            <article>
-              <div class="text-h5 bg-primary text-white q-px-lg q-py-md">Locking Threshold</div>
-              <div class="text-md bg-info q-px-lg q-py-md">
-                Current Locking Threshold: <strong>{{ targetPrice }} USD</strong>
-              </div>
-
-              <section class="q-pa-lg">
-                <p><strong>What price should the Locking Threshold be this week?</strong></p>
-                <p>The Locking Threshold makes the community to receive locked {{currencies.point}}S when the price is low and lowers the supply of {{currencies.freeos}} that can be minted. Locked {{currencies.point}}S are saved to be unlocked when the price is above the community’s agreed Locking Threshold value. This acts as a way to save value for a time when the economy is healthier.</p>
-
-
-
-                <div class="q-px-md q-py-sm">
-                  <q-slider required v-model="voteq3response" :min="voteq3RangeLower" :max="voteq3RangeUpper()"
-                    :step="0.000001" label :label-always="!!voteq3response" :marker-labels="val => markerLabels(val, ' USD')" track-size="7px"
-                    thumb-size="35px" />
-                </div>
-
-                <div style="align-items: center;" class="row justify-center q-mb-sm q-pb-xs">
-                  <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
-                  <div class="col-1"></div>
-                  <div class="col-5 col-sm-4">
-                    <q-input v-model="voteq3response" suffix="USD" outlined dense novalidate></q-input>
-                  </div>
-                </div>
-                <p class="text-center text-negative q-mt-none q-mb-none"
-                  v-if="validateRange(voteq3response, voteq3RangeLower, voteq3RangeUpper())">Locking Threshold must be
-                  between
-                  {{ voteq3RangeLower }} and {{ voteq3RangeUpper() }}</p>
-              </section>
-            </article>
-
-            <div class="text-white bg-primary q-pa-lg text-bold text-center">
-              Almost done - Just check and <br/>‘submit your vote’.
-            </div>
-
-
-            <div class="q-pa-lg justify-center q-mb-sm">
-              <q-btn class="full-width" size="xl" unelevated no-caps
-                :disable="validateRange(voteq1response, voteq1RangeLower, voteq1RangeUpper) || validateRange(voteq2response, voteq2RangeLower, voteq2RangeUpper) || validateRange(voteq3response, voteq3RangeLower, voteq3RangeUpper())"
-                color="primary" type="submit">
-                Submit Vote</q-btn>
-            </div>
-
-          </q-card>
-        </q-form>
-
 
 
 
@@ -606,7 +610,8 @@
 import {
   mapState,
   mapActions,
-  mapGetters
+  mapGetters,
+mapMutations
 } from 'vuex'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 import GetVerified from 'src/components/GetVerified.vue'
@@ -755,14 +760,14 @@ export default {
       return this.surveyq5options1.filter(q => q.value !== this.surveyq5choice1 && q.value !== this.surveyq5choice2);
     },
   },
-  created: function () {
+  created: function () {      
     this.surveyq2response = this.surveythresholdRangeUpper / 2;
     this.surveyq4response = this.surveythresholdRangeUpper / 2;
-    this.voteq1response = (this.voteq1RangeUpper + this.voteq1RangeLower) / 2;
-    this.voteq2response = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
-    this.voteq3response = this.$options.filters.roundToDecimal((this.voteq3RangeUpper() + this.voteq3RangeLower) / 2, 4);
-    this.voteq2_xprresponse = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
-    this.voteq2_xusdcresponse = (this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
+    this.voteq1response = this.$options.filters.roundToDecimal(parseFloat(this.rewardsPrevious['issuance_rate']) * 100, 2);//(this.voteq1RangeUpper + this.voteq1RangeLower) / 2;
+    this.voteq2response = this.$options.filters.roundToDecimal(parseFloat(this.rewardsPrevious['mint_fee_percent']), 2); //(this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
+    this.voteq3response = this.targetPrice; //Locking Threshold //this.$options.filters.roundToDecimal((this.voteq3RangeUpper() + this.voteq3RangeLower) / 2, 4);
+    this.voteq2_xprresponse = this.$options.filters.roundToDecimal(this.rewardsPrevious['mint_fee_percent_xpr'],2); //(this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
+    this.voteq2_xusdcresponse = this.$options.filters.roundToDecimal(this.rewardsPrevious['mint_fee_percent_xusdc'],2);//(this.voteq2RangeUpper + this.voteq2RangeLower) / 2;
   },
   methods: {
     ...mapActions('freeos', ['register', 'survey', 'vote', 'ratify']),
@@ -806,6 +811,7 @@ export default {
     async submitSurvey() {
       const _ = this;
       console.log(this.surveyPeriodActive, this.surveyCompleted);
+      this.$store.commit('freeos/setsurveyCompleted', true);
 
       var result = await _.survey({
         user: this.accountName,
@@ -821,12 +827,16 @@ export default {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "Thanks for participating in the Survey"
         });
+      }else{
+        this.$store.commit('freeos/setsurveyCompleted', false);
       }
     },
     async submitVote() {
       const _ = this;
       console.log(this.surveyPeriodActive, this.surveyCompleted);
+      this.$store.commit('freeos/setvoteCompleted', true);
       this.surveyResultsDisplay = true;
+
 
       var voteRecord = {
         user: this.accountName,
@@ -851,11 +861,14 @@ export default {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "Thanks for Voting"
         });
+      }else{
+        this.$store.commit('freeos/setvoteCompleted', false);
       }
     },
     async submitRatify(option) {
       const _ = this;
       console.log('submitRatify')
+      this.$store.commit('freeos/setratifyCompleted', true);
       var result = await _.ratify({
         user: this.accountName,
         ratify_vote: option
@@ -864,6 +877,8 @@ export default {
         this.$refs.complete.openDialog({
           title: "Woohoo", subtitle: "Thanks for Ratifying"
         });
+      }else{
+        this.$store.commit('freeos/setratifyCompleted', false);
       }
     },
     markerLabels(val, single, plural = single){
