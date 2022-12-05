@@ -30,7 +30,7 @@
 
 
         <!--THE VOTE v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay"-->
-        <q-form  v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay" ref="myForm" class="panel-wrap"  @submit="submitVote()"
+        <q-form  v-if="(!voteCompleted || btnVoteCompleted) && votePeriodActive && !surveyResultsDisplay" ref="myForm" class="panel-wrap"  @submit="submitVote()"
           novalidate>
           <q-card class="panel">
             <div class="cursor-pointer text-subtitle2 q-pa-md text-primary" @click="surveyResultsDisplay = true">&lt; Back to survey results</div>
@@ -229,7 +229,7 @@
 
 
         <!--SURVEY RESULTS-->
-        <div v-if="!voteCompleted && votePeriodActive && surveyResultsDisplay"  class="panel-wrap">
+        <div v-if="(!voteCompleted || btnVoteCompleted) && votePeriodActive && surveyResultsDisplay"  class="panel-wrap">
           <q-card class="panel">
             <div class="text-h4 text-center q-ma-lg">This Week's Survey Results</div>
             
@@ -293,7 +293,7 @@
 
 
 
-        <div v-if="ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
+        <div v-if="ratifyCompleted && !btnRatifyCompleted && ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
             <div class="text-h4 text-center q-ma-lg">Cool burgers!</div>
             <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -332,7 +332,7 @@
 
 
         <!--THE RATIFICATION-->
-        <q-form v-if="!ratifyCompleted && ratifyPeriodActive" class="panel-wrap">
+        <q-form v-if="(!ratifyCompleted || btnRatifyCompleted) && ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
             <h4 class="text-h4 text-center" v-if="voteCompleted">Thanks for Voting, please ratify</h4>
             <h4 class="text-h4 text-center" v-if="!voteCompleted">You missed the Vote, so you can't ratify this
@@ -416,7 +416,7 @@
 
 
         <!--Vote Completed-->
-        <div v-if="voteCompleted && votePeriodActive" class="panel-wrap">
+        <div v-if="voteCompleted && !btnVoteCompleted && votePeriodActive" class="panel-wrap">
           <q-card class="panel">
             <div class="text-h4 text-center q-ma-lg">Yay, you did it</div>
             <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -451,7 +451,7 @@
 
 
         <!--SURVEY Completed-->
-        <div v-if="surveyCompleted && surveyPeriodActive" class="panel-wrap">
+        <div v-if="surveyCompleted && !btnSurveyCompleted && surveyPeriodActive" class="panel-wrap">
           <q-card class="panel">
             <div class="text-h4 text-center q-ma-lg">Woohoo</div>
             <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -483,9 +483,8 @@
           </q-card>
         </div>
 
-
         <!--THE SURVEY-->
-        <q-form v-if="!surveyCompleted && surveyPeriodActive" ref="myForm" class="panel-wrap" @submit="submitSurvey()"
+        <q-form v-if="(!surveyCompleted || btnSurveyCompleted) && surveyPeriodActive" ref="myForm" class="panel-wrap" @submit="submitSurvey()"
           @validation-error="onValidationError">
           <q-card class="panel">
             <div class="text-h4 text-center q-my-lg">Welcome to the Survey</div>
@@ -654,6 +653,9 @@ export default {
       voteq2RangeLower: 6,
       voteq2RangeUpper: 30,
       surveyResultsDisplay: true,
+      btnSurveyCompleted: false,
+      btnVoteCompleted: false,
+      btnRatifyCompleted: false,
     }
   },
   components: {
@@ -812,6 +814,7 @@ export default {
       const _ = this;
       console.log(this.surveyPeriodActive, this.surveyCompleted);
       this.$store.commit('freeos/setsurveyCompleted', true);
+      this.btnSurveyCompleted = true;
 
       var result = await _.survey({
         user: this.accountName,
@@ -824,10 +827,12 @@ export default {
         q5choice3: this.surveyq5choice3
       })
       if (!(result instanceof Error)) {
+        this.btnSurveyCompleted = false;
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "Thanks for participating in the Survey"
         });
       }else{
+        this.btnSurveyCompleted = false;
         this.$store.commit('freeos/setsurveyCompleted', false);
       }
     },
@@ -836,6 +841,7 @@ export default {
       console.log(this.surveyPeriodActive, this.surveyCompleted);
       this.$store.commit('freeos/setvoteCompleted', true);
       this.surveyResultsDisplay = true;
+      this.btnVoteCompleted = true;
 
 
       var voteRecord = {
@@ -861,7 +867,9 @@ export default {
         this.$refs.complete.openDialog({
           title: "Woohoo!", subtitle: "Thanks for Voting"
         });
+        this.btnVoteCompleted = false;
       }else{
+        this.btnVoteCompleted = false;
         this.$store.commit('freeos/setvoteCompleted', false);
       }
     },
@@ -869,15 +877,19 @@ export default {
       const _ = this;
       console.log('submitRatify')
       this.$store.commit('freeos/setratifyCompleted', true);
+      this.btnRatifyCompleted = true;
+
       var result = await _.ratify({
         user: this.accountName,
         ratify_vote: option
       })
       if (!(result instanceof Error)) {
+        this.btnRatifyCompleted = false;
         this.$refs.complete.openDialog({
           title: "Woohoo", subtitle: "Thanks for Ratifying"
         });
       }else{
+        this.btnRatifyCompleted = false;
         this.$store.commit('freeos/setratifyCompleted', false);
       }
     },
