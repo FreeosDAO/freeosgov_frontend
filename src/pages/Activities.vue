@@ -29,8 +29,8 @@
 
 
 
-        <!--THE VOTE v-if="!voteCompleted && votePeriodActive && !surveyResultsDisplay"-->
-        <q-form  v-if="(!voteCompleted || btnVoteCompleted) && votePeriodActive && !surveyResultsDisplay" ref="myForm" class="panel-wrap"  @submit="submitVote()"
+        <!--THE VOTE v-if="(!voteCompleted || btnVoteCompleted) && votePeriodActive && !surveyResultsDisplay" -->
+        <q-form v-if="(!voteCompleted || btnVoteCompleted) && votePeriodActive && !surveyResultsDisplay"  ref="myForm" class="panel-wrap"  @submit="submitVote()"
           novalidate>
           <q-card class="panel">
             <div class="cursor-pointer text-subtitle2 q-pa-md text-primary" @click="surveyResultsDisplay = true">&lt; Back to survey results</div>
@@ -73,7 +73,7 @@
                   <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-1"></div>
                   <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="inputDecimalOnKeypress(event)" type="number" step=".01" v-model="voteq1response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -101,7 +101,7 @@
                   <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-1"></div>
                   <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="inputDecimalOnKeypress(event)" type="number" step=".01" v-model="voteq2response" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -131,7 +131,7 @@
                   <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-1"></div>
                   <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="inputDecimalOnKeypress(event)" type="number" step=".01" v-model="voteq2_xprresponse" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -161,7 +161,7 @@
                   <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-1"></div>
                   <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".01" v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
+                    <q-input onkeypress="inputDecimalOnKeypress(event)" type="number" step=".01" v-model="voteq2_xusdcresponse" suffix="%" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -195,7 +195,7 @@
                   <div class="col-6 col-sm-7 text-sm">Or manually enter amount:</div>
                   <div class="col-1"></div>
                   <div class="col-5 col-sm-4">
-                    <q-input onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 190" type="number" step=".000001" v-model="voteq3response" suffix="USD" outlined dense novalidate></q-input>
+                    <q-input onkeypress="inputDecimalOnKeypress(event)" type="number" step=".000001" v-model="voteq3response" suffix="USD" outlined dense novalidate></q-input>
                   </div>
                 </div>
                 <p class="text-center text-negative q-mt-none q-mb-none"
@@ -795,6 +795,9 @@ export default {
     },
     voteq5RangeUpper() {
       return this.currentPrice < this.voteq3RangeLower ? Math.floor(parseFloat(this.lockFactor) * this.voteq3RangeLower * 10000000) / 10000000 : Math.floor(parseFloat(this.lockFactor) * this.currentPrice * 10000000) / 10000000;
+    },
+    inputDecimalOnKeypress(event){
+      return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46
     },
     async onValidationError(ref) {
       console.log('ref', ref.$refs.target);
