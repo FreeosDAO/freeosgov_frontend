@@ -289,7 +289,7 @@ export class FreeosBlockChainState extends EventEmitter {
       output['nextActivity'] = nextActivity
 
       // Check eligible to claim
-      const rewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 4});
+      const rewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 4, reverse: true});
       var eligibleToClaim = this.checkEligibleToClaim( iterations.current, svrsTable, user.record, rewardsTable )
       output['eligibleToClaim'] = eligibleToClaim
     }
@@ -755,6 +755,7 @@ export class FreeosBlockChainState extends EventEmitter {
       query.lower_bound = additionalParams.lower_bound
       query.index_position = additionalParams.index_position
       query.key_type = additionalParams.key_type
+      query.reverse = additionalParams.reverse
     }
 
     const result = await this.getTableRows(query)
