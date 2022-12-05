@@ -289,7 +289,7 @@ export class FreeosBlockChainState extends EventEmitter {
       output['nextActivity'] = nextActivity
 
       // Check eligible to claim
-      const rewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 5});
+      const rewardsTable = await this.getRecord(process.env.FREEOSGOV_CONTRACT, 'rewards', process.env.FREEOSGOV_CONTRACT, {limit: 4});
       var eligibleToClaim = this.checkEligibleToClaim( iterations.current, svrsTable, user.record, rewardsTable )
       output['eligibleToClaim'] = eligibleToClaim
     }
@@ -895,16 +895,13 @@ export class FreeosBlockChainState extends EventEmitter {
     let eligible = false
 
     for(let iteration of iterationsParticipated){
-      let filteredRewards = []
 
-      // if multiple rewards
+      let filteredRewards = []
       if(rewardsTable.length){
         filteredRewards = rewardsTable.filter((row)=>{
           return row.iteration == iteration && row.ratified == 1
         })
-      }
-      // if single row
-      else if( "iteration" in rewardsTable){
+      } else if( "iteration" in rewardsTable){
         if(rewardsTable.iteration == iteration && rewardsTable.ratified){
           filteredRewards.push(rewardsTable)
         }
