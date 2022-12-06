@@ -881,7 +881,7 @@ export class FreeosBlockChainState extends EventEmitter {
       console.warn('eligibleToClaim', 'not eligible due to empty tables')
       return false
     }
-
+    
     // get all iterations user participated in
     // which are higher than the last claimed iteration
     let iterationsParticipated = []
@@ -898,12 +898,15 @@ export class FreeosBlockChainState extends EventEmitter {
     for(let iteration of iterationsParticipated){
 
       let filteredRewards = []
+      // multiple rows in rewards table
       if(rewardsTable.length){
         filteredRewards = rewardsTable.filter((row)=>{
-          return row.iteration == iteration && row.ratified == 1
+          return row.iteration == iteration && row.ratified == 1 && row.iteration > currentIteration - 4
         })
-      } else if( "iteration" in rewardsTable){
-        if(rewardsTable.iteration == iteration && rewardsTable.ratified){
+      } 
+      // single row in rewards table
+      else if( "iteration" in rewardsTable){
+        if(rewardsTable.iteration == iteration && rewardsTable.ratified == 1 && rewardsTable.iteration > currentIteration - 4){
           filteredRewards.push(rewardsTable)
         }
       }
@@ -914,6 +917,11 @@ export class FreeosBlockChainState extends EventEmitter {
         break;
       }
 
+    }
+
+    // log if not eligible for rewards
+    if(!eligible){
+      console.warn('eligibleToClaim:', 'not eligible for any rewards')
     }
 
     return eligible
