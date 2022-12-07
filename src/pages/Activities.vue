@@ -841,9 +841,7 @@ export default {
     },
     async submitVote() {
       const _ = this;
-      console.log(this.surveyPeriodActive, this.surveyCompleted);
       this.$store.commit('freeos/setvoteCompleted', true);
-      this.surveyResultsDisplay = true;
       this.btnVoteCompleted = true;
 
 
