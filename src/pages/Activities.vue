@@ -292,29 +292,14 @@
         </div>
 
 
-
+        <!-- RATIFY COMPLETE-->
         <div v-if="ratifyCompleted && !btnRatifyCompleted && ratifyPeriodActive" class="panel-wrap">
           <q-card class="panel">
-            <div class="text-h4 text-center q-ma-lg">Cool burgers!</div>
-            <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 170.1 170.1"
-              style="enable-background:new 0 0 170.1 170.1;" xml:space="preserve">
-              <g id="Ellipse_45" transform="translate(28.411 7.976)">
-                <ellipse class="st0" cx="60.5" cy="40" rx="11.9" ry="11.5" />
-                <ellipse class="st1" cx="60.5" cy="40" rx="9.9" ry="9.5" />
-              </g>
-              <path id="Path_389" class="st1" d="M85.1,58.5c-7,12.9-7.6,28.2-1.7,41.6" />
-              <path id="Path_390" class="st2" d="M82.4,100.1c-12,8,2.6,36.8,2.6,36.8L80,139" />
-              <path id="Path_391" class="st3" d="M118.4,89.3l-2.1,6.5c0,0-11.8-12.5-32.8,3.3" />
-              <path id="Path_392" class="st3" d="M51.2,44.4l7.6,18l21.7,6.1" />
-              <path id="Path_393" class="st3" d="M115,37.3l-2.5,15.2L80.7,68.9" />
-              <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
-            </svg>
-
-            <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in the ratification vote
+            <div class="text-h4 text-center q-mt-lg q-mb-sm">Cool burgers!</div>
+            <div class="text-subtitle2 text-primary text-center q-mt-sm q-mt-none">
+              Thanks for participating in the ratification vote
             </div>
-
-
+            <ActivitiesClaimWaiting />
 
             <div class="bg-primary text-h5 text-center text-white q-py-md">Next weeks Survey<br/>Starts in:
               <span v-html="$options.filters.secondsToDhms(ratifyClosesIn)"></span></div>
@@ -418,24 +403,11 @@
         <!--Vote Completed-->
         <div v-if="voteCompleted && !btnVoteCompleted && votePeriodActive" class="panel-wrap">
           <q-card class="panel">
-            <div class="text-h4 text-center q-ma-lg">Yay, you did it</div>
-            <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 170.1 170.1"
-              style="enable-background:new 0 0 170.1 170.1;" xml:space="preserve">
-              <g id="Ellipse_45" transform="translate(28.411 7.976)">
-                <ellipse class="st0" cx="60.5" cy="40" rx="11.9" ry="11.5" />
-                <ellipse class="st1" cx="60.5" cy="40" rx="9.9" ry="9.5" />
-              </g>
-              <path id="Path_389" class="st1" d="M85.1,58.5c-7,12.9-7.6,28.2-1.7,41.6" />
-              <path id="Path_390" class="st2" d="M82.4,100.1c-12,8,2.6,36.8,2.6,36.8L80,139" />
-              <path id="Path_391" class="st3" d="M118.4,89.3l-2.1,6.5c0,0-11.8-12.5-32.8,3.3" />
-              <path id="Path_392" class="st3" d="M51.2,44.4l7.6,18l21.7,6.1" />
-              <path id="Path_393" class="st3" d="M115,37.3l-2.5,15.2L80.7,68.9" />
-              <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
-            </svg>
-
-            <div class="text-subtitle2 text-primary text-center q-ma-md">Thanks for participating in this week's vote
+            <div class="text-h4 text-center q-mt-lg q-mb-sm">Yay, you did it</div>
+            <div class="text-subtitle2 text-primary text-center q-mt-sm q-mt-none">
+              Thanks for participating in this week's vote
             </div>
+            <ActivitiesClaimWaiting />
             <div class="bg-primary text-h5 text-center text-white q-py-md">Next: The Ratification Vote</div>
             <div class="bg-info text-h5 text-center q-py-md">Starts In <span
                 v-html="$options.filters.secondsToDhms(ratifyStartsIn)"></span></div>
@@ -453,24 +425,11 @@
         <!--SURVEY Completed-->
         <div v-if="surveyCompleted && !btnSurveyCompleted && surveyPeriodActive" class="panel-wrap">
           <q-card class="panel">
-            <div class="text-h4 text-center q-ma-lg">Woohoo</div>
-            <svg class="happy-stickman" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 170.1 170.1"
-              style="enable-background:new 0 0 170.1 170.1;" xml:space="preserve">
-              <g id="Ellipse_45" transform="translate(28.411 7.976)">
-                <ellipse class="st0" cx="60.5" cy="40" rx="11.9" ry="11.5" />
-                <ellipse class="st1" cx="60.5" cy="40" rx="9.9" ry="9.5" />
-              </g>
-              <path id="Path_389" class="st1" d="M85.1,58.5c-7,12.9-7.6,28.2-1.7,41.6" />
-              <path id="Path_390" class="st2" d="M82.4,100.1c-12,8,2.6,36.8,2.6,36.8L80,139" />
-              <path id="Path_391" class="st3" d="M118.4,89.3l-2.1,6.5c0,0-11.8-12.5-32.8,3.3" />
-              <path id="Path_392" class="st3" d="M51.2,44.4l7.6,18l21.7,6.1" />
-              <path id="Path_393" class="st3" d="M115,37.3l-2.5,15.2L80.7,68.9" />
-              <path class="st4" d="M93.4,49.8c-0.7,1.8-2.5,3-4.5,3c-2.7,0-4.8-2.2-4.8-4.8c0,0,0,0,0-0.1" />
-            </svg>
-
-            <div class="text-subtitle2 text-primary text-center q-ma-md q-mt-none">Thanks for participating in this week's survey
+            <div class="text-h4 text-center q-mt-lg q-mb-sm">Woohoo!</div>
+            <div class="text-subtitle2 text-primary text-center q-mt-sm q-mt-none">
+              Thanks for participating in this week's survey
             </div>
+            <ActivitiesClaimWaiting />
             <div class="bg-info text-h5 text-center q-py-md">Next: The Weekly Vote</div>
             <div class="bg-primary text-h5 text-center text-white q-py-md">Starts In <span
                 v-html="$options.filters.secondsToDhms(voteStartsIn)"></span></div>
@@ -614,6 +573,7 @@ mapMutations
 } from 'vuex'
 import CompleteDialog from 'src/components/CompleteDialog.vue'
 import GetVerified from 'src/components/GetVerified.vue'
+import ActivitiesClaimWaiting from 'src/components/ActivitiesClaimWaiting.vue'
 
 export default {
   name: 'Vote',
@@ -660,7 +620,8 @@ export default {
   },
   components: {
     CompleteDialog,
-    GetVerified
+    GetVerified,
+    ActivitiesClaimWaiting
 },
   computed: {
     ...mapGetters('freeos', [
@@ -902,42 +863,6 @@ export default {
 </script>
 
 <style>
-
-.happy-stickman {
-  margin: -4rem 0;
-}
-
-.happy-stickman .st0 {
-  fill: #FFFFFF;
-}
-
-.happy-stickman .st1 {
-  fill: none;
-  stroke: #45A1E7;
-  stroke-width: 4;
-}
-
-.happy-stickman .st2 {
-  fill: none;
-  stroke: #45A1E7;
-  stroke-width: 4.0021;
-  stroke-linecap: round;
-  stroke-miterlimit: 4.0021;
-}
-
-.happy-stickman .st3 {
-  fill: none;
-  stroke: #45A1E7;
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.happy-stickman .st4 {
-  fill: none;
-  stroke: #45A1E7;
-  stroke-linecap: round;
-}
 
 .q-slider__marker-labels-container .q-slider__marker-labels {
   display: none;
