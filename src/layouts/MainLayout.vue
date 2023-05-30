@@ -129,9 +129,9 @@ const menuList = [
   },
   {
     icon: require('@/assets/snipcoins.svg'),
-    label: 'Snipcoins Community',
+    label: 'Snipverse Community',
     separator: true,
-    route: 'https://snipcoins.com/Freeos_Chat'
+    route: 'https://snipverse.com/Freeos_Chat'
   },
   {
     icon: require('@/assets/info.svg'),
