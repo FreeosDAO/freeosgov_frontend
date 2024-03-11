@@ -10,8 +10,8 @@
       <div class="q-pa-lg">
         <p class="text-h5 q-mb-xs q-mt-none text-center">
           Verify your account at
-          <a target="_black" href="https://identity.metalx.com/"
-            >identity.metalx.com</a
+          <a target="_black" href="https://identity.metallicus.com/"
+            >identity.metallicus.com</a
           >
         </p>
 
