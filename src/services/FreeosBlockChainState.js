@@ -1,11 +1,17 @@
 // IMPORTS
 import { EventEmitter } from 'events'
-import { env } from 'process';
 import ProtonSDK from '../utils/proton'
-const { JsonRpc } = require('eosjs')
+import { createRpcClient, getRetryAfterDelayMs, isRateLimitError } from '../utils/rpc'
 
-// Setup Proton RPC Client
-const rpc = new JsonRpc('https://' + process.env.NETWORK_HOST + ':' + process.env.NETWORK_PORT, {fetch})
+const rpc = createRpcClient()
+const DEFAULT_TIMED_FETCH_DELAY = 5000
+const DEFAULT_TIMED_FETCH_HIDDEN_DELAY = 30000
+const MAX_TIMED_FETCH_BACKOFF_DELAY = 120000
+
+function getEnvNumber (value, fallback) {
+  const parsed = Number.parseInt(value, 10)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+}
 
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + (h*60*60*1000));
@@ -32,39 +38,111 @@ export class FreeosBlockChainState extends EventEmitter {
 
   constructor() {
     super()
+    this.fetchErrorCount = 0
+    this.isFetching = false
+    this.visibilityChangeHandler = null
+    this.forceRpcRefresh = false
     this.start()
+  }
+
+  getTimedFetchDelay() {
+    return getEnvNumber(process.env.TIMED_FETCH_DELAY, DEFAULT_TIMED_FETCH_DELAY)
+  }
+
+  getHiddenFetchDelay() {
+    return getEnvNumber(process.env.TIMED_FETCH_HIDDEN_DELAY, DEFAULT_TIMED_FETCH_HIDDEN_DELAY)
+  }
+
+  isPageHidden() {
+    return typeof document !== 'undefined' && document.hidden
+  }
+
+  getBaseFetchDelay() {
+    return this.isPageHidden() ? this.getHiddenFetchDelay() : this.getTimedFetchDelay()
+  }
+
+  getNextFetchDelay(error = null) {
+    const baseDelay = this.getBaseFetchDelay()
+
+    if (!error) {
+      this.fetchErrorCount = 0
+      return baseDelay
+    }
+
+    this.fetchErrorCount = (this.fetchErrorCount || 0) + 1
+    const retryAfterDelay = getRetryAfterDelayMs(error)
+    const backoffDelay = Math.min(baseDelay * Math.pow(2, this.fetchErrorCount), MAX_TIMED_FETCH_BACKOFF_DELAY)
+
+    if (isRateLimitError(error)) {
+      return Math.max(baseDelay, backoffDelay, retryAfterDelay || 0)
+    }
+
+    return Math.max(baseDelay, backoffDelay)
+  }
+
+  scheduleNextFetch(fetchTimer, delay) {
+    if (!this.isRunning) return
+    if (this.timer) clearTimeout(this.timer)
+    this.timer = setTimeout(fetchTimer, delay)
+  }
+
+  setupVisibilityListener(fetchTimer) {
+    if (typeof document === 'undefined' || this.visibilityChangeHandler) return
+
+    this.visibilityChangeHandler = () => {
+      if (!this.isRunning || this.isFetching || document.hidden) return
+
+      if (this.timer) {
+        clearTimeout(this.timer)
+        this.timer = null
+      }
+
+      fetchTimer()
+    }
+
+    document.addEventListener('visibilitychange', this.visibilityChangeHandler)
   }
 
   /**
    * Starts monitor for changes on the block chain
    */
-  async start() {
+  async start(options = {}) {
+    const skipImmediateFetch = options && options.skipImmediateFetch === true
     
     if (this.isRunning) return
     this.isRunning = true
 
-    var fetchTimer = async () => {
+    const fetchTimer = async () => {
+      if (!this.isRunning || this.isFetching) return
 
-      const { auth } = await ProtonSDK.restoreSession();
+      this.isFetching = true
+      let nextDelay = this.getBaseFetchDelay()
 
+      try {
+        const { auth } = await ProtonSDK.restoreSession()
 
-      this.setWalletUser({
-        accountName: (auth ? auth.actor : null),
-        walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null,
-        permission: (auth ? auth.permission : null)
-      })
+        this.setWalletUser({
+          accountName: (auth ? auth.actor : null),
+          walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null,
+          permission: (auth ? auth.permission : null)
+        })
 
-
-      this.actionFetch().then((data) => {
+        const data = await this.actionFetch()
         this.emit('change', data)
-        if (this.timer) clearTimeout(this.timer)
-        this.timer = setTimeout(fetchTimer, process.env.TIMED_FETCH_DELAY)
-      }).catch(err => {
-        if (this.timer) clearTimeout(this.timer)
-        this.timer = setTimeout(fetchTimer, process.env.TIMED_FETCH_DELAY)
-        console.error(err);
-      })
+        nextDelay = this.getNextFetchDelay()
+      } catch (err) {
+        nextDelay = this.getNextFetchDelay(err)
+        console.error(err)
+      } finally {
+        this.isFetching = false
+        this.scheduleNextFetch(fetchTimer, nextDelay)
+      }
+    }
 
+    this.setupVisibilityListener(fetchTimer)
+    if (skipImmediateFetch) {
+      this.scheduleNextFetch(fetchTimer, this.getBaseFetchDelay())
+      return
     }
     fetchTimer()
   }
@@ -88,9 +166,13 @@ export class FreeosBlockChainState extends EventEmitter {
    async fetch() {
     try {
       this.stop()
-      await this.actionFetch()
+      this.forceRpcRefresh = true
+      const data = await this.actionFetch()
+      this.emit('change', data)
+      this.fetchErrorCount = 0
     } finally {
-      await this.start()
+      this.forceRpcRefresh = false
+      await this.start({ skipImmediateFetch: true })
     }
   }
 
@@ -98,20 +180,23 @@ export class FreeosBlockChainState extends EventEmitter {
    * Manually do Fetch
    */
   async singleFetch() {
-    const { auth } = await ProtonSDK.restoreSession()
+    try {
+      const { auth } = await ProtonSDK.restoreSession()
+      this.forceRpcRefresh = true
 
-    this.setWalletUser({
-      accountName: (auth ? auth.actor : null),
-      walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null
-    })
+      this.setWalletUser({
+        accountName: (auth ? auth.actor : null),
+        walletId: ProtonSDK && ProtonSDK.link ? ProtonSDK.link.walletType : null
+      })
 
-
-    this.actionFetch().then((data) => {
+      const data = await this.actionFetch()
       this.emit('change', data)
-    }).catch(err => {
+      this.fetchErrorCount = 0
+    } catch (err) {
       console.log('Problem fetching data', err)
-    })
-
+    } finally {
+      this.forceRpcRefresh = false
+    }
   }
 
   /**
@@ -378,9 +463,14 @@ export class FreeosBlockChainState extends EventEmitter {
    */
   stop() {
     this.isRunning = false
+    this.isFetching = false
     if (this.timer) {
       clearTimeout(this.timer)
       this.timer = null
+    }
+    if (typeof document !== 'undefined' && this.visibilityChangeHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityChangeHandler)
+      this.visibilityChangeHandler = null
     }
   }
 
@@ -672,8 +762,8 @@ export class FreeosBlockChainState extends EventEmitter {
   /**
    * Gets the requested table rows
    */
-  getTableRows(config) {
-    return rpc.get_table_rows(config)
+  getTableRows(config, options = {}) {
+    return rpc.get_table_rows(config, options)
   }
 
   /**
@@ -758,7 +848,7 @@ export class FreeosBlockChainState extends EventEmitter {
       query.reverse = additionalParams.reverse
     }
 
-    const result = await this.getTableRows(query)
+    const result = await this.getTableRows(query, { forceRefresh: this.forceRpcRefresh })
     // console.log('result',codeName, tableName,result)
 
     if (result && result.rows) {

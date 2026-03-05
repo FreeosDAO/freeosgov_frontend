@@ -1,8 +1,7 @@
-const { JsonRpc } = require('eosjs')
-// endpoint
-const rpc = new JsonRpc('https://' + process.env.NETWORK_HOST + ':' + process.env.NETWORK_PORT, { fetch })
-
+import { createRpcClient } from './rpc'
 import { Loading, Notify } from 'quasar'
+
+const rpc = createRpcClient()
 
 export function connect (config) {
   return new Promise((resolve, reject) => {
@@ -41,9 +40,10 @@ export function errorHandler (error) {
   needLoadingRequestCount = 0
   Loading.hide()
 
-  if (error.message || error.response.data.message) {
+  const responseMessage = error && error.response && error.response.data && error.response.data.message
+  if (error.message || responseMessage) {
     Notify.create({
-      message: error.message || error.response.data.message,
+      message: error.message || responseMessage,
       color: 'negative',
       timeout: 3000
     })
